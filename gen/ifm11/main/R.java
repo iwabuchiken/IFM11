@@ -33,6 +33,7 @@ public final class R {
         public static final int ifm8_back_disenabled=0x7f020001;
         public static final int ifm8_forward_disenabled=0x7f020002;
         public static final int ifm8_up_disenabled=0x7f020003;
+        public static final int proj_icon_64x64=0x7f020004;
     }
     public static final class id {
         public static final int v1_LL_debug=0x7f070002;
@@ -55,9 +56,10 @@ public final class R {
         public static final int generic_tv_delete=0x7f050007;
         public static final int generic_tv_edit=0x7f050006;
         public static final int generic_tv_menu=0x7f050004;
+        public static final int generic_tv_quit_app=0x7f050009;
         public static final int generic_tv_register=0x7f050005;
         public static final int generic_tv_upload=0x7f050008;
-        public static final int v1_tv_dir_path=0x7f050009;
+        public static final int v1_tv_dir_path=0x7f05000a;
     }
     public static final class style {
         /** 

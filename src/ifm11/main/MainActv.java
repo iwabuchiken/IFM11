@@ -1,5 +1,7 @@
 package ifm11.main;
 
+import ifm11.utils.Methods;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -139,7 +141,7 @@ public class MainActv extends ListActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		
-//		Methods.confirm_quit(this, keyCode);
+		Methods.confirm_quit(this, keyCode);
 		
 		return super.onKeyDown(keyCode, event);
 	}
