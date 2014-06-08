@@ -13,8 +13,26 @@
 	    <string name="generic_tv_upload">Upload</string>
 	    <string name="generic_tv_quit_app">Quit app?</string>
     
-    
-    
     <string name="v1_tv_dir_path">Directory path</string>
-    
+
+	<!-- main_menu.xml -->
+	    <string name="main_opt_menu_create_folder">Create folder</string>
+	    <string name="main_opt_menu_refresh_db">Refresh DB</string>
+	    <string name="main_opt_menu_db_activity">DB</string>
+	    <string name="main_opt_menu_search">Search</string>
+	    <string name="main_opt_menu_preferences">Customize</string>
+	    <string name="main_opt_menu_history">History</string>
+	    <string name="main_opt_menu_ftp">FTP</string>
+
+	    
+    <!-- dlg_db_admin.xml -->
+   		<string name="dlg_db_admin_title">DB Admin</string>
+   		<string name="dlg_db_admin_item_backup_db">Backup DB</string>
+   		<string name="dlg_db_admin_item_refresh_db">Refresh DB</string>
+   		
+   		<string name="dlg_db_admin_item_drop_table_ifm11">Drop table: ifm11</string>
+   		<string name="dlg_db_admin_item_create_table_ifm11">
+   		    							Create table: ifm11</string>
+   		
+   		
 </resources>

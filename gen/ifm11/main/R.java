@@ -32,22 +32,47 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
         public static final int ifm8_back_disenabled=0x7f020001;
         public static final int ifm8_forward_disenabled=0x7f020002;
-        public static final int ifm8_up_disenabled=0x7f020003;
-        public static final int proj_icon_64x64=0x7f020004;
+        public static final int ifm8_main_actv_opt_menu_search_30x30=0x7f020003;
+        public static final int ifm8_opt_menu_db_activity=0x7f020004;
+        public static final int ifm8_option_menu_create_folder=0x7f020005;
+        public static final int ifm8_up_disenabled=0x7f020006;
+        public static final int proj_icon_64x64=0x7f020007;
+        public static final int s_01_timer_menu_listitem_filter_30x30_v3=0x7f020008;
     }
     public static final class id {
-        public static final int v1_LL_debug=0x7f070002;
-        public static final int v1_bt_back=0x7f070003;
-        public static final int v1_bt_forward=0x7f070005;
-        public static final int v1_bt_up=0x7f070004;
-        public static final int v1_sv_dir_path=0x7f070000;
-        public static final int v1_tv_dir_path=0x7f070001;
+        public static final int dlg_tmpl_list_cancel_bt_cancel=0x7f080007;
+        public static final int dlg_tmpl_list_cancel_lv=0x7f080006;
+        public static final int list_row_slimple_1_tv=0x7f080008;
+        public static final int main_opt_menu_create_folder=0x7f080009;
+        public static final int main_opt_menu_ftp=0x7f08000e;
+        public static final int main_opt_menu_history=0x7f08000d;
+        public static final int main_opt_menu_preferences=0x7f08000c;
+        public static final int main_opt_menu_search=0x7f08000b;
+        public static final int opt_menu_main_db=0x7f08000a;
+        public static final int v1_LL_debug=0x7f080002;
+        public static final int v1_bt_back=0x7f080003;
+        public static final int v1_bt_forward=0x7f080005;
+        public static final int v1_bt_up=0x7f080004;
+        public static final int v1_sv_dir_path=0x7f080000;
+        public static final int v1_tv_dir_path=0x7f080001;
     }
     public static final class layout {
         public static final int actv_main=0x7f030000;
+        public static final int dlg_tmpl_list_cancel=0x7f030001;
+        public static final int list_row_simple_1=0x7f030002;
+    }
+    public static final class menu {
+        public static final int menu_main=0x7f070000;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
+        public static final int dlg_db_admin_item_backup_db=0x7f050013;
+        public static final int dlg_db_admin_item_create_table_ifm11=0x7f050016;
+        public static final int dlg_db_admin_item_drop_table_ifm11=0x7f050015;
+        public static final int dlg_db_admin_item_refresh_db=0x7f050014;
+        /**  dlg_db_admin.xml 
+         */
+        public static final int dlg_db_admin_title=0x7f050012;
         public static final int generic_bt_cancel=0x7f050002;
         /**  Generic items 
          */
@@ -59,6 +84,15 @@ public final class R {
         public static final int generic_tv_quit_app=0x7f050009;
         public static final int generic_tv_register=0x7f050005;
         public static final int generic_tv_upload=0x7f050008;
+        /**  main_menu.xml 
+         */
+        public static final int main_opt_menu_create_folder=0x7f05000b;
+        public static final int main_opt_menu_db_activity=0x7f05000d;
+        public static final int main_opt_menu_ftp=0x7f050011;
+        public static final int main_opt_menu_history=0x7f050010;
+        public static final int main_opt_menu_preferences=0x7f05000f;
+        public static final int main_opt_menu_refresh_db=0x7f05000c;
+        public static final int main_opt_menu_search=0x7f05000e;
         public static final int v1_tv_dir_path=0x7f05000a;
     }
     public static final class style {
