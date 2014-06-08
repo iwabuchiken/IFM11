@@ -1,6 +1,8 @@
 package ifm11.main;
 
+import ifm11.utils.CONS;
 import ifm11.utils.Methods;
+import ifm11.utils.Methods_dlg;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -149,8 +151,8 @@ public class MainActv extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// 
-//		MenuInflater mi = getMenuInflater();
-//		mi.inflate(R.menu.main_menu, menu);
+		MenuInflater mi = getMenuInflater();
+		mi.inflate(R.menu.menu_main, menu);
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -159,6 +161,14 @@ public class MainActv extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		
+		case R.id.opt_menu_main_db:
+			
+			Methods_dlg.dlg_Db_Activity(this);
+			
+			break;
+		
+		default:
+			break;
 
 		}//switch (item.getItemId())
 		
@@ -188,6 +198,13 @@ public class MainActv extends ListActivity {
 	protected void onStart() {
 		
 		super.onStart();
+		
+		////////////////////////////////
+
+		// Init vars
+
+		////////////////////////////////
+		CONS.Admin.vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		
 		// Log
 		Log.d("[" + "MainActv.java : "
