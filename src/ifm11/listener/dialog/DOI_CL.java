@@ -108,7 +108,7 @@ public class DOI_CL implements OnItemClickListener {
 		if (item.equals(actv.getString(
 				R.string.dlg_db_admin_item_backup_db))) {
 			
-//			Methods.db_Backup(actv);
+			Methods.backup_DB(actv);
 			
 		} else if (item.equals(actv.getString(		// Refresh DB
 				R.string.dlg_db_admin_item_refresh_db))) {
