@@ -3,6 +3,7 @@ package ifm11.listener.dialog;
 
 import ifm11.main.R;
 import ifm11.utils.CONS;
+import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Tags;
 import android.app.Activity;
@@ -117,12 +118,18 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.equals(actv.getString(		// Create table: cm7
 				R.string.dlg_db_admin_item_create_table_ifm11))) {
 			
+			_case_Dlg_Db_Admin_lv__CreateTable(actv, CONS.DB.tname_IFM11);
 //			Methods.create_Table(actv, CONS.DB.tname_CM7);
 			
 		} else if (item.equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_drop_table_ifm11))) {
 			
-//			Methods.drop_Table(actv, CONS.DB.tname_CM7);
+			_case_Dlg_Db_Admin_lv__DropTable(actv, CONS.DB.tname_IFM11);
+////			Methods.drop_Table(actv, CONS.DB.tname_CM7);
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//			
+//			dbu.dropTable(actv, CONS.DB.tname_IFM11);
+			
 			
 //		} else if (item.equals(actv.getString(		// Create table: refresh_history
 //				R.string.dlg_db_admin_item_create_table_refresh_history))) {
@@ -142,5 +149,48 @@ public class DOI_CL implements OnItemClickListener {
 		dlg1.dismiss();
 		
 	}//case_Dlg_Db_Admin_lv(String item)
+
+	private void 
+	_case_Dlg_Db_Admin_lv__CreateTable
+	(Activity actv, String tableName) {
+		// TODO Auto-generated method stub
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		boolean res = dbu.createTable(actv, 
+								tableName, 
+								CONS.DB.col_names_IFM11, 
+								CONS.DB.col_types_IFM11);
+		
+		////////////////////////////////
+
+		// Report
+
+		////////////////////////////////
+		if (res == true) {
+			
+			// debug
+			String msg_Toast = "Table => created: " + tableName;
+			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
+			
+		} else {
+
+			// debug
+			String msg_Toast = "Table => not created: " + tableName;
+			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
+			
+		}
+		
+	}//_case_Dlg_Db_Admin_lv__CreateTable
+
+	private void 
+	_case_Dlg_Db_Admin_lv__DropTable
+	(Activity actv, String tableName) {
+		// TODO Auto-generated method stub
+//		Methods.drop_Table(actv, CONS.DB.tname_CM7);
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		boolean res = dbu.dropTable(actv, tableName);
+
+	}
 
 }//public class DialogOnItemClickListener implements OnItemClickListener

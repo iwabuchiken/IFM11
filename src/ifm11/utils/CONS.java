@@ -108,134 +108,61 @@ public class CONS {
 		// Paths and names
 
 		////////////////////////////////
-		public static String dbName = "cm7.db";
+		public static String dbName = "ifm11.db";
 		
 		public static String dPath_dbFile;
 //		public static String dPath_dbFile = "/data/data/cm7.main/databases";
 		
-		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/cm7_backup";
+		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
 		
 //		public static String dPath_dbFile = 
 //							Methods.get_DirPath(new MainActv().getFilesDir().getPath());
 		
-		public static String fname_DB_Backup_Trunk = "cm7_backup";
+		public static String fname_DB_Backup_Trunk = "ifm11_backup";
 		
 		public static String fname_DB_Backup_ext = ".bk";
 		
-		public static String dname_TapeATalk_Sdcard = "tapeatalk_records";
+//		public static String dname_TapeATalk_Sdcard = "tapeatalk_records";
 		
 		////////////////////////////////
 		
-		// Table: cm7
+		// Table: ifm11
 		
 		////////////////////////////////
-		public static final String tname_CM7 = "cm7";
+		public static final String tname_IFM11 = "ifm11";
 
-		public static final String[] col_names_CM7 = {
+		public static final String[] col_names_IFM11 = {
 			
-			"file_name", "file_path",	// 0, 1
-			"title", "memo",			// 2, 3
-			"last_played_at",			// 4
-			"table_name",				// 5
-			"length",					// 6
-			"audio_created_at"			// 7
+			"file_id", "file_path", "file_name",	// 0,1,2
+			"date_added", "date_modified",			// 3,4
+			"memos", "tags",						// 5,6
+			"last_viewed_at",						// 7
+			"table_name"							// 8
 			
 		};
 		
-		public static final String[] col_names_CM7_full = {
+		public static final String[] col_names_IFM11_full = {
 			
-			android.provider.BaseColumns._ID,	// 0
-			"created_at", "modified_at",		// 1, 2
-			"file_name", "file_path",			// 3, 4
-			"title", "memo",					// 5, 6
-			"last_played_at",					// 7
-			"table_name",						// 8
-			"length",							// 9
-			"audio_created_at"					// 10
-			
-		};
-
-		public static final String[] col_types_CM7 = {
-			"TEXT", "TEXT",			// 0, 1
-			"TEXT", "TEXT",			// 2,3
-			"TEXT",					// 4
-			"TEXT",					// 5
-			"TEXT",				// 6
-//			"INTEGER",				// 6
-			"TEXT"					// 7
-		};
-		
-		
-		////////////////////////////////
-
-		// Table: BM (bookmark)
-
-		////////////////////////////////
-		public static final String tname_BM = "bm";
-
-		public static final String[] col_names_BM = {
-			"ai_id", "position", 			// 0,1
-			"title", "memo", "aiTableName"	// 2,3,4
-		};
-		
-		public static final String[] col_names_BM_full = {
+			//	0
 			android.provider.BaseColumns._ID,		// 0
 			"created_at", "modified_at",			// 1,2
-			"ai_id", "position",					// 3,4
-			"title", "memo", "aiTableName"			// 5,6,7
+			"file_id", "file_path", "file_name",	// 3,4,5
+			"date_added", "date_modified",			// 6,7
+			"memos", "tags",						// 8,9
+			"last_viewed_at",						// 10
+			"table_name"							// 11
+			
 		};
 
-		public static final String[] col_types_BM = {
-//			"INTEGER", "INTEGER",			// 0,1
-			"INTEGER", "TEXT",			// 0,1
-			"TEXT", "TEXT", "TEXT"			// 2,3,4
-		};
-
-		////////////////////////////////
-		
-		// Table: refresh_history
-		
-		////////////////////////////////
-		public static String tname_RefreshHistory = "refresh_history";
-		
-		public static String[] col_names_RefreshHistory = {
-			"last_refreshed", "num_of_items_added"
+		public static final String[] col_types_IFM11 = {
+			"INTEGER", "TEXT", "TEXT",	// 0,1,2
+			"TEXT", "TEXT",				// 3,4
+			"TEXT", "TEXT",				// 5,6
+			"TEXT",						// 7
+			"TEXT"						// 8
 		};
 		
-		public static String[] col_names_RefreshHistory_full = {
-			android.provider.BaseColumns._ID,		// 0
-			"created_at", "modified_at",			// 1,2
-			"last_refreshed", "num_of_items_added"	// 3,4
-		};
 		
-		public static String[] col_types_RefreshHistory = {
-			"TEXT", 			"INTEGER"
-//			"INTEGER", 			"INTEGER"
-		};
-
-		////////////////////////////////
-		
-		// Table: memo_patterns
-		
-		////////////////////////////////
-		public static String tname_MemoPatterns = "memo_patterns";
-		
-		public static String[] col_names_MemoPatterns = {
-			"word"
-		};
-		
-		public static String[] col_names_MemoPatterns_full = {
-			android.provider.BaseColumns._ID,		// 0
-			"created_at", "modified_at",			// 1,2
-			"word"									// 3
-		};
-		
-		public static String[] col_types_MemoPatterns = {
-			"TEXT"
-//			"INTEGER", 			"INTEGER"
-		};
-		
-
 		////////////////////////////////
 
 		// Others
