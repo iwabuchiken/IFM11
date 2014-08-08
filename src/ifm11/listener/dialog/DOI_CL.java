@@ -125,21 +125,11 @@ public class DOI_CL implements OnItemClickListener {
 				R.string.dlg_db_admin_item_drop_table_ifm11))) {
 			
 			_case_Dlg_Db_Admin_lv__DropTable(actv, CONS.DB.tname_IFM11);
-////			Methods.drop_Table(actv, CONS.DB.tname_CM7);
-//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
-//			
-//			dbu.dropTable(actv, CONS.DB.tname_IFM11);
 			
+		} else if (item.equals(actv.getString(		// Drop table: cm7
+				R.string.dlg_db_admin_item_restore_db))) {
 			
-//		} else if (item.equals(actv.getString(		// Create table: refresh_history
-//				R.string.dlg_db_admin_item_create_table_refresh_history))) {
-//			
-//			Methods.create_Table(actv, CONS.DB.tname_RefreshHistory);
-//			
-//		} else if (item.equals(actv.getString(		// Drop table: refresh_history
-//				R.string.dlg_db_admin_item_drop_table_refresh_history))) {
-//			
-//			Methods.drop_Table(actv, CONS.DB.tname_RefreshHistory);
+			Methods.restore_DB(actv);
 			
 		} else {
 

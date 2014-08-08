@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapters.Adp_MainList;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
@@ -214,7 +215,7 @@ public class CONS {
 		
 		public static SharedPreferences prefs_MainActv;
 		
-		public static String pname_MainActv = "main_activity";
+		public static String pname_MainActv = "pname_MainActv";
 //		public static String pname_CurrentPath = "current_path";
 		
 		public static String pkey_CurrentPath = "pkey_CurrentPath";
@@ -240,6 +241,8 @@ public class CONS {
 		public static List<String> list_RootDir = null;
 		
 		public static ArrayAdapter<String> adp_dir_list = null;
+
+		public static Adp_MainList aAdapter;
 		
 	}
 
@@ -283,7 +286,7 @@ public class CONS {
 		
 		public static String dpath_Storage_Internal = "/mnt/sdcard";
 		
-		public static String  dname_Base = "cm7";
+		public static String  dname_Base = "ifm11";
 		
 	}
 	

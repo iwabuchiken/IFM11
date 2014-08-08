@@ -33,6 +33,8 @@
    		<string name="dlg_db_admin_item_drop_table_ifm11">Drop table: ifm11</string>
    		<string name="dlg_db_admin_item_create_table_ifm11">
    		    							Create table: ifm11</string>
+   		<string name="dlg_db_admin_item_restore_db">
+   		    							Restore DB</string>
    		
    		
 </resources>
