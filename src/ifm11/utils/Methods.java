@@ -2,6 +2,7 @@ package ifm11.utils;
 
 
 
+import ifm11.items.TI;
 import ifm11.listener.dialog.DL;
 import ifm11.main.R;
 
@@ -691,9 +692,14 @@ public class Methods {
 	 *	refreshMainDB(Activity actv)
 	 * 
 	 *  @return -1 => Can't create a table<br>
+	 *  		-2 => Can't build cursor<br>
+	 *  		-3 => No entry<br>
+	 *  		-4 => Can't build TI list<br>
 	 *  		0~	Number of items added
 	 ****************************************/
-	public static int refresh_MainDB(Activity actv) {
+	public static int 
+	refresh_MainDB
+	(Activity actv) {
 		////////////////////////////////
 
 		// Set up DB(writable)
@@ -740,29 +746,89 @@ public class Methods {
 		////////////////////////////////
 		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
 		
-//		Cursor c = refreshMainDB_2_exec_query(actv, wdb, dbu);
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			String msg_Log = "can't build cursor";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -2;
+			
+		}
+
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+			
+			// Log
+			String msg_Log = "No entry";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -3;
+			
+		}
 		
+		////////////////////////////////
+
+		// build: TI list from cursor
+
+		////////////////////////////////
+		List<TI> list_TI = Methods._refresh_MainDB__Build_TIList(actv, c);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (list_TI == null) {
+			
+			// Log
+			String msg_Log = "list_TI => Null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			return -4;
+			
+		}
 		
-		/*----------------------------
-		 * 4. Insert data into db
-			----------------------------*/
-//		int numOfItemsAdded;
+//		//debug
+//		// Log
+//		String msg_Log = "list_TI.size => " + list_TI.size();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 //		
-//		if (c.getCount() < 1) {
+//		for (TI ti : list_TI) {
 //			
 //			// Log
+//			msg_Log = String.format(
+//							"ti: name = %s / file path = %s / " +
+//							"date added = %d(%s) / id = %d", 
+//							ti.getFile_name(), ti.getFile_path(), 
+//							ti.getDate_added(), 
+//							Methods.conv_MillSec_to_TimeLabel(ti.getDate_added() * 1000),
+//							ti.getFileId()
+//					);
+////			msg_Log = "ti.getFile_name() => " + ti.getFile_name();
 //			Log.d("Methods.java" + "["
 //					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Query result: 0");
+//					+ "]", msg_Log);
 //			
-//			numOfItemsAdded = 0;
-//			
-////			// debug
-////			Toast.makeText(actv, "�V�K�̃t�@�C���͂���܂���", Toast.LENGTH_LONG).show();
-//			
-//		} else {//if (c.getCount() < 1)
-//			
-//			numOfItemsAdded = refreshMainDB_3_insert_data(actv, wdb, dbu, c);
+//		}
+		
+		
+		////////////////////////////////
+
+		// Insert data into db
+
+		////////////////////////////////
+		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
 //			
 //		}//if (c.getCount() < 1)
 //		
@@ -785,6 +851,81 @@ public class Methods {
 		return 1;
 		
 	}//public static int refreshMainDB(Activity actv)
+
+	/******************************
+		@return Ti list => the below fields remain null<br>
+				1. created_at<br>
+				2. modified_at<br>
+				==> these fields are to be filled later<br>
+					when inserting the list into DB
+	 ******************************/
+	private static List<TI> 
+	_refresh_MainDB__Build_TIList
+	(Activity actv, Cursor c) {
+		// TODO Auto-generated method stub
+		
+		List<TI> list_TI = new ArrayList<TI>();
+		
+		while(c.moveToNext()) {
+			
+			String time = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+			
+			TI ti = new TI.Builder()
+						.setFileId(c.getLong(0))
+//						.setCreated_at(time)
+//						.setModified_at(time)
+						
+						.setFile_name(c.getString(2))
+						.setDate_added(c.getLong(3))
+						.setDate_modified(c.getLong(4))
+						
+						.setTable_name(CONS.DB.tname_IFM11)
+						.setFile_path(CONS.Paths.dpath_Storage_Camera)
+						.build();
+			
+			list_TI.add(ti);
+			
+		}
+		
+//		// Log
+//		String msg_Log = "list_TI.size => " + list_TI.size();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		return list_TI;
+		
+	}//_refresh_MainDB__Build_TIList
+
+	private static int 
+	_refresh_MainDB__InsertData_Image
+	(Activity actv, SQLiteDatabase wdb, DBUtils dbu, Cursor c) {
+		/*----------------------------
+		 * 4. Insert data into db
+			----------------------------*/
+//		int numOfItemsAdded = Methods.insertDataIntoDB(actv, MainActv.dirName_base, c);
+		int numOfItemsAdded = 0;
+			
+//		int numOfItemsAdded = -1;
+		
+		/*----------------------------
+		 * 5. Update table "refresh_log"
+			----------------------------*/
+		c.moveToPrevious();
+		
+		long lastItemDate = c.getLong(3);
+		
+//		updateRefreshLog(actv, wdb, dbu, lastItemDate, numOfItemsAdded);
+		
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "c.getLong(3) => " + c.getLong(3));
+		
+
+		return numOfItemsAdded;
+		
+	}//private static int refreshMainDB_3_insert_data(Cursor c)
 
 	/******************************
 		@return false => Table doesn't exist; can't create one
@@ -844,6 +985,8 @@ public class Methods {
 
 	/******************************
 		@return null => 1. Can't prepare the table 'refresh log'<br>
+						2. Cursor => null<br>
+						3. Cursor => count < 1<br>
 	 ******************************/
 	private static Cursor 
 	_refresh_MainDB__ExecQuery

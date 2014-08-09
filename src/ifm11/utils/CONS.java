@@ -1,10 +1,11 @@
 package ifm11.utils;
 
+import ifm11.adapters.Adp_MainList;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.Adp_MainList;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
@@ -169,11 +170,11 @@ public class CONS {
 
 		////////////////////////////////
 		public static final String[] proj = {
-				MediaStore.Images.Media._ID, 
-				MediaStore.Images.Media.DATA,
-				MediaStore.Images.Media.DISPLAY_NAME,
-				MediaStore.Images.Media.DATE_ADDED,
-				MediaStore.Images.Media.DATE_MODIFIED,
+				MediaStore.Images.Media._ID, 			// 0
+				MediaStore.Images.Media.DATA,			// 1
+				MediaStore.Images.Media.DISPLAY_NAME,	// 2
+				MediaStore.Images.Media.DATE_ADDED,		// 3
+				MediaStore.Images.Media.DATE_MODIFIED,	// 4
 				};
 		
 		public static final String[] proj_for_get_data = {
@@ -324,7 +325,8 @@ public class CONS {
 		
 		public static final int vibLength_click = 35;
 		
-		public static final String format_Date = "yyyy/MM/dd hh:mm:ss.SSS";
+		public static final String format_Date = "yyyy/MM/dd HH:mm:ss.SSS";
+//		public static final String format_Date = "yyyy/MM/dd hh:mm:ss.SSS";
 //		public static final String date_Format = "yyyy/MM/dd hh:mm:ss.SSS";
 		
 		public static final String format_Clock = "%02d:%02d";
@@ -343,6 +345,8 @@ public class CONS {
 		public static String dpath_Storage_Internal = "/mnt/sdcard";
 		
 		public static String  dname_Base = "ifm11";
+		
+		public static String dpath_Storage_Camera = "/mnt/sdcard-ext/dcim/Camera";
 		
 	}
 	

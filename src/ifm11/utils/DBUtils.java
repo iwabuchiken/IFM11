@@ -1235,6 +1235,189 @@ public class DBUtils extends SQLiteOpenHelper{
 		return num_of_entries;
 		
 	}//public int getNumOfEntries_BM(Activity actv, String table_name, long aiDbId)
-	
+
+	/****************************************
+	 *		insertDataIntoDB()
+	 * 
+	 * <Caller> 
+	 * 1. private static boolean refreshMainDB_3_insert_data(Activity actv, Cursor c)
+	 * 
+	 * <Desc> 1. <Params> 1.
+	 * 
+	 * <Return> 1.
+	 * 
+	 * <Steps> 1.
+	 ****************************************/
+	private static int 
+	insertDataIntoDB
+	(Activity actv, String tableName, Cursor c) {
+		/*----------------------------
+		 * Steps
+		 * 0. Set up db
+		 * 1. Move to first
+		 * 2. Set variables
+		 * 3. Obtain data
+		 * 4. Insert data
+		 * 5. Close db
+		 * 6. Return => counter
+			----------------------------*/
+		/*----------------------------
+		 * 0. Set up db
+			----------------------------*/
+//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		
+//		SQLiteDatabase wdb = dbu.getWritableDatabase();
+//		
+//		/*----------------------------
+//		 * 1. Move to first
+//			----------------------------*/
+//		c.moveToFirst();
+//
+//		/*----------------------------
+//		 * 2. Set variables
+//			----------------------------*/
+//		int counter = 0;
+//		int counter_failed = 0;
+//		
+//		/*----------------------------
+//		 * 3. Obtain data
+//			----------------------------*/
+//		for (int i = 0; i < c.getCount(); i++) {
+//
+//			String[] values = {
+//					String.valueOf(c.getLong(0)),
+//					c.getString(1),
+//					c.getString(2),
+//					String.valueOf(c.getLong(3)),
+////					String.valueOf(c.getLong(4))
+//					String.valueOf(c.getLong(4)),
+//					MainActv.tname_main,
+//			};
+//
+//			/*----------------------------
+//			 * 4. Insert data
+//			 * 		1. Insert data to tableName
+//			 * 		2. Record result
+//			 * 		3. Insert data to backupTableName
+//			 * 		4. Record result
+//				----------------------------*/
+//			boolean blResult = 
+//						dbu.insertData(wdb, tableName, CONS.cols_for_insert_data, values);
+//				
+//			if (blResult == false) {
+//				// Log
+//				Log.d("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "i => " + i + "/" + "c.getLong(0) => " + c.getLong(0));
+//				
+//				counter_failed += 1;
+//				
+//			} else {//if (blResult == false)
+//				counter += 1;
+//			}
+//
+//			//
+//			c.moveToNext();
+//			
+//			if (i % 100 == 0) {
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "Done up to: " + i);
+//				
+//			}//if (i % 100 == 0)
+//			
+//		}//for (int i = 0; i < c.getCount(); i++)
+//		
+//		// Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "All data inserted: " + counter);
+//		
+//		/*----------------------------
+//		 * 5. Close db
+//			----------------------------*/
+//		wdb.close();
+//		
+//		/*----------------------------
+//		 * 6. Return => counter
+//			----------------------------*/
+//		//debug
+//		// Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "counter_failed(sum): " + counter_failed);
+//		
+//		return counter;
+		return 0;
+		
+	}//private static int insertDataIntoDB(Activity actv, Cursor c)
+
+//	public boolean insertData(SQLiteDatabase db, String tableName, 
+//			String[] col_names, String[] values) {
+//
+//		////String sql = "SELECT * FROM TABLE " + DBUtils.table_name_memo_patterns;
+//		//String sql = "SELECT * FROM " + DBUtils.table_name_memo_patterns;
+//		//
+//		//Cursor c = db.rawQuery(sql, null);
+//		//
+//		//
+//		//
+//		//// Log
+//		//Log.d("DBUtils.java" + "["
+//		//+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//		//+ "]", "c.getCount() => " + c.getCount() + " / " +
+//		//"c.getColumnCount() => " + c.getColumnCount());
+//		//
+//		//c.close();
+//		
+//		
+//		/*----------------------------
+//		* 1. Insert data
+//		----------------------------*/
+//		try {
+//			// Start transaction
+//			db.beginTransaction();
+//			
+//			// ContentValues
+//			ContentValues val = new ContentValues();
+//			
+//			// Put values
+//			for (int i = 0; i < col_names.length; i++) {
+//				
+//				val.put(col_names[i], values[i]);
+//				
+//			}//for (int i = 0; i < col_names.length; i++)
+//			
+//			// Insert data
+//			db.insert(tableName, null, val);
+//			
+//			// Set as successful
+//			db.setTransactionSuccessful();
+//			
+//			// End transaction
+//			db.endTransaction();
+//			
+//			// Log
+//			//Log.d("DBUtils.java" + "["
+//			//+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//			//+ "]", "Data inserted => " + "(" + col_names[0] + " => " + values[0] + 
+//			//" / " + col_names[3] + " => " + values[3] + ")");
+//			
+//			return true;
+//		
+//		} catch (Exception e) {
+//			
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//			+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//			+ "]", "Exception! => " + e.toString());
+//			
+//			return false;
+//		}//try
+//	
+//	}//public insertData(String tableName, String[] col_names, String[] values)
+
 }//public class DBUtils
 

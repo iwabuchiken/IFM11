@@ -1,5 +1,6 @@
 package ifm11.main;
 
+import ifm11.adapters.Adp_MainList;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
@@ -20,7 +21,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import adapters.Adp_MainList;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Vibrator;
@@ -71,11 +71,31 @@ public class MainActv extends ListActivity {
 
     private void do_debug() {
 		
+    	_do_debug__MillSec_to_TimeLabel();
 //    	_do_debug__Add_LastRefreshed();
 //    	_do_debug__Processing();
 
     	
 	}//private void do_debug()
+
+	private void 
+	_do_debug__MillSec_to_TimeLabel() {
+		// TODO Auto-generated method stub
+		
+		long t1 = 1407533202;
+		long t2 = 1407569625;
+		
+		// Log
+		String msg_Log = String.format(
+					"t1 => %d(%s) / t2 => %d(%s)", 
+					t1, Methods.conv_MillSec_to_TimeLabel(t1 * 1000),
+					t2, Methods.conv_MillSec_to_TimeLabel(t2 * 1000)
+				);
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+	}
 
 	private void _do_debug__Add_LastRefreshed() {
 		// TODO Auto-generated method stub

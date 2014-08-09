@@ -1,4 +1,4 @@
-package adapters;
+package ifm11.adapters;
 
 import ifm11.main.R;
 import ifm11.utils.CONS;
