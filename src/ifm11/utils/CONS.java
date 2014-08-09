@@ -199,10 +199,25 @@ public class CONS {
 			
 		};
 		
+		public static final String[] col_names_refresh_log_full = {
+			
+			android.provider.BaseColumns._ID,		// 0
+			"created_at", "modified_at",			// 1,2
+			"last_refreshed", "num_of_items_added"
+			
+		};
+		
 		public static final String[] col_types_refresh_log = {
 			
 				"TEXT", 			"INTEGER"
 				
+		};
+		
+		public static final String[] col_types_refresh_log_full = {
+			
+			"INTEGER", "TEXT", "TEXT",		// 0,1,2
+			"TEXT", 			"INTEGER"	// 3,4
+			
 		};
 		
 		////////////////////////////////

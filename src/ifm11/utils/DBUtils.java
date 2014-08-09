@@ -602,7 +602,8 @@ public class DBUtils extends SQLiteOpenHelper{
 
 	}//public boolean dropTable(String tableName) 
 
-	public boolean insertData(SQLiteDatabase db, String tableName, 
+	public boolean 
+	insertData(SQLiteDatabase db, String tableName, 
 											String[] columnNames, long[] values) {
 		/*----------------------------
 		* 1. Insert data
@@ -643,6 +644,102 @@ public class DBUtils extends SQLiteOpenHelper{
 			return false;
 		}//try
 	}//public insertData(String tableName, String[] columnNames, String[] values)
+	
+	/******************************
+		@return false => 1. Insertion failed<br>
+						2. Exception
+	 ******************************/
+	public boolean 
+	insertData_RefreshDate
+	(SQLiteDatabase db, int numOfData) {
+		/*----------------------------
+		 * 1. Insert data
+		----------------------------*/
+		////////////////////////////////
+
+		// prep: content values
+
+		////////////////////////////////
+		// ContentValues
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"last_refreshed", "num_of_items_added"
+		
+		// Put values
+		val.put("created_at",
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		val.put("modified_at",
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		val.put("last_refreshed",
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		val.put("num_of_items_added", numOfData);
+		
+		try {
+			// Start transaction
+			db.beginTransaction();
+			
+//			// ContentValues
+//			ContentValues val = new ContentValues();
+//			
+//			// Put values
+//			for (int i = 0; i < columnNames.length; i++) {
+//				val.put(columnNames[i], values[i]);
+//			}//for (int i = 0; i < columnNames.length; i++)
+			
+			// Insert data
+			long res = db.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res == -1) {
+				
+				// Log
+				String msg_Log = "insertion => failed";
+				Log.e("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				db.endTransaction();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+
+			}
+			
+			// Set as successful
+			db.setTransactionSuccessful();
+			
+			// End transaction
+			db.endTransaction();
+			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			return false;
+			
+		}//try
+		
+	}//insertData_RefreshDate
 
 	public boolean deleteData(Activity actv, SQLiteDatabase db, String tableName, long file_id) {
 		/*----------------------------

@@ -122,6 +122,11 @@ public class DOI_CL implements OnItemClickListener {
 			
 			Methods.refresh_MainDB(actv);
 			
+		////////////////////////////////
+
+		// create/drop: ifm11
+
+		////////////////////////////////
 		} else if (item.equals(actv.getString(		// Create table: cm7
 				R.string.dlg_db_admin_item_create_table_ifm11))) {
 			
@@ -137,21 +142,31 @@ public class DOI_CL implements OnItemClickListener {
 			
 			return;
 			
+		////////////////////////////////
+		
+		// create/drop: refresh log
+		
+		////////////////////////////////
 		} else if (item.equals(actv.getString(		// Create table: cm7
 				R.string.dlg_db_admin_item_create_table_refresh_log))) {
 			
-			_case_Dlg_Db_Admin_lv__CreateTable(actv, CONS.DB.tname_IFM11);
+			_case_Dlg_Db_Admin_lv__CreateTable(actv, CONS.DB.tname_RefreshLog);
 //			Methods.create_Table(actv, CONS.DB.tname_CM7);
 			
 		} else if (item.equals(actv.getString(		// Drop table: cm7
-				R.string.dlg_db_admin_item_create_table_refresh_log))) {
+				R.string.dlg_db_admin_item_drop_table_refresh_log))) {
 			
 //			Methods_dlg.conf_DropTable(actv, dlg1, CONS.DB.tname_IFM11);
 			
-			_case_Dlg_Db_Admin_lv__DropTable(actv, CONS.DB.tname_IFM11);
+			_case_Dlg_Db_Admin_lv__DropTable(actv, CONS.DB.tname_RefreshLog);
 			
 			return;
 			
+		////////////////////////////////
+		
+		// restore
+		
+		////////////////////////////////
 		} else if (item.equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_restore_db))) {
 			
@@ -269,7 +284,13 @@ public class DOI_CL implements OnItemClickListener {
 			
 		}
 
-		Methods_dlg.conf_DropTable(actv, dlg1, CONS.DB.tname_IFM11);
+		////////////////////////////////
+
+		// drop table
+
+		////////////////////////////////
+		Methods_dlg.conf_DropTable(actv, dlg1, tableName);
+//		Methods_dlg.conf_DropTable(actv, dlg1, CONS.DB.tname_IFM11);
 		
 ////		Methods.drop_Table(actv, CONS.DB.tname_CM7);
 //		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);

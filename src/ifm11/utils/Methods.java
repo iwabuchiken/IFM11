@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +20,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -736,6 +739,7 @@ public class Methods {
 
 		////////////////////////////////
 		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+		
 //		Cursor c = refreshMainDB_2_exec_query(actv, wdb, dbu);
 		
 		
@@ -906,83 +910,99 @@ public class Methods {
 		// get: last refreshed date
 
 		////////////////////////////////
-		long lastRefreshedDate = 0;		// Initial value => 0
+//		long lastRefreshedDate = 0;		// Initial value => 0
+		long lastRefreshedDate = 
+				Methods._refresh_MainDB__Get_LastRefreshed(actv, wdb, dbu);
 		
+		/******************************
+			validate: gotten data?
+		 ******************************/
+		if (lastRefreshedDate == -1) {
+			
+			lastRefreshedDate = 0;
+			
+		}
 		
-//		if (result != false) {
-//			// Log
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Table exists: " + MainActv.tableName_refreshLog);
-//			
-//			
-//			// REF=> http://www.accessclub.jp/sql/10.html
-//			String sql = "SELECT * FROM refresh_log ORDER BY " + android.provider.BaseColumns._ID + " DESC";
-//			
-//			Cursor tempC = wdb.rawQuery(sql, null);
-//			
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "tempC.getCount() => " + tempC.getCount());
-//	
-//			if (tempC.getCount() > 0) {
-//				
-//				tempC.moveToFirst();
-//				
-//				lastRefreshedDate = tempC.getLong(1);
-//				
-//				// Log
-//				Log.d("Methods.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", 
-//						"lastRefreshedDate => " + String.valueOf(lastRefreshedDate) +
-//						" (I will refresh db based on this date!)");
-//				
-//			}//if (tempC.getCount() > 0)
-//		} else {//if (result != false)
-//			
-//			// Log
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Table doesn't exist: " + MainActv.tableName_refreshLog);
-//			
-//			// Create one
-//			result = dbu.createTable(
-//											wdb, 
-//											MainActv.tableName_refreshLog, 
-//											CONS.cols_refresh_log, 
-//											CONS.col_types_refresh_log);
-//			
-//			if (result == true) {
-//				// Log
-//				Log.d("Methods.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", "Table created: " + MainActv.tableName_refreshLog);
-//				
-//			} else {//if (result == true)
-//				// Log
-//				Log.d("Methods.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", "Create table failed: " + MainActv.tableName_refreshLog);
-//				
-//			}//if (result == true)
-//			
-//		}//if (result != false)
-//		
-//		/*----------------------------
-//		 * 3.5. Execute query
-//			----------------------------*/
-//		// REF=> http://blog.csdn.net/uoyevoli/article/details/4970860
-//		Cursor c = actv.managedQuery(
-//											uri, 
-//											proj,
-//											MediaStore.Images.Media.DATE_ADDED + " > ?",
-//											new String[] {String.valueOf(lastRefreshedDate)},
-//											null);
-//		
+		// Log
+		msg_Log = String.format(
+						"lastRefreshedDate => %d (%s)", 
+						lastRefreshedDate, 
+						Methods.conv_MillSec_to_TimeLabel(lastRefreshedDate));
+//		msg_Log = "lastRefreshedDate => " + lastRefreshedDate
+//				+ ;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// modify: refreshed date
+		//		=> convert to seconds
+
+		////////////////////////////////
+		lastRefreshedDate = lastRefreshedDate / 1000;
+		
+		msg_Log = String.format(
+						"lastRefreshedDate(converted) => %d (%s)", 
+						lastRefreshedDate, 
+						Methods.conv_MillSec_to_TimeLabel(lastRefreshedDate));
+		//msg_Log = "lastRefreshedDate => " + lastRefreshedDate
+		//		+ ;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// Execute query
+
+		////////////////////////////////
+		// REF=> http://blog.csdn.net/uoyevoli/article/details/4970860
+		Cursor c = actv.managedQuery(
+						uri, 
+						proj,
+						MediaStore.Images.Media.DATE_ADDED + " > ?",
+						new String[] {String.valueOf(lastRefreshedDate)},
+						null);
+
+		////////////////////////////////
+
+		// validate
+
+		////////////////////////////////
+		/******************************
+			null
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			msg_Log = "cursor => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+		/******************************
+		no entry
+		 ******************************/
+		} else if (c.getCount() < 1) {
+			
+			// Log
+			msg_Log = "EXTERNAL_CONTENT_URI => no entry";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+		}
+		
+		// Log
+		msg_Log = "cursor: count => " + c.getCount();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 //		// Log
 //		Log.d("Methods.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
@@ -997,9 +1017,77 @@ public class Methods {
 //
 //		return c;
 		
-        return null;
+        return c;
         
-	}
+	}//_refresh_MainDB__ExecQuery
+
+	/******************************
+	 * Data is store in TEXT type. The method converts the value<br>
+	 * 		to long type
+		@return -1 => 1. query returned null<br>
+	 ******************************/
+	private static long 
+	_refresh_MainDB__Get_LastRefreshed
+	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
+		// TODO Auto-generated method stub
+		
+//		long lastRefreshedDate = 0;
+		
+		String orderBy = android.provider.BaseColumns._ID + " DESC";
+		
+		Cursor c = wdb.query(
+				CONS.DB.tname_RefreshLog,
+				CONS.DB.col_names_refresh_log_full,
+//				CONS.DB.col_types_refresh_log_full,
+				null, null,		// selection, args 
+				null, 			// group by
+				null, 		// having
+				orderBy);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+
+			// Log
+			String msg_Log = "query => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+
+			// Log
+			String msg_Log = "entry => < 1";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+		////////////////////////////////
+
+		// get: data
+
+		////////////////////////////////
+		c.moveToFirst();
+		
+		String lastRefreshed = c.getString(3);
+		
+		return Methods.conv_TimeLabel_to_MillSec(lastRefreshed);
+		
+//		return 0;
+		
+	}//_refresh_MainDB__Get_LastRefreshed
 
 	private static boolean 
 	_refresh_MainDB__Setup_RefreshLog
@@ -1087,6 +1175,139 @@ public class Methods {
 		}
 		
 	}//drop_Table
+
+	public static String
+	conv_MillSec_to_TimeLabel(long millSec)
+	{
+		//REF http://stackoverflow.com/questions/7953725/how-to-convert-milliseconds-to-date-format-in-android answered Oct 31 '11 at 12:59
+		String dateFormat = CONS.Admin.format_Date;
+//		String dateFormat = "yyyy/MM/dd hh:mm:ss.SSS";
+		
+		DateFormat formatter = new SimpleDateFormat(dateFormat, Locale.JAPAN);
+//		DateFormat formatter = new SimpleDateFormat(dateFormat);
+
+		// Create a calendar object that will convert the date and time value in milliseconds to date. 
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.setTimeInMillis(millSec);
+		
+		return formatter.format(calendar.getTime());
+		
+	}//conv_MillSec_to_TimeLabel(long millSec)
+
+	public static long
+	conv_TimeLabel_to_MillSec(String timeLabel)
+//	conv_MillSec_to_TimeLabel(long millSec)
+	{
+//		String input = "Sat Feb 17 2012";
+		Date date;
+		try {
+			date = new SimpleDateFormat(
+						CONS.Admin.format_Date, Locale.JAPAN).parse(timeLabel);
+			
+			return date.getTime();
+//			long milliseconds = date.getTime();
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+			// Log
+			String msg_Log = "Exception: " + e.toString();
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+//		Locale.ENGLISH).parse(input);
+		
+//		Date date = new SimpleDateFormat("EEE MMM dd yyyy", Locale.ENGLISH).parse(input);
+//		long milliseconds = date.getTime();
+		
+	}//conv_TimeLabel_to_MillSec(String timeLabel)
+
+	private static boolean 
+	updateRefreshLog
+	(Activity actv, 
+			SQLiteDatabase wdb, DBUtils dbu, 
+			long lastItemDate, int numOfItemsAdded) {
+		////////////////////////////////
+
+		// validate: Table exists?
+
+		////////////////////////////////
+		String tableName = CONS.DB.tname_RefreshLog;
+		
+		if(!dbu.tableExists(wdb, tableName)) {
+		
+			Log.d("Methods.java" + "["
+			+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+			+ "]", "Table doesn't exitst: " + tableName);
+		
+			/*----------------------------
+			* 2. If no, create one
+			----------------------------*/
+			if(dbu.createTable(
+					wdb, tableName, 
+					CONS.DB.col_names_refresh_log, 
+					CONS.DB.col_types_refresh_log)) {
+				
+				//toastAndLog(actv, "Table created: " + tableName, Toast.LENGTH_LONG);
+				
+				// Log
+				Log.d("Methods.java"
+				+ "["
+				+ Thread.currentThread().getStackTrace()[2]
+				.getLineNumber() + "]", "Table created: " + tableName);
+			
+			} else {//if
+				/*----------------------------
+				* 2-2. Create table failed => Return
+				----------------------------*/
+				// Log
+				Log.d("Methods.java"
+				+ "["
+				+ Thread.currentThread().getStackTrace()[2]
+				.getLineNumber() + "]", "Create table failed: " + tableName);
+				
+				
+				return false;
+			
+			}//if
+		
+		} else {//if(dbu.tableExists(wdb, ImageFileManager8Activity.refreshLogTableName))
+		
+			// Log
+			Log.d("Methods.java" + "["
+			+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+			+ "]", "Table exitsts: " + tableName);
+		
+		
+		}//if(dbu.tableExists(wdb, ImageFileManager8Activity.refreshLogTableName))
+		
+		////////////////////////////////
+
+		// Insert data
+
+		////////////////////////////////
+		try {
+			
+			return dbu.insertData_RefreshDate(wdb, numOfItemsAdded);
+			
+//			return true;
+			
+		} catch (Exception e) {
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Insert data failed");
+			
+			return false;
+		}
+		
+	}//private static boolean updateRefreshLog(SQLiteDatabase wdb, long lastItemDate)
 
 }//public class Methods
 

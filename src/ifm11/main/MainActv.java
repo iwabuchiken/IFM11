@@ -1,6 +1,7 @@
 package ifm11.main;
 
 import ifm11.utils.CONS;
+import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 
@@ -70,6 +71,28 @@ public class MainActv extends ListActivity {
 
     private void do_debug() {
 		
+//    	_do_debug__Add_LastRefreshed();
+//    	_do_debug__Processing();
+
+    	
+	}//private void do_debug()
+
+	private void _do_debug__Add_LastRefreshed() {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(this, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		dbu.insertData_RefreshDate(rdb, 5);
+		
+		rdb.close();
+		
+	}
+
+	private void 
+	_do_debug__Processing() {
+		// TODO Auto-generated method stub
 		/***************************************
 		 * Processing
 		 ***************************************/
@@ -101,8 +124,8 @@ public class MainActv extends ListActivity {
 					+ "]", dname.getName() + " => Doesn't exist");
 			
 		}//if (dname.exists())
-    	
-	}//private void do_debug()
+		
+	}//_do_debug__Processing()
 
 	@Override
 	protected void onListItemClick(ListView lv, View v, int position, long id) {
@@ -199,6 +222,13 @@ public class MainActv extends ListActivity {
 	protected void onStart() {
 		
 		super.onStart();
+		
+		////////////////////////////////
+
+		// debug
+
+		////////////////////////////////
+		do_debug();
 		
 		////////////////////////////////
 
