@@ -4,7 +4,7 @@ public class Tags {
 
 	public static enum DialogTags {
 		// Generics
-		DLG_GENERIC_DISMISS, dlg_generic_dismiss_second_dialog,
+		GENERIC_DISMISS, DLG_GENERIC_DISMISS_SECOND_DIALOG,
 		dlg_generic_dismiss_third_dialog,
 		
 		
@@ -70,6 +70,9 @@ public class Tags {
 		
 		// dlg: confirm delete BM
 		dlg_conf_delete_BM_ok,
+		
+		// dlg: drop table
+		DROP_TABLE_OK,
 		
 	}//public static enum DialogTags
 	

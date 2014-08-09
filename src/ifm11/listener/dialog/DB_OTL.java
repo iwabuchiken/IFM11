@@ -37,9 +37,9 @@ public class DB_OTL implements OnTouchListener {
 		case MotionEvent.ACTION_DOWN:
 				switch (tag_name) {
 				
-				case DLG_GENERIC_DISMISS:
+				case GENERIC_DISMISS:
 				case dlg_generic_dismiss_third_dialog:
-				case dlg_generic_dismiss_second_dialog:
+				case DLG_GENERIC_DISMISS_SECOND_DIALOG:
 					
 				case dlg_create_folder_ok:
 				case dlg_create_folder_cancel:
@@ -67,7 +67,8 @@ public class DB_OTL implements OnTouchListener {
 					
 				case dlg_conf_delete_BM_ok:
 					
-					//
+				case DROP_TABLE_OK:
+					
 					v.setBackgroundColor(Color.GRAY);
 					
 					break;
@@ -78,8 +79,8 @@ public class DB_OTL implements OnTouchListener {
 		case MotionEvent.ACTION_UP:
 			switch (tag_name) {
 
-			case DLG_GENERIC_DISMISS:
-			case dlg_generic_dismiss_second_dialog:
+			case GENERIC_DISMISS:
+			case DLG_GENERIC_DISMISS_SECOND_DIALOG:
 			case dlg_generic_dismiss_third_dialog:
 
 			case dlg_create_folder_ok:
@@ -108,7 +109,8 @@ public class DB_OTL implements OnTouchListener {
 				
 			case dlg_conf_delete_BM_ok:
 				
-				//
+			case DROP_TABLE_OK:
+				
 					v.setBackgroundColor(Color.WHITE);
 					
 					break;

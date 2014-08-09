@@ -164,7 +164,7 @@ public class MainActv extends ListActivity {
 		
 		case R.id.opt_menu_main_db:
 			
-			Methods_dlg.dlg_Db_Activity(this);
+			Methods_dlg.dlg_Db_Actv(this);
 			
 			break;
 		

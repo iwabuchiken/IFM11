@@ -21,10 +21,15 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -678,6 +683,410 @@ public class Methods {
 		}//try
 		
 	}//restore_DB
+
+	/****************************************
+	 *	refreshMainDB(Activity actv)
+	 * 
+	 *  @return -1 => Can't create a table<br>
+	 *  		0~	Number of items added
+	 ****************************************/
+	public static int refresh_MainDB(Activity actv) {
+		////////////////////////////////
+
+		// Set up DB(writable)
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		////////////////////////////////
+
+		// Table exists?
+		// If no, then create one
+		//	1. baseDirName
+		//	2. backupTableName
+
+		////////////////////////////////
+		boolean res = Methods._refresh_MainDB__SetupTable(wdb, dbu);
+//		boolean res = refreshMainDB_1_set_up_table(wdb, dbu);
+
+		if (res == false) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Can't  create table");
+			
+			wdb.close();
+			
+			return -1;
+			
+		}//if (res == false)
+		
+//		//debug
+//		wdb.close();
+//		
+//		return -1;
+		
+		
+		////////////////////////////////
+
+		// Execute query for image files
+
+		////////////////////////////////
+		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+//		Cursor c = refreshMainDB_2_exec_query(actv, wdb, dbu);
+		
+		
+		/*----------------------------
+		 * 4. Insert data into db
+			----------------------------*/
+//		int numOfItemsAdded;
+//		
+//		if (c.getCount() < 1) {
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Query result: 0");
+//			
+//			numOfItemsAdded = 0;
+//			
+////			// debug
+////			Toast.makeText(actv, "�V�K�̃t�@�C���͂���܂���", Toast.LENGTH_LONG).show();
+//			
+//		} else {//if (c.getCount() < 1)
+//			
+//			numOfItemsAdded = refreshMainDB_3_insert_data(actv, wdb, dbu, c);
+//			
+//		}//if (c.getCount() < 1)
+//		
+//		/*----------------------------
+//		 * 9. Close db
+//			----------------------------*/
+//		wdb.close();
+//		
+//		/*----------------------------
+//		 * 10. Return
+//			----------------------------*/
+//		return numOfItemsAdded;
+		////////////////////////////////
+
+		// close: db
+
+		////////////////////////////////
+		wdb.close();
+		
+		return 1;
+		
+	}//public static int refreshMainDB(Activity actv)
+
+	/******************************
+		@return false => Table doesn't exist; can't create one
+	 ******************************/
+	private static boolean 
+	_refresh_MainDB__SetupTable
+	(SQLiteDatabase wdb, DBUtils dbu) {
+		/*----------------------------
+		 * 2-1.1. baseDirName
+			----------------------------*/
+		String tableName = CONS.DB.tname_IFM11;
+		boolean result = dbu.tableExists(wdb, tableName);
+		
+		// If the table doesn't exist, create one
+		if (result == false) {
+
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exist: " + tableName);
+			
+			result = dbu.createTable(
+							wdb, 
+							tableName, 
+							CONS.DB.col_names_IFM11, 
+							CONS.DB.col_types_IFM11);
+			
+			if (result == false) {
+
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "Can't create a table: "+ tableName);
+				
+				return false;
+				
+			} else {//if (result == false)
+				
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "Table created: "+ tableName);
+				
+				return true;
+				
+			}//if (result == false)
+
+		} else {//if (result == false)
+			
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table exists: "+ tableName);
+
+			return true;
+			
+		}//if (result == false)
+	}//private static boolean refreshMainDB_1_set_up_table(SQLiteDatabase wdb, DBUtils dbu)
+
+	/******************************
+		@return null => 1. Can't prepare the table 'refresh log'<br>
+	 ******************************/
+	private static Cursor 
+	_refresh_MainDB__ExecQuery
+	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
+		/*----------------------------
+		 * 3. Execute query for image files
+		 * 		1. ContentResolver
+		 * 		2. Uri
+		 * 		3. proj
+		 * 		4. Last refreshed date
+		 * 		5. Execute query
+			----------------------------*/
+		/*----------------------------
+		 * 3.1. ContentResolver, Uri, proj
+			----------------------------*/
+		ContentResolver cr = actv.getContentResolver();
+		
+        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        
+        // Log
+		String msg_Log = "uri.path => " + uri.getPath()
+					+ " / "
+					+ "uri.encodedPath =>" + uri.getEncodedPath()
+					+ " / "
+					+ "uri.getHost =>" + uri.getHost()
+					;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+        
+		String[] proj = CONS.DB.proj;
+
+		////////////////////////////////
+
+		// setup: table: refresh log
+
+		////////////////////////////////
+		boolean res = Methods._refresh_MainDB__Setup_RefreshLog(actv, wdb, dbu);
+		
+		if (res == false) {
+			
+			// Log
+			msg_Log = "Setup can't be done => refresh_log  table";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+		} else {
+
+			// Log
+			msg_Log = "setup done => rehresh log";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+//		boolean result = dbu.tableExists(wdb, CONS.DB.tna.tableName_refreshLog);
+//		
+		////////////////////////////////
+
+		// get: last refreshed date
+
+		////////////////////////////////
+		long lastRefreshedDate = 0;		// Initial value => 0
+		
+		
+//		if (result != false) {
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Table exists: " + MainActv.tableName_refreshLog);
+//			
+//			
+//			// REF=> http://www.accessclub.jp/sql/10.html
+//			String sql = "SELECT * FROM refresh_log ORDER BY " + android.provider.BaseColumns._ID + " DESC";
+//			
+//			Cursor tempC = wdb.rawQuery(sql, null);
+//			
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "tempC.getCount() => " + tempC.getCount());
+//	
+//			if (tempC.getCount() > 0) {
+//				
+//				tempC.moveToFirst();
+//				
+//				lastRefreshedDate = tempC.getLong(1);
+//				
+//				// Log
+//				Log.d("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", 
+//						"lastRefreshedDate => " + String.valueOf(lastRefreshedDate) +
+//						" (I will refresh db based on this date!)");
+//				
+//			}//if (tempC.getCount() > 0)
+//		} else {//if (result != false)
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Table doesn't exist: " + MainActv.tableName_refreshLog);
+//			
+//			// Create one
+//			result = dbu.createTable(
+//											wdb, 
+//											MainActv.tableName_refreshLog, 
+//											CONS.cols_refresh_log, 
+//											CONS.col_types_refresh_log);
+//			
+//			if (result == true) {
+//				// Log
+//				Log.d("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "Table created: " + MainActv.tableName_refreshLog);
+//				
+//			} else {//if (result == true)
+//				// Log
+//				Log.d("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "Create table failed: " + MainActv.tableName_refreshLog);
+//				
+//			}//if (result == true)
+//			
+//		}//if (result != false)
+//		
+//		/*----------------------------
+//		 * 3.5. Execute query
+//			----------------------------*/
+//		// REF=> http://blog.csdn.net/uoyevoli/article/details/4970860
+//		Cursor c = actv.managedQuery(
+//											uri, 
+//											proj,
+//											MediaStore.Images.Media.DATE_ADDED + " > ?",
+//											new String[] {String.valueOf(lastRefreshedDate)},
+//											null);
+//		
+//		// Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "Last refreshed (in sec): " + String.valueOf(lastRefreshedDate / 1000));
+//
+//        actv.startManagingCursor(c);
+//        
+//        // Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "c.getCount() => " + c.getCount());
+//
+//		return c;
+		
+        return null;
+        
+	}
+
+	private static boolean 
+	_refresh_MainDB__Setup_RefreshLog
+	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
+		// TODO Auto-generated method stub
+		
+		boolean result = dbu.tableExists(wdb, CONS.DB.tname_RefreshLog);
+		
+		if (result != false) {
+			
+			// Log
+			String msg_Log = "table exists => " + CONS.DB.tname_RefreshLog;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			return true;
+			
+		}
+		
+		////////////////////////////////
+
+		// create: table
+
+		////////////////////////////////
+		result = dbu.createTable(
+					wdb, 
+					CONS.DB.tname_RefreshLog, 
+					CONS.DB.col_names_refresh_log, 
+					CONS.DB.col_types_refresh_log);
+
+		if (result == true) {
+			// Log
+			Log.d("Methods.java"
+				+ "["
+				+ Thread.currentThread().getStackTrace()[2]
+				.getLineNumber() + "]", "Table created => " + CONS.DB.tname_RefreshLog);
+			
+			return true;
+			
+		} else {//if (result == true)
+			
+			// Log
+			Log.d("Methods.java"
+				+ "["
+				+ Thread.currentThread().getStackTrace()[2]
+				.getLineNumber() + "]", 
+				"Create table failed: " + CONS.DB.tname_RefreshLog);
+		
+			return false;
+			
+		}//if (result == true)
+		
+	}//_refresh_MainDB__Setup_RefreshLog
+
+	public static void 
+	drop_Table
+	(Activity actv, 
+			Dialog dlg1, Dialog dlg2, String tname) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		boolean res = dbu.dropTable(actv, tname);
+
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		if (res == true) {
+			
+			dlg2.dismiss();
+			dlg1.dismiss();
+			
+			String msg = "Table dropped => " + tname;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+		} else {
+
+			dlg2.dismiss();
+			
+			String msg = "Can't drop table => " + tname;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+		}
+		
+	}//drop_Table
 
 }//public class Methods
 

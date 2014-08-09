@@ -122,7 +122,7 @@ public class DBUtils extends SQLiteOpenHelper{
 							" INTEGER PRIMARY KEY AUTOINCREMENT, ");
 		
 		// created_at, modified_at
-		sb.append("created_at INTEGER, modified_at INTEGER, ");
+		sb.append("created_at TEXT, modified_at TEXT, ");
 		
 		int i = 0;
 		for (i = 0; i < columns.length - 1; i++) {
@@ -280,6 +280,37 @@ public class DBUtils extends SQLiteOpenHelper{
 			return false;
 		}//if (cursor.getCount() > 0)
 	}//public boolean tableExists(String tableName)
+	
+	public static boolean 
+	tableExists
+	(Activity actv, String dbName, String tableName) {
+		// The table exists?
+		DBUtils dbu = new DBUtils(actv, dbName);
+		
+		//
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		Cursor cursor = rdb.rawQuery(
+				"SELECT * FROM sqlite_master WHERE tbl_name = '" + 
+						tableName + "'", null);
+		
+		actv.startManagingCursor(cursor);
+//		actv.startManagingCursor(cursor);
+		
+		// Judge
+		if (cursor.getCount() > 0) {
+		
+			rdb.close();
+			return true;
+			
+		} else {//if (cursor.getCount() > 0)
+			
+			rdb.close();
+			return false;
+			
+		}//if (cursor.getCount() > 0)
+		
+	}//public boolean tableExists(String tableName)
 
 	public boolean dropTable(Activity actv, SQLiteDatabase db, String tableName) {
 		// Log
@@ -332,7 +363,7 @@ public class DBUtils extends SQLiteOpenHelper{
 			return true;
 			
 		} catch (SQLException e) {
-			// TODO ?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½ê‚½ catch ?¿½u?¿½?¿½?¿½b?¿½N
+			// TODO ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê‚½ catch ?ï¿½ï¿½u?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½b?ï¿½ï¿½N
 			// Log
 			Log.e("DBUtils.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
@@ -400,7 +431,7 @@ public class DBUtils extends SQLiteOpenHelper{
 			return true;
 			
 		} catch (SQLException e) {
-			// TODO ?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½ê‚½ catch ?¿½u?¿½?¿½?¿½b?¿½N
+			// TODO ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê‚½ catch ?ï¿½ï¿½u?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½b?ï¿½ï¿½N
 			// Log
 			Log.e("DBUtils.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
@@ -552,7 +583,7 @@ public class DBUtils extends SQLiteOpenHelper{
 			return true;
 			
 		} catch (SQLException e) {
-			// TODO ?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½?¿½ê‚½ catch ?¿½u?¿½?¿½?¿½b?¿½N
+			// TODO ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê‚½ catch ?ï¿½ï¿½u?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½b?ï¿½ï¿½N
 			// Log
 			Log.e("DBUtils.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()

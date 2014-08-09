@@ -5,6 +5,7 @@ import ifm11.main.R;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
+import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.app.Dialog;
@@ -100,6 +101,12 @@ public class DOI_CL implements OnItemClickListener {
 	private void
 	case_Dlg_Db_Admin_lv(String item) {
 		// TODO Auto-generated method stub
+		
+		// Log
+		String msg_Log = "case_Dlg_Db_Admin_lv()";
+		Log.d("DOI_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		////////////////////////////////
 
 		// Dispatch
@@ -113,7 +120,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.equals(actv.getString(		// Refresh DB
 				R.string.dlg_db_admin_item_refresh_db))) {
 			
-//			Methods.refresh_MainDB(actv);
+			Methods.refresh_MainDB(actv);
 			
 		} else if (item.equals(actv.getString(		// Create table: cm7
 				R.string.dlg_db_admin_item_create_table_ifm11))) {
@@ -124,7 +131,26 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_drop_table_ifm11))) {
 			
+//			Methods_dlg.conf_DropTable(actv, dlg1, CONS.DB.tname_IFM11);
+			
 			_case_Dlg_Db_Admin_lv__DropTable(actv, CONS.DB.tname_IFM11);
+			
+			return;
+			
+		} else if (item.equals(actv.getString(		// Create table: cm7
+				R.string.dlg_db_admin_item_create_table_refresh_log))) {
+			
+			_case_Dlg_Db_Admin_lv__CreateTable(actv, CONS.DB.tname_IFM11);
+//			Methods.create_Table(actv, CONS.DB.tname_CM7);
+			
+		} else if (item.equals(actv.getString(		// Drop table: cm7
+				R.string.dlg_db_admin_item_create_table_refresh_log))) {
+			
+//			Methods_dlg.conf_DropTable(actv, dlg1, CONS.DB.tname_IFM11);
+			
+			_case_Dlg_Db_Admin_lv__DropTable(actv, CONS.DB.tname_IFM11);
+			
+			return;
 			
 		} else if (item.equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_restore_db))) {
@@ -144,12 +170,53 @@ public class DOI_CL implements OnItemClickListener {
 	_case_Dlg_Db_Admin_lv__CreateTable
 	(Activity actv, String tableName) {
 		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// validate: table exists?
+
+		////////////////////////////////
 		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
 		
-		boolean res = dbu.createTable(actv, 
-								tableName, 
-								CONS.DB.col_names_IFM11, 
-								CONS.DB.col_types_IFM11);
+		boolean res = false;
+		
+		res = DBUtils.tableExists(actv, CONS.DB.dbName, tableName);
+		
+		if (res == true) {
+			
+			String msg = "Table exists => " + tableName;
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, dlg1);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (tableName.equals(CONS.DB.tname_IFM11)) {
+			
+			res = dbu.createTable(actv, 
+					tableName, 
+					CONS.DB.col_names_IFM11, 
+					CONS.DB.col_types_IFM11);
+			
+		} else if (tableName.equals(CONS.DB.tname_RefreshLog)) {
+
+			res = dbu.createTable(actv, 
+					tableName, 
+					CONS.DB.col_names_refresh_log, 
+					CONS.DB.col_types_refresh_log);
+			
+		} else {
+			
+			String msg = "Unknown table=> " + tableName;
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, dlg1);
+			
+			return;
+			
+		}
 		
 		////////////////////////////////
 
@@ -160,13 +227,19 @@ public class DOI_CL implements OnItemClickListener {
 			
 			// debug
 			String msg_Toast = "Table => created: " + tableName;
-			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
+			
+			Methods_dlg.dlg_ShowMessage(actv, msg_Toast);
+			
+//			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
 			
 		} else {
 
 			// debug
 			String msg_Toast = "Table => not created: " + tableName;
-			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
+			
+			Methods_dlg.dlg_ShowMessage(actv, msg_Toast);
+			
+//			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
 			
 		}
 		
@@ -175,11 +248,33 @@ public class DOI_CL implements OnItemClickListener {
 	private void 
 	_case_Dlg_Db_Admin_lv__DropTable
 	(Activity actv, String tableName) {
-		// TODO Auto-generated method stub
-//		Methods.drop_Table(actv, CONS.DB.tname_CM7);
+
+		////////////////////////////////
+
+		// validate: table exists?
+
+		////////////////////////////////
 		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
 		
-		boolean res = dbu.dropTable(actv, tableName);
+		boolean res = false;
+		
+		res = DBUtils.tableExists(actv, CONS.DB.dbName, tableName);
+		
+		if (res == false) {
+			
+			String msg = "Table doesn't exist => " + tableName;
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, dlg1);
+			
+			return;
+			
+		}
+
+		Methods_dlg.conf_DropTable(actv, dlg1, CONS.DB.tname_IFM11);
+		
+////		Methods.drop_Table(actv, CONS.DB.tname_CM7);
+//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		
+//		boolean res = dbu.dropTable(actv, tableName);
 
 	}
 

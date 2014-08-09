@@ -163,6 +163,47 @@ public class CONS {
 			"TEXT"						// 8
 		};
 		
+		////////////////////////////////
+
+		// Table: media
+
+		////////////////////////////////
+		public static final String[] proj = {
+				MediaStore.Images.Media._ID, 
+				MediaStore.Images.Media.DATA,
+				MediaStore.Images.Media.DISPLAY_NAME,
+				MediaStore.Images.Media.DATE_ADDED,
+				MediaStore.Images.Media.DATE_MODIFIED,
+				};
+		
+		public static final String[] proj_for_get_data = {
+				MediaStore.Images.Media._ID, 
+				MediaStore.Images.Media.DATA,
+				MediaStore.Images.Media.DISPLAY_NAME,
+				MediaStore.Images.Media.DATE_ADDED,
+				MediaStore.Images.Media.DATE_MODIFIED,
+				"memos",
+				"tags"
+				};
+		
+		////////////////////////////////
+
+		// Table: refresh log
+
+		////////////////////////////////
+		public static final String tname_RefreshLog = "refresh_log";
+		
+		public static final String[] col_names_refresh_log = {
+			
+				"last_refreshed", "num_of_items_added"
+			
+		};
+		
+		public static final String[] col_types_refresh_log = {
+			
+				"TEXT", 			"INTEGER"
+				
+		};
 		
 		////////////////////////////////
 

@@ -40,15 +40,21 @@ public final class R {
         public static final int s_01_timer_menu_listitem_filter_30x30_v3=0x7f020008;
     }
     public static final class id {
-        public static final int dlg_tmpl_list_cancel_bt_cancel=0x7f080007;
-        public static final int dlg_tmpl_list_cancel_lv=0x7f080006;
-        public static final int list_row_slimple_1_tv=0x7f080008;
-        public static final int main_opt_menu_create_folder=0x7f080009;
-        public static final int main_opt_menu_ftp=0x7f08000e;
-        public static final int main_opt_menu_history=0x7f08000d;
-        public static final int main_opt_menu_preferences=0x7f08000c;
-        public static final int main_opt_menu_search=0x7f08000b;
-        public static final int opt_menu_main_db=0x7f08000a;
+        public static final int dlg_tmpl_confirm_simple_btn_cancel=0x7f080009;
+        public static final int dlg_tmpl_confirm_simple_btn_ok=0x7f080008;
+        public static final int dlg_tmpl_confirm_simple_tv_item_name=0x7f080007;
+        public static final int dlg_tmpl_confirm_simple_tv_message=0x7f080006;
+        public static final int dlg_tmpl_list_cancel_bt_cancel=0x7f08000b;
+        public static final int dlg_tmpl_list_cancel_lv=0x7f08000a;
+        public static final int dlg_tmpl_toast_ok_bt_cancel=0x7f08000d;
+        public static final int dlg_tmpl_toast_ok_tv_message=0x7f08000c;
+        public static final int list_row_slimple_1_tv=0x7f08000e;
+        public static final int main_opt_menu_create_folder=0x7f08000f;
+        public static final int main_opt_menu_ftp=0x7f080014;
+        public static final int main_opt_menu_history=0x7f080013;
+        public static final int main_opt_menu_preferences=0x7f080012;
+        public static final int main_opt_menu_search=0x7f080011;
+        public static final int opt_menu_main_db=0x7f080010;
         public static final int v1_LL_debug=0x7f080002;
         public static final int v1_bt_back=0x7f080003;
         public static final int v1_bt_forward=0x7f080005;
@@ -58,8 +64,10 @@ public final class R {
     }
     public static final class layout {
         public static final int actv_main=0x7f030000;
-        public static final int dlg_tmpl_list_cancel=0x7f030001;
-        public static final int list_row_simple_1=0x7f030002;
+        public static final int dlg_tmpl_confirm_simple=0x7f030001;
+        public static final int dlg_tmpl_list_cancel=0x7f030002;
+        public static final int dlg_tmpl_toast_ok=0x7f030003;
+        public static final int list_row_simple_1=0x7f030004;
     }
     public static final class menu {
         public static final int menu_main=0x7f070000;
@@ -68,9 +76,12 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int dlg_db_admin_item_backup_db=0x7f050013;
         public static final int dlg_db_admin_item_create_table_ifm11=0x7f050016;
+        public static final int dlg_db_admin_item_create_table_refresh_log=0x7f050018;
+        public static final int dlg_db_admin_item_drop_table=0x7f05001a;
         public static final int dlg_db_admin_item_drop_table_ifm11=0x7f050015;
+        public static final int dlg_db_admin_item_drop_table_refresh_log=0x7f050017;
         public static final int dlg_db_admin_item_refresh_db=0x7f050014;
-        public static final int dlg_db_admin_item_restore_db=0x7f050017;
+        public static final int dlg_db_admin_item_restore_db=0x7f050019;
         /**  dlg_db_admin.xml 
          */
         public static final int dlg_db_admin_title=0x7f050012;
