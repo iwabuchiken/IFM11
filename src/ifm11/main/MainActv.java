@@ -71,7 +71,7 @@ public class MainActv extends ListActivity {
 
     private void do_debug() {
 		
-    	_do_debug__MillSec_to_TimeLabel();
+//    	_do_debug__MillSec_to_TimeLabel();
 //    	_do_debug__Add_LastRefreshed();
 //    	_do_debug__Processing();
 
@@ -100,13 +100,21 @@ public class MainActv extends ListActivity {
 	private void _do_debug__Add_LastRefreshed() {
 		// TODO Auto-generated method stub
 		
-		DBUtils dbu = new DBUtils(this, CONS.DB.dbName);
-		
-		SQLiteDatabase rdb = dbu.getReadableDatabase();
+//		DBUtils dbu = new DBUtils(this, CONS.DB.dbName);
+//		
+//		SQLiteDatabase rdb = dbu.getReadableDatabase();
+//
+//		dbu.insert_Data_RefreshDate(rdb, 5);
+//		
+//		rdb.close();
 
-		dbu.insertData_RefreshDate(rdb, 5);
+		boolean res = DBUtils.insert_Data_RefreshDate(this, "2014/08/09 04:19:39.220", 1);
 		
-		rdb.close();
+		// Log
+		String msg_Log = "insertion => " + res;
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 	}
 

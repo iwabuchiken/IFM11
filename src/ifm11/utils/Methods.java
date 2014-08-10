@@ -703,6 +703,22 @@ public class Methods {
 		////////////////////////////////
 
 		// Set up DB(writable)
+		// Execute query for image files
+		// build: TI list from cursor
+		// Insert data into db
+		// close: db
+
+		////////////////////////////////
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		boolean res;
+		
+		////////////////////////////////
+
+		// Set up DB(writable)
 
 		////////////////////////////////
 		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
@@ -717,7 +733,7 @@ public class Methods {
 		//	2. backupTableName
 
 		////////////////////////////////
-		boolean res = Methods._refresh_MainDB__SetupTable(wdb, dbu);
+		res = Methods._refresh_MainDB__SetupTable(wdb, dbu);
 //		boolean res = refreshMainDB_1_set_up_table(wdb, dbu);
 
 		if (res == false) {
@@ -797,50 +813,6 @@ public class Methods {
 			
 		}
 		
-//		//debug
-//		// Log
-//		String msg_Log = "list_TI.size => " + list_TI.size();
-//		Log.d("Methods.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		for (TI ti : list_TI) {
-//			
-//			// Log
-//			msg_Log = String.format(
-//							"ti: name = %s / file path = %s / " +
-//							"date added = %d(%s) / id = %d", 
-//							ti.getFile_name(), ti.getFile_path(), 
-//							ti.getDate_added(), 
-//							Methods.conv_MillSec_to_TimeLabel(ti.getDate_added() * 1000),
-//							ti.getFileId()
-//					);
-////			msg_Log = "ti.getFile_name() => " + ti.getFile_name();
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		}
-		
-		
-		////////////////////////////////
-
-		// Insert data into db
-
-		////////////////////////////////
-		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
-//			
-//		}//if (c.getCount() < 1)
-//		
-//		/*----------------------------
-//		 * 9. Close db
-//			----------------------------*/
-//		wdb.close();
-//		
-//		/*----------------------------
-//		 * 10. Return
-//			----------------------------*/
-//		return numOfItemsAdded;
 		////////////////////////////////
 
 		// close: db
@@ -848,9 +820,111 @@ public class Methods {
 		////////////////////////////////
 		wdb.close();
 		
-		return 1;
+		////////////////////////////////
+
+		// Insert data into db
+
+		////////////////////////////////
+		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
+		
+		// Log
+		String msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//			
+		////////////////////////////////
+
+		// Insert: refresh date
+		//		=> only if there is/are new entry/entries
+
+		////////////////////////////////
+		res = Methods._refresh_MainDB__InsertData_RefreshDate(
+										actv, numOfItemsAdded, list_TI);
+		
+		// Log
+		msg_Log = "insert refresh date => " + res;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		return numOfItemsAdded;
 		
 	}//public static int refreshMainDB(Activity actv)
+
+	private static boolean 
+	_refresh_MainDB__InsertData_RefreshDate
+	(Activity actv, 
+			int numOfItemsAdded, List<TI> list_TI) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// prep: last refresh date
+
+		////////////////////////////////
+		long lastRefreshed = -1;
+		
+		String label = null;
+		
+		for (TI ti : list_TI) {
+			
+			if (ti.getDate_added() > lastRefreshed) {
+				
+				lastRefreshed = ti.getDate_added();
+				
+			}
+			
+		}
+
+		if (lastRefreshed == -1) {
+			
+			// In seconds. 
+			label = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+			
+		} else {
+			
+			// Converting sec to mill sec
+			label = Methods.conv_MillSec_to_TimeLabel(lastRefreshed * 1000);
+			
+		}
+		
+		////////////////////////////////
+
+		// save data
+
+		////////////////////////////////
+		return DBUtils.insert_Data_RefreshDate(actv, label, numOfItemsAdded);
+		
+//		return false;
+		
+	}//_refresh_MainDB__InsertData_RefreshDate
+	
+
+	private static int 
+	_refresh_MainDB__InsertData_TIs
+	(Activity actv, List<TI> list_TI) {
+		// TODO Auto-generated method stub
+		
+		boolean res;
+		
+		int counter = 0;
+		
+		for (TI ti : list_TI) {
+			
+			res = DBUtils.insert_Data_TI(actv, ti);
+			
+			if (res == true) {
+				
+				counter += 1;
+				
+			}
+			
+		}
+		
+		return counter;
+		
+	}//_refresh_MainDB__InsertData_TIs
 
 	/******************************
 		@return Ti list => the below fields remain null<br>
@@ -1437,7 +1511,7 @@ public class Methods {
 		////////////////////////////////
 		try {
 			
-			return dbu.insertData_RefreshDate(wdb, numOfItemsAdded);
+			return dbu.insert_Data_RefreshDate(wdb, numOfItemsAdded);
 			
 //			return true;
 			

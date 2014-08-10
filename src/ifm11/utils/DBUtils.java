@@ -2,6 +2,8 @@ package ifm11.utils;
 
 
 
+import ifm11.items.TI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -650,7 +652,7 @@ public class DBUtils extends SQLiteOpenHelper{
 						2. Exception
 	 ******************************/
 	public boolean 
-	insertData_RefreshDate
+	insert_Data_RefreshDate
 	(SQLiteDatabase db, int numOfData) {
 		/*----------------------------
 		 * 1. Insert data
@@ -740,6 +742,254 @@ public class DBUtils extends SQLiteOpenHelper{
 		}//try
 		
 	}//insertData_RefreshDate
+	
+	/******************************
+		@return false => 1. Insertion failed<br>
+						2. Exception
+	 ******************************/
+	public static boolean 
+	insert_Data_RefreshDate
+	(Activity actv, String lastRefresh, int numOfData) {
+		/*----------------------------
+		 * 1. Insert data
+		----------------------------*/
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// prep: content values
+		
+		////////////////////////////////
+		// ContentValues
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"last_refreshed", "num_of_items_added"
+		
+		// Put values
+		val.put("created_at",
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		val.put("modified_at",
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		
+		val.put("last_refreshed",lastRefresh);
+		val.put("num_of_items_added", numOfData);
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+//			// ContentValues
+//			ContentValues val = new ContentValues();
+//			
+//			// Put values
+//			for (int i = 0; i < columnNames.length; i++) {
+//				val.put(columnNames[i], values[i]);
+//			}//for (int i = 0; i < columnNames.length; i++)
+			
+			// Insert data
+			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res == -1) {
+				
+				// Log
+				String msg_Log = "insertion => failed";
+				Log.e("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				wdb.endTransaction();
+		
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try
+		
+	}//insertData_RefreshDate
+	
+	/******************************
+		@return false => 1. Insertion failed<br>
+						2. Exception
+	 ******************************/
+	public static boolean 
+	insert_Data_TI
+	(Activity actv, TI ti) {
+		/*----------------------------
+		 * 1. Insert data
+		----------------------------*/
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		////////////////////////////////
+		
+		// prep: content values
+		
+		////////////////////////////////
+		// ContentValues
+		ContentValues val = _build_Values__TI(actv, ti);
+//		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"last_refreshed", "num_of_items_added"
+		
+		// Put values
+//		val.put("created_at",
+//				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+//		val.put("modified_at",
+//				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+//		val.put("last_refreshed",
+//				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+//		val.put("num_of_items_added", numOfData);
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+//			// ContentValues
+//			ContentValues val = new ContentValues();
+//			
+//			// Put values
+//			for (int i = 0; i < columnNames.length; i++) {
+//				val.put(columnNames[i], values[i]);
+//			}//for (int i = 0; i < columnNames.length; i++)
+			
+			// Insert data
+			long res = wdb.insert(CONS.DB.tname_IFM11, null, val);
+//			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res == -1) {
+				
+				// Log
+				String msg_Log = "insertion => failed";
+				Log.e("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				wdb.endTransaction();
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try
+		
+	}//insertData_TI
+
+	private static ContentValues 
+	_build_Values__TI
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		val.put("created_at",
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		val.put("modified_at",
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		
+		val.put("file_id", ti.getFileId());
+		val.put("file_path", ti.getFile_path());
+		val.put("file_name", ti.getFile_name());
+		
+		val.put("date_added", ti.getDate_added());
+		val.put("date_modified", ti.getDate_modified());
+		
+		val.put("memos", ti.getMemo());
+		val.put("tags", ti.getTags());
+		
+		val.put("last_viewed_at", ti.getLast_viewed_at());
+		val.put("table_name", ti.getTable_name());
+		
+		return val;
+		
+	}//_build_Values__TI
 
 	public boolean deleteData(Activity actv, SQLiteDatabase db, String tableName, long file_id) {
 		/*----------------------------
