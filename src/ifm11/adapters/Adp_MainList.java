@@ -119,7 +119,7 @@ public class Adp_MainList extends ArrayAdapter<String> implements OnTouchListene
 		int pref_CurrentPosition = Methods.get_Pref_Int(
 						(Activity)con, 
 						CONS.Pref.pname_MainActv, 
-						CONS.Pref.pkey_CurrentPosition, 
+						CONS.Pref.pkey_CurrentPosition_MainActv, 
 						-1);
 
 		if (pref_CurrentPosition == position) {

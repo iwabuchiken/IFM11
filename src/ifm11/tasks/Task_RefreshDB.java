@@ -40,6 +40,7 @@ public class Task_RefreshDB extends AsyncTask<String, Integer, Integer> {
 		
 		int val = result.intValue();
 		
+		
 		switch(val) {
 		
 		case -1://----------------------------------

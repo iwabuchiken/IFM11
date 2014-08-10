@@ -277,7 +277,7 @@ public class CONS {
 		
 		public static String pkey_CurrentPath = "pkey_CurrentPath";
 		
-		public static String pkey_CurrentPosition = "pkey_CurrentPosition";
+		public static String pkey_CurrentPosition_MainActv = "pkey_CurrentPosition";
 		
 		////////////////////////////////
 

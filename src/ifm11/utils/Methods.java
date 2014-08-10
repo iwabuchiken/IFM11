@@ -5,6 +5,7 @@ package ifm11.utils;
 import ifm11.items.TI;
 import ifm11.listener.dialog.DL;
 import ifm11.main.R;
+import ifm11.main.TNActv;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -1525,6 +1526,85 @@ public class Methods {
 		}
 		
 	}//private static boolean updateRefreshLog(SQLiteDatabase wdb, long lastItemDate)
+
+	public static String
+	conv_CurrentPath_to_TableName(String currentPath)
+	{
+		String full = currentPath;
+//		String full = CONS.Paths.dpath_Storage_Sdcard + CONS.Paths.dname_Base;
+		
+		////////////////////////////////
+
+		// Get: raw strings
+
+		////////////////////////////////
+		String head = CONS.Paths.dpath_Storage_Sdcard;
+		
+		int len = head.length();
+		
+		String target = full.substring(len + 1);
+
+//		// Log
+//		String msg_log = "full = " + full
+//						+ " // "
+//						+ "target = " + target;
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_log);
+
+		////////////////////////////////
+
+		// Split: target
+
+		////////////////////////////////
+//		// Log
+//		String msg_log = "File.separator = " + File.separator;
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_log);
+		
+		String[] tokens = target.split(File.separator);
+		
+		////////////////////////////////
+
+		// Build: table name
+
+		////////////////////////////////
+		if (tokens == null) {
+			
+			// Log
+			String msg_log = "Split => returned null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_log);
+			
+			return null;
+			
+		} else if (tokens.length == 1) {
+			
+			return target;
+			
+		} else {
+
+			return StringUtils.join(tokens, CONS.DB.jointString_TableName);
+			
+		}
+		
+	}//conv_CurrentPath_to_TableName(String currentPath)
+
+	public static void 
+	start_Activity_TNActv
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		Intent i = new Intent();
+		
+		i.setClass(actv, TNActv.class);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+		
+	}//start_Activity_ImpActv
 
 }//public class Methods
 
