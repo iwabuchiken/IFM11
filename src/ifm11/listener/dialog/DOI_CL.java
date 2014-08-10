@@ -2,6 +2,7 @@ package ifm11.listener.dialog;
 
 
 import ifm11.main.R;
+import ifm11.tasks.Task_RefreshDB;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
@@ -120,7 +121,8 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.equals(actv.getString(		// Refresh DB
 				R.string.dlg_db_admin_item_refresh_db))) {
 			
-			Methods.refresh_MainDB(actv);
+			_case_Dlg_Db_Admin_lv__RefreshDB();
+//			Methods.refresh_MainDB(actv);
 			
 		////////////////////////////////
 
@@ -180,6 +182,24 @@ public class DOI_CL implements OnItemClickListener {
 		dlg1.dismiss();
 		
 	}//case_Dlg_Db_Admin_lv(String item)
+
+	private void 
+	_case_Dlg_Db_Admin_lv__RefreshDB() {
+		// TODO Auto-generated method stub
+	
+		Task_RefreshDB task_ = new Task_RefreshDB(actv);
+		
+		// debug
+		Toast.makeText(actv, "Starting a task...", Toast.LENGTH_LONG)
+				.show();
+		
+		task_.execute("Start");
+		
+		dlg1.dismiss();
+		
+//		Methods.refresh_MainDB(actv);
+		
+	}
 
 	private void 
 	_case_Dlg_Db_Admin_lv__CreateTable
