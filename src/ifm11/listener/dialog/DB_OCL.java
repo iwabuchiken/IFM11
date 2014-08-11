@@ -98,6 +98,20 @@ public class DB_OCL implements OnClickListener {
 		
 	}
 
+	public 
+	DB_OCL
+	(Activity actv, Dialog dlg1, long file_id) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv	= actv;
+		this.dlg1	= dlg1;
+		
+		this.file_id	= file_id;
+		
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+
+	}
+
 	public void onClick(View v) {
 		//
 		Tags.DialogTags tag_name = (Tags.DialogTags) v.getTag();
@@ -118,13 +132,13 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 
-		case DLG_GENERIC_DISMISS_SECOND_DIALOG: // ----------------------------------------------------
+		case GENERIC_DISMISS_SECOND_DIALOG: // ----------------------------------------------------
 			
 			dlg2.dismiss();
 			
 			break;// case dlg_generic_dismiss_second_dialog
 
-		case dlg_generic_dismiss_third_dialog://------------------------------------------------
+		case GENERIC_DISMISS_THIRD_DIALOG://------------------------------------------------
 			
 			dlg3.dismiss();
 			

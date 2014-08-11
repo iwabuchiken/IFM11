@@ -38,8 +38,8 @@ public class DB_OTL implements OnTouchListener {
 				switch (tag_name) {
 				
 				case GENERIC_DISMISS:
-				case dlg_generic_dismiss_third_dialog:
-				case DLG_GENERIC_DISMISS_SECOND_DIALOG:
+				case GENERIC_DISMISS_THIRD_DIALOG:
+				case GENERIC_DISMISS_SECOND_DIALOG:
 					
 				case dlg_create_folder_ok:
 				case dlg_create_folder_cancel:
@@ -69,6 +69,10 @@ public class DB_OTL implements OnTouchListener {
 					
 				case DROP_TABLE_OK:
 					
+				case DLG_ADD_MEMOS_BT_ADD:
+					
+				case DLG_ADD_MEMOS_BT_PATTERNS:
+					
 					v.setBackgroundColor(Color.GRAY);
 					
 					break;
@@ -80,8 +84,8 @@ public class DB_OTL implements OnTouchListener {
 			switch (tag_name) {
 
 			case GENERIC_DISMISS:
-			case DLG_GENERIC_DISMISS_SECOND_DIALOG:
-			case dlg_generic_dismiss_third_dialog:
+			case GENERIC_DISMISS_SECOND_DIALOG:
+			case GENERIC_DISMISS_THIRD_DIALOG:
 
 			case dlg_create_folder_ok:
 			case dlg_create_folder_cancel:
@@ -110,6 +114,10 @@ public class DB_OTL implements OnTouchListener {
 			case dlg_conf_delete_BM_ok:
 				
 			case DROP_TABLE_OK:
+				
+			case DLG_ADD_MEMOS_BT_ADD:
+				
+			case DLG_ADD_MEMOS_BT_PATTERNS:
 				
 					v.setBackgroundColor(Color.WHITE);
 					

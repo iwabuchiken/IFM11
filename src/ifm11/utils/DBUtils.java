@@ -1773,5 +1773,175 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//find_All_TI
 
+	/******************************
+		@return null => 1. No such table: ifm11<br>
+	 ******************************/
+	public static TI
+	get_TI_From_FileId
+	(Activity actv, long file_id) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// DB
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists?
+		
+		////////////////////////////////
+		boolean res = dbu.tableExists(rdb, CONS.DB.tname_IFM11);
+
+		if (res == false) {
+			
+			String msg = "No such table: " + CONS.DB.tname_IFM11;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		Cursor c = null;
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		String where = String.format(
+					"%s = ? ", 
+					CONS.DB.col_names_IFM11_full[3]);	// file_id
+//					CONS.DB.col_names_IFM11_full[11]);	// table_name
+//				CONS.DB.col_names_IFM11[8] + " = ?";
+					
+		String[] args = new String[]{
+				
+							String.valueOf(file_id),
+							
+						};
+		
+		try {
+			
+			c = rdb.query(
+					
+					CONS.DB.tname_IFM11,			// 1
+					CONS.DB.col_names_IFM11_full,	// 2
+					where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+
+		////////////////////////////////
+
+		// cursor: to first
+
+		////////////////////////////////
+		c.moveToFirst();
+
+		////////////////////////////////
+
+		// Build list
+
+		////////////////////////////////
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+			
+		TI ti = new TI.Builder()
+
+				.setDb_Id(c.getLong(0))
+				.setCreated_at(c.getString(1))
+				.setModified_at(c.getString(2))
+				
+				.setFileId(c.getLong(3))
+				.setFile_path(c.getString(4))
+				.setFile_name(c.getString(5))
+				
+				.setDate_added(c.getString(6))
+				.setDate_modified(c.getString(7))
+				
+				.setMemo(c.getString(8))
+				.setTags(c.getString(9))
+				
+				.setLast_viewed_at(c.getString(10))
+				.setTable_name(c.getString(11))
+				.build();
+		
+		////////////////////////////////
+
+		// close
+
+		////////////////////////////////
+		rdb.close();
+		
+		return ti;
+		
+	}//get_TI_From_FileId
+
 }//public class DBUtils
 

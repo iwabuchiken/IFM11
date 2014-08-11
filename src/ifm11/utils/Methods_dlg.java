@@ -1,9 +1,11 @@
 package ifm11.utils;
 
+import ifm11.items.TI;
 import ifm11.listener.dialog.DB_OCL;
 import ifm11.listener.dialog.DB_OTL;
 import ifm11.listener.dialog.DOI_CL;
 import ifm11.main.R;
+import ifm11.utils.Tags.DialogTags;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -250,7 +252,7 @@ public class Methods_dlg {
 		
 		//
 //		btn_Cancel.setTag(Tags.DialogTags.dlg_generic_dismiss_second_dialog);
-		btn_Cancel.setTag(Tags.DialogTags.DLG_GENERIC_DISMISS_SECOND_DIALOG);
+		btn_Cancel.setTag(Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
 		
 		//
 		btn_Cancel.setOnTouchListener(new DB_OTL(actv, dlg2));
@@ -311,7 +313,7 @@ public class Methods_dlg {
 				R.string.generic_tv_confirm, 
 				
 				R.id.dlg_tmpl_toast_ok_bt_cancel, 
-				Tags.DialogTags.DLG_GENERIC_DISMISS_SECOND_DIALOG);
+				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
 		
 		TextView tv_Message = 
 				(TextView) dlg2.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
@@ -321,6 +323,105 @@ public class Methods_dlg {
 		dlg2.show();
 		
 	}
+
+	public static void 
+	dlg_addMemo
+	(Activity actv, long file_id) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get: dlg
+
+		////////////////////////////////
+		Dialog dlg = Methods_dlg.dlg_addMemo_1_get_dialog(actv, file_id);
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		dlg.show();
+		
+	}//dlg_addMemo
 	
+	public static Dialog 
+	dlg_addMemo_1_get_dialog
+	(Activity actv, long file_id) {
+		
+		// 
+		Dialog dlg = new Dialog(actv);
+		
+		//
+		dlg.setContentView(R.layout.dlg_add_memos);
+		
+		// Title
+		dlg.setTitle(R.string.dlg_add_memos_tv_title);
+		
+		/*----------------------------
+		 * 1-2. Set text to edit text
+			----------------------------*/
+		TI ti = DBUtils.get_TI_From_FileId(actv, file_id);
+		
+		// Log
+		String msg_Log = "ti.name => " + ti.getFile_name();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		EditText et = (EditText) dlg.findViewById(R.id.dlg_add_memos_et_content);
+		
+		if (ti.getMemo() != null) {
+			
+			et.setText(ti.getMemo());
+			
+			et.setSelection(ti.getMemo().length());
+			
+		} else {//if (ti.getMemo() != null)
+			
+			et.setSelection(0);
+			
+		}//if (ti.getMemo() != null)
+		
+		////////////////////////////////
+
+		// Add listeners: OnTouch
+
+		////////////////////////////////
+		
+		Button btn_add = (Button) dlg.findViewById(R.id.dlg_add_memos_bt_add);
+		Button btn_cancel = (Button) dlg.findViewById(R.id.dlg_add_memos_cancel);
+		
+		Button btn_patterns = (Button) dlg.findViewById(R.id.dlg_add_memos_bt_patterns);
+		
+		// Tags
+//		btn_add.setTag(DialogTags.dlg_add_memos_bt_add);
+		btn_add.setTag(DialogTags.DLG_ADD_MEMOS_BT_ADD);
+		btn_cancel.setTag(DialogTags.GENERIC_DISMISS);
+//		btn_cancel.setTag(DialogTags.dlg_generic_dismiss);
+		
+//		btn_patterns.setTag(DialogTags.dlg_add_memos_bt_patterns);
+		btn_patterns.setTag(DialogTags.DLG_ADD_MEMOS_BT_PATTERNS);
+		
+		//
+		btn_add.setOnTouchListener(new DB_OTL(actv, dlg));
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg));
+		
+		btn_patterns.setOnTouchListener(new DB_OTL(actv, dlg));
+		
+		////////////////////////////////
+
+		// Add listeners => OnClick
+
+		////////////////////////////////
+		btn_add.setOnClickListener(new DB_OCL(actv, dlg, file_id));
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg));
+		
+		btn_patterns.setOnClickListener(new DB_OCL(actv, dlg));
+
+		
+		return dlg;
+		
+	}//public static Dialog dlg_addMemo(Activity actv, long file_id, String tableName)
 
 }//public class Methods_dialog

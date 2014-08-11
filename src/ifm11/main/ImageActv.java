@@ -3,6 +3,7 @@ package ifm11.main;
 import ifm11.items.MyView;
 import ifm11.listener.button.ButtonOnClickListener;
 import ifm11.listener.button.ButtonOnTouchListener;
+import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
@@ -248,13 +249,14 @@ public class ImageActv extends Activity {
 		
 		switch (item.getItemId()) {
 		case R.id.image_actv_menu_add_memo://------------------------------------
-			
+
+			_case_AddMemo();
 			// Log
-			Log.d("ImageActivity.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", "file_id => " + file_id);
-			
-////			Methods.dlg_addMemo(this, file_id, Methods.convertPathIntoTableName(this));
+//			Log.d("ImageActivity.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "file_id => " + file_id);
+//			
+//////			Methods.dlg_addMemo(this, file_id, Methods.convertPathIntoTableName(this));
 //			Methods_dlg.dlg_addMemo(
 //							this, 
 //							file_id, 
@@ -281,6 +283,47 @@ public class ImageActv extends Activity {
 		return super.onOptionsItemSelected(item);
 		
 	}//public boolean onOptionsItemSelected(MenuItem item)
+
+	private void 
+	_case_AddMemo() {
+		// TODO Auto-generated method stub
+		Log.d("ImageActivity.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "file_id => " + file_id);
+
+		////////////////////////////////
+
+		// get: current path
+
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				this, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Can't get the current path";
+			Methods_dlg.dlg_ShowMessage(this, msg);
+			
+			return;
+			
+		}
+
+		////////////////////////////////
+
+		// add memo
+
+		////////////////////////////////
+		Methods_dlg.dlg_addMemo(
+						this, 
+						file_id);
+
+	}//_case_AddMemo()
 
 	@Override
 	protected void onPause() {

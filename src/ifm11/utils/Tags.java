@@ -4,8 +4,8 @@ public class Tags {
 
 	public static enum DialogTags {
 		// Generics
-		GENERIC_DISMISS, DLG_GENERIC_DISMISS_SECOND_DIALOG,
-		dlg_generic_dismiss_third_dialog,
+		GENERIC_DISMISS, GENERIC_DISMISS_SECOND_DIALOG,
+		GENERIC_DISMISS_THIRD_DIALOG,
 		
 		
 		// dlg_create_folder.xml
@@ -27,7 +27,7 @@ public class Tags {
 		dlg_confirm_drop_table_btn_ok, dlg_confirm_drop_table_btn_cancel,
 		
 		// dlg_add_memos.xml
-		dlg_add_memos_bt_add, dlg_add_memos_bt_cancel, dlg_add_memos_bt_patterns,
+		DLG_ADD_MEMOS_BT_ADD, dlg_add_memos_bt_cancel, DLG_ADD_MEMOS_BT_PATTERNS,
 		dlg_add_memos_gv,
 
 		// dlg_move_files.xml
