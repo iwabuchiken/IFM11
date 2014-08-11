@@ -3,6 +3,7 @@ package ifm11.adapters;
 import ifm11.items.TI;
 import ifm11.main.R;
 import ifm11.utils.CONS;
+import ifm11.utils.Methods;
 import ifm11.utils.Tags;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 
     	if (moveMode == null || moveMode == CONS.Enums.MoveMode.OFF) {
     		
-    		v = move_mode_off(v, position, convertView);
+    		v = move_ModeOff(v, position, convertView);
     		
     	} else {
 
@@ -246,7 +247,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 	}//private View move_mode_on()
 
 
-	private View move_mode_off(View v, int position, View convertView) {
+	private View move_ModeOff(View v, int position, View convertView) {
 		
 		/*----------------------------
 		 * 1. Set layout
@@ -334,13 +335,25 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	// Set bitmap
     	iv.setImageBitmap(bmp);
 
-    	/*----------------------------
-		 * 5. Get memo, or, file name
-		 * 		1. File name
-		 * 		2. Memo
-			----------------------------*/
-		tv.setText(ti.getFile_name());
+    	////////////////////////////////
 
+		// file name
+
+		////////////////////////////////
+		tv.setText(ti.getFile_name());
+		
+		String pref_FontSize = Methods.get_Pref_String(
+				(Activity)con, 
+				CONS.Pref.pname_MainActv, 
+				((Activity)con).getString(R.string.prefs_tnactv_list_font_size_key), 
+				null);
+		
+		if (pref_FontSize != null && !pref_FontSize.equals("")) {
+			
+			tv.setTextSize(Integer.parseInt(pref_FontSize));
+			
+		}
+		
 		/*----------------------------
 		 * 5.2. Memo
 			----------------------------*/

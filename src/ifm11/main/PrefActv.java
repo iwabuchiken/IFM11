@@ -3,6 +3,7 @@ package ifm11.main;
 import ifm11.utils.CONS;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
@@ -12,7 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class PrefActv extends PreferenceActivity {
+public class PrefActv extends PreferenceActivity 
+					implements OnSharedPreferenceChangeListener{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,9 +81,21 @@ public class PrefActv extends PreferenceActivity {
 ////		this.getString(R.string.prefs_history_size_key));
 //		
 //		prefEditText.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+		
+		_Setup_Listeners();
+		
 		super.onStart();
 		
 	}//protected void onStart()
+
+	private void _Setup_Listeners() {
+		// TODO Auto-generated method stub
+		
+		getPreferenceScreen().getSharedPreferences()
+    	.registerOnSharedPreferenceChangeListener(this);
+		
+	}
+
 
 	private void _Setup_FontSize() {
 		// TODO Auto-generated method stub
@@ -119,6 +133,15 @@ public class PrefActv extends PreferenceActivity {
 	protected void onDestroy() {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		super.onDestroy();
+	}
+
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
+		// TODO Auto-generated method stub
+		
+		_Setup_FontSize();
+		
 	}
 	
 }//public class PrefActv extends ListActivity
