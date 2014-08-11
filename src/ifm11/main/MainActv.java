@@ -71,12 +71,59 @@ public class MainActv extends ListActivity {
 
     private void do_debug() {
 		
+    	_do_debug__Show_DBList();
 //    	_do_debug__MillSec_to_TimeLabel();
 //    	_do_debug__Add_LastRefreshed();
 //    	_do_debug__Processing();
 
     	
 	}//private void do_debug()
+
+	private void 
+	_do_debug__Show_DBList() {
+		// TODO Auto-generated method stub
+		String dst = StringUtils.join(
+				new String[]{
+						//REF http://stackoverflow.com/questions/9810430/get-database-path answered Jan 23 at 11:24
+						this.getDatabasePath(CONS.DB.dbName).getPath()
+				},
+//						actv.getFilesDir().getPath() , 
+//						CONS.DB.dbName},
+				File.separator);
+
+		String tmp_str = Methods.get_Dirname(this, dst);
+
+		// Log
+		String msg_Log = "tmp_str => " + tmp_str;
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// file
+
+		////////////////////////////////
+		File dbDir = new File(tmp_str);
+		
+		String[] fnames = dbDir.list();
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		for (String name : fnames) {
+			
+			// Log
+			msg_Log = "name = " + name;
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+	}//_do_debug__Show_DBList
 
 	private void 
 	_do_debug__MillSec_to_TimeLabel() {

@@ -1653,6 +1653,8 @@ public class DBUtils extends SQLiteOpenHelper{
 			String msg = "No such table: " + tableName;
 			Methods_dlg.dlg_ShowMessage(actv, msg);
 			
+			rdb.close();
+			
 			return null;
 			
 		}

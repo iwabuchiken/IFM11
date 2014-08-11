@@ -131,16 +131,18 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f060000;
-        public static final int dlg_add_memos_bt_patterns=0x7f060026;
+        public static final int dlg_add_memos_bt_patterns=0x7f060028;
         /**  dlg_add_memos.xml 
          */
-        public static final int dlg_add_memos_tv_title=0x7f060025;
+        public static final int dlg_add_memos_tv_title=0x7f060027;
         public static final int dlg_db_admin_item_backup_db=0x7f060013;
         public static final int dlg_db_admin_item_create_table_ifm11=0x7f060016;
         public static final int dlg_db_admin_item_create_table_refresh_log=0x7f060018;
         public static final int dlg_db_admin_item_drop_table=0x7f06001a;
         public static final int dlg_db_admin_item_drop_table_ifm11=0x7f060015;
         public static final int dlg_db_admin_item_drop_table_refresh_log=0x7f060017;
+        public static final int dlg_db_admin_item_import_db_file=0x7f06001b;
+        public static final int dlg_db_admin_item_import_patterns=0x7f06001c;
         public static final int dlg_db_admin_item_refresh_db=0x7f060014;
         public static final int dlg_db_admin_item_restore_db=0x7f060019;
         /**  dlg_db_admin.xml 
@@ -159,8 +161,8 @@ public final class R {
         public static final int generic_tv_upload=0x7f060008;
         /**  image_actv_menu.xml 
          */
-        public static final int image_actv_menu_add_memo=0x7f060023;
-        public static final int image_actv_menu_add_patterns=0x7f060024;
+        public static final int image_actv_menu_add_memo=0x7f060025;
+        public static final int image_actv_menu_add_patterns=0x7f060026;
         /**  main_menu.xml 
          */
         public static final int main_opt_menu_create_folder=0x7f06000b;
@@ -170,18 +172,18 @@ public final class R {
         public static final int main_opt_menu_preferences=0x7f06000f;
         public static final int main_opt_menu_refresh_db=0x7f06000c;
         public static final int main_opt_menu_search=0x7f06000e;
-        public static final int prefs_tnactv_db_refresh_key=0x7f060020;
-        public static final int prefs_tnactv_db_refresh_summary=0x7f060021;
-        public static final int prefs_tnactv_db_refresh_titile=0x7f060022;
-        public static final int prefs_tnactv_list_font_size_key=0x7f06001f;
-        public static final int prefs_tnactv_list_font_size_summary=0x7f06001e;
+        public static final int prefs_tnactv_db_refresh_key=0x7f060022;
+        public static final int prefs_tnactv_db_refresh_summary=0x7f060023;
+        public static final int prefs_tnactv_db_refresh_titile=0x7f060024;
+        public static final int prefs_tnactv_list_font_size_key=0x7f060021;
+        public static final int prefs_tnactv_list_font_size_summary=0x7f060020;
         /**  preferences.xml 
          */
-        public static final int prefs_tnactv_list_font_size_title=0x7f06001d;
-        public static final int thumb_actv_menu_move_files=0x7f06001c;
+        public static final int prefs_tnactv_list_font_size_title=0x7f06001f;
+        public static final int thumb_actv_menu_move_files=0x7f06001e;
         /**  thumb_actv_menu.xml 
          */
-        public static final int thumb_actv_menu_move_mode=0x7f06001b;
+        public static final int thumb_actv_menu_move_mode=0x7f06001d;
         public static final int v1_tv_dir_path=0x7f06000a;
     }
     public static final class style {

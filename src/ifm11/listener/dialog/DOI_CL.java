@@ -174,6 +174,30 @@ public class DOI_CL implements OnItemClickListener {
 			
 			Methods.restore_DB(actv);
 			
+		////////////////////////////////
+		
+		// import: db
+		
+		////////////////////////////////
+		} else if (item.equals(actv.getString(		// Drop table: cm7
+				R.string.dlg_db_admin_item_import_db_file))) {
+			
+			Methods.import_DB(actv, dlg1);
+			
+			return;
+			
+//			Methods.restore_DB(actv);
+			
+		////////////////////////////////
+		
+		// import: patterns
+		
+		////////////////////////////////
+		} else if (item.equals(actv.getString(		// Drop table: cm7
+				R.string.dlg_db_admin_item_import_patterns))) {
+			
+//			Methods.restore_DB(actv);
+			
 		} else {
 
 		}

@@ -1665,6 +1665,180 @@ public class Methods {
 		
 	}//file_Exists
 
+	/******************************
+		@return
+			false => 1. No db file<br>
+	 ******************************/
+	
+	public static boolean 
+	import_DB
+	(Activity actv, Dialog dlg1) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// setup: src, dst
+
+		////////////////////////////////
+		// IFM10
+		String src_dir = CONS.DB.dPath_dbFile_backup_IFM10;
+//		String src_dir = CONS.DB.dPath_dbFile_backup;
+		
+		File f_dir = new File(src_dir);
+		
+		File[] src_dir_files = f_dir.listFiles();
+		
+		// If no files in the src dir, quit the method
+		if (src_dir_files.length < 1) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread()
+						.getStackTrace()[2].getLineNumber()
+					+ "]", "No files in the dir: " + src_dir);
+			
+			return false;
+			
+		}//if (src_dir_files.length == condition)
+		
+		// Latest file
+		File f_src_latest = src_dir_files[0];
+		
+		
+		for (File file : src_dir_files) {
+			
+			if (f_src_latest.lastModified() < file.lastModified()) {
+						
+				f_src_latest = file;
+				
+			}//if (variable == condition)
+			
+		}//for (File file : src_dir_files)
+		
+		// Show the path of the latest file
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "f_src_latest=" + f_src_latest.getAbsolutePath());
+		
+		////////////////////////////////
+
+		// Restore file
+
+		////////////////////////////////
+		String src = f_src_latest.getAbsolutePath();
+		
+		String dst = StringUtils.join(
+				new String[]{
+						//REF http://stackoverflow.com/questions/9810430/get-database-path answered Jan 23 at 11:24
+						actv.getDatabasePath(CONS.DB.dbName).getPath()
+				},
+//						actv.getFilesDir().getPath() , 
+//						CONS.DB.dbName},
+				File.separator);
+		
+		// Log
+		String msg_Log = "db path => " 
+					+ actv.getDatabasePath(CONS.DB.dbName).getPath();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// build: db file path (dst)
+
+		////////////////////////////////
+		String tmp_str = Methods.get_Dirname(actv, dst);
+		
+		String dst_New = StringUtils.join(
+					new String[]{
+							
+							tmp_str,
+							CONS.DB.dbName_IFM10
+							
+					}, 
+					File.separator);
+		
+		// Log
+		msg_Log = String.format(
+							"src = %s // dst = %s", 
+							src, dst_New);
+		
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// import (using restoration-related method)
+
+		////////////////////////////////
+		boolean res = Methods.restore_DB(
+							actv, 
+							CONS.DB.dbName, 
+							src, dst_New);
+		
+		// Log
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "res=" + res);
+		
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return res;
+
+//		return false;
+		
+	}//import_DB
+
+	public static String 
+	get_Dirname
+	(Activity actv, String target) {
+
+		String[] tokens = target.split(File.separator);
+	
+		////////////////////////////////
+		
+		// tokens => null
+		
+		////////////////////////////////
+		if (tokens == null) {
+			
+			// Log
+			String msg_Log = "tokens => null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return target;
+			
+		}
+		
+		////////////////////////////////
+
+		// tokens => 1
+
+		////////////////////////////////
+		if (tokens.length == 1) {
+			
+			return target;
+			
+		}
+		
+		////////////////////////////////
+
+		// tokens > 1
+
+		////////////////////////////////
+		String[] tokens_New = Arrays.copyOfRange(tokens, 0, tokens.length - 1);
+		
+		return StringUtils.join(tokens_New, File.separator);
+	
+	}//get_Dirname
 
 }//public class Methods
 

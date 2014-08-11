@@ -38,7 +38,9 @@ import android.widget.Toast;
 
 public class Methods_dlg {
 
-	public static void dlg_Db_Actv(Activity actv) {
+	public static void 
+	dlg_Db_Actv
+	(Activity actv) {
 		/****************************
 		 * 1. Dialog
 		 * 2. Prep => List
@@ -72,6 +74,9 @@ public class Methods_dlg {
 							R.string.dlg_db_admin_item_create_table_refresh_log),
 				
 				actv.getString(R.string.dlg_db_admin_item_restore_db),
+				
+				actv.getString(R.string.dlg_db_admin_item_import_db_file),
+				actv.getString(R.string.dlg_db_admin_item_import_patterns),
 				
 					};
 		
@@ -341,7 +346,7 @@ public class Methods_dlg {
 		// gridview
 
 		////////////////////////////////
-		dlg = dlg_addMemo_2_set_gridview(actv, dlg);
+		dlg = dlg_addMemo_Set_Gridview(actv, dlg);
 		
 		////////////////////////////////
 
@@ -439,7 +444,7 @@ public class Methods_dlg {
 	 ******************************/
 	
 	public static Dialog 
-	dlg_addMemo_2_set_gridview
+	dlg_addMemo_Set_Gridview
 	(Activity actv, Dialog dlg) {
 		////////////////////////////////
 

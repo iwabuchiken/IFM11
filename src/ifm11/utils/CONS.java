@@ -113,11 +113,15 @@ public class CONS {
 
 		////////////////////////////////
 		public static String dbName = "ifm11.db";
+		public static String dbName_IFM10 = "ifm10.db";
 		
 		public static String dPath_dbFile;
 //		public static String dPath_dbFile = "/data/data/cm7.main/databases";
 		
 		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
+		
+		public static String dPath_dbFile_backup_IFM10 = 
+										"/mnt/sdcard-ext/IFM10_backup";
 		
 //		public static String dPath_dbFile = 
 //							Methods.get_DirPath(new MainActv().getFilesDir().getPath());
