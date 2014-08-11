@@ -334,7 +334,14 @@ public class Methods_dlg {
 		// get: dlg
 
 		////////////////////////////////
-		Dialog dlg = Methods_dlg.dlg_addMemo_1_get_dialog(actv, file_id);
+		Dialog dlg = Methods_dlg.dlg_addMemo_GetDialog(actv, file_id);
+
+		////////////////////////////////
+
+		// gridview
+
+		////////////////////////////////
+		dlg = dlg_addMemo_2_set_gridview(actv, dlg);
 		
 		////////////////////////////////
 
@@ -346,7 +353,7 @@ public class Methods_dlg {
 	}//dlg_addMemo
 	
 	public static Dialog 
-	dlg_addMemo_1_get_dialog
+	dlg_addMemo_GetDialog
 	(Activity actv, long file_id) {
 		
 		// 
@@ -419,6 +426,242 @@ public class Methods_dlg {
 		
 		btn_patterns.setOnClickListener(new DB_OCL(actv, dlg));
 
+		
+		return dlg;
+		
+	}//public static Dialog dlg_addMemo(Activity actv, long file_id, String tableName)
+
+	/******************************
+		@return 
+		1. Cursor returned null => parameter dlg<br>
+		2. Cursor has no entry => parameter dlg<br>
+		
+	 ******************************/
+	
+	public static Dialog 
+	dlg_addMemo_2_set_gridview
+	(Activity actv, Dialog dlg) {
+		////////////////////////////////
+
+		// setup: db, view
+
+		////////////////////////////////
+		GridView gv = (GridView) dlg.findViewById(R.id.dlg_add_memos_gv);
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		////////////////////////////////
+
+		// Table exists?
+
+		////////////////////////////////
+		String tableName = CONS.DB.tname_MemoPatterns;
+		
+		boolean res = dbu.tableExists(rdb, tableName);
+		
+		if (res == true) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table exists: " + tableName);
+			
+			rdb.close();
+			
+//			return;
+			
+		} else {//if (res == false)
+			////////////////////////////////
+
+			// no table => creating one
+
+			////////////////////////////////
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exist: " + tableName);
+			
+			rdb.close();
+			
+			SQLiteDatabase wdb = dbu.getWritableDatabase();
+			
+			res = dbu.createTable(
+							wdb, 
+							tableName, 
+							CONS.DB.col_names_MemoPatterns, 
+							CONS.DB.col_types_MemoPatterns);
+			
+			if (res == true) {
+				// Log
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "Table created: " + tableName);
+				
+				wdb.close();
+				
+			} else {//if (res == true)
+				// Log
+//				Log.d("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "Create table failed: " + tableName);
+				
+				String msg = "Create table failed: " + tableName;
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				
+				wdb.close();
+				
+				return dlg;
+				
+			}//if (res == true)
+
+			
+		}//if (res == false)
+		
+		
+		////////////////////////////////
+
+		// Get cursor
+
+		////////////////////////////////
+		rdb = dbu.getReadableDatabase();
+		
+//		String sql = "SELECT * FROM " + tableName + " ORDER BY word ASC";
+//		
+//		Cursor c = rdb.rawQuery(sql, null);
+//		
+//		actv.startManagingCursor(c);
+		
+		// "word"
+		String orderBy = CONS.DB.col_names_MemoPatterns_full[3] + " ASC"; 
+		
+		Cursor c = rdb.query(
+						CONS.DB.tname_MemoPatterns,
+						CONS.DB.col_names_MemoPatterns_full,
+		//				CONS.DB.col_types_refresh_log_full,
+						null, null,		// selection, args 
+						null, 			// group by
+						null, 		// having
+						orderBy);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+	
+			// Log
+			String msg_Log = "query => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			rdb.close();
+			
+			return dlg;
+			
+		}
+		
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+	
+			// Log
+			String msg_Log = "entry => < 1";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			rdb.close();
+			
+			return dlg;
+			
+		}
+
+		////////////////////////////////
+
+		// cursor: move to first
+
+		////////////////////////////////
+		c.moveToFirst();
+		
+		////////////////////////////////
+
+		// Get list
+
+		////////////////////////////////
+		List<String> patternList = new ArrayList<String>();
+		
+		if (c.getCount() > 0) {
+			
+			for (int i = 0; i < c.getCount(); i++) {
+				
+				patternList.add(c.getString(3));	// 3 => "word"
+//				patternList.add(c.getString(1));
+				
+				c.moveToNext();
+				
+			}//for (int i = 0; i < patternList.size(); i++)
+			
+		} else {//if (c.getCount() > 0)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "!c.getCount() > 0");
+			
+		}//if (c.getCount() > 0)
+		
+		
+		Collections.sort(patternList);
+
+		////////////////////////////////
+
+		// Adapter
+
+		////////////////////////////////
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+										actv,
+										R.layout.add_memo_grid_view,
+										patternList
+										);
+		
+		gv.setAdapter(adapter);
+		
+//		/*----------------------------
+//		 * 4.6. Set listener
+//			----------------------------*/
+////		gv.setTag(DialogTags.dlg_add_memos_gv);
+//		gv.setTag(Tags.DialogItemTags.dlg_add_memos_gv);
+//		
+//		gv.setOnItemClickListener(new DialogOnItemClickListener(actv, dlg));
+//		
+//		
+//		// Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "GridView setup => Done");
+		
+		/*----------------------------
+		 * 8. Close db
+			----------------------------*/
+		rdb.close();
+		
+
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		// Log
+		String msg_Log = "gridview => set";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 		return dlg;
 		

@@ -112,16 +112,17 @@ public final class R {
     }
     public static final class layout {
         public static final int actv_main=0x7f030000;
-        public static final int dlg_add_memos=0x7f030001;
-        public static final int dlg_tmpl_confirm_simple=0x7f030002;
-        public static final int dlg_tmpl_list_cancel=0x7f030003;
-        public static final int dlg_tmpl_toast_ok=0x7f030004;
-        public static final int image_activity_for_myview=0x7f030005;
-        public static final int list_row=0x7f030006;
-        public static final int list_row_checked_box=0x7f030007;
-        public static final int list_row_simple_1=0x7f030008;
-        public static final int main_pref=0x7f030009;
-        public static final int thumb_activity=0x7f03000a;
+        public static final int add_memo_grid_view=0x7f030001;
+        public static final int dlg_add_memos=0x7f030002;
+        public static final int dlg_tmpl_confirm_simple=0x7f030003;
+        public static final int dlg_tmpl_list_cancel=0x7f030004;
+        public static final int dlg_tmpl_toast_ok=0x7f030005;
+        public static final int image_activity_for_myview=0x7f030006;
+        public static final int list_row=0x7f030007;
+        public static final int list_row_checked_box=0x7f030008;
+        public static final int list_row_simple_1=0x7f030009;
+        public static final int main_pref=0x7f03000a;
+        public static final int thumb_activity=0x7f03000b;
     }
     public static final class menu {
         public static final int image_actv_menu=0x7f080000;
