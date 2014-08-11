@@ -345,6 +345,14 @@ public class CONS {
 		
 	}
 	
+	public static class IMageActv {
+		
+		public static ArrayAdapter<String> adp_ImageActv_GridView = null;
+		
+		public static List<String> patternList = null;
+		
+	}
+	
 	public static class Admin {
 		
 		public static final float DLG_WIDTH_RATIO = 0.8f;

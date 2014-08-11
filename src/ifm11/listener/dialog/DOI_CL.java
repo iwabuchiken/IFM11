@@ -85,7 +85,7 @@ public class DOI_CL implements OnItemClickListener {
 
 //		case dlg_bmactv_list_long_click://----------------------------------------------
 			
-		case dlg_add_memos_gv://----------------------------------------------
+		case DLG_ADD_MEMOS_GV://----------------------------------------------
 			
 			String word = (String) parent.getItemAtPosition(position);
 			
@@ -166,6 +166,26 @@ public class DOI_CL implements OnItemClickListener {
 			
 		////////////////////////////////
 		
+		// create/drop: memo_patterns
+		
+		////////////////////////////////
+		} else if (item.equals(actv.getString(		// Create table: cm7
+				R.string.dlg_db_admin_item_create_table_memo_patterns))) {
+			
+			_case_Dlg_Db_Admin_lv__CreateTable(actv, CONS.DB.tname_MemoPatterns);
+//			Methods.create_Table(actv, CONS.DB.tname_CM7);
+			
+		} else if (item.equals(actv.getString(		// Drop table: cm7
+				R.string.dlg_db_admin_item_drop_table_memo_patterns))) {
+			
+//			Methods_dlg.conf_DropTable(actv, dlg1, CONS.DB.tname_IFM11);
+			
+			_case_Dlg_Db_Admin_lv__DropTable(actv, CONS.DB.tname_MemoPatterns);
+			
+			return;
+			
+		////////////////////////////////
+		
 		// restore
 		
 		////////////////////////////////
@@ -196,7 +216,9 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_import_patterns))) {
 			
-//			Methods.restore_DB(actv);
+			Methods.import_Patterns(actv, dlg1);
+			
+			return;
 			
 		} else {
 
@@ -267,6 +289,13 @@ public class DOI_CL implements OnItemClickListener {
 					tableName, 
 					CONS.DB.col_names_refresh_log, 
 					CONS.DB.col_types_refresh_log);
+			
+		} else if (tableName.equals(CONS.DB.tname_MemoPatterns)) {
+			
+			res = dbu.createTable(actv, 
+					tableName, 
+					CONS.DB.col_names_MemoPatterns, 
+					CONS.DB.col_types_MemoPatterns);
 			
 		} else {
 			

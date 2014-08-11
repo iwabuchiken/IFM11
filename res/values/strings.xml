@@ -39,6 +39,11 @@
    		<string name="dlg_db_admin_item_create_table_refresh_log">
    		    							Create table: refresh_log</string>
    		    							
+   		<string name="dlg_db_admin_item_drop_table_memo_patterns">
+   		    							Drop table: memo_patterns</string>
+   		<string name="dlg_db_admin_item_create_table_memo_patterns">
+   		    							Create table: memo_patterns</string>
+   		    							
    		<string name="dlg_db_admin_item_restore_db">
    		    							Restore DB</string>
    		

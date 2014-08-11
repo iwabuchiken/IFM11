@@ -1786,6 +1786,13 @@ public class Methods {
 		
 		////////////////////////////////
 
+		// dismiss: dlg
+
+		////////////////////////////////
+		dlg1.dismiss();
+		
+		////////////////////////////////
+
 		// return
 
 		////////////////////////////////
@@ -1839,6 +1846,250 @@ public class Methods {
 		return StringUtils.join(tokens_New, File.separator);
 	
 	}//get_Dirname
+
+	public static void 
+	import_Patterns
+	(Activity actv, Dialog dlg1) {
+		// TODO Auto-generated method stub
+	
+		////////////////////////////////
+
+		// get: patterns list
+
+		////////////////////////////////
+		List<String> patterns_List = _import_Patterns__Get_PatternsList(actv);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		// Log
+		if (patterns_List == null) {
+			
+			// Log
+			String msg_Log = "patterns_List => null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}
+		
+		String msg_Log = "patterns_List => " + patterns_List.size();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// insert patterns
+
+		////////////////////////////////
+		int res = Methods._import_Patterns__SavePatterns(actv, patterns_List);
+		
+		// Log
+		msg_Log = "save pattern: res => " + res;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// dismiss
+
+		////////////////////////////////
+		if (res == -1) {
+			
+			String msg = "Couldn't import patterns";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+		} else if (res == 0) {
+			
+			String msg = "No patterns saved";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			dlg1.dismiss();
+			
+		} else if (res > 0) {
+			
+			String msg = "Patterns saved => " + res;
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.green4);
+			
+			dlg1.dismiss();
+			
+		} else {
+			
+			String msg = "Unknown result => " + res;
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.yello);
+			
+			dlg1.dismiss();
+			
+		}
+		
+	}//import_Patterns
+
+	private static int 
+	_import_Patterns__SavePatterns
+	(Activity actv, List<String> patterns_List) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// insert
+
+		////////////////////////////////
+		boolean res;
+		
+		int counter = DBUtils.insert_Data_Patterns(actv, patterns_List);
+			
+		return counter;
+		
+	}//_import_Patterns__SavePatterns
+
+	/******************************
+		@return null => 1. No such table<br>
+						2. Cursor => null<br>
+						3. Cursor < 1 <br>
+	 ******************************/
+	private static List<String> 
+	_import_Patterns__Get_PatternsList
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// db
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName_IFM10);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		////////////////////////////////
+
+		// Table exists?
+
+		////////////////////////////////
+		String tableName = CONS.DB.tname_MemoPatterns;
+		
+		boolean res = dbu.tableExists(rdb, tableName);
+		
+		if (res == true) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table exists: " + tableName);
+			
+		} else {//if (res == false)
+			////////////////////////////////
+
+			// no table => return
+
+			////////////////////////////////
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Table doesn't exist: " + tableName);
+			
+			String msg = "Table doesn't exist: " + tableName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (res == false)
+		
+		
+		////////////////////////////////
+
+		// Get cursor
+
+		////////////////////////////////
+		// "_id"
+		String orderBy = CONS.DB.col_names_MemoPatterns[0] + " ASC"; 
+		
+		Cursor c = rdb.query(
+						CONS.DB.tname_MemoPatterns,
+						CONS.DB.col_names_MemoPatterns,
+		//				CONS.DB.col_types_refresh_log_full,
+						null, null,		// selection, args 
+						null, 			// group by
+						null, 		// having
+						orderBy);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+	
+			String msg = "query => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+		
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+
+			String msg = "entry => < 1";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+
+		////////////////////////////////
+
+		// cursor: move to first
+
+		////////////////////////////////
+		c.moveToFirst();
+		
+		////////////////////////////////
+
+		// Get list
+
+		////////////////////////////////
+		List<String> patternList = new ArrayList<String>();
+		
+		if (c.getCount() > 0) {
+			
+			for (int i = 0; i < c.getCount(); i++) {
+				
+				patternList.add(c.getString(0));	// 0 => "word"
+				
+				c.moveToNext();
+				
+			}//for (int i = 0; i < patternList.size(); i++)
+			
+		} else {//if (c.getCount() > 0)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "!c.getCount() > 0");
+			
+		}//if (c.getCount() > 0)
+		
+		
+		Collections.sort(patternList);
+
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return patternList;
+		
+	}//_import_Patterns__Get_PatternsList
 
 }//public class Methods
 

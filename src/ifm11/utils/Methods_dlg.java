@@ -73,6 +73,11 @@ public class Methods_dlg {
 				actv.getString(
 							R.string.dlg_db_admin_item_create_table_refresh_log),
 				
+				actv.getString(
+						R.string.dlg_db_admin_item_create_table_memo_patterns),
+				actv.getString(
+						R.string.dlg_db_admin_item_drop_table_memo_patterns),
+											
 				actv.getString(R.string.dlg_db_admin_item_restore_db),
 				
 				actv.getString(R.string.dlg_db_admin_item_import_db_file),
@@ -307,6 +312,33 @@ public class Methods_dlg {
 		dlg.show();
 		
 	}
+	
+	public static void
+	dlg_ShowMessage
+	(Activity actv, String message, int colorId) {
+		
+		Dialog dlg = Methods_dlg.dlg_Template_Cancel(
+				actv, R.layout.dlg_tmpl_toast_ok, 
+				R.string.generic_tv_confirm, 
+				R.id.dlg_tmpl_toast_ok_bt_cancel, 
+//				R.id.dlg_db_admin_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS);
+		
+		TextView tv_Message = 
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+		
+		tv_Message.setText(message);
+		
+		////////////////////////////////
+
+		// background
+
+		////////////////////////////////
+		tv_Message.setBackgroundColor(actv.getResources().getColor(colorId));
+		
+		dlg.show();
+		
+	}//dlg_ShowMessage
 
 	public static void
 	dlg_ShowMessage_SecondDialog
@@ -339,14 +371,30 @@ public class Methods_dlg {
 		// get: dlg
 
 		////////////////////////////////
-		Dialog dlg = Methods_dlg.dlg_addMemo_GetDialog(actv, file_id);
+		Dialog dlg = Methods_dlg._dlg_addMemo_GetDialog(actv, file_id);
 
 		////////////////////////////////
 
 		// gridview
 
 		////////////////////////////////
-		dlg = dlg_addMemo_Set_Gridview(actv, dlg);
+		dlg = _dlg_addMemo_Set_Gridview(actv, dlg);
+
+		//test
+		GridView gv = (GridView) dlg.findViewById(R.id.dlg_add_memos_gv);
+		
+		// Log
+		String msg_Log = "gv.getChildCount() => " + gv.getChildCount();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		// Log
+		msg_Log = "CONS.IMageActv.patternList.size() => "
+							+ CONS.IMageActv.patternList.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 		////////////////////////////////
 
@@ -358,7 +406,7 @@ public class Methods_dlg {
 	}//dlg_addMemo
 	
 	public static Dialog 
-	dlg_addMemo_GetDialog
+	_dlg_addMemo_GetDialog
 	(Activity actv, long file_id) {
 		
 		// 
@@ -442,9 +490,8 @@ public class Methods_dlg {
 		2. Cursor has no entry => parameter dlg<br>
 		
 	 ******************************/
-	
 	public static Dialog 
-	dlg_addMemo_Set_Gridview
+	_dlg_addMemo_Set_Gridview
 	(Activity actv, Dialog dlg) {
 		////////////////////////////////
 
@@ -599,13 +646,15 @@ public class Methods_dlg {
 		// Get list
 
 		////////////////////////////////
-		List<String> patternList = new ArrayList<String>();
+		CONS.IMageActv.patternList = new ArrayList<String>();
+//		List<String> patternList = new ArrayList<String>();
 		
 		if (c.getCount() > 0) {
 			
 			for (int i = 0; i < c.getCount(); i++) {
 				
-				patternList.add(c.getString(3));	// 3 => "word"
+				CONS.IMageActv.patternList.add(c.getString(3));	// 3 => "word"
+//				patternList.add(c.getString(3));	// 3 => "word"
 //				patternList.add(c.getString(1));
 				
 				c.moveToNext();
@@ -622,27 +671,49 @@ public class Methods_dlg {
 		}//if (c.getCount() > 0)
 		
 		
-		Collections.sort(patternList);
+		Collections.sort(CONS.IMageActv.patternList);
+//		Collections.sort(patternList);
+
+		// Log
+		String msg_Log = "CONS.IMageActv.patternList.size() => " 
+						+ CONS.IMageActv.patternList.size();
+//		String msg_Log = "patternList => " + patternList.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 
 		////////////////////////////////
 
 		// Adapter
 
 		////////////////////////////////
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+		CONS.IMageActv.adp_ImageActv_GridView = new ArrayAdapter<String>(
 										actv,
 										R.layout.add_memo_grid_view,
-										patternList
+										CONS.IMageActv.patternList
+//										patternList
 										);
 		
-		gv.setAdapter(adapter);
+		gv.setAdapter(CONS.IMageActv.adp_ImageActv_GridView);
+//		gv.setAdapter(adapter);
+
+		// Log
+		msg_Log = "adapter.getCount() => " 
+					+ CONS.IMageActv.adp_ImageActv_GridView.getCount();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
-//		/*----------------------------
-//		 * 4.6. Set listener
-//			----------------------------*/
+		////////////////////////////////
+
+		// Set listener
+
+		////////////////////////////////
 ////		gv.setTag(DialogTags.dlg_add_memos_gv);
-//		gv.setTag(Tags.DialogItemTags.dlg_add_memos_gv);
+		gv.setTag(Tags.DialogItemTags.DLG_ADD_MEMOS_GV);
 //		
+		gv.setOnItemClickListener(new DOI_CL(actv, dlg));
 //		gv.setOnItemClickListener(new DialogOnItemClickListener(actv, dlg));
 //		
 //		
@@ -663,7 +734,20 @@ public class Methods_dlg {
 
 		////////////////////////////////
 		// Log
-		String msg_Log = "gridview => set";
+		msg_Log = "gridview => set";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// Log
+		msg_Log = "patternList => " + CONS.IMageActv.patternList.size();
+//		msg_Log = "patternList => " + patternList.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		// Log
+		msg_Log = "gv.getChildCount() => " + gv.getChildCount();
 		Log.d("Methods_dlg.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
