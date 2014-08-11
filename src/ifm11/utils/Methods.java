@@ -453,7 +453,7 @@ public class Methods {
 		}
 	
 	}//set_Pref_Int
-
+	
 	public static boolean
 	restore_DB(Activity actv) {
     	
@@ -1652,6 +1652,18 @@ public class Methods {
 		actv.startActivity(i);
 
 	}//start_Activity_PrefActv
+
+	
+	public static boolean 
+	file_Exists
+	(Activity actv, String fpath) {
+		// TODO Auto-generated method stub
+		
+		File f = new File(fpath);
+		
+		return f.exists();
+		
+	}//file_Exists
 
 }//public class Methods
 

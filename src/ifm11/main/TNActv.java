@@ -8,10 +8,13 @@ import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -426,7 +429,9 @@ public class TNActv extends ListActivity {
 	}//public void onBackPressed()
 
 	@Override
-	protected void onListItemClick(ListView lv, View v, int position, long id) {
+	protected void 
+	onListItemClick
+	(ListView lv, View v, int position, long id) {
 		/*----------------------------
 		 * Steps
 		 * 0. Vibrate
@@ -449,7 +454,77 @@ public class TNActv extends ListActivity {
 		
 		super.onListItemClick(lv, v, position, id);
 		
-	}//protected void onListItemClick(ListView lv, View v, int position, long id)
+		////////////////////////////////
+
+		// get: item
+
+		////////////////////////////////
+		TI ti = (TI) lv.getItemAtPosition(position);
+		
+		////////////////////////////////
+
+		// set: pref: position
+
+		////////////////////////////////
+		boolean res = Methods.set_Pref_Int(
+							this, 
+							CONS.Pref.pname_MainActv, 
+							CONS.Pref.pkey_CurrentPosition_TNActv, 
+							position);
+		
+		// Log
+		String msg_Log = "set pref: current position => " + res;
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// Notify
+		CONS.TNActv.adp_TNActv_Main.notifyDataSetChanged();
+		
+		////////////////////////////////
+
+		// validate: file exists
+
+		////////////////////////////////
+		String fpath = StringUtils.join(
+				new String[]{
+						
+						ti.getFile_path(),
+						ti.getFile_name()
+				}, 
+				File.separator);
+		
+		res = Methods.file_Exists(this, fpath);
+		
+		if (res == false) {
+			
+			String msg = "File doesn't exist => " + fpath;
+			Methods_dlg.dlg_ShowMessage(this, msg);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// Setup: intent
+
+		////////////////////////////////
+		Intent i = new Intent();
+		
+		i.setClass(this, ImageActv.class);
+		
+		
+		i.putExtra("file_id", ti.getFileId());
+		i.putExtra("file_path", fpath);
+//		i.putExtra("file_path", ti.getFile_path());
+		i.putExtra("file_name", ti.getFile_name());
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+		startActivity(i);
+		
+	}//onListItemClick
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

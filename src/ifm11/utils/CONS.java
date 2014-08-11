@@ -253,6 +253,8 @@ public class CONS {
 		////////////////////////////////
 		public static long dflt_LongExtra_value = -1;
 		
+		public static int dflt_IntExtra_value = -1;
+		
 		////////////////////////////////
 
 		// MainActv.java

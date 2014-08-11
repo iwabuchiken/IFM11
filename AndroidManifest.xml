@@ -18,15 +18,16 @@
         
         <activity
             android:name=".MainActv"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TNActv"></activity>
-        <activity android:name=".PrefActv" android:theme="@style/PrefTheme"></activity>
+        <activity android:name=".TNActv" android:screenOrientation="portrait"></activity>
+        <activity android:name=".PrefActv" android:theme="@style/PrefTheme" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ImageActv" android:screenOrientation="portrait"></activity>
         
     </application>
 

@@ -15,6 +15,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -168,7 +169,20 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	// Bitmap
     	Bitmap bmp = 
 				MediaStore.Images.Thumbnails.getThumbnail(
-							cr, ti.getFileId(), MediaStore.Images.Thumbnails.MICRO_KIND, null);
+							cr, 
+							ti.getFileId(), 
+							MediaStore.Images.Thumbnails.MICRO_KIND, 
+							null);
+    	
+    	/******************************
+			validate: null
+		 ******************************/
+		if (bmp == null) {
+			
+			//REF http://stackoverflow.com/questions/3035692/how-to-convert-a-drawable-to-a-bitmap answered Jun 14 '10 at 8:32
+			bmp = BitmapFactory.decodeResource(con.getResources(), R.drawable.ic_launcher);
+			
+		}
     	
     	// Set bitmap
     	iv.setImageBitmap(bmp);
@@ -290,31 +304,30 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			----------------------------*/
     	TI ti = (TI) getItem(position);
 
-    	/*********************************
-		 * 3-2. Set background
-		 *********************************/
-//		SharedPreferences prefs = ((Activity) con)
-//						.getSharedPreferences(
-//							MainActv.prefName_tnActv,
-//							con.MODE_PRIVATE);
-//
-//		int savedPosition = prefs.getInt(
-//							MainActv.prefName_tnActv_current_image_position,
-//							-1);
-//		
-//		if (savedPosition == position) {
-//			
-//			tv.setBackgroundResource(R.color.gold2);
-//			tv.setTextColor(Color.BLACK);
-//			
-//		} else if (savedPosition == -1) {//if (savedPosition == position)
-//			
-//		} else {//if (savedPosition == position)
-//			
-//			tv.setBackgroundColor(Color.BLACK);
-//			tv.setTextColor(Color.WHITE);
-//			
-//		}//if (savedPosition == position)
+    	////////////////////////////////
+
+		// Set background
+
+		////////////////////////////////
+		int savedPosition = Methods.get_Pref_Int(
+								(Activity)con, 
+								CONS.Pref.pname_MainActv, 
+								CONS.Pref.pkey_CurrentPosition_TNActv, 
+								CONS.Pref.dflt_IntExtra_value);
+		
+		if (savedPosition == position) {
+			
+			tv.setBackgroundResource(R.color.gold2);
+			tv.setTextColor(Color.BLACK);
+			
+		} else if (savedPosition == -1) {//if (savedPosition == position)
+			
+		} else {//if (savedPosition == position)
+			
+			tv.setBackgroundColor(Color.BLACK);
+			tv.setTextColor(Color.WHITE);
+			
+		}//if (savedPosition == position)
 
     	
     	
