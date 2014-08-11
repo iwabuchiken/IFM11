@@ -37,45 +37,6 @@ import android.widget.Toast;
 
 public class TNActv extends ListActivity {
 
-	public static Vibrator vib;
-
-	public static List<TI> tiList;
-
-	public static Adp_TIList aAdapter;
-	public static Adp_TIList bAdapter;
-
-	public static boolean move_mode = false;
-
-	/*********************************
-	 * Special intent data
-	 *********************************/
-	public static long[] long_searchedItems; //=> Used in initial_setup()
-	
-	public static long[] history_file_ids = null;
-	
-	public static String[] history_table_names = null;
-	
-	public static String[] string_searchedItems_table_names = null;
-	
-	/*********************************
-	 * List-related
-	 *********************************/
-	public static ArrayList<Integer> checkedPositions;
-
-	public static List<String> fileNameList;
-	
-	public static ArrayAdapter<String> dirListAdapter;
-	
-	/*----------------------------
-	 * Preference names
-		----------------------------*/
-	public static String tnactv_selected_item = "tnactv_selected_item";
-
-	/*********************************
-	 * Views
-	 *********************************/
-	public static ListView lv_main;
-	
 	/****************************************
 	 * Methods
 	 ****************************************/
@@ -144,16 +105,16 @@ public class TNActv extends ListActivity {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		super.onResume();
 		
-		// Log
-		Log.d("TNActv.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", "onResume()");
-
-		if (TNActv.aAdapter != null) {
-					
-			TNActv.aAdapter.notifyDataSetChanged();
-			
-		}
+//		// Log
+//		Log.d("TNActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "onResume()");
+//
+//		if (TNActv.aAdapter != null) {
+//					
+//			TNActv.aAdapter.notifyDataSetChanged();
+//			
+//		}
 //		TNActv.aAdapter.notifyDataSetChanged();
 
 //		/*********************************
@@ -210,7 +171,17 @@ public class TNActv extends ListActivity {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onStart()");
 		
-		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+		////////////////////////////////
+
+		// vib
+
+		////////////////////////////////
+		if (CONS.Admin.vib == null) {
+			
+			CONS.Admin.vib = 
+					(Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+			
+		}
 		
 		////////////////////////////////
 
@@ -239,12 +210,63 @@ public class TNActv extends ListActivity {
 		////////////////////////////////
 		_Setup_Adapter();
 		
-		/*----------------------------
-		 * 5. Initialize vars
-			----------------------------*/
-		checkedPositions = new ArrayList<Integer>();
+		////////////////////////////////
+
+		// set: selection
+
+		////////////////////////////////
+		_Setup_SetSelection();
+		
+//		/*----------------------------
+//		 * 5. Initialize vars
+//			----------------------------*/
+//		checkedPositions = new ArrayList<Integer>();
 
 	}//protected void onStart()
+
+	private void 
+	_Setup_SetSelection() {
+		// TODO Auto-generated method stub
+		
+		int target_Position;
+		
+		// If the current is larger than the previous,
+		//	i.e. the position is increasing
+		//	i.e. the list is scrolling downward
+		//	=> modify the target
+		if (CONS.TNActv.list_Pos_Current
+				> CONS.TNActv.list_Pos_Prev) {
+			
+			target_Position = CONS.TNActv.list_Pos_Current - 5;
+			
+		} else {
+			
+			// If the current is smaller than the previous,
+			//	i.e. the position is decreasing
+			//	=> set the target with the current
+			target_Position = CONS.TNActv.list_Pos_Current;
+
+		}
+		
+		// Log
+		String msg_Log = "CONS.TNActv.list_Pos_Current = "
+						+ CONS.TNActv.list_Pos_Current
+						+ " // "
+						+ "CONS.TNActv.list_Pos_Prev = "
+						+ CONS.TNActv.list_Pos_Prev
+						+ " // "
+						+ "target_Position = "
+						+ target_Position
+						;
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		//REF http://stackoverflow.com/questions/7561353/programmatically-scroll-to-a-specific-position-in-an-android-listview answered Sep 26 '11 at 21:39
+		this.getListView().setSelection(target_Position);
+		
+	}//_Setup_SetSelection()
+
 
 	private void do_debug() {
 		// TODO Auto-generated method stub
@@ -293,7 +315,7 @@ public class TNActv extends ListActivity {
 		
 		////////////////////////////////
 		this.setListAdapter(CONS.TNActv.adp_TNActv_Main);
-	
+		
 	}
 
 
@@ -449,7 +471,7 @@ public class TNActv extends ListActivity {
 		/*----------------------------
 		 * 0. Vibrate
 			----------------------------*/
-		vib.vibrate(CONS.Admin.vibLength_click);
+		CONS.Admin.vib.vibrate(CONS.Admin.vibLength_click);
 		
 		
 		super.onListItemClick(lv, v, position, id);
@@ -551,37 +573,37 @@ public class TNActv extends ListActivity {
 		
 		case R.id.thumb_actv_menu_move_files:	//------------------------------------------
 			
-			if (move_mode == false) {
-				
-				// debug
-				Toast.makeText(this, "Move mode is not on", 2000)
-						.show();
-				
-				return false;
-				
-			} else if (move_mode == true) {
-				/*----------------------------
-				 * Steps
-				 * 1. checkedPositions => Has contents?
-				 * 2. If yes, show dialog
-					----------------------------*/
-				if (checkedPositions.size() < 1) {
-					
-					// debug
-					Toast.makeText(TNActv.this, "No item selected", 2000).show();
-					
-					return false;
-					
-				}//if (checkedPositions.size() < 1)
-				
-				
-				/*----------------------------
-				 * 2. If yes, show dialog
-					----------------------------*/
-//				Methods_dlg.dlg_ChooseMoveMode(this);
-//				Methods_dlg.dlg_moveFiles(this);
-				
-			}//if (move_mode == false)
+//			if (move_mode == false) {
+//				
+//				// debug
+//				Toast.makeText(this, "Move mode is not on", 2000)
+//						.show();
+//				
+//				return false;
+//				
+//			} else if (move_mode == true) {
+//				/*----------------------------
+//				 * Steps
+//				 * 1. checkedPositions => Has contents?
+//				 * 2. If yes, show dialog
+//					----------------------------*/
+//				if (checkedPositions.size() < 1) {
+//					
+//					// debug
+//					Toast.makeText(TNActv.this, "No item selected", 2000).show();
+//					
+//					return false;
+//					
+//				}//if (checkedPositions.size() < 1)
+//				
+//				
+//				/*----------------------------
+//				 * 2. If yes, show dialog
+//					----------------------------*/
+////				Methods_dlg.dlg_ChooseMoveMode(this);
+////				Methods_dlg.dlg_moveFiles(this);
+//				
+//			}//if (move_mode == false)
 			
 			break;// case R.id.thumb_actv_menu_move_files
 			

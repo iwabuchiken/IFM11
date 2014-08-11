@@ -93,6 +93,15 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 		 * 4. Get bitmap
 		 * 5. Get memo, or, file name
 			----------------------------*/
+    	////////////////////////////////
+
+		// setup: positions
+
+		////////////////////////////////
+		CONS.TNActv.list_Pos_Prev = CONS.TNActv.list_Pos_Current;
+		
+		CONS.TNActv.list_Pos_Current = position;
+    	
     	/*----------------------------
 		 * 0. View
 			----------------------------*/

@@ -298,6 +298,9 @@ public class CONS {
 		
 		public static Adp_TIList adp_TNActv_Main;
 		
+		public static int list_Pos_Current = -1;
+		public static int list_Pos_Prev = -1;
+		
 	}
 	
 	public static class Admin {
