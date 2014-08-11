@@ -1,6 +1,8 @@
 package ifm11.utils;
 
 import ifm11.adapters.Adp_MainList;
+import ifm11.adapters.Adp_TIList;
+import ifm11.items.TI;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,11 +30,11 @@ public class CONS {
 	// Table => show_history
 //	public static String tname_show_history = "show_history";
 	
-	public static enum MoveMode {
-		// TIListAdapter.java
-		ON, OFF,
-		
-	}//public static enum MoveMode
+//	public static enum MoveMode {
+//		// TIListAdapter.java
+//		ON, OFF,
+//		
+//	}//public static enum MoveMode
 
 	public static class Intent {
 		
@@ -303,6 +305,14 @@ public class CONS {
 		
 	}
 
+	public static class TNActv {
+		
+		public static List<TI> list_TNActv_Main = null;
+		
+		public static Adp_TIList adp_TNActv_Main;
+		
+	}
+	
 	public static class Admin {
 		
 		public static final float DLG_WIDTH_RATIO = 0.8f;
@@ -369,19 +379,28 @@ public class CONS {
 		
 	}
 
-	public static class Enums {
+	public static class 
+	Enums {
 		
 		public static enum SortType {
 			
-			FileName, POSITION,
+			FileName, POSITION, CREATED_AT,
 			
 		}
 
 		// Sort order
 		public static enum SortOrder {
+			
 				ASC, DEC,
-				CREATED_AT,
+				
 		};
 
-	}
+		public static enum MoveMode {
+			// TIListAdapter.java
+			ON, OFF,
+			
+		}//public static enum MoveMode
+
+	}//Enums
+	
 }//public class CONS

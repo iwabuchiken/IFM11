@@ -1,13 +1,15 @@
 package ifm11.items;
 
-
 public class TI {
 	/*----------------------------
 	 * Class fields
 		----------------------------*/
-	// Id
-	long fileId;
+	// id in database
+	long db_Id;
 
+	// Id: in MediaStore
+	long fileId;
+	
 	String created_at;
 	
 	String modified_at;
@@ -19,10 +21,11 @@ public class TI {
 	String file_name;
 
 	// Date: The value MediaStore has internally
-	long date_added;
+	String date_added;
+//	long date_added;
 	
 	// Modified: The value MediaStore has internally
-	long date_modified;
+	String date_modified;
 	
 	// Memo
 	String memo;
@@ -30,90 +33,9 @@ public class TI {
 	// Tags
 	String tags;
 	
-	long last_viewed_at;
+	String last_viewed_at;
 	
 	String table_name;
-
-	/*----------------------------
-	 * Constructor
-		----------------------------*/
-	public TI(long fileId, String file_path, String file_name, 
-												long date_added, long date_modified) {
-		//
-		this.fileId = fileId;
-		
-		this.file_path = file_path;
-		
-		this.file_name = file_name;
-				
-		this.date_added = date_added;
-		
-		this.date_modified = date_modified;
-
-	}//public ThumbnailItem(long fileId, String file_path, long date_added, long date_modified)
-	
-	/*----------------------------
-	 * Methods
-		----------------------------*/
-	// Num of params => 7
-	public TI(long fileId, String file_path, String file_name, 
-			long date_added, long date_modified, String memo,
-			String tags) {
-		//
-		this.fileId = fileId;
-		
-		this.file_path = file_path;
-		this.file_name = file_name;
-				
-		this.date_added = date_added;
-		this.date_modified = date_modified;
-		
-		this.memo = memo;
-		this.tags = tags;
-		
-	}//public ThumbnailItem()
-
-	// Num of params => 8
-	public TI(long fileId, String file_path, String file_name, 
-			long date_added, long date_modified, String memo,
-			String tags, long last_viewed_at) {
-		//
-		this.fileId = fileId;
-		
-		this.file_path = file_path;
-		this.file_name = file_name;
-				
-		this.date_added = date_added;
-		this.date_modified = date_modified;
-		
-		this.memo = memo;
-		this.tags = tags;
-		
-		this.last_viewed_at = last_viewed_at;
-		
-	}//public ThumbnailItem()
-
-	// Num of params => 9
-	public TI(long fileId, String file_path, String file_name, 
-			long date_added, long date_modified, String memo,
-			String tags, long last_viewed_at, String table_name) {
-		//
-		this.fileId = fileId;
-		
-		this.file_path = file_path;
-		this.file_name = file_name;
-				
-		this.date_added = date_added;
-		this.date_modified = date_modified;
-		
-		this.memo = memo;
-		this.tags = tags;
-		
-		this.last_viewed_at = last_viewed_at;
-		
-		this.table_name = table_name;
-		
-	}//public ThumbnailItem()
 
 	public TI(Builder builder) {
 		// TODO Auto-generated constructor stub
@@ -151,6 +73,14 @@ public class TI {
 
 	
 	
+	public long getDb_Id() {
+		return db_Id;
+	}
+
+	public void setDb_Id(long db_Id) {
+		this.db_Id = db_Id;
+	}
+
 	public String getCreated_at() {
 		return created_at;
 	}
@@ -175,11 +105,11 @@ public class TI {
 		return file_path;
 	}
 
-	public long getDate_added() {
+	public String getDate_added() {
 		return date_added;
 	}
 
-	public long getDate_modified() {
+	public String getDate_modified() {
 		return date_modified;
 	}
 
@@ -199,11 +129,11 @@ public class TI {
 		this.file_path = file_path;
 	}
 
-	public void setDate_added(long date_added) {
+	public void setDate_added(String date_added) {
 		this.date_added = date_added;
 	}
 
-	public void setDate_modified(long date_modified) {
+	public void setDate_modified(String date_modified) {
 		this.date_modified = date_modified;
 	}
 
@@ -220,12 +150,12 @@ public class TI {
 	}
 
 
-	public long getLast_viewed_at() {
+	public String getLast_viewed_at() {
 		return last_viewed_at;
 	}
 
 	
-	public void setLast_viewed_at(long last_viewed_at) {
+	public void setLast_viewed_at(String last_viewed_at) {
 		this.last_viewed_at = last_viewed_at;
 	}
 
@@ -244,7 +174,10 @@ public class TI {
 
 	public static class Builder {
 
-		// Id
+		// id in database
+		long db_Id;
+		
+		// Id: in MediaStore
 		long fileId;
 		
 		String created_at;
@@ -258,10 +191,10 @@ public class TI {
 		String file_name;
 
 		// Date
-		long date_added;
+		String date_added;
 		
 		// Modified
-		long date_modified;
+		String date_modified;
 		
 		// Memo
 		String memo;
@@ -269,7 +202,7 @@ public class TI {
 		// Tags
 		String tags;
 		
-		long last_viewed_at;
+		String last_viewed_at;
 		
 		String table_name;
 
@@ -277,6 +210,10 @@ public class TI {
 			
 			return new TI(this);
 			
+		}
+
+		public Builder setDb_Id(long db_Id) {
+			this.db_Id = db_Id; return this;
 		}
 
 		public Builder setCreated_at(String created_at) {
@@ -301,11 +238,11 @@ public class TI {
 			this.file_name = file_name; return this;
 		}
 
-		public Builder setDate_added(long date_added) {
+		public Builder setDate_added(String date_added) {
 			this.date_added = date_added; return this;
 		}
 
-		public Builder setDate_modified(long date_modified) {
+		public Builder setDate_modified(String date_modified) {
 			this.date_modified = date_modified; return this;
 		}
 
@@ -317,7 +254,7 @@ public class TI {
 			this.tags = tags; return this;
 		}
 
-		public Builder setLast_viewed_at(long last_viewed_at) {
+		public Builder setLast_viewed_at(String last_viewed_at) {
 			this.last_viewed_at = last_viewed_at; return this;
 		}
 

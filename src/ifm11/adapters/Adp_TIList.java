@@ -39,7 +39,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 	LayoutInflater inflater;
 
 	//
-	CONS.MoveMode moveMode = null;
+	CONS.Enums.MoveMode moveMode = null;
 //	Methods.MoveMode moveMode = Methods.MoveMode.OFF;
 
 //	public static ArrayList<Integer> checkedPositions;
@@ -63,7 +63,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 
 
 	public Adp_TIList(Context con, int resourceId, List<TI> items, 
-											CONS.MoveMode moveMode) {
+											CONS.Enums.MoveMode moveMode) {
 		// Super
 		super(con, resourceId, items);
 
@@ -96,7 +96,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			----------------------------*/
     	View v = null;
 
-    	if (moveMode == null || moveMode == CONS.MoveMode.OFF) {
+    	if (moveMode == null || moveMode == CONS.Enums.MoveMode.OFF) {
     		
     		v = move_mode_off(v, position, convertView);
     		
@@ -326,7 +326,10 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	// Bitmap
     	Bitmap bmp = 
 				MediaStore.Images.Thumbnails.getThumbnail(
-							cr, ti.getFileId(), MediaStore.Images.Thumbnails.MICRO_KIND, null);
+							cr, 
+							ti.getFileId(), 
+							MediaStore.Images.Thumbnails.MICRO_KIND, 
+							null);
     	
     	// Set bitmap
     	iv.setImageBitmap(bmp);

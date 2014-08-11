@@ -2,6 +2,7 @@ package ifm11.utils;
 
 
 
+import ifm11.comps.Comp_TI;
 import ifm11.items.TI;
 import ifm11.listener.dialog.DL;
 import ifm11.main.R;
@@ -19,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -870,9 +872,12 @@ public class Methods {
 		
 		for (TI ti : list_TI) {
 			
-			if (ti.getDate_added() > lastRefreshed) {
+			if (Methods.conv_TimeLabel_to_MillSec(ti.getDate_added())
+					> lastRefreshed) {
+//				if (ti.getDate_added() > lastRefreshed) {
 				
-				lastRefreshed = ti.getDate_added();
+				lastRefreshed = Methods.conv_TimeLabel_to_MillSec(ti.getDate_added());
+//				lastRefreshed = ti.getDate_added();
 				
 			}
 			
@@ -886,7 +891,8 @@ public class Methods {
 		} else {
 			
 			// Converting sec to mill sec
-			label = Methods.conv_MillSec_to_TimeLabel(lastRefreshed * 1000);
+			label = Methods.conv_MillSec_to_TimeLabel(lastRefreshed);
+//			label = Methods.conv_MillSec_to_TimeLabel(lastRefreshed * 1000);
 			
 		}
 		
@@ -951,8 +957,13 @@ public class Methods {
 //						.setModified_at(time)
 						
 						.setFile_name(c.getString(2))
-						.setDate_added(c.getLong(3))
-						.setDate_modified(c.getLong(4))
+						
+						.setDate_added(
+								Methods.conv_MillSec_to_TimeLabel(c.getLong(3) * 1000))
+//								c.getLong(3))
+						.setDate_modified(
+								Methods.conv_MillSec_to_TimeLabel(c.getLong(4) * 1000))
+//								c.getLong(4))
 						
 						.setTable_name(CONS.DB.tname_IFM11)
 						.setFile_path(CONS.Paths.dpath_Storage_Camera)
@@ -1129,23 +1140,29 @@ public class Methods {
 
 		////////////////////////////////
 //		long lastRefreshedDate = 0;		// Initial value => 0
-		long lastRefreshedDate = 
+		String lastRefreshedDate = 
 				Methods._refresh_MainDB__Get_LastRefreshed(actv, wdb, dbu);
+		
+		long last_Refreshed;
 		
 		/******************************
 			validate: gotten data?
 		 ******************************/
-		if (lastRefreshedDate == -1) {
+		if (lastRefreshedDate == null) {
 			
-			lastRefreshedDate = 0;
+			last_Refreshed = 0;
+			
+		} else {
+			
+			last_Refreshed = Methods.conv_TimeLabel_to_MillSec(lastRefreshedDate);
 			
 		}
 		
 		// Log
 		msg_Log = String.format(
-						"lastRefreshedDate => %d (%s)", 
-						lastRefreshedDate, 
-						Methods.conv_MillSec_to_TimeLabel(lastRefreshedDate));
+						"last_Refreshed => %d (%s)", 
+						last_Refreshed, 
+						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
 //		msg_Log = "lastRefreshedDate => " + lastRefreshedDate
 //				+ ;
 		Log.d("Methods.java" + "["
@@ -1158,12 +1175,12 @@ public class Methods {
 		//		=> convert to seconds
 
 		////////////////////////////////
-		lastRefreshedDate = lastRefreshedDate / 1000;
+		last_Refreshed = last_Refreshed / 1000;
 		
 		msg_Log = String.format(
-						"lastRefreshedDate(converted) => %d (%s)", 
-						lastRefreshedDate, 
-						Methods.conv_MillSec_to_TimeLabel(lastRefreshedDate));
+						"last_Refreshed(converted) => %d (%s)", 
+						last_Refreshed, 
+						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
 		//msg_Log = "lastRefreshedDate => " + lastRefreshedDate
 		//		+ ;
 		Log.d("Methods.java" + "["
@@ -1180,7 +1197,8 @@ public class Methods {
 						uri, 
 						proj,
 						MediaStore.Images.Media.DATE_ADDED + " > ?",
-						new String[] {String.valueOf(lastRefreshedDate)},
+						new String[] {String.valueOf(last_Refreshed)},
+//						new String[] {String.valueOf(lastRefreshedDate)},
 						null);
 
 		////////////////////////////////
@@ -1240,11 +1258,12 @@ public class Methods {
 	}//_refresh_MainDB__ExecQuery
 
 	/******************************
-	 * Data is store in TEXT type. The method converts the value<br>
-	 * 		to long type
-		@return -1 => 1. query returned null<br>
+	 * Data is stored in TEXT type. The method returns a String<br>
+	 * 
+		@return null => 1. query returned null<br>
+						2. query found no entry<br>
 	 ******************************/
-	private static long 
+	private static String 
 	_refresh_MainDB__Get_LastRefreshed
 	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
 		// TODO Auto-generated method stub
@@ -1273,7 +1292,7 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
-			return -1;
+			return null;
 			
 		}
 		
@@ -1288,7 +1307,7 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
-			return -1;
+			return null;
 			
 		}
 		
@@ -1301,7 +1320,8 @@ public class Methods {
 		
 		String lastRefreshed = c.getString(3);
 		
-		return Methods.conv_TimeLabel_to_MillSec(lastRefreshed);
+		return lastRefreshed;
+//		return Methods.conv_TimeLabel_to_MillSec(lastRefreshed);
 		
 //		return 0;
 		
@@ -1605,6 +1625,18 @@ public class Methods {
 		actv.startActivity(i);
 		
 	}//start_Activity_ImpActv
+
+	public static void
+	sort_List_TI
+	(List<TI> ti_List, 
+		final CONS.Enums.SortType sortType, 
+		final CONS.Enums.SortOrder sortOrder) {
+		
+		Comp_TI aiComp = new Comp_TI(ti_List, sortType, sortOrder);
+		
+		Collections.sort(ti_List, aiComp);
+
+	}//sort_List_ai_List
 
 }//public class Methods
 

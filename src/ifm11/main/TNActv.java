@@ -6,6 +6,7 @@ import ifm11.items.TI;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
+import ifm11.utils.Methods_dlg;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -208,17 +209,25 @@ public class TNActv extends ListActivity {
 		
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		
-		/*----------------------------
-		 * 4. Set up
-			----------------------------*/
-//		set_listeners();
-//		
-//		set_list();
+		////////////////////////////////
 
-//		// Log
-//		Log.d("TNActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "Table name: " + Methods.convert_path_into_table_name(this));
+		// set: list
+
+		////////////////////////////////
+		boolean res = _Setup_SetList();
+		
+		if (res == false) {
+			
+			return;
+			
+		}
+
+		////////////////////////////////
+
+		// adapter
+
+		////////////////////////////////
+		_Setup_Adapter();
 		
 		/*----------------------------
 		 * 5. Initialize vars
@@ -226,6 +235,120 @@ public class TNActv extends ListActivity {
 		checkedPositions = new ArrayList<Integer>();
 
 	}//protected void onStart()
+
+	private void _Setup_Adapter() {
+		// TODO Auto-generated method stub
+		CONS.TNActv.adp_TNActv_Main = new Adp_TIList(
+				this,
+				R.layout.list_row,
+//				R.layout.thumb_activity,
+				CONS.TNActv.list_TNActv_Main
+				);
+		
+//		CONS.ALActv.adp_AIList = new Adp_AIList(
+//				this,
+//				R.layout.list_row_ai_list,
+//				CONS.ALActv.list_AI
+//				);
+		
+		////////////////////////////////
+		
+		// Set adapter
+		
+		////////////////////////////////
+		this.setListAdapter(CONS.TNActv.adp_TNActv_Main);
+	
+	}
+
+
+	/******************************
+		@return false => 1. can't build list<br>
+	 ******************************/
+	private boolean 
+	_Setup_SetList() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get: pref: current path
+
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				this, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		/******************************
+			validate
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Can't get current path";
+			Methods_dlg.dlg_ShowMessage(this, msg);
+			
+			return false;
+			
+		}
+		
+		// Log
+		String msg_Log = "currentPath => " + currentPath;
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// conv: to table name
+
+		////////////////////////////////
+		String tname = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		// Log
+		msg_Log = "tname => " + tname;
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// build: list
+
+		////////////////////////////////
+		CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(this, tname);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.TNActv.list_TNActv_Main == null) {
+			
+			String msg = "list_TNActv_Main => null";
+			Methods_dlg.dlg_ShowMessage(this, msg);
+			
+			return false;
+			
+		}
+		
+		// Log
+		msg_Log = "list.size => " + CONS.TNActv.list_TNActv_Main.size();
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// sort
+
+		////////////////////////////////
+		Methods.sort_List_TI(
+				CONS.TNActv.list_TNActv_Main, 
+				CONS.Enums.SortType.CREATED_AT, 
+				CONS.Enums.SortOrder.ASC);
+		
+		return true;
+		
+	}//_Setup_SetList
+
 
 	@Override
 	protected void onStop() {
