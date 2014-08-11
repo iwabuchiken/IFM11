@@ -255,19 +255,6 @@ public class CONS {
 		
 		////////////////////////////////
 
-		// PlayActv.java
-
-		////////////////////////////////
-		public static final String pname_PlayActv = "pname_PlayActv";
-		
-		public static final String pkey_PlayActv_CurrentPosition = 
-							"pkey_PlayActv_CurrentPosition";
-		
-		public static final String pkey_PlayActv_CurrentFileName = 
-							"pkey_PlayActv_CurrentFileName";
-		
-		////////////////////////////////
-
 		// MainActv.java
 
 		////////////////////////////////
@@ -283,15 +270,13 @@ public class CONS {
 		
 		////////////////////////////////
 
-		// ALActv
+		// TNActv
 
 		////////////////////////////////
-		public static SharedPreferences prefs_ALActv;
+		public static SharedPreferences prefs_TNActv;
 		
-		public static String pname_ALActv = "al_activity";
-		
-		public static String pkey_CurrentPosition_ALActv
-									= "pkey_CurrentPosition_ALActv";
+		public static String pkey_CurrentPosition_TNActv
+									= "pkey_CurrentPosition_TNActv";
 		
 	}
 

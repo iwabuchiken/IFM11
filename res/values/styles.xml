@@ -28,5 +28,11 @@
 		
 		
 	</style>
-	
+
+    <!-- REF http://stackoverflow.com/questions/3551169/change-background-color-of-preference answered May 11 '11 at 14:05 -->
+    <style name="PrefTheme">
+	    <item name="android:background">#000000</item>
+	    <item name="android:textSize">25sp</item>
+	</style>
+    	
 </resources>

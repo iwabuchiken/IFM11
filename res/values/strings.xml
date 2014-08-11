@@ -20,7 +20,7 @@
 	    <string name="main_opt_menu_refresh_db">Refresh DB</string>
 	    <string name="main_opt_menu_db_activity">DB</string>
 	    <string name="main_opt_menu_search">Search</string>
-	    <string name="main_opt_menu_preferences">Customize</string>
+	    <string name="main_opt_menu_preferences">Preferences</string>
 	    <string name="main_opt_menu_history">History</string>
 	    <string name="main_opt_menu_ftp">FTP</string>
 
@@ -48,5 +48,14 @@
     <!-- thumb_actv_menu.xml -->
 	    <string name="thumb_actv_menu_move_mode">移動モード</string>
 	    <string name="thumb_actv_menu_move_files">移動</string>
-   				
+
+	<!-- preferences.xml -->
+    	<string name="prefs_tnactv_list_font_size_title">Font size (in sp)</string>
+    	<string name="prefs_tnactv_list_font_size_summary">in sp</string>
+    	<string name="prefs_tnactv_list_font_size_key">font_size</string>
+    	
+    	<string name="prefs_tnactv_db_refresh_key">db_refresh_automatic</string>
+    	<string name="prefs_tnactv_db_refresh_summary">Every time when starting app</string>
+    	<string name="prefs_tnactv_db_refresh_titile">DB refresh automatic</string>
+	    				
 </resources>

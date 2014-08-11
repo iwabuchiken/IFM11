@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TNActv"></activity>
+        <activity android:name=".PrefActv" android:theme="@style/PrefTheme"></activity>
         
     </application>
 

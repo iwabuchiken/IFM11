@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    
+    <CheckBoxPreference
+        android:title="@string/prefs_tnactv_db_refresh_titile"
+        android:key="@string/prefs_tnactv_db_refresh_key"
+        android:summary="@string/prefs_tnactv_db_refresh_summary"
+        android:defaultValue="false"
+        
+        />
+
+    <EditTextPreference
+        android:title="@string/prefs_tnactv_list_font_size_title"
+        android:key="@string/prefs_tnactv_list_font_size_key"
+        android:summary="@string/prefs_tnactv_list_font_size_summary"
+        
+    >
+        
+    </EditTextPreference>
+</PreferenceScreen>

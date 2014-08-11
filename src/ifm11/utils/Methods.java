@@ -5,6 +5,7 @@ package ifm11.utils;
 import ifm11.comps.Comp_TI;
 import ifm11.items.TI;
 import ifm11.listener.dialog.DL;
+import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.TNActv;
 
@@ -1637,6 +1638,20 @@ public class Methods {
 		Collections.sort(ti_List, aiComp);
 
 	}//sort_List_ai_List
+
+	public static void 
+	start_Activity_PrefActv
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		Intent i = new Intent();
+		
+		i.setClass(actv, PrefActv.class);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+
+	}//start_Activity_PrefActv
 
 }//public class Methods
 

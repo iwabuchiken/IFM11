@@ -211,6 +211,13 @@ public class TNActv extends ListActivity {
 		
 		////////////////////////////////
 
+		// debug
+
+		////////////////////////////////
+		do_debug();
+		
+		////////////////////////////////
+
 		// set: list
 
 		////////////////////////////////
@@ -235,6 +242,32 @@ public class TNActv extends ListActivity {
 		checkedPositions = new ArrayList<Integer>();
 
 	}//protected void onStart()
+
+	private void do_debug() {
+		// TODO Auto-generated method stub
+//		_do_debug__Pref_FontSize();
+		
+	}
+
+
+	private void _do_debug__Pref_FontSize() {
+		// TODO Auto-generated method stub
+		
+		String fontSize = Methods.get_Pref_String(
+				this, 
+				CONS.Pref.pname_MainActv, 
+				this.getString(R.string.prefs_tnactv_list_font_size_key), 
+				null);
+		
+		// Log
+		String msg_Log = "fontSize => " + fontSize;
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		
+	}
+
 
 	private void _Setup_Adapter() {
 		// TODO Auto-generated method stub

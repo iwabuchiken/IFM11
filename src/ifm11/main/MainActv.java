@@ -378,13 +378,20 @@ public class MainActv extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		
-		case R.id.opt_menu_main_db:
+		case R.id.opt_menu_main_db://------------------------
 			
 			Methods_dlg.dlg_Db_Actv(this);
 			
 			break;
 		
-		default:
+		case R.id.main_opt_menu_preferences://------------------
+			
+//			Methods_dlg.dlg_Db_Actv(this);
+			Methods.start_Activity_PrefActv(this);
+			
+			break;
+			
+		default://------------------------
 			break;
 
 		}//switch (item.getItemId())
