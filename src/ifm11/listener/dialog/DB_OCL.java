@@ -85,13 +85,14 @@ public class DB_OCL implements OnClickListener {
 	}//public DialogButtonOnClickListener(Activity actv, Dialog dlg1, long file_id, String tableName)
 
 
-	public DB_OCL(Activity actv, Dialog dlg1, Dialog dlg2, String item_Name) {
+	public DB_OCL
+	(Activity actv, Dialog dlg1, Dialog dlg2, String item_Name) {
 		// TODO Auto-generated constructor stub
 		
 		this.actv = actv;
 		this.dlg1 = dlg1;
 		this.dlg2 = dlg2;
-		
+
 		this.item_Name	= item_Name;
 		
 //		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
@@ -169,6 +170,13 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_DELETE_FOLDER_CONF_OK://------------------------------------------------
+			
+			dlg_DLG_DELETE_FOLDER_CONF_OK();
+			
+			break;
+			
+
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
@@ -205,5 +213,19 @@ public class DB_OCL implements OnClickListener {
 		Methods.drop_Table(actv, dlg1, dlg2, item_Name);
 		
 	}//case_DROP_TABLE_OK
+
+	private void 
+	dlg_DLG_DELETE_FOLDER_CONF_OK() {
+		// TODO Auto-generated method stub
+
+		// Log
+		String msg_Log = "delete folder => confirmed";
+		Log.d("DB_OCL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		Methods.del_Folder(actv, dlg1, dlg2, this.item_Name);
+		
+	}
 
 }//DialogButtonOnClickListener

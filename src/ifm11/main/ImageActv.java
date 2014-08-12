@@ -1,8 +1,8 @@
 package ifm11.main;
 
 import ifm11.items.MyView;
-import ifm11.listener.button.ButtonOnClickListener;
-import ifm11.listener.button.ButtonOnTouchListener;
+import ifm11.listener.button.BO_CL;
+import ifm11.listener.button.BO_TL;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
@@ -208,8 +208,8 @@ public class ImageActv extends Activity {
 		
 		ib_back.setTag(Tags.ButtonTags.image_activity_back);
 		
-		ib_back.setOnTouchListener(new ButtonOnTouchListener(this));
-		ib_back.setOnClickListener(new ButtonOnClickListener(this));
+		ib_back.setOnTouchListener(new BO_TL(this));
+		ib_back.setOnClickListener(new BO_CL(this));
 		
 		/*********************************
 		 * 2. "Prev" button
@@ -220,8 +220,8 @@ public class ImageActv extends Activity {
 		
 		ib_prev.setTag(Tags.ButtonTags.image_activity_prev);
 		
-		ib_prev.setOnTouchListener(new ButtonOnTouchListener(this));
-		ib_prev.setOnClickListener(new ButtonOnClickListener(this));
+		ib_prev.setOnTouchListener(new BO_TL(this));
+		ib_prev.setOnClickListener(new BO_CL(this));
 		
 		/*********************************
 		 * 3. "Next" button
@@ -232,8 +232,8 @@ public class ImageActv extends Activity {
 		
 		ib_next.setTag(Tags.ButtonTags.image_activity_next);
 		
-		ib_next.setOnTouchListener(new ButtonOnTouchListener(this));
-		ib_next.setOnClickListener(new ButtonOnClickListener(this));
+		ib_next.setOnTouchListener(new BO_TL(this));
+		ib_next.setOnClickListener(new BO_CL(this));
 		
 	}//private void set_listeners()
 

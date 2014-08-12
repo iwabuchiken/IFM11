@@ -2425,5 +2425,162 @@ public class Methods {
 
 	}//create_Dir(Activity actv)
 
+	public static void 
+	del_Folder
+	(Activity actv, Dialog dlg1, Dialog dlg2,
+			String folderName) {
+		// TODO Auto-generated method stub
+		
+		String currentPath = Methods.get_Pref_String(
+									actv, 
+									CONS.Pref.pname_MainActv, 
+									CONS.Pref.pkey_CurrentPath, 
+									null);
+		
+		// Log
+		String msg_Log = "currentPath => " + currentPath;
+		Log.d("Ops.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		File target_Dir = new File(currentPath, folderName);
+		
+		/******************************
+			validate: exists?
+		 ******************************/
+		if (!target_Dir.exists()) {
+			
+			String msg = "Folder doesn't exist: " + folderName;
+			Toast.makeText(actv, msg, Toast.LENGTH_SHORT).show();
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			dlg2.dismiss();
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// del: folder
+
+		////////////////////////////////
+		boolean res = Methods.deleteDirectory(target_Dir);
+		
+		if (res == false) {
+			
+			String msg = "delete dir => not done";
+			Toast.makeText(actv, msg, Toast.LENGTH_SHORT).show();
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			dlg2.dismiss();
+			
+			return;
+			
+		}
+		
+//		////////////////////////////////
+//
+//		// del: table
+//
+//		////////////////////////////////
+//		String tname = Methods.conv_CurrentPath_to_TableName(target_Dir.getAbsolutePath());
+//		
+//		res = Methods.drop_Table(actv, tname);
+//		
+//		if (res == false) {
+//			
+//			String msg = "Table => not dropped: " + tname;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//		}
+		
+		////////////////////////////////
+
+		// del: list item
+
+		////////////////////////////////
+		CONS.MainActv.list_RootDir.remove(folderName);
+//		CONS.MainActv.list_RootDir.clear();
+//		
+//		CONS.MainActv.list_RootDir.addAll(
+//						Methods.get_FileList(new File(currentPath)));
+		
+		////////////////////////////////
+
+		// notify
+
+		////////////////////////////////
+		CONS.MainActv.aAdapter.notifyDataSetChanged();
+//		CONS.MainActv.adp_dir_list.notifyDataSetChanged();
+		
+		// Log
+		msg_Log = "adapter => notified";
+		Log.d("Ops.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// dismiss
+		
+		////////////////////////////////
+		dlg2.dismiss();
+		dlg1.dismiss();
+		
+		
+	}//del_Folders
+
+	/****************************
+	 * deleteDirectory(File target)()
+	 * 
+	 * 1. REF=> http://www.rgagnon.com/javadetails/java-0483.html
+		****************************/
+	public static boolean 
+	deleteDirectory
+	(File target) {
+		
+		if(target.exists()) {
+			//
+			File[] files = target.listFiles();
+			
+			//
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					
+					deleteDirectory(files[i]);
+					
+				} else {//if (files[i].isDirectory())
+					
+					String path = files[i].getAbsolutePath();
+					
+					files[i].delete();
+					
+					// Log
+					Log.d("Methods.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", "Removed => " + path);
+					
+					
+				}//if (files[i].isDirectory())
+				
+			}//for (int i = 0; i < files.length; i++)
+			
+		}//if(target.exists())
+		
+		return (target.delete());
+	}//public static boolean deleteDirectory(File target)
+
+	public static boolean drop_Table
+	(Activity actv, String tname) {
+		// TODO Auto-generated method stub
+
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		return dbu.dropTable(actv, tname);
+		
+	}
+
 }//public class Methods
 

@@ -1,10 +1,13 @@
 package ifm11.main;
 
 import ifm11.adapters.Adp_MainList;
+import ifm11.listener.button.BO_CL;
+import ifm11.listeners.LOI_LCL;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.Tags;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+
 
 import android.os.Bundle;
 import android.os.Looper;
@@ -496,12 +500,6 @@ public class MainActv extends ListActivity {
 //				+ +Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "onStart!");
 //		
-		////////////////////////////////
-
-		// pref: current path
-
-		////////////////////////////////
-		_Setup_Prefs_CurrentPath();
 		
 		////////////////////////////////
 
@@ -576,6 +574,13 @@ public class MainActv extends ListActivity {
 
 		////////////////////////////////
 		res = _Setup_SetAdapter();
+		
+		////////////////////////////////
+
+		// listeners
+
+		////////////////////////////////
+		_Setup_SetListeners();
 		
 	}//protected void onStart()
 
@@ -850,69 +855,29 @@ public class MainActv extends ListActivity {
 	}//_Setup_CreateRootDir()
 
 	private void 
-	_Setup_Prefs_CurrentPath() {
-		// TODO Auto-generated method stub
+	_Setup_SetListeners() {
 		////////////////////////////////
 
-		// Get: Pref
+		// listview => long click
 
 		////////////////////////////////
-		CONS.Pref.prefs_MainActv = 
-				this.getSharedPreferences(
-						CONS.Pref.pname_MainActv,
-						MODE_PRIVATE);
+    	ListView lv = this.getListView();
 		
-		////////////////////////////////
-
-		// Prefs set already?
-
-		////////////////////////////////
-		String temp = CONS.Pref.prefs_MainActv
-				.getString(CONS.Pref.pkey_CurrentPath, null);
+//    	lv.setTag(Tags.ListTags.actv_main_lv);
+		lv.setTag(Tags.ListTags.actv_main_lv);
 		
-		if (temp != null) {
-//			if (temp != null && !temp.equals("IFM8")) {
-			
-			// Log
-			String msg_log = "Current path => " + temp;
-			Log.d("MainActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_log);
-			
-			return;
-			
-		}//if (temp == null)
+		lv.setOnItemLongClickListener(new LOI_LCL(this));
 		
 		////////////////////////////////
 
-		// Set: base current path
+		// imagebutton: up
 
 		////////////////////////////////
-		SharedPreferences.Editor editor = CONS.Pref.prefs_MainActv.edit();
+		ImageButton bt_Up = (ImageButton) this.findViewById(R.id.main_bt_up);
 		
-		// New path
-		String base_path = StringUtils.join(
-				new String[]{
-						CONS.Paths.dpath_Storage_Sdcard, CONS.Paths.dname_Base
-				},
-				File.separator);
+		bt_Up.setTag(Tags.ButtonTags.ib_up);
+		bt_Up.setOnClickListener(new BO_CL(this));
 		
-		// Log
-		Log.d("MainActv.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", "base_path=" + base_path);
-
-		// Commit
-		editor.putString(CONS.Pref.pkey_CurrentPath, base_path);
-		
-		editor.commit();
-		
-		// Log
-		String msg_log = "Bae path => Set: " + base_path;
-		Log.d("MainActv.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_log);
-		
-	}//private void initPrefs_CurrentPath()
+	}
 
 }//public class MainActv extends Activity

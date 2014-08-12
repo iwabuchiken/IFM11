@@ -32,6 +32,7 @@ public class DOI_CL implements OnItemClickListener {
 	
 	//
 	Vibrator vib;
+	private String file_Name;
 	
 	//
 //	Methods.DialogTags dlgTag = null;
@@ -56,8 +57,23 @@ public class DOI_CL implements OnItemClickListener {
 	}//public DialogOnItemClickListener(Activity actv, Dialog dlg)
 
 
+	public DOI_CL
+	(Activity actv, Dialog dlg1, String file_Name) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv = actv;
+		this.dlg1 = dlg1;
+		
+		this.file_Name	= file_Name;
+		
+		vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+
+	}
+
 	//	@Override
-	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	public void 
+	onItemClick
+	(AdapterView<?> parent, View v, int position, long id) {
 		/*----------------------------
 		 * Steps
 		 * 1. Get tag
@@ -93,7 +109,15 @@ public class DOI_CL implements OnItemClickListener {
 //			Methods.add_pattern_to_text(dlg1, position, word);
 			
 			break;
+
+		case DLG_ACTVMAIN_LONGCLICK://----------------------------------------------
 			
+			String choice = (String) parent.getItemAtPosition(position);
+			
+			case_DLG_ACTVMAIN_LONGCLICK(choice);
+			
+			break;// case dlg_bmactv_list_long_click
+
 		default:
 			break;
 		}//switch (tag)
@@ -381,5 +405,22 @@ public class DOI_CL implements OnItemClickListener {
 //		boolean res = dbu.dropTable(actv, tableName);
 
 	}
+
+	private void 
+	case_DLG_ACTVMAIN_LONGCLICK
+	(String choice) {
+		// TODO Auto-generated method stub
+
+		if (choice.equals(actv.getString(
+				R.string.dlg_actvmain_lv_delete))) {	// Edit
+
+			Methods_dlg.conf_DeleteFolder(actv, dlg1, file_Name, choice);
+			
+		} else {//if (item.equals(actv.getString(R.string.generic_tv_edit)))
+			
+			
+		}
+		
+	}//case_DLG_ACTVMAIN_LONGCLICK
 
 }//public class DialogOnItemClickListener implements OnItemClickListener

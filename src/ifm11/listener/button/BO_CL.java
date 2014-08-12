@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ButtonOnClickListener implements OnClickListener {
+public class BO_CL implements OnClickListener {
 	/*----------------------------
 	 * Fields
 		----------------------------*/
@@ -36,7 +36,7 @@ public class ButtonOnClickListener implements OnClickListener {
 	//
 	ListView lv;
 	
-	public ButtonOnClickListener(Activity actv) {
+	public BO_CL(Activity actv) {
 		//
 		this.actv = actv;
 		
@@ -44,7 +44,7 @@ public class ButtonOnClickListener implements OnClickListener {
 		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
 	}
 
-	public ButtonOnClickListener(Activity actv, int position) {
+	public BO_CL(Activity actv, int position) {
 		//
 		this.actv = actv;
 		this.position = position;
@@ -56,7 +56,7 @@ public class ButtonOnClickListener implements OnClickListener {
 		
 	}//public ButtonOnClickListener(Activity actv, int position)
 
-	public ButtonOnClickListener(Activity actv, ListView lv) {
+	public BO_CL(Activity actv, ListView lv) {
 		// 
 		this.actv = actv;
 		this.lv = lv;

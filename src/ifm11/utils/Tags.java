@@ -78,7 +78,10 @@ public class Tags {
 		DLG_CREATE_DIR_OK, 
 		
 		// dlg: create dir: confirm
-		DLG_CONFIRM_CREATE_FOLDER_OK,
+		DLG_CONFIRM_CREATE_FOLDER_OK, 
+		
+		// dlg: delete folder: conf
+		DLG_DELETE_FOLDER_CONF_OK,
 		
 	}//public static enum DialogTags
 	
@@ -105,7 +108,10 @@ public class Tags {
 		main_opt_menu_admin,
 		
 		// dlg_bmactv_list_long_click
-		DLG_BMACTV_LIST_LONGCLICK,
+		DLG_BMACTV_LIST_LONGCLICK, 
+		
+		// dlg: ActvMain, long click
+		DLG_ACTVMAIN_LONGCLICK,
 		
 	}//public static enum DialogItemTags
 	

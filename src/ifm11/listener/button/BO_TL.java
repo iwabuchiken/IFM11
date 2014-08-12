@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 
-public class ButtonOnTouchListener implements OnTouchListener {
+public class BO_TL implements OnTouchListener {
 
 	/*----------------------------
 	 * Fields
@@ -23,7 +23,7 @@ public class ButtonOnTouchListener implements OnTouchListener {
 	//
 	Vibrator vib;
 	
-	public ButtonOnTouchListener(Activity actv) {
+	public BO_TL(Activity actv) {
 		//
 		this.actv = actv;
 		
