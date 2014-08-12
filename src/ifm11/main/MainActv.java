@@ -438,6 +438,12 @@ public class MainActv extends ListActivity {
 			
 			break;
 			
+		case R.id.main_opt_menu_create_folder://------------------
+
+			Methods_dlg.dlg_Create_Dir(this);
+			
+			break;
+			
 		default://------------------------
 			break;
 
@@ -490,6 +496,13 @@ public class MainActv extends ListActivity {
 //				+ +Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "onStart!");
 //		
+		////////////////////////////////
+
+		// pref: current path
+
+		////////////////////////////////
+		_Setup_Prefs_CurrentPath();
+		
 		////////////////////////////////
 
 		// root dir
@@ -835,5 +848,71 @@ public class MainActv extends ListActivity {
 		}//if (file.exists())
 		
 	}//_Setup_CreateRootDir()
+
+	private void 
+	_Setup_Prefs_CurrentPath() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// Get: Pref
+
+		////////////////////////////////
+		CONS.Pref.prefs_MainActv = 
+				this.getSharedPreferences(
+						CONS.Pref.pname_MainActv,
+						MODE_PRIVATE);
+		
+		////////////////////////////////
+
+		// Prefs set already?
+
+		////////////////////////////////
+		String temp = CONS.Pref.prefs_MainActv
+				.getString(CONS.Pref.pkey_CurrentPath, null);
+		
+		if (temp != null) {
+//			if (temp != null && !temp.equals("IFM8")) {
+			
+			// Log
+			String msg_log = "Current path => " + temp;
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_log);
+			
+			return;
+			
+		}//if (temp == null)
+		
+		////////////////////////////////
+
+		// Set: base current path
+
+		////////////////////////////////
+		SharedPreferences.Editor editor = CONS.Pref.prefs_MainActv.edit();
+		
+		// New path
+		String base_path = StringUtils.join(
+				new String[]{
+						CONS.Paths.dpath_Storage_Sdcard, CONS.Paths.dname_Base
+				},
+				File.separator);
+		
+		// Log
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "base_path=" + base_path);
+
+		// Commit
+		editor.putString(CONS.Pref.pkey_CurrentPath, base_path);
+		
+		editor.commit();
+		
+		// Log
+		String msg_log = "Bae path => Set: " + base_path;
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_log);
+		
+	}//private void initPrefs_CurrentPath()
 
 }//public class MainActv extends Activity

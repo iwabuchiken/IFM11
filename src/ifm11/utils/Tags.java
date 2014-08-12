@@ -72,7 +72,13 @@ public class Tags {
 		dlg_conf_delete_BM_ok,
 		
 		// dlg: drop table
-		DROP_TABLE_OK,
+		DROP_TABLE_OK, 
+		
+		// dlg: create dir
+		DLG_CREATE_DIR_OK, 
+		
+		// dlg: create dir: confirm
+		DLG_CONFIRM_CREATE_FOLDER_OK,
 		
 	}//public static enum DialogTags
 	

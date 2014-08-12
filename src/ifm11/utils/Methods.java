@@ -41,6 +41,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 // Apache
@@ -2185,6 +2186,244 @@ public class Methods {
 
 		
 	}//add_Memo_to_GridView
+
+	public static void 
+	create_Dir
+	(Activity actv, Dialog dlg1, Dialog dlg2) {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			1. Create dir	=> Dir exists?
+			2. Create a table	=> table exists?
+			3. Re-build the listview
+			4. Notify the adapter
+		 ******************************/
+		////////////////////////////////
+
+		// get: dir name
+
+		////////////////////////////////
+		TextView tv = (TextView) dlg2.findViewById(
+							R.id.dlg_confirm_create_folder_tv_table_name);
+		
+		String dname_New = tv.getText().toString();
+		
+		////////////////////////////////
+
+		// validate: pref
+
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		if (currentPath == null) {
+//			if (CONS.MainActv.prefval_CurrentPath == null) {
+			
+			// Log
+			String msg_Log = "currentPath == null";
+//			String msg_Log = "CONS.MainActv.prefval_CurrentPath == null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+//			String path = StringUtils.join(
+			currentPath = StringUtils.join(
+								new String[]{
+										CONS.Paths.dpath_Storage_Sdcard, 
+										CONS.Paths.dname_Base
+								},
+								File.separator);
+			
+			Methods.set_Pref_String(
+					actv, 
+					CONS.Pref.pname_MainActv, 
+					CONS.Pref.pkey_CurrentPath, 
+					currentPath);
+			
+//			CONS.MainActv.prefval_CurrentPath = path;
+			
+		}
+
+		////////////////////////////////
+		
+		// build: file path
+		
+		////////////////////////////////
+		File newDir = new File(currentPath, dname_New);
+//		File newDir = new File(CONS.MainActv.prefval_CurrentPath, dname_New);
+		
+		// Log
+		String msg_Log = "new dir path => " + newDir.getAbsolutePath();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+
+		////////////////////////////////
+
+		// new dir: exists?
+
+		////////////////////////////////
+		boolean dirExists = newDir.exists();
+
+		if (dirExists == false) {
+			
+			boolean tmp_b = newDir.mkdir();
+			
+			if (tmp_b == true) {
+				
+				// Log
+				msg_Log = "new dir created: " + newDir.getAbsolutePath();
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+				
+				dlg2.dismiss();
+				
+				String message = "Can't create dir: " + newDir.getName();
+				
+				Methods_dlg.dlg_ShowMessage(actv, message, R.color.red);
+				
+//				Dialog dlg3 = Methods_dlg.dlg_Template_Cancel(
+//									actv, 
+//									R.layout.dlg_tmpl_message_simple, 
+//									R.string.generic_notice, 
+//									R.id.dlg_tmpl_message_simple_btn_ok, 
+//									Tags.DialogTags.DLG_GENERIC_DISMISS);
+//				
+//				TextView tv_Message = (TextView) dlg3.findViewById(
+//								R.id.dlg_tmpl_message_simple_tv_message);
+//				
+//				tv_Message.setText("Can't create dir: " + newDir.getName());
+//				
+//				dlg3.show();
+				
+				return;
+
+			}
+			
+		} else {
+			
+			// Log
+			msg_Log = "Dir exists => " + newDir.getAbsolutePath();
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+//			dlg2.dismiss();
+//			
+//			return;
+			
+		}
+
+		////////////////////////////////
+
+		// created: list.txt
+
+		////////////////////////////////
+		File listFile = new File(
+							newDir.getAbsolutePath(), 
+							CONS.Admin.fname_List);
+
+		boolean fileExists = listFile.exists();
+		
+		if (fileExists == true) {
+			
+			// Log
+			msg_Log = "list.txt => exists";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {
+			
+			try {
+				
+				listFile.createNewFile();
+				
+				// Log
+				msg_Log = "list.txt => Created";
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				dlg2.dismiss();
+				
+				String message = "Can't create list.txt";
+				
+				Methods_dlg.dlg_ShowMessage(actv, message, R.color.red);
+				
+//				Dialog dlg3 = Methods_dlg.dlg_Template_Cancel(
+//									actv, 
+//									R.layout.dlg_tmpl_message_simple, 
+//									R.string.generic_notice, 
+//									R.id.dlg_tmpl_message_simple_btn_ok, 
+//									Tags.DialogTags.DLG_GENERIC_DISMISS);
+//				
+//				TextView tv_Message = (TextView) dlg3.findViewById(
+//								R.id.dlg_tmpl_message_simple_tv_message);
+//				
+//				tv_Message.setText("Can't create list.txt");
+//				
+//				dlg3.show();
+				
+				return;
+//				e.printStackTrace();
+				
+			}//try
+
+		}//if (fileExists == true)
+		
+//		////////////////////////////////
+//
+//		// create: table
+//
+//		////////////////////////////////
+//		String tname_New = 
+//				Methods.conv_CurrentPath_to_TableName(newDir.getAbsolutePath());
+//		
+//		// Log
+//		msg_Log = "tname_New => " + tname_New;
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		Methods.create_Table_Audio(actv, tname_New);
+////		Methods.create_Table(actv, tname_New);
+		
+		////////////////////////////////
+
+		// rebuild: listview
+
+		////////////////////////////////
+		File currentDir = new File(currentPath);
+		CONS.MainActv.list_RootDir.clear();
+		
+		List<String> tmp_List = Methods.get_FileList(currentDir);
+//		Collections.sort(tmp_List);
+		
+		CONS.MainActv.list_RootDir.addAll(tmp_List);
+		
+		CONS.MainActv.aAdapter.notifyDataSetChanged();
+
+		////////////////////////////////
+
+		// dismiss
+
+		////////////////////////////////
+		dlg1.dismiss();
+		dlg2.dismiss();
+
+	}//create_Dir(Activity actv)
 
 }//public class Methods
 

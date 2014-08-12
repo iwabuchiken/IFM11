@@ -5,6 +5,7 @@
     <!-- Generic items -->
 	    <string name="generic_bt_ok">OK</string>
 	    <string name="generic_bt_cancel">キャンセル</string>
+	    
 	    <string name="generic_tv_confirm">確認</string>
 	    <string name="generic_tv_menu">メニュー</string>
 	    <string name="generic_tv_register">登録</string>
@@ -12,7 +13,8 @@
 	    <string name="generic_tv_delete">削除</string>
 	    <string name="generic_tv_upload">Upload</string>
 	    <string name="generic_tv_quit_app">Quit app?</string>
-    
+    	<string name="generic_notice">Notice</string>
+    	
     <string name="v1_tv_dir_path">Directory path</string>
 
 	<!-- main_menu.xml -->
@@ -76,5 +78,17 @@
 	    <string name="dlg_add_memos_tv_title">メモ</string>
 	    <string name="dlg_add_memos_bt_patterns">定型</string>
 	    
-    		    				
+	<!-- dlg: create dir -->
+   		<string name="dlg_create_dir_title">Create dir</string>
+   		<string name="dlg_create_dir_message">
+   		    		Available chars: a-zA-Z_\nNo \"__\"(double underbar)</string>
+
+   		
+	<!-- dlg_confirm_create_folder.xml -->
+    	<string name="dlg_confirm_create_folder_tv_message">
+    	    						Create dir?</string>
+
+    <!-- dlg_input_empty.xml -->
+	    <string name="dlg_input_empty_message">No input</string>
+
 </resources>

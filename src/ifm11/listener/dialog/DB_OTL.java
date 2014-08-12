@@ -73,6 +73,8 @@ public class DB_OTL implements OnTouchListener {
 					
 				case DLG_ADD_MEMOS_BT_PATTERNS:
 					
+				case DLG_CREATE_DIR_OK:
+					
 					v.setBackgroundColor(Color.GRAY);
 					
 					break;
@@ -118,6 +120,8 @@ public class DB_OTL implements OnTouchListener {
 			case DLG_ADD_MEMOS_BT_ADD:
 				
 			case DLG_ADD_MEMOS_BT_PATTERNS:
+				
+			case DLG_CREATE_DIR_OK:
 				
 					v.setBackgroundColor(Color.WHITE);
 					

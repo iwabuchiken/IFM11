@@ -2,6 +2,7 @@ package ifm11.listener.dialog;
 
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
+import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.app.Dialog;
@@ -156,10 +157,38 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_CREATE_DIR_OK://------------------------------------------------
+			
+			case_DLG_CREATE_DIR_OK();
+			
+			break;
+			
+		case DLG_CONFIRM_CREATE_FOLDER_OK://------------------------------------------------
+			
+			case_DLG_CONFIRM_CREATE_FOLDER_OK();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_DLG_CONFIRM_CREATE_FOLDER_OK() {
+		// TODO Auto-generated method stub
+	
+		Methods.create_Dir(actv, dlg1, dlg2);
+		
+	}
+
+	private void 
+	case_DLG_CREATE_DIR_OK() {
+		// TODO Auto-generated method stub
+	
+		Methods_dlg.dlg_IsEmpty(actv, dlg1);
+		
+	}
 
 	private void 
 	case_DLG_ADD_MEMOS_BT_ADD() {
