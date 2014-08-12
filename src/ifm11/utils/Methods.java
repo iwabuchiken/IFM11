@@ -2591,6 +2591,11 @@ public class Methods {
 	(Activity actv, MenuItem item) {
 		// TODO Auto-generated method stub
 
+		// Log
+		String msg_Log = "CONS.TNActv.moveMode => " + CONS.TNActv.moveMode;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		////////////////////////////////
 
 		// dispatch
@@ -2652,6 +2657,16 @@ public class Methods {
 		////////////////////////////////
 		item.setIcon(R.drawable.ifm8_thumb_actv_opt_menu_move_mode_on);
 		
+		if (CONS.TNActv.menu != null) {
+			
+			// Log
+			String msg_Log = "CONS.TNActv.menu => not null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
 		////////////////////////////////
 
 		// move mode
@@ -2698,6 +2713,8 @@ public class Methods {
 		this method is used when<br>
 			=> changing from move_mode on to<br>
 				move_mode off<br>
+				i.e. when you want to go back to<br>
+				non-moving mode
 	 ******************************/
 	private static void 
 	_moveMode_True
@@ -2736,7 +2753,17 @@ public class Methods {
 		
 		////////////////////////////////
 		item.setIcon(R.drawable.ifm8_thumb_actv_opt_menu_move_mode_off);
-		
+
+		if (CONS.TNActv.menu != null) {
+			
+			// Log
+			String msg_Log = "CONS.TNActv.menu => not null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+
 		////////////////////////////////
 		
 		// move mode
@@ -2744,7 +2771,41 @@ public class Methods {
 		////////////////////////////////
 		CONS.TNActv.moveMode = false;
 
-	}
+		////////////////////////////////
+
+		// rebuild: tiList
+
+		////////////////////////////////
+		CONS.TNActv.list_TNActv_Main.clear();
+		
+		CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tableName));
+		
+		Methods.sort_List_TI(
+						CONS.TNActv.list_TNActv_Main, 
+						CONS.Enums.SortType.CREATED_AT, 
+						CONS.Enums.SortOrder.ASC);
+		
+		////////////////////////////////
+
+		// adapter
+
+		////////////////////////////////
+		CONS.TNActv.adp_TNActv_Main = new Adp_TIList(
+				actv,
+				R.layout.list_row,
+//			R.layout.thumb_activity,
+				CONS.TNActv.list_TNActv_Main
+				);
+		
+		////////////////////////////////
+		
+		// Set adapter
+		
+		////////////////////////////////
+		((ListActivity) actv).setListAdapter(CONS.TNActv.adp_TNActv_Main);
+		
+		
+	}//_moveMode_True
 
 }//public class Methods
 
