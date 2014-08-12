@@ -41,6 +41,9 @@ public class TI {
 		// TODO Auto-generated constructor stub
 		
 		// Id
+		this.db_Id	= builder.db_Id;
+		
+		// file id
 		this.fileId	= builder.fileId;
 		
 		// Path

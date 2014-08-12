@@ -1647,7 +1647,8 @@ public class DBUtils extends SQLiteOpenHelper{
 		// validate: table exists?
 		
 		////////////////////////////////
-		boolean res = dbu.tableExists(rdb, tableName);
+		boolean res = dbu.tableExists(rdb, CONS.DB.tname_IFM11);
+//		boolean res = dbu.tableExists(rdb, tableName);
 
 		if (res == false) {
 			
@@ -1947,6 +1948,176 @@ public class DBUtils extends SQLiteOpenHelper{
 	}//get_TI_From_FileId
 
 	/******************************
+		@return null => 1. No such table: ifm11<br>
+	 ******************************/
+	public static TI
+	get_TI_From_DbId
+	(Activity actv, long db_Id) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// DB
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists?
+		
+		////////////////////////////////
+		boolean res = dbu.tableExists(rdb, CONS.DB.tname_IFM11);
+		
+		if (res == false) {
+			
+			String msg = "No such table: " + CONS.DB.tname_IFM11;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		Cursor c = null;
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		String where = String.format(
+				"%s = ? ", 
+				CONS.DB.col_names_IFM11_full[0]);	// file_id
+//					CONS.DB.col_names_IFM11_full[11]);	// table_name
+//				CONS.DB.col_names_IFM11[8] + " = ?";
+		
+		String[] args = new String[]{
+				
+				String.valueOf(db_Id),
+				
+		};
+		
+		try {
+			
+			c = rdb.query(
+					
+					CONS.DB.tname_IFM11,			// 1
+					CONS.DB.col_names_IFM11_full,	// 2
+					where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+		
+		////////////////////////////////
+		
+		// cursor: to first
+		
+		////////////////////////////////
+		c.moveToFirst();
+		
+		////////////////////////////////
+		
+		// Build list
+		
+		////////////////////////////////
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		TI ti = new TI.Builder()
+		
+		.setDb_Id(c.getLong(0))
+		.setCreated_at(c.getString(1))
+		.setModified_at(c.getString(2))
+		
+		.setFileId(c.getLong(3))
+		.setFile_path(c.getString(4))
+		.setFile_name(c.getString(5))
+		
+		.setDate_added(c.getString(6))
+		.setDate_modified(c.getString(7))
+		
+		.setMemo(c.getString(8))
+		.setTags(c.getString(9))
+		
+		.setLast_viewed_at(c.getString(10))
+		.setTable_name(c.getString(11))
+		.build();
+		
+		////////////////////////////////
+		
+		// close
+		
+		////////////////////////////////
+		rdb.close();
+		
+		return ti;
+		
+	}//get_TI_From_DbId
+	
+	/******************************
 		@return -1 => Table doesn't exist<br>
 	 ******************************/
 	public static int 
@@ -2159,6 +2330,124 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		val.put("table_name", CONS.DB.tname_IFM11);
 
+		return val;
+		
+	}//_insert_Data_Patterns__ContentValues
+
+	
+	public static boolean 
+	update_TI__Memo
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// prep: content values
+		
+		////////////////////////////////
+		// ContentValues
+		ContentValues val = _update_TI__Get_ContentValues_Memo(actv, ti);
+//		ContentValues val = new ContentValues();
+		
+		String where = CONS.DB.col_names_IFM11_full[0]
+						+ " = ?";
+		
+		String[] args = new String[]{String.valueOf(ti.getDb_Id())};
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.update(CONS.DB.tname_IFM11, val, where, args);
+//			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res < 1) {
+//				if (res == -1) {
+				
+				// Log
+				String msg_Log = String.format(
+									"insertion => failed (result = %d)"
+									, res);
+
+				Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+				
+				wdb.endTransaction();
+		
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try		
+		
+//		return false;
+		
+	}//update_TI
+
+	private static ContentValues 
+	_update_TI__Get_ContentValues_Memo
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[2],		// modified_at 
+				Methods.conv_MillSec_to_TimeLabel(
+						Methods.getMillSeconds_now()));
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[8],		// memos
+				ti.getMemo());
+		
 		return val;
 		
 	}//_insert_Data_Patterns__ContentValues

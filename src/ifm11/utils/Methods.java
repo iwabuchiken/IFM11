@@ -40,6 +40,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.EditText;
 import android.widget.Toast;
 
 // Apache
@@ -2090,6 +2091,58 @@ public class Methods {
 		return patternList;
 		
 	}//_import_Patterns__Get_PatternsList
+
+	public static void 
+	add_Memo
+	(Activity actv, Dialog dlg1, long db_Id) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get: TI
+
+		////////////////////////////////
+		TI ti = DBUtils.get_TI_From_DbId(actv, db_Id);
+		
+		////////////////////////////////
+
+		// view
+
+		////////////////////////////////
+		EditText et_Content = 
+				(EditText) dlg1.findViewById(R.id.dlg_add_memos_et_content);
+
+		////////////////////////////////
+
+		// get: text
+
+		////////////////////////////////
+		String content = et_Content.getText().toString();
+
+		////////////////////////////////
+
+		// update: text
+
+		////////////////////////////////
+		ti.setMemo(content);
+
+		boolean res = DBUtils.update_TI__Memo(actv, ti);
+		
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		if (res == true) {
+			
+			String msg = "Update => done";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			dlg1.dismiss();
+			
+		}
+		
+	}//add_Memo
 
 }//public class Methods
 

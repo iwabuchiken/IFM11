@@ -28,7 +28,7 @@ public class DB_OCL implements OnClickListener {
 	Vibrator vib;
 	
 	// Used in => Methods.dlg_addMemo(Activity actv, long file_id, String tableName)
-	long file_id;
+	long db_Id;
 	String tableName;
 	private String item_Name;	// Methods_dlg.conf_DropTable
 	
@@ -76,7 +76,7 @@ public class DB_OCL implements OnClickListener {
 		
 		this.tableName = tableName;
 		
-		this.file_id = file_id;
+		this.db_Id = file_id;
 		
 //		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
 		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
@@ -100,13 +100,13 @@ public class DB_OCL implements OnClickListener {
 
 	public 
 	DB_OCL
-	(Activity actv, Dialog dlg1, long file_id) {
+	(Activity actv, Dialog dlg1, long db_id) {
 		// TODO Auto-generated constructor stub
 		
 		this.actv	= actv;
 		this.dlg1	= dlg1;
 		
-		this.file_id	= file_id;
+		this.db_Id	= db_id;
 		
 		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -150,10 +150,24 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_ADD_MEMOS_BT_ADD://------------------------------------------------
+			
+			case_DLG_ADD_MEMOS_BT_ADD();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_DLG_ADD_MEMOS_BT_ADD() {
+		// TODO Auto-generated method stub
+		
+		Methods.add_Memo(actv, dlg1, db_Id);
+		
+	}//case_DLG_ADD_MEMOS_BT_ADD
 
 	private void 
 	case_DROP_TABLE_OK() {

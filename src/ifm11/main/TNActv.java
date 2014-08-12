@@ -536,8 +536,14 @@ public class TNActv extends ListActivity {
 		
 		i.setClass(this, ImageActv.class);
 		
+		// Log
+		msg_Log = "ti.getDb_Id() => " + ti.getDb_Id();
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 		i.putExtra("file_id", ti.getFileId());
+		i.putExtra("db_id", ti.getDb_Id());
 		i.putExtra("file_path", fpath);
 //		i.putExtra("file_path", ti.getFile_path());
 		i.putExtra("file_name", ti.getFile_name());

@@ -35,7 +35,8 @@ public class ImageActv extends Activity {
 	public static Vibrator vib;
 
 	//
-	long file_id;
+	long file_Id;
+	long db_Id;
 	
 	//
 	public static Bitmap bm;
@@ -89,7 +90,8 @@ public class ImageActv extends Activity {
 		Intent i = getIntent();
 		
 		String file_path = i.getStringExtra("file_path");
-		file_id = i.getLongExtra("file_id", -1);
+		file_Id = i.getLongExtra("file_id", -1);
+		db_Id = i.getLongExtra("db_id", -1);
 		String file_name = i.getStringExtra("file_name");
 		
 		/*----------------------------
@@ -251,23 +253,6 @@ public class ImageActv extends Activity {
 		case R.id.image_actv_menu_add_memo://------------------------------------
 
 			_case_AddMemo();
-			// Log
-//			Log.d("ImageActivity.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "file_id => " + file_id);
-//			
-//////			Methods.dlg_addMemo(this, file_id, Methods.convertPathIntoTableName(this));
-//			Methods_dlg.dlg_addMemo(
-//							this, 
-//							file_id, 
-//							Methods.conv_CurrentPath_to_TableName(currentPath));
-////			Methods.convert_path_into_table_name(this));
-//			
-//			// Log
-//			Log.d("ImageActv.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Methods.convert_path_into_table_name(this): " + Methods.convert_path_into_table_name(this));
-			
 			
 			break;
 			
@@ -289,7 +274,10 @@ public class ImageActv extends Activity {
 		// TODO Auto-generated method stub
 		Log.d("ImageActivity.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", "file_id => " + file_id);
+				+ "]", "file_id => " + file_Id);
+		Log.d("ImageActivity.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "db_id => " + db_Id);
 
 		////////////////////////////////
 
@@ -319,9 +307,10 @@ public class ImageActv extends Activity {
 		// add memo
 
 		////////////////////////////////
-		Methods_dlg.dlg_addMemo(
+		Methods_dlg.dlg_AddMemo(
 						this, 
-						file_id);
+						db_Id);
+//		file_Id);
 
 	}//_case_AddMemo()
 

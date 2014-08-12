@@ -362,8 +362,8 @@ public class Methods_dlg {
 	}
 
 	public static void 
-	dlg_addMemo
-	(Activity actv, long file_id) {
+	dlg_AddMemo
+	(Activity actv, long db_Id) {
 		// TODO Auto-generated method stub
 		
 		////////////////////////////////
@@ -371,14 +371,26 @@ public class Methods_dlg {
 		// get: dlg
 
 		////////////////////////////////
-		Dialog dlg = Methods_dlg._dlg_addMemo_GetDialog(actv, file_id);
+		Dialog dlg = Methods_dlg._dlg_AddMemo_GetDialog(actv, db_Id);
 
+		/******************************
+			validate: null
+		 ******************************/
+		if (dlg == null) {
+			
+			String msg = "dlg => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return;
+			
+		}
+		
 		////////////////////////////////
 
 		// gridview
 
 		////////////////////////////////
-		dlg = _dlg_addMemo_Set_Gridview(actv, dlg);
+		dlg = _dlg_AddMemo_Set_Gridview(actv, dlg);
 
 		//test
 		GridView gv = (GridView) dlg.findViewById(R.id.dlg_add_memos_gv);
@@ -406,8 +418,8 @@ public class Methods_dlg {
 	}//dlg_addMemo
 	
 	public static Dialog 
-	_dlg_addMemo_GetDialog
-	(Activity actv, long file_id) {
+	_dlg_AddMemo_GetDialog
+	(Activity actv, long db_Id) {
 		
 		// 
 		Dialog dlg = new Dialog(actv);
@@ -421,7 +433,8 @@ public class Methods_dlg {
 		/*----------------------------
 		 * 1-2. Set text to edit text
 			----------------------------*/
-		TI ti = DBUtils.get_TI_From_FileId(actv, file_id);
+		TI ti = DBUtils.get_TI_From_DbId(actv, db_Id);
+//		TI ti = DBUtils.get_TI_From_FileId(actv, db_Id);
 		
 		// Log
 		String msg_Log = "ti.name => " + ti.getFile_name();
@@ -474,7 +487,7 @@ public class Methods_dlg {
 		// Add listeners => OnClick
 
 		////////////////////////////////
-		btn_add.setOnClickListener(new DB_OCL(actv, dlg, file_id));
+		btn_add.setOnClickListener(new DB_OCL(actv, dlg, db_Id));
 		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg));
 		
 		btn_patterns.setOnClickListener(new DB_OCL(actv, dlg));
@@ -491,7 +504,7 @@ public class Methods_dlg {
 		
 	 ******************************/
 	public static Dialog 
-	_dlg_addMemo_Set_Gridview
+	_dlg_AddMemo_Set_Gridview
 	(Activity actv, Dialog dlg) {
 		////////////////////////////////
 
