@@ -2,6 +2,7 @@ package ifm11.main;
 
 
 import ifm11.adapters.Adp_TIList;
+import ifm11.adapters.Adp_TIList_Move;
 import ifm11.items.TI;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
@@ -217,12 +218,92 @@ public class TNActv extends ListActivity {
 		////////////////////////////////
 		_Setup_SetSelection();
 		
+		////////////////////////////////
+
+		// setup: options
+
+		////////////////////////////////
+		_Setup_Options();
+		
 //		/*----------------------------
 //		 * 5. Initialize vars
 //			----------------------------*/
 //		checkedPositions = new ArrayList<Integer>();
 
 	}//protected void onStart()
+
+	private void 
+	_Setup_Options() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// move mode
+
+		////////////////////////////////
+		// Log
+		String msg_Log = "CONS.TNActv.moveMode => " + CONS.TNActv.moveMode;
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		if (CONS.TNActv.moveMode == true) {
+			
+			// Log
+			msg_Log = "setting icon...";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			////////////////////////////////
+
+			// icon: move mode
+
+			////////////////////////////////
+			MenuItem item = CONS.TNActv.menu.findItem(R.id.thumb_actv_menu_move_mode);
+			
+			item.setIcon(R.drawable.ifm8_thumb_actv_opt_menu_move_mode_on);
+
+			////////////////////////////////
+
+			// icon: move files
+
+			////////////////////////////////
+			MenuItem item_MoveFiles = 
+							CONS.TNActv.menu.findItem(R.id.thumb_actv_menu_move_files);
+			
+			item_MoveFiles.setIcon(R.drawable.ifm8_thumb_actv_opt_menu_move_file_2);
+			
+			item_MoveFiles.setEnabled(true);
+
+		} else {
+			
+			// Log
+			msg_Log = "icon => stays as is";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			////////////////////////////////
+
+			// icon: move files
+
+			////////////////////////////////
+			// icon: Move files
+			if (CONS.TNActv.menu != null) {
+				
+				MenuItem item_MoveFiles = 
+						CONS.TNActv.menu.findItem(R.id.thumb_actv_menu_move_files);
+				
+				item_MoveFiles.setIcon(R.drawable.main_opt_move_disabled);
+				//			main_opt_move_disabled
+
+				item_MoveFiles.setEnabled(false);
+				
+			}
+			
+		}//if (CONS.TNActv.moveMode == true)
+		
+	}//_Setup_Options
+
 
 	private void 
 	_Setup_SetSelection() {
@@ -296,12 +377,44 @@ public class TNActv extends ListActivity {
 
 	private void _Setup_Adapter() {
 		// TODO Auto-generated method stub
-		CONS.TNActv.adp_TNActv_Main = new Adp_TIList(
-				this,
-				R.layout.list_row,
+		////////////////////////////////
+
+		// dispatch: adapter
+
+		////////////////////////////////
+		if (CONS.TNActv.moveMode == false) {
+			
+			CONS.TNActv.adp_TNActv_Main = new Adp_TIList(
+					this,
+					R.layout.list_row,
 //				R.layout.thumb_activity,
-				CONS.TNActv.list_TNActv_Main
-				);
+					CONS.TNActv.list_TNActv_Main
+					);
+			
+			////////////////////////////////
+			
+			// Set adapter
+			
+			////////////////////////////////
+			this.setListAdapter(CONS.TNActv.adp_TNActv_Main);
+			
+		} else {
+			
+			CONS.TNActv.adp_TNActv_Main_Move = new Adp_TIList_Move(
+					this,
+					R.layout.list_row,
+//					R.layout.thumb_activity,
+					CONS.TNActv.list_TNActv_Main
+					);
+
+			////////////////////////////////
+			
+			// Set adapter
+			
+			////////////////////////////////
+			this.setListAdapter(CONS.TNActv.adp_TNActv_Main_Move);
+
+		}
 		
 //		CONS.ALActv.adp_AIList = new Adp_AIList(
 //				this,
@@ -309,12 +422,6 @@ public class TNActv extends ListActivity {
 //				CONS.ALActv.list_AI
 //				);
 		
-		////////////////////////////////
-		
-		// Set adapter
-		
-		////////////////////////////////
-		this.setListAdapter(CONS.TNActv.adp_TNActv_Main);
 		
 	}
 
@@ -560,6 +667,9 @@ public class TNActv extends ListActivity {
 		MenuInflater mi = getMenuInflater();
 		mi.inflate(R.menu.thumb_actv_menu, menu);
 		
+		// get instance
+		CONS.TNActv.menu = menu;
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -574,6 +684,12 @@ public class TNActv extends ListActivity {
 		
 		
 		case R.id.thumb_actv_menu_move_mode://---------------------------------------
+			
+			// Log
+			String msg_Log = "thumb_actv_menu_move_mode";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
 			
 			Methods.move_Mode(this, item);
 			
@@ -622,6 +738,28 @@ public class TNActv extends ListActivity {
 		return super.onOptionsItemSelected(item);
 		
 	}//public boolean onOptionsItemSelected(MenuItem item)
+
+
+	//REF http://stackoverflow.com/questions/7066657/android-how-to-dynamically-change-menu-item-text-outside-of-onoptionsitemssele answered Aug 15 '11 at 15:27
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+		// Log
+		String msg_Log = "onPrepareOptionsMenu";
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// get instance
+		CONS.TNActv.menu = menu;
+		
+		this._Setup_Options();
+		
+		
+		return super.onPrepareOptionsMenu(menu);
+		
+	}
 
 
 }//public class TNActv

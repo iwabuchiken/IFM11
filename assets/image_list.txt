@@ -1,1 +1,2 @@
 1	proj_icon_64x64.png	1402200647_microscope.png	https://www.iconfinder.com/icons/66100/biology_microscope_science_icon#size=128
+2	main_opt_move_disabled.png	1407872100_71_41x41.png	https://www.iconfinder.com/icons/53737/forbidden_stop_icon#size=68

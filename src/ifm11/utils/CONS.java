@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -347,6 +348,8 @@ public class CONS {
 		public static int list_Pos_Prev = -1;
 		
 		public static boolean moveMode;
+
+		public static Menu menu;
 		
 	}
 	
