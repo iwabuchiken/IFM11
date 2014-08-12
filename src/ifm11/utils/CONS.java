@@ -2,6 +2,7 @@ package ifm11.utils;
 
 import ifm11.adapters.Adp_MainList;
 import ifm11.adapters.Adp_TIList;
+import ifm11.adapters.Adp_TIList_Move;
 import ifm11.items.TI;
 
 import java.io.File;
@@ -340,8 +341,12 @@ public class CONS {
 		
 		public static Adp_TIList adp_TNActv_Main;
 		
+		public static Adp_TIList_Move adp_TNActv_Main_Move;
+		
 		public static int list_Pos_Current = -1;
 		public static int list_Pos_Prev = -1;
+		
+		public static boolean moveMode;
 		
 	}
 	

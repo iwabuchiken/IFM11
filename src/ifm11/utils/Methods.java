@@ -2,6 +2,8 @@ package ifm11.utils;
 
 
 
+import ifm11.adapters.Adp_TIList;
+import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_TI;
 import ifm11.items.TI;
 import ifm11.listener.dialog.DL;
@@ -30,6 +32,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +43,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -2580,6 +2584,166 @@ public class Methods {
 		
 		return dbu.dropTable(actv, tname);
 		
+	}
+
+	public static void 
+	move_Mode
+	(Activity actv, MenuItem item) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (CONS.TNActv.moveMode == true) {
+			
+			_moveMode_True(actv, item);
+			
+		} else {// move_mode => false
+			
+			_moveMode_False(actv, item);
+			
+		}//if (move_mode == true)
+
+		
+	}//move_Mode
+
+	/******************************
+		this method is used when<br>
+			=> changing from move_mode off to<br>
+				move_mode on<br>
+				i.e. when you want to move files
+	 ******************************/
+	private static void 
+	_moveMode_False
+	(Activity actv, MenuItem item) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// get: environs
+		
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Current path => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		
+		String tableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+	
+		////////////////////////////////
+
+		// icon => change
+
+		////////////////////////////////
+		item.setIcon(R.drawable.ifm8_thumb_actv_opt_menu_move_mode_on);
+		
+		////////////////////////////////
+
+		// move mode
+
+		////////////////////////////////
+		CONS.TNActv.moveMode = true;
+
+		////////////////////////////////
+
+		// rebuild: tiList
+
+		////////////////////////////////
+		CONS.TNActv.list_TNActv_Main.clear();
+		
+		CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tableName));
+		
+		Methods.sort_List_TI(
+						CONS.TNActv.list_TNActv_Main, 
+						CONS.Enums.SortType.CREATED_AT, 
+						CONS.Enums.SortOrder.ASC);
+		
+		////////////////////////////////
+
+		// adapter
+
+		////////////////////////////////
+		CONS.TNActv.adp_TNActv_Main_Move = new Adp_TIList_Move(
+				actv,
+				R.layout.list_row,
+//				R.layout.thumb_activity,
+				CONS.TNActv.list_TNActv_Main
+				);
+		
+		////////////////////////////////
+		
+		// Set adapter
+		
+		////////////////////////////////
+		((ListActivity) actv).setListAdapter(CONS.TNActv.adp_TNActv_Main_Move);
+
+	}//_moveMode_False
+
+	/******************************
+		this method is used when<br>
+			=> changing from move_mode on to<br>
+				move_mode off<br>
+	 ******************************/
+	private static void 
+	_moveMode_True
+	(Activity actv, MenuItem item) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+		
+		// get: environs
+		
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Current path => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		
+		String tableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		////////////////////////////////
+		
+		// icon => change
+		
+		////////////////////////////////
+		item.setIcon(R.drawable.ifm8_thumb_actv_opt_menu_move_mode_off);
+		
+		////////////////////////////////
+		
+		// move mode
+		
+		////////////////////////////////
+		CONS.TNActv.moveMode = false;
+
 	}
 
 }//public class Methods

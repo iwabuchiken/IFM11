@@ -575,6 +575,8 @@ public class TNActv extends ListActivity {
 		
 		case R.id.thumb_actv_menu_move_mode://---------------------------------------
 			
+			Methods.move_Mode(this, item);
+			
 			break;// case R.id.thumb_actv_menu_move_files
 		
 		case R.id.thumb_actv_menu_move_files:	//------------------------------------------
@@ -620,5 +622,6 @@ public class TNActv extends ListActivity {
 		return super.onOptionsItemSelected(item);
 		
 	}//public boolean onOptionsItemSelected(MenuItem item)
+
 
 }//public class TNActv
