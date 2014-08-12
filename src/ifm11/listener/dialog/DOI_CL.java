@@ -89,6 +89,7 @@ public class DOI_CL implements OnItemClickListener {
 			
 			String word = (String) parent.getItemAtPosition(position);
 			
+			case_DLG_ADD_MEMOS_GV(word);
 //			Methods.add_pattern_to_text(dlg1, position, word);
 			
 			break;
@@ -98,6 +99,15 @@ public class DOI_CL implements OnItemClickListener {
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_DLG_ADD_MEMOS_GV
+	(String word) {
+		// TODO Auto-generated method stub
+
+		Methods.add_Memo_to_GridView(actv, dlg1, word);
+		
+	}//case_DLG_ADD_MEMOS_GV
 
 	private void
 	case_Dlg_Db_Admin_lv(String item) {

@@ -2144,5 +2144,47 @@ public class Methods {
 		
 	}//add_Memo
 
+	public static void 
+	add_Memo_to_GridView
+	(Activity actv, Dialog dlg1,
+			String word) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get: view
+
+		////////////////////////////////
+		EditText et_Content = 
+				(EditText) dlg1.findViewById(R.id.dlg_add_memos_et_content);
+
+		////////////////////////////////
+
+		// get: text
+
+		////////////////////////////////
+		String content = et_Content.getText().toString();
+
+		////////////////////////////////
+
+		// update: text
+
+		////////////////////////////////
+		String content_New = content + word;
+
+		// modify
+		if (!word.equals(" ")) {
+			
+			content_New += " ";
+			
+		}
+		
+		et_Content.setText(content_New);
+		
+		et_Content.setSelection(content_New.length());
+
+		
+	}//add_Memo_to_GridView
+
 }//public class Methods
 

@@ -613,6 +613,8 @@ public class Methods_dlg {
 						null, 		// having
 						orderBy);
 
+		actv.startManagingCursor(c);
+		
 		/******************************
 			validate: null
 		 ******************************/
