@@ -183,6 +183,12 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_CONF_MOVE_FILES_FOLDER_TOP_OK://------------------------------------------------
+			
+			dlg_DLG_CONF_MOVE_FILES_FOLDER_OK();
+			
+			break;
+			
 
 		default: // ----------------------------------------------------
 			break;
