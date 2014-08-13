@@ -2825,7 +2825,16 @@ public class Methods {
 		////////////////////////////////
 		CONS.TNActv.list_TNActv_Main.clear();
 		
-		CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tableName));
+		List<TI> ti_List_Move = DBUtils.find_All_TI(actv, tableName);
+		
+		if (ti_List_Move != null) {
+			
+			CONS.TNActv.list_TNActv_Main.addAll(ti_List_Move);
+//			DBUtils.find_All_TI(actv, cur_TableName));
+			
+		}
+
+//		CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tableName));
 		
 		Methods.sort_List_TI(
 						CONS.TNActv.list_TNActv_Main, 
@@ -3141,14 +3150,25 @@ public class Methods {
 			
 		}
 		
+		////////////////////////////////
+
+		// re-build: TI list (move)
+
+		////////////////////////////////
 		// conv to => table
 		String cur_TableName = Methods.conv_CurrentPath_to_TableName(currentPath);
 		
 		// list
 		CONS.TNActv.list_TNActv_Main.clear();
 		
-		CONS.TNActv.list_TNActv_Main.addAll(
-							DBUtils.find_All_TI(actv, cur_TableName));
+		List<TI> ti_List_Move = DBUtils.find_All_TI(actv, cur_TableName);
+		
+		if (ti_List_Move != null) {
+			
+			CONS.TNActv.list_TNActv_Main.addAll(ti_List_Move);
+//			DBUtils.find_All_TI(actv, cur_TableName));
+			
+		}
 		
 		////////////////////////////////
 	
@@ -3398,6 +3418,146 @@ public class Methods {
 		tv_Path.setText(Methods.conv_CurrentPath_to_DisplayPath(newPath));
 
 	}//go_Down_Dir
+
+	public static void
+	go_Up_Dir_Move
+	(Activity actv) {
+		// TODO Auto-generated method stub
+	
+		String curPath_Move = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_TNActv__CurPath_Move, 
+				CONS.DB.tname_IFM11);
+		
+		String newPath_Move = 
+				Methods.conv_CurrentPathMove_to_CurrentPathMove_New(curPath_Move);
+
+		String new_Path = StringUtils.join(
+					new String[]{
+							
+						CONS.Paths.dpath_Storage_Sdcard,
+						newPath_Move
+							
+					}, 
+					File.separator);
+
+		String msg_Log = "newPath_Move => " + newPath_Move;
+		Log.d("Methods.java"
+				+ "["
+				+ Thread.currentThread().getStackTrace()[2]
+						.getLineNumber() + "]", msg_Log);
+
+		// Log
+		msg_Log = "new_Path => " + new_Path;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// list
+
+		////////////////////////////////
+		List<String> dir_List = Methods.get_DirList(new_Path);
+		CONS.TNActv.dir_List.clear();
+		
+		for (String dirName : dir_List) {
+//			for (String dirName : CONS.ALActv.dir_List) {
+			
+			CONS.TNActv.dir_List.add(newPath_Move + File.separator + dirName);
+//			CONS.ALActv.dir_List.add(CONS.DB.tname_CM7 + File.separator + dirName);
+//			dirName = CONS.DB.tname_CM7 + File.separator + dirName;
+			
+		}
+		
+		// Log
+		msg_Log = "dir list => modified";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.TNActv.dir_List.add(CONS.Admin.dirString_UpperDir);
+		
+		////////////////////////////////
+
+		// notify
+
+		////////////////////////////////
+		CONS.TNActv.adp_DirList.notifyDataSetChanged();
+		
+		// Log
+		msg_Log = "adapter => notified";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// set: pref: pkey_ALActv__CurPath_Move
+
+		////////////////////////////////
+		boolean res = Methods.set_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_TNActv__CurPath_Move, 
+				newPath_Move); 
+		
+		if (res == true) {
+			
+			// Log
+			msg_Log = "new pref set => " + newPath_Move;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {
+
+			// Log
+			msg_Log = "new pref not set! => " + newPath_Move;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+				
+		}
+		
+	}//go_Up_Dir_Move
+
+	public static String 
+	conv_CurrentPathMove_to_CurrentPathMove_New
+	(String curPath_Move) {
+		// TODO Auto-generated method stub
+		
+		String[] tokens = curPath_Move.split(File.separator);
+		
+		////////////////////////////////
+
+		// tokens == 1
+
+		////////////////////////////////
+		if (tokens == null) {
+			
+			return curPath_Move;
+			
+		} else if (tokens.length == 1) {
+			
+			return curPath_Move;
+			
+		}
+		
+		////////////////////////////////
+
+		// tokens > 1
+
+		////////////////////////////////
+		int len = tokens.length;
+		
+		String[] tokens_New = Arrays.copyOfRange(tokens, 0, len - 1);
+//		String[] tokens_New = Arrays.copyOfRange(tokens, 0, len - 2);
+		
+		return StringUtils.join(tokens_New, File.separator);
+		
+	}//conv_CurrentPathMove_to_CurrentPathMove_New
 
 }//public class Methods
 

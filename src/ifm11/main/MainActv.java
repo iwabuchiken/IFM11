@@ -682,7 +682,50 @@ public class MainActv extends ListActivity {
 			Log.d("MainActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
+
+			////////////////////////////////
+
+			// setup button => if not at the top dir,
+			//				then, enable the button
+
+			////////////////////////////////
+			String base_path = StringUtils.join(
+					new String[]{
+							CONS.Paths.dpath_Storage_Sdcard, CONS.Paths.dname_Base
+					},
+					File.separator);
+
+			if (!currentPath.equals(base_path)) {
+				
+				// Log
+				msg_Log = "currentPath.equals(base_path) => false";
+				Log.d("MainActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				ImageButton bt_Up = (ImageButton) this.findViewById(R.id.main_bt_up);
+				
+				bt_Up.setEnabled(true);
+				
+				bt_Up.setImageDrawable(
+						this.getResources().getDrawable(R.drawable.main_up));
+				
+			} else {
+				
+				// Log
+				msg_Log = "currentPath.equals(base_path) => true";
+				Log.d("MainActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+			}
 			
+			////////////////////////////////
+
+			// build: dir list
+
+			////////////////////////////////
 			CONS.MainActv.list_RootDir = Methods.get_FileList(new File(currentPath));
 			
 			if (CONS.MainActv.list_RootDir == null) {

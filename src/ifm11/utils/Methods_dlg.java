@@ -1,6 +1,7 @@
 package ifm11.utils;
 
 import ifm11.items.TI;
+import ifm11.listeners.DLOI_LCL;
 import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.dialog.DB_OCL;
 import ifm11.listeners.dialog.DB_OTL;
@@ -1247,7 +1248,7 @@ public class Methods_dlg {
 
 		////////////////////////////////
 		boolean res = _dlg_MoveFiles__Folder__BuildList(actv);
-		
+
 		if (res == false) {
 			
 			String msg = "Can't build folders list";
@@ -1256,23 +1257,18 @@ public class Methods_dlg {
 			return;
 		}
 		
-//		String[] choices = _dlg_MoveFiles__Folder__BuildList(actv);
-////				String[] choices = {
-////		
-////			actv.getString(R.string.dlg_move_files_item_folder),
-////			actv.getString(R.string.dlg_move_files_item_remote),
-////		
-////		};
-		
-//		List<String> list = _dlg_MoveFiles__Folder__BuildList(actv);
-//		List<String> list = new ArrayList<String>();
-//		
-//		for (String item : choices) {
-//		
-//			list.add(item);
-//		
-//		}
-		
+		////////////////////////////////
+
+		// set: pref: current path
+
+		////////////////////////////////
+		res = 
+				Methods.set_Pref_String(
+							actv, 
+							CONS.Pref.pname_MainActv, 
+							CONS.Pref.pkey_TNActv__CurPath_Move, 
+							CONS.DB.tname_IFM11);
+
 		////////////////////////////////
 
 		// Adapter
@@ -1307,7 +1303,8 @@ public class Methods_dlg {
 		lv.setOnItemClickListener(new DOI_CL(actv, dlg1, dlg2));
 
 		// Long click
-		lv.setOnItemLongClickListener(new LOI_LCL(actv, dlg1, dlg2));
+		lv.setOnItemLongClickListener(new DLOI_LCL(actv, dlg1, dlg2));
+//		lv.setOnItemLongClickListener(new LOI_LCL(actv, dlg1, dlg2));
 		
 		/****************************
 		* 6. Show dialog
@@ -1323,18 +1320,18 @@ public class Methods_dlg {
 		
 		List<String> list = new ArrayList<String>();
 		
-		////////////////////////////////
-
-		// set: pref: current path
-
-		////////////////////////////////
-		boolean res = 
-				Methods.set_Pref_String(
-							actv, 
-							CONS.Pref.pname_MainActv, 
-							CONS.Pref.pkey_TNActv__CurPath_Move, 
-							CONS.DB.tname_IFM11);
-		
+//		////////////////////////////////
+//
+//		// set: pref: current path
+//
+//		////////////////////////////////
+//		boolean res = 
+//				Methods.set_Pref_String(
+//							actv, 
+//							CONS.Pref.pname_MainActv, 
+//							CONS.Pref.pkey_TNActv__CurPath_Move, 
+//							CONS.DB.tname_IFM11);
+//		
 		////////////////////////////////
 
 		// get: top directory
