@@ -1,6 +1,7 @@
 package ifm11.listeners.button;
 
 import ifm11.utils.CONS;
+import ifm11.utils.Methods;
 import ifm11.utils.Tags;
 
 import android.app.Activity;
@@ -54,9 +55,10 @@ public class BO_CL implements OnClickListener {
 		
 		//
 		switch (tag) {
-		case ib_up://---------------------------------------------------------
+
+		case ib_up:
 			
-//			Methods.upDir(actv);
+			case_ACTV_MAIN_IB_UP();
 			
 			break;
 
@@ -116,6 +118,16 @@ public class BO_CL implements OnClickListener {
 		}//switch (tag)
 		
 	}//public void onClick(View v)
+
+	private void case_ACTV_MAIN_IB_UP() {
+		// TODO Auto-generated method stub
+		
+		Methods.go_Up_Dir(actv);
+		
+//		String msg_Toa = "UP";
+//		Toast.makeText(actv, msg_Toa, Toast.LENGTH_SHORT).show();
+		
+	}
 
 	private void 
 	case_TILIST_CB() {
