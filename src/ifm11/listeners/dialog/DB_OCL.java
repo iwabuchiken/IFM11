@@ -1,5 +1,6 @@
-package ifm11.listener.dialog;
+package ifm11.listeners.dialog;
 
+import ifm11.main.R;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
@@ -176,11 +177,36 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_CONF_MOVE_FILES_FOLDER_OK://------------------------------------------------
+			
+			dlg_DLG_CONF_MOVE_FILES_FOLDER_OK();
+			
+			break;
+			
 
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	dlg_DLG_CONF_MOVE_FILES_FOLDER_OK() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get: choice
+
+		////////////////////////////////
+		TextView tv_ItemName = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
+		
+		String chosen_Path = tv_ItemName.getText().toString();
+		
+		Toast.makeText(actv, chosen_Path, Toast.LENGTH_SHORT).show();
+		
+		
+	}//dlg_DLG_CONF_MOVE_FILES_FOLDER_OK
 
 	private void 
 	case_DLG_CONFIRM_CREATE_FOLDER_OK() {

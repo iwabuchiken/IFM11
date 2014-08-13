@@ -6,7 +6,7 @@ import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_TI;
 import ifm11.items.TI;
-import ifm11.listener.dialog.DL;
+import ifm11.listeners.dialog.DL;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.TNActv;

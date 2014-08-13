@@ -1,4 +1,4 @@
-package ifm11.listener;
+package ifm11.listeners;
 
 import ifm11.utils.CONS;
 import ifm11.utils.Tags;

@@ -768,6 +768,8 @@ public class TNActv extends ListActivity {
 		
 		case R.id.thumb_actv_menu_move_files:	//------------------------------------------
 			
+			_case_Opt_MoveFiles();
+			
 //			if (move_mode == false) {
 //				
 //				// debug
@@ -809,6 +811,34 @@ public class TNActv extends ListActivity {
 		return super.onOptionsItemSelected(item);
 		
 	}//public boolean onOptionsItemSelected(MenuItem item)
+
+
+	private void 
+	_case_Opt_MoveFiles() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// validate: any positions
+
+		////////////////////////////////
+		if (CONS.TNActv.checkedPositions.size() < 1) {
+			
+			String msg = "No checked positions";
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// start: dialog
+
+		////////////////////////////////
+		Methods_dlg.dlg_MoveFiles(this);
+		
+	}//_case_Opt_MoveFiles
 
 
 	//REF http://stackoverflow.com/questions/7066657/android-how-to-dynamically-change-menu-item-text-outside-of-onoptionsitemssele answered Aug 15 '11 at 15:27

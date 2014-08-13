@@ -1,4 +1,4 @@
-package ifm11.listener.dialog;
+package ifm11.listeners.dialog;
 
 
 import ifm11.main.R;
@@ -118,11 +118,60 @@ public class DOI_CL implements OnItemClickListener {
 			
 			break;// case dlg_bmactv_list_long_click
 
+		case DLG_MOVE_FILES://----------------------------------------------
+			
+			choice = (String) parent.getItemAtPosition(position);
+			
+			case_DLG_MOVE_FILES(choice);
+			
+			break;// case dlg_bmactv_list_long_click
+			
+		case DLG_MOVE_FILES_FOLDER://----------------------------------------------
+			
+			choice = (String) parent.getItemAtPosition(position);
+			
+			case_DLG_MOVE_FILES_FOLDER(choice);
+			
+			break;// case dlg_bmactv_list_long_click
+			
 		default:
 			break;
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_DLG_MOVE_FILES_FOLDER
+	(String choice) {
+		// TODO Auto-generated method stub
+		
+		Methods_dlg.conf_MoveFiles__Folder(actv, dlg1, dlg2, choice);
+		
+	}
+
+	private void 
+	case_DLG_MOVE_FILES
+	(String choice) {
+		// TODO Auto-generated method stub
+	
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (choice.equals(actv.getString(
+				R.string.dlg_move_files_item_folder))) {
+
+			Methods_dlg.dlg_MoveFiles__Folder(actv, dlg1);
+			
+		} else if (choice.equals(actv.getString(		// Refresh DB
+				R.string.dlg_move_files_item_remote))) {
+			
+//			Methods_dlg.dlg_MoveFiles__Remote(actv, dlg1);
+			
+		}
+		
+	}//case_DLG_MOVE_FILES
 
 	private void 
 	case_DLG_ADD_MEMOS_GV

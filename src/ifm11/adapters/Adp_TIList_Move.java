@@ -1,8 +1,8 @@
 package ifm11.adapters;
 
 import ifm11.items.TI;
-import ifm11.listener.LCL;
-import ifm11.listener.button.BO_CL;
+import ifm11.listeners.LCL;
+import ifm11.listeners.button.BO_CL;
 import ifm11.main.R;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
@@ -194,25 +194,25 @@ public class Adp_TIList_Move extends ArrayAdapter<TI> {
 		// Set background: current position
 
 		////////////////////////////////
-		int savedPosition = Methods.get_Pref_Int(
-								(Activity)con, 
-								CONS.Pref.pname_MainActv, 
-								CONS.Pref.pkey_CurrentPosition_TNActv, 
-								CONS.Pref.dflt_IntExtra_value);
+//		int savedPosition = Methods.get_Pref_Int(
+//								(Activity)con, 
+//								CONS.Pref.pname_MainActv, 
+//								CONS.Pref.pkey_CurrentPosition_TNActv, 
+//								CONS.Pref.dflt_IntExtra_value);
 		
-		if (savedPosition == position) {
-			
-			tv_FileName.setBackgroundResource(R.color.gold2);
-			tv_FileName.setTextColor(Color.BLACK);
-			
-		} else if (savedPosition == -1) {//if (savedPosition == position)
-			
-		} else {//if (savedPosition == position)
-			
-			tv_FileName.setBackgroundColor(Color.BLACK);
-			tv_FileName.setTextColor(Color.WHITE);
-			
-		}//if (savedPosition == position)
+//		if (savedPosition == position) {
+//			
+//			tv_FileName.setBackgroundResource(R.color.gold2);
+//			tv_FileName.setTextColor(Color.BLACK);
+//			
+//		} else if (savedPosition == -1) {//if (savedPosition == position)
+//			
+//		} else {//if (savedPosition == position)
+//			
+//			tv_FileName.setBackgroundColor(Color.BLACK);
+//			tv_FileName.setTextColor(Color.WHITE);
+//			
+//		}//if (savedPosition == position)
 
 		// move_mode
 		if (CONS.TNActv.checkedPositions.contains((Integer) position)) {
