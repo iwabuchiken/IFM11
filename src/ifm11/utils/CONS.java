@@ -324,6 +324,9 @@ public class CONS {
 		public static String pkey_CurrentPosition_TNActv
 									= "pkey_CurrentPosition_TNActv";
 		
+		public static String pkey_TNActv__CurPath_Move
+									= "pkey_TNActv__CurPath_Move";
+
 	}
 
 	public static class MainActv {
@@ -353,6 +356,12 @@ public class CONS {
 		
 		public static List<Integer> checkedPositions = new ArrayList<Integer>();
 		
+		// TNActv, long click, move files
+		public static ArrayAdapter<String> adp_DirList;
+		
+		// TNActv, long click, move files
+		public static List<String> dir_List;
+
 	}
 	
 	public static class IMageActv {
@@ -364,6 +373,13 @@ public class CONS {
 	}
 	
 	public static class Admin {
+		
+		////////////////////////////////
+
+		// commons
+
+		////////////////////////////////
+		public static final String dirString_UpperDir	= "..";
 		
 		public static final float DLG_WIDTH_RATIO = 0.8f;
 		

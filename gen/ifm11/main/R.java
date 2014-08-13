@@ -191,10 +191,11 @@ public final class R {
         /**  dlg_input_empty.xml 
          */
         public static final int dlg_input_empty_message=0x7f06002f;
+        public static final int dlg_move_files_confirm_move_to_flolder_top_msg=0x7f060037;
         public static final int dlg_move_files_confirm_move_to_folder_msg=0x7f060035;
         public static final int dlg_move_files_confirm_move_to_rmeote_msg=0x7f060036;
-        public static final int dlg_move_files_item_folder=0x7f060037;
-        public static final int dlg_move_files_item_remote=0x7f060038;
+        public static final int dlg_move_files_item_folder=0x7f060038;
+        public static final int dlg_move_files_item_remote=0x7f060039;
         /**  dlg: move files 
          */
         public static final int dlg_move_files_title=0x7f060032;

@@ -84,7 +84,7 @@ public class Tags {
 		DLG_DELETE_FOLDER_CONF_OK,
 		
 		// dlg: conf: move files: to folder
-		DLG_CONF_MOVE_FILES_FOLDER_OK,
+		DLG_CONF_MOVE_FILES_FOLDER_OK, DLG_CONF_MOVE_FILES_FOLDER_TOP_OK,
 		
 	}//public static enum DialogTags
 	

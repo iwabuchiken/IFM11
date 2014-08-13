@@ -105,6 +105,8 @@
    		    										Move files to folder?</string>
    		<string name="dlg_move_files_confirm_move_to_rmeote_msg">
    		    										Move files to remote?</string>
+   		<string name="dlg_move_files_confirm_move_to_flolder_top_msg">
+   		    										Move files to top dir?</string>
    		
    		<string name="dlg_move_files_item_folder">To folder</string>
    		<string name="dlg_move_files_item_remote">To remote</string>
