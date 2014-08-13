@@ -57,8 +57,10 @@ public final class R {
         public static final int ifm8_up=0x7f020019;
         public static final int ifm8_up_disenabled=0x7f02001a;
         public static final int main_opt_move_disabled=0x7f02001b;
-        public static final int proj_icon_64x64=0x7f02001c;
-        public static final int s_01_timer_menu_listitem_filter_30x30_v3=0x7f02001d;
+        public static final int main_up=0x7f02001c;
+        public static final int main_up_disenabled=0x7f02001d;
+        public static final int proj_icon_64x64=0x7f02001e;
+        public static final int s_01_timer_menu_listitem_filter_30x30_v3=0x7f02001f;
     }
     public static final class id {
         public static final int LL_main=0x7f09002c;

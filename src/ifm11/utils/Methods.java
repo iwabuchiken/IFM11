@@ -46,6 +46,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -2486,7 +2487,7 @@ public class Methods {
 		
 		// Log
 		String msg_Log = "currentPath => " + currentPath;
-		Log.d("Ops.java" + "["
+		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -2563,7 +2564,7 @@ public class Methods {
 		
 		// Log
 		msg_Log = "adapter => notified";
-		Log.d("Ops.java" + "["
+		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -2952,6 +2953,212 @@ public class Methods {
 		return list_Dir;
 		
 	}//public static List<String> get_file_list(File dpath)
+
+	/******************************
+		@param dirName => The function doesn't validate if the dir exists
+	 ******************************/
+	public static void 
+	go_Down_Dir
+	(Activity actv, String dirName) {
+		// TODO Auto-generated method stub
+	
+		////////////////////////////////
+	
+		// new file
+	
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		File dpath_New = new File(currentPath, dirName);
+		
+		String newPath = dpath_New.getAbsolutePath();
+		
+		// Log
+		String msg_Log = "new path => " + dpath_New.getAbsolutePath();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		String tname_New = 
+				Methods.conv_CurrentPath_to_TableName(dpath_New.getAbsolutePath());
+		
+		msg_Log = "tname_New =>" +
+				" " + tname_New;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+	
+		// list_RootDir
+	
+		////////////////////////////////
+		CONS.MainActv.list_RootDir.clear();
+		
+		CONS.MainActv.list_RootDir.addAll(
+							Methods.get_FileList(new File(newPath)));
+		
+		////////////////////////////////
+	
+		// notify
+	
+		////////////////////////////////
+		CONS.MainActv.aAdapter.notifyDataSetChanged();
+		
+		////////////////////////////////
+	
+		// pref
+	
+		////////////////////////////////
+		boolean res = Methods.set_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				newPath);
+		
+		////////////////////////////////
+	
+		// Button: up
+	
+		////////////////////////////////
+		ImageButton bt_Up = (ImageButton) actv.findViewById(R.id.main_bt_up);
+		
+		bt_Up.setEnabled(true);
+		
+	//	bt_Up.setBackgroundResource(R.drawable.main_up);
+		
+		bt_Up.setImageDrawable(actv.getResources().getDrawable(R.drawable.main_up));
+		
+		// Log
+		msg_Log = "button => enabled";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+	
+		// Show path
+	
+		////////////////////////////////
+		TextView tv_Path = (TextView) actv.findViewById(R.id.main_tv_dir_path);
+		
+		tv_Path.setText(Methods.conv_CurrentPath_to_DisplayPath(newPath));
+		
+		
+	}//go_Down_Dir
+
+	public static CharSequence conv_CurrentPath_to_DisplayPath(String path) {
+		// TODO Auto-generated method stub
+		
+		String head = CONS.Paths.dpath_Storage_Sdcard;
+		
+		int len = head.length();
+		
+		return path.substring(len + 1);
+		
+	}
+
+	public static void 
+	go_Up_Dir
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// new file
+		
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		File dir_New = new File(currentPath).getParentFile();
+		
+		String newPath = dir_New.getAbsolutePath();
+		
+		String tname_New = 
+				Methods.conv_CurrentPath_to_TableName(newPath);
+		
+		String msg_Log = "tname_New =>" +
+				" " + tname_New;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// list_RootDir
+		
+		////////////////////////////////
+		CONS.MainActv.list_RootDir.clear();
+		
+		CONS.MainActv.list_RootDir.addAll(
+				Methods.get_FileList(new File(newPath)));
+		
+		////////////////////////////////
+		
+		// notify
+		
+		////////////////////////////////
+		CONS.MainActv.aAdapter.notifyDataSetChanged();
+		
+		////////////////////////////////
+		
+		// pref
+		
+		////////////////////////////////
+		boolean res = Methods.set_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				newPath);
+		
+		////////////////////////////////
+		
+		// Button: up
+		
+		////////////////////////////////
+		String root_DirPath = StringUtils.join(
+				new String[]{
+						CONS.Paths.dpath_Storage_Sdcard, 
+						CONS.Paths.dname_Base},
+				File.separator);
+		
+		// If the new dir is the root dir,
+		//		then, disable the "Up" button
+		if (newPath.equals(root_DirPath)) {
+			
+			ImageButton bt_Up = (ImageButton) actv.findViewById(R.id.main_bt_up);
+			
+			bt_Up.setEnabled(false);
+			
+			bt_Up.setImageDrawable(
+					actv.getResources().getDrawable(R.drawable.main_up_disenabled));
+			
+			// Log
+			msg_Log = "button => disabled";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+		
+		// Show path
+		
+		////////////////////////////////
+		TextView tv_Path = (TextView) actv.findViewById(R.id.main_tv_dir_path);
+		
+		tv_Path.setText(Methods.conv_CurrentPath_to_DisplayPath(newPath));
+		
+	}//go_Down_Dir
 
 }//public class Methods
 

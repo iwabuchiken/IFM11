@@ -358,7 +358,7 @@ public class MainActv extends ListActivity {
 			
 		} else if (f.isDirectory()) {
 			
-//			Ops.go_Down_Dir(this, item);
+			Methods.go_Down_Dir(this, itemName);
 			
 		} else {
 			
