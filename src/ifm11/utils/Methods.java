@@ -2695,10 +2695,13 @@ public class Methods {
 		////////////////////////////////
 		CONS.TNActv.adp_TNActv_Main_Move = new Adp_TIList_Move(
 				actv,
-				R.layout.list_row,
+				R.layout.list_row_checked_box,
+//				R.layout.list_row,
 //				R.layout.thumb_activity,
 				CONS.TNActv.list_TNActv_Main
 				);
+		
+		
 		
 		////////////////////////////////
 		
@@ -2784,6 +2787,17 @@ public class Methods {
 						CONS.TNActv.list_TNActv_Main, 
 						CONS.Enums.SortType.CREATED_AT, 
 						CONS.Enums.SortOrder.ASC);
+		
+		////////////////////////////////
+
+		// checked positions
+
+		////////////////////////////////
+		if (CONS.TNActv.checkedPositions != null) {
+			
+			CONS.TNActv.checkedPositions.clear();
+			
+		}
 		
 		////////////////////////////////
 

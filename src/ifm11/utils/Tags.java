@@ -149,7 +149,10 @@ public class Tags {
 		actv_bm_bt_back,
 		
 		// actv_hist.xml
-		actv_hist_ib_back, actv_hist_ib_bottom, actv_hist_ib_top,
+		actv_hist_ib_back, actv_hist_ib_bottom, actv_hist_ib_top, 
+		
+		// TNActv, move mode = true
+		TILIST_CB,
 
 	}//public static enum ButtonTags
 	

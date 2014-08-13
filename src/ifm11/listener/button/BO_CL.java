@@ -1,24 +1,15 @@
 package ifm11.listener.button;
 
 import ifm11.utils.CONS;
-import ifm11.utils.Methods;
 import ifm11.utils.Tags;
 
-import java.io.File;
-
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
+import android.content.Context;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class BO_CL implements OnClickListener {
 	/*----------------------------
@@ -33,43 +24,33 @@ public class BO_CL implements OnClickListener {
 	//
 	int position;
 	
-	//
-	ListView lv;
-	
-	public BO_CL(Activity actv) {
-		//
-		this.actv = actv;
-		
-		//
-		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
-	}
-
 	public BO_CL(Activity actv, int position) {
 		//
 		this.actv = actv;
 		this.position = position;
 		
 		//
-		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
 		
 		
 		
 	}//public ButtonOnClickListener(Activity actv, int position)
 
-	public BO_CL(Activity actv, ListView lv) {
-		// 
-		this.actv = actv;
-		this.lv = lv;
+	public BO_CL(Activity actv) {
 		
-		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
+		this.actv = actv;
+		
+		//
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+
 	}
 
-//	@Override
+	//	@Override
 	public void onClick(View v) {
 //		//
 		Tags.ButtonTags tag = (Tags.ButtonTags) v.getTag();
 //
-		vib.vibrate(CONS.Admin.vibLength_click);
+		CONS.Admin.vib.vibrate(CONS.Admin.vibLength_click);
 		
 		//
 		switch (tag) {
@@ -79,25 +60,25 @@ public class BO_CL implements OnClickListener {
 			
 			break;
 
-//		case tilist_cb://------------------------------------------------------------------------------
-//			/*----------------------------
-//			 * Steps
-//			 * 1. If already checked, unlist from ThumbnailActivity.checkedPositions
-//			 * 2. If not yet, enlist into it
-//			 * 3. Then, notify to adapter
-//				----------------------------*/
-//			/*----------------------------
-//			 * 1. If already checked, unlist from ThumbnailActivity.checkedPositions
-//				----------------------------*/
-//			case_tilist_cb();
-//			
-//			/*----------------------------
-//			 * 3. Then, notify to adapter
-//				----------------------------*/
+		case TILIST_CB://-----------------------------------------------------------------------------
+			/*----------------------------
+			 * Steps
+			 * 1. If already checked, unlist from ThumbnailActivity.checkedPositions
+			 * 2. If not yet, enlist into it
+			 * 3. Then, notify to adapter
+				----------------------------*/
+			/*----------------------------
+			 * 1. If already checked, unlist from ThumbnailActivity.checkedPositions
+				----------------------------*/
+			case_TILIST_CB();
+			
+			/*----------------------------
+			 * 3. Then, notify to adapter
+				----------------------------*/
 //			TNActv.aAdapter.notifyDataSetChanged();
-//			TNActv.bAdapter.notifyDataSetChanged();
-//			
-//			break;
+//			CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
+			
+			break;
 
 //		case thumb_activity_ib_bottom: //----------------------------------------------
 //			
@@ -135,5 +116,65 @@ public class BO_CL implements OnClickListener {
 		}//switch (tag)
 		
 	}//public void onClick(View v)
+
+	private void 
+	case_TILIST_CB() {
+		
+		if (CONS.TNActv.checkedPositions.contains((int)position)) {
+			// Log
+			Log.d("BO_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "position exists => " + position);
+			
+//			TNActv.checkedPositions.add(position);
+//			TNActv.checkedPositions.remove(position);
+			CONS.TNActv.checkedPositions.remove((Integer) position);
+			
+			// Log
+			Log.d("BO_CL.java"
+					+ "["
+					+ Thread.currentThread().getStackTrace()[2]
+							.getLineNumber() + "]", "position removed => " + position);
+			
+		} else {//if (TNActv.checkedPositions.contains((int)position))
+			/*----------------------------
+			 * 2. If not yet, enlist into it
+				----------------------------*/
+			
+			CONS.TNActv.checkedPositions.add(position);
+			
+			// Log
+			String temp = "new position added => " + String.valueOf(position) +
+					"(size=" + CONS.TNActv.checkedPositions.size() + ")" + "[";
+			
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append(temp);
+			for (int i = 0; i < CONS.TNActv.checkedPositions.size(); i++) {
+				
+				sb.append(CONS.TNActv.checkedPositions.get(i) + ",");
+				
+			}//for (int i = 0; i < TNActv.checkedPositions.size(); i++)
+			sb.append("]");
+			
+			
+			Log.d("BO_CL.java"
+					+ "["
+					+ Thread.currentThread().getStackTrace()[2]
+							.getLineNumber() + "]", sb.toString());
+//							.getLineNumber() + "]", "new position added => " + String.valueOf(position) +
+//							"(size=" + TNActv.checkedPositions.size() + ")" + "[" +);
+			
+			
+		}//if (TNActv.checkedPositions.contains((int)position))
+		
+		////////////////////////////////
+
+		// notify
+
+		////////////////////////////////
+		CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
+		
+	}//case_TILIST_CB
 
 }//public class ButtonOnClickListener implements OnClickListener
