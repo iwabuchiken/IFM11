@@ -192,18 +192,8 @@ public class DB_OCL implements OnClickListener {
 	private void 
 	dlg_DLG_CONF_MOVE_FILES_FOLDER_OK() {
 		// TODO Auto-generated method stub
-		
-		////////////////////////////////
 
-		// get: choice
-
-		////////////////////////////////
-		TextView tv_ItemName = 
-				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
-		
-		String chosen_Path = tv_ItemName.getText().toString();
-		
-		Toast.makeText(actv, chosen_Path, Toast.LENGTH_SHORT).show();
+		Methods.move_Files(actv, dlg1, dlg2, dlg3);
 		
 		
 	}//dlg_DLG_CONF_MOVE_FILES_FOLDER_OK

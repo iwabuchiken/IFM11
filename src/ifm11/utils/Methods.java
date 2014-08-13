@@ -2953,5 +2953,157 @@ public class Methods {
 		
 	}//public static List<String> get_file_list(File dpath)
 
+	public static void 
+	move_Files
+	(Activity actv, 
+			Dialog dlg1, Dialog dlg2, Dialog dlg3) {
+
+		////////////////////////////////
+
+		// get: choice
+
+		////////////////////////////////
+		TextView tv_ItemName = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
+		
+		String choice = tv_ItemName.getText().toString();
+		
+		// Log
+		String msg_Log = "target path => " + choice;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// conv: choice string to => table name
+
+		////////////////////////////////
+		String tname_New = Methods.conv_CurrentPathMove_to_TableName(choice);
+		
+		// Log
+		msg_Log = "tname_New => " + tname_New;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// build: TI list from => checkedPositions
+
+		////////////////////////////////
+		List<TI> toMoveFiles = _move_Files__Get_ToMoveList();
+		
+		// Log
+		msg_Log = "toMoveFiles.size => " + toMoveFiles.size();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		////////////////////////////////
+
+		// update: table name
+
+		////////////////////////////////
+		for (TI ti : toMoveFiles) {
+			
+			ti.setTable_name(tname_New);
+			
+		}
+		
+		////////////////////////////////
+
+		// update: DB
+
+		////////////////////////////////
+		int counter = DBUtils.update_TI_All__TableName(actv, toMoveFiles);
+		
+		// Log
+		msg_Log = "moved => " + counter;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// clear: checkedPositions
+
+		////////////////////////////////
+		CONS.TNActv.checkedPositions.clear();
+		
+		////////////////////////////////
+
+		// re-build: TI list
+
+		////////////////////////////////
+		// current path
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Can't get current path";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		// conv to => table
+		String cur_TableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		// list
+		CONS.TNActv.list_TNActv_Main.clear();
+		
+		CONS.TNActv.list_TNActv_Main.addAll(
+							DBUtils.find_All_TI(actv, cur_TableName));
+		
+		////////////////////////////////
+
+		// notify
+
+		////////////////////////////////
+		CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
+		
+		// Log
+		msg_Log = "adapter(move) => notified";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// dismiss dlgs
+
+		////////////////////////////////
+		dlg3.dismiss();
+		dlg2.dismiss();
+		dlg1.dismiss();
+		
+	}//public static void move_Files
+
+	private static List<TI>
+	_move_Files__Get_ToMoveList() {
+		// TODO Auto-generated method stub
+		
+		List<TI> toMoveFiles = new ArrayList<TI>();
+		
+		for (int position : CONS.TNActv.checkedPositions) {
+			
+			toMoveFiles.add(CONS.TNActv.list_TNActv_Main.get(position));
+			
+		}//for (int position : ThumbnailActivity.checkedPositions)
+		
+		
+		return toMoveFiles;
+		
+	}//_move_Files__Get_ToMoveList
+
 }//public class Methods
 
