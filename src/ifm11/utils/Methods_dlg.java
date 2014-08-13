@@ -1246,31 +1246,44 @@ public class Methods_dlg {
 		// Prep => List
 
 		////////////////////////////////
-		String[] choices = {
+		boolean res = _dlg_MoveFiles__Folder__BuildList(actv);
 		
-			actv.getString(R.string.dlg_move_files_item_folder),
-			actv.getString(R.string.dlg_move_files_item_remote),
-		
-		};
-		
-		List<String> list = new ArrayList<String>();
-		
-		for (String item : choices) {
-		
-			list.add(item);
-		
+		if (res == false) {
+			
+			String msg = "Can't build folders list";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
 		}
+		
+//		String[] choices = _dlg_MoveFiles__Folder__BuildList(actv);
+////				String[] choices = {
+////		
+////			actv.getString(R.string.dlg_move_files_item_folder),
+////			actv.getString(R.string.dlg_move_files_item_remote),
+////		
+////		};
+		
+//		List<String> list = _dlg_MoveFiles__Folder__BuildList(actv);
+//		List<String> list = new ArrayList<String>();
+//		
+//		for (String item : choices) {
+//		
+//			list.add(item);
+//		
+//		}
 		
 		////////////////////////////////
 
 		// Adapter
 
 		////////////////////////////////
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+		CONS.TNActv.adp_DirList = new ArrayAdapter<String>(
 				
 					actv,
 					R.layout.list_row_simple_1,
-					list
+					CONS.TNActv.dir_List
+//					list
 					
 		);
 		
@@ -1279,7 +1292,8 @@ public class Methods_dlg {
 		****************************/
 		ListView lv = (ListView) dlg2.findViewById(R.id.dlg_tmpl_list_cancel_2_lv);
 		
-		lv.setAdapter(adapter);
+		lv.setAdapter(CONS.TNActv.adp_DirList);
+//		lv.setAdapter(adapter);
 		
 		////////////////////////////////
 
@@ -1301,6 +1315,77 @@ public class Methods_dlg {
 		dlg2.show();
 		
 	}//dlg_MoveFiles__Folder
+
+	private static boolean 
+	_dlg_MoveFiles__Folder__BuildList
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		List<String> list = new ArrayList<String>();
+		
+		////////////////////////////////
+
+		// set: pref: current path
+
+		////////////////////////////////
+		boolean res = 
+				Methods.set_Pref_String(
+							actv, 
+							CONS.Pref.pname_MainActv, 
+							CONS.Pref.pkey_TNActv__CurPath_Move, 
+							CONS.DB.tname_IFM11);
+		
+		////////////////////////////////
+
+		// get: top directory
+
+		////////////////////////////////
+		String currentPath = StringUtils.join(
+				new String[]{
+						CONS.Paths.dpath_Storage_Sdcard, 
+						CONS.Paths.dname_Base},
+				File.separator);
+
+		if (currentPath == null) {
+			
+//			String msg = "Can't get the current path: " + currentPath;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return false;
+			
+		}
+		
+		//CONS.ALActv.dir_List = Methods.get_DirList(currentPath);
+		List<String> dir_List = Methods.get_DirList(currentPath);
+		CONS.TNActv.dir_List = new ArrayList<String>();
+		
+		for (String dirName : dir_List) {
+		//	for (String dirName : CONS.ALActv.dir_List) {
+			
+			CONS.TNActv.dir_List.add(
+							CONS.Paths.dname_Base + File.separator + dirName);
+		//	dirName = CONS.DB.tname_CM7 + File.separator + dirName;
+			
+		}
+		
+		// Log
+		String msg_Log = "dir list => modified";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.TNActv.dir_List.add(CONS.Admin.dirString_UpperDir);		
+		
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return true;
+		
+//		return list;
+		
+	}//_dlg_MoveFiles__Folder__BuildList
 
 	public static void 
 	conf_MoveFiles__Folder

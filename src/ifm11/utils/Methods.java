@@ -12,6 +12,7 @@ import ifm11.main.R;
 import ifm11.main.TNActv;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -2820,6 +2821,95 @@ public class Methods {
 		
 		
 	}//_moveMode_True
+
+	/******************************
+		@return null => 1. dpath_Target ==> Dir doesn't exist<br>
+						2. listFiles ==> returned null
+	 ******************************/
+	public static List<String> get_DirList(String dpath_Target) {
+		/*********************************
+		 * 1. Directory exists?
+		 * 2. Build list
+		 * 2-1. Sort list
+		 * 
+		 * 3. Return
+		 *********************************/
+		File dir_Target = new File(dpath_Target);
+		
+		////////////////////////////////
+		
+		// Directory exists?
+		
+		////////////////////////////////
+		
+		if (!dir_Target.exists()) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Dir doesn't exist");
+			
+			return null;
+			
+		} else {//if (!dpath.exists() == condition)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Dir exists: " + dir_Target.getAbsolutePath());
+			
+		}//if (!dpath.exists() == condition)
+		
+		////////////////////////////////
+		
+		// Get: Dir list (Directories only)
+		
+		////////////////////////////////
+		List<String> list_Dir = new ArrayList<String>();
+		
+		File[] files_list = dir_Target.listFiles(new FileFilter(){
+	
+			@Override
+			public boolean accept(File f) {
+				
+				return f.isDirectory();
+				
+			}
+			
+		});
+		
+		if (files_list == null) {
+			
+			// Log
+			String msg_log = "listFiles() => returned null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_log);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// Sort list
+		
+		////////////////////////////////
+		
+		Methods.sort_list_files(files_list);
+		
+		for (File f : files_list) {
+			
+			list_Dir.add(f.getName());
+			
+		}//for (File f : files_list)
+		
+		/*********************************
+		 * 3. Return
+		 *********************************/
+		return list_Dir;
+		
+	}//public static List<String> get_file_list(File dpath)
 
 }//public class Methods
 
