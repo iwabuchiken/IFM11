@@ -1,4 +1,4 @@
-package ifm11.listener.dialog;
+package ifm11.listeners.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog.Builder;

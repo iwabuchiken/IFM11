@@ -36,8 +36,20 @@ LOI_LCL implements OnItemLongClickListener {
 		// TODO Auto-generated constructor stub
 		this.actv = actv;
 		
-		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
 		
+	}
+
+	public 
+	LOI_LCL
+	(Activity actv, Dialog dlg1, Dialog dlg2) {
+		// TODO Auto-generated constructor stub
+		this.actv	= actv;
+		this.dlg1	= dlg1;
+		this.dlg2	= dlg2;
+		
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
+
 	}
 
 	public boolean
@@ -47,9 +59,10 @@ LOI_LCL implements OnItemLongClickListener {
 		Tags.ListTags tag = null;
 		
 			
-			tag = (Tags.ListTags) parent.getTag();
-			
-		vib.vibrate(CONS.Admin.vibLength_click);
+		tag = (Tags.ListTags) parent.getTag();
+		
+		CONS.Admin.vib.vibrate(CONS.Admin.vibLength_click);
+//		vib.vibrate(CONS.Admin.vibLength_click);
 		
 
 		

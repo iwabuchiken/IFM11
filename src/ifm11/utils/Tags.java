@@ -83,11 +83,15 @@ public class Tags {
 		// dlg: delete folder: conf
 		DLG_DELETE_FOLDER_CONF_OK,
 		
+		// dlg: conf: move files: to folder
+		DLG_CONF_MOVE_FILES_FOLDER_OK,
+		
 	}//public static enum DialogTags
 	
 	public static enum DialogItemTags {
 		// dlg_moveFiles(Activity actv)
-		dlg_move_files,
+		DLG_MOVE_FILES, DLG_MOVE_FILES_FOLDER,
+		DLG_MOVE_FILES_REMOTE,
 		
 		// dlg_add_memos.xml
 		DLG_ADD_MEMOS_GV,
@@ -149,7 +153,10 @@ public class Tags {
 		actv_bm_bt_back,
 		
 		// actv_hist.xml
-		actv_hist_ib_back, actv_hist_ib_bottom, actv_hist_ib_top,
+		actv_hist_ib_back, actv_hist_ib_bottom, actv_hist_ib_top, 
+		
+		// TNActv, move mode = true
+		TILIST_CB,
 
 	}//public static enum ButtonTags
 	

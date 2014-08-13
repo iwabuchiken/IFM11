@@ -1,6 +1,8 @@
 package ifm11.adapters;
 
 import ifm11.items.TI;
+import ifm11.listeners.LCL;
+import ifm11.listeners.button.BO_CL;
 import ifm11.main.R;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
@@ -114,13 +116,15 @@ public class Adp_TIList_Move extends ArrayAdapter<TI> {
 			----------------------------*/
     	View v = null;
 
-		v = move_mode_on(v, position, convertView);
+		v = moveMode_on(v, position, convertView);
 			
 		return v;
     }//public View getView(int position, View convertView, ViewGroup parent)
 
 
-	private View move_mode_on(View v, int position, View convertView) {
+	private View 
+	moveMode_on
+	(View v, int position, View convertView) {
 		
     	/*----------------------------
 		 * 2.1. Set layout
@@ -182,43 +186,50 @@ public class Adp_TIList_Move extends ArrayAdapter<TI> {
 		
 		tv_FileName.setText(ti.getFile_name());
 
+		tv_FileName.setClickable(true);
+
     	////////////////////////////////
 
-		// Set background
+		// View: File name
+		// Set background: current position
 
 		////////////////////////////////
-		int savedPosition = Methods.get_Pref_Int(
-								(Activity)con, 
-								CONS.Pref.pname_MainActv, 
-								CONS.Pref.pkey_CurrentPosition_TNActv, 
-								CONS.Pref.dflt_IntExtra_value);
+//		int savedPosition = Methods.get_Pref_Int(
+//								(Activity)con, 
+//								CONS.Pref.pname_MainActv, 
+//								CONS.Pref.pkey_CurrentPosition_TNActv, 
+//								CONS.Pref.dflt_IntExtra_value);
 		
-		if (savedPosition == position) {
-			
-			tv_FileName.setBackgroundResource(R.color.gold2);
-			tv_FileName.setTextColor(Color.BLACK);
-			
-		} else if (savedPosition == -1) {//if (savedPosition == position)
-			
-		} else {//if (savedPosition == position)
-			
-			tv_FileName.setBackgroundColor(Color.BLACK);
-			tv_FileName.setTextColor(Color.WHITE);
-			
-		}//if (savedPosition == position)
+//		if (savedPosition == position) {
+//			
+//			tv_FileName.setBackgroundResource(R.color.gold2);
+//			tv_FileName.setTextColor(Color.BLACK);
+//			
+//		} else if (savedPosition == -1) {//if (savedPosition == position)
+//			
+//		} else {//if (savedPosition == position)
+//			
+//			tv_FileName.setBackgroundColor(Color.BLACK);
+//			tv_FileName.setTextColor(Color.WHITE);
+//			
+//		}//if (savedPosition == position)
 
-//		// move_mode
-//		if (TNActv.move_mode == true &&
-//				TNActv.checkedPositions.contains((Integer) position)) {
-//			
-//			tv.setBackgroundColor(Color.BLUE);
-//			
-//		} else {//if (ThumbnailActivity.move_mode == true)
-//				
-//				tv.setBackgroundColor(Color.BLACK);
-//				
-//		}
+		// move_mode
+		if (CONS.TNActv.checkedPositions.contains((Integer) position)) {
+			
+			tv_FileName.setBackgroundColor(Color.BLUE);
+			
+		} else {//if (ThumbnailActivity.move_mode == true)
+				
+			tv_FileName.setBackgroundColor(Color.BLACK);
+				
+		}
 		
+		////////////////////////////////
+
+		// view: memo
+
+		////////////////////////////////
 		TextView tv_memo = (TextView) v.findViewById(R.id.list_row_checked_box_textView2);
 		
 		String memo = ti.getMemo();
@@ -231,46 +242,36 @@ public class Adp_TIList_Move extends ArrayAdapter<TI> {
 			tv_memo.setText("");
 		}//if (memo)
 		
-		/*----------------------------
-		 * 2.6. CheckedBox => Set listener
-		 * 		1. Set up
-		 * 		2. OnClick
-		 * 		3. 
-			----------------------------*/
+		////////////////////////////////
+
+		// view: checkbox
+
+		////////////////////////////////
 		CheckBox cb = (CheckBox) v.findViewById(R.id.list_row_checked_box_checkBox1);
 		
 //		cb.setTag(Tags.ButtonTags.tilist_cb);
+		cb.setTag(Tags.ButtonTags.TILIST_CB);
 		
-//		if (TNActv.checkedPositions.contains((Integer) position)) {
-//			
-//			cb.setChecked(true);
-//			
-//			// Log
-//			Log.d("TIListAdapter.java"
-//					+ "["
-//					+ Thread.currentThread().getStackTrace()[2]
-//							.getLineNumber() + "]", 
-//					"cb => true" + "(position => " + TNActv.checkedPositions.size() + ")");
-//			
-//			
-//		} else {//if (ThumbnailActivity.checkedPositions.contains((Integer) position)
-//			
-//			cb.setChecked(false);
-//			
-//		}//if (ThumbnailActivity.checkedPositions.contains((Integer) position)
+		if (CONS.TNActv.checkedPositions.contains((Integer) position)) {
+			
+			cb.setChecked(true);
+			
+		} else {//if (ThumbnailActivity.checkedPositions.contains((Integer) position)
+			
+			cb.setChecked(false);
+			
+		}//if (ThumbnailActivity.checkedPositions.contains((Integer) position)
 		
-//		cb.setOnClickListener(new ButtonOnClickListener((Activity) con, position));
-//		
-//		
-//		cb.setOnLongClickListener(
-//					new CustomOnLongClickListener(
-//									(Activity) con, position, Tags.ItemTags.tilist_checkbox));
+		cb.setOnClickListener(new BO_CL((Activity) con, position));
+		
+		
+		cb.setOnLongClickListener(new LCL((Activity) con, position));
 
 		/*----------------------------
 		 * 2.7. Return
 			----------------------------*/
 		return v;
 		
-	}//private View move_mode_on()
+	}//moveMode_on
 
 }//public class TIListAdapter extends ArrayAdapter<TI>

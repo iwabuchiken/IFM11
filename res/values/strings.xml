@@ -96,5 +96,17 @@
    		<string name="dlg_actvmain_lv_delete_confirm_message">
    		    						Delete folder?</string>
 	    	    
-	    
+   	<!-- dlg: move files -->
+   		<string name="dlg_move_files_title">Move files</string>
+   		<string name="dlg_move_files_title_folder">Move to folder</string>
+   		<string name="dlg_move_files_title_remote">Move to remote</string>
+   		
+   		<string name="dlg_move_files_confirm_move_to_folder_msg">
+   		    										Move files to folder?</string>
+   		<string name="dlg_move_files_confirm_move_to_rmeote_msg">
+   		    										Move files to remote?</string>
+   		
+   		<string name="dlg_move_files_item_folder">To folder</string>
+   		<string name="dlg_move_files_item_remote">To remote</string>
+   			    
 </resources>

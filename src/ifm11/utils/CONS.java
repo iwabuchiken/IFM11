@@ -351,6 +351,8 @@ public class CONS {
 
 		public static Menu menu;
 		
+		public static List<Integer> checkedPositions = new ArrayList<Integer>();
+		
 	}
 	
 	public static class IMageActv {

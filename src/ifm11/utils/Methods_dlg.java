@@ -1,9 +1,10 @@
 package ifm11.utils;
 
 import ifm11.items.TI;
-import ifm11.listener.dialog.DB_OCL;
-import ifm11.listener.dialog.DB_OTL;
-import ifm11.listener.dialog.DOI_CL;
+import ifm11.listeners.LOI_LCL;
+import ifm11.listeners.dialog.DB_OCL;
+import ifm11.listeners.dialog.DB_OTL;
+import ifm11.listeners.dialog.DOI_CL;
 import ifm11.main.R;
 import ifm11.utils.Tags.DialogTags;
 
@@ -1149,5 +1150,264 @@ public class Methods_dlg {
 		dlg2.show();
 		
 	}//conf_DeleteFolder
+
+	public static void 
+	dlg_MoveFiles
+	(Activity actv) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// dialog
+
+		////////////////////////////////
+		Dialog dlg1 = Methods_dlg.dlg_Template_Cancel(
+				actv, R.layout.dlg_tmpl_list_cancel, 
+				R.string.dlg_move_files_title, 
+				R.id.dlg_tmpl_list_cancel_bt_cancel, 
+//				R.id.dlg_db_admin_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS);
+
+		////////////////////////////////
+
+		// Prep => List
+
+		////////////////////////////////
+		String[] choices = {
+		
+			actv.getString(R.string.dlg_move_files_item_folder),
+			actv.getString(R.string.dlg_move_files_item_remote),
+		
+		};
+		
+		List<String> list = new ArrayList<String>();
+		
+		for (String item : choices) {
+		
+			list.add(item);
+		
+		}
+		
+		////////////////////////////////
+
+		// Adapter
+
+		////////////////////////////////
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				
+					actv,
+					R.layout.list_row_simple_1,
+					list
+					
+		);
+		
+		/****************************
+		* 4. Set adapter
+		****************************/
+		ListView lv = (ListView) dlg1.findViewById(R.id.dlg_tmpl_list_cancel_lv);
+		
+		lv.setAdapter(adapter);
+		
+		/****************************
+		* 5. Set listener to list
+		****************************/
+//		lv.setTag(Tags.DialogItemTags.dlg_move_files);
+		lv.setTag(Tags.DialogItemTags.DLG_MOVE_FILES);
+		
+		lv.setOnItemClickListener(new DOI_CL(actv, dlg1));
+		
+		/****************************
+		* 6. Show dialog
+		****************************/
+		dlg1.show();
+		
+	}
+
+	public static void 
+	dlg_MoveFiles__Folder
+	(Activity actv, Dialog dlg1) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// dialog
+
+		////////////////////////////////
+		Dialog dlg2 = Methods_dlg.dlg_Template_Cancel_SecondDialog(
+				actv, dlg1,
+				R.layout.dlg_tmpl_list_cancel_2, 
+				R.string.dlg_move_files_title_folder, 
+				R.id.dlg_tmpl_list_cancel_2_bt_cancel, 
+//				R.id.dlg_db_admin_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+
+		////////////////////////////////
+
+		// Prep => List
+
+		////////////////////////////////
+		String[] choices = {
+		
+			actv.getString(R.string.dlg_move_files_item_folder),
+			actv.getString(R.string.dlg_move_files_item_remote),
+		
+		};
+		
+		List<String> list = new ArrayList<String>();
+		
+		for (String item : choices) {
+		
+			list.add(item);
+		
+		}
+		
+		////////////////////////////////
+
+		// Adapter
+
+		////////////////////////////////
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				
+					actv,
+					R.layout.list_row_simple_1,
+					list
+					
+		);
+		
+		/****************************
+		* 4. Set adapter
+		****************************/
+		ListView lv = (ListView) dlg2.findViewById(R.id.dlg_tmpl_list_cancel_2_lv);
+		
+		lv.setAdapter(adapter);
+		
+		////////////////////////////////
+
+		// Set listener to list
+
+		////////////////////////////////
+		// Item click
+//		lv.setTag(Tags.DialogItemTags.dlg_move_files);
+		lv.setTag(Tags.DialogItemTags.DLG_MOVE_FILES_FOLDER);
+		
+		lv.setOnItemClickListener(new DOI_CL(actv, dlg1, dlg2));
+
+		// Long click
+		lv.setOnItemLongClickListener(new LOI_LCL(actv, dlg1, dlg2));
+		
+		/****************************
+		* 6. Show dialog
+		****************************/
+		dlg2.show();
+		
+	}//dlg_MoveFiles__Folder
+
+	public static void 
+	conf_MoveFiles__Folder
+	(Activity actv, 
+		Dialog dlg1, Dialog dlg2, String choice) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// dialog
+
+		////////////////////////////////
+		Dialog dlg3 = 
+				Methods_dlg.dlg_Tmpl_OkCancel_ThirdDialog(
+						actv, 
+						R.layout.dlg_tmpl_confirm_simple, 
+						R.string.generic_tv_confirm, 
+						
+						R.id.dlg_tmpl_confirm_simple_btn_ok, 
+						R.id.dlg_tmpl_confirm_simple_btn_cancel, 
+						
+						Tags.DialogTags.DLG_CONF_MOVE_FILES_FOLDER_OK, 
+						Tags.DialogTags.GENERIC_DISMISS_THIRD_DIALOG, 
+						
+						dlg1, dlg2);
+		
+		////////////////////////////////
+
+		// view: message
+
+		////////////////////////////////
+		TextView tv_Msg = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_message);
+		
+		tv_Msg.setText(actv.getString(
+								R.string.dlg_move_files_confirm_move_to_folder_msg));
+		
+		////////////////////////////////
+
+		// view: item name
+
+		////////////////////////////////
+		TextView tv_ItemName = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
+//		dlg_tmpl_confirm_simple_tv_message
+		
+		tv_ItemName.setText(choice);
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		dlg3.show();
+		
+	}//conf_MoveFiles__Folder
+
+	public static
+	Dialog dlg_Tmpl_OkCancel_ThirdDialog
+	(Activity actv, 
+		int layoutId, int titleStringId,
+		
+		int okButtonId, int cancelButtonId,
+		Tags.DialogTags okTag, Tags.DialogTags cancelTag,
+		
+		Dialog dlg1, Dialog dlg2) {
+		/****************************
+		 * Steps
+		 * 1. Set up
+		 * 2. Add listeners => OnTouch
+		 * 3. Add listeners => OnClick
+		 ****************************/
+		
+		// 
+		Dialog dlg3 = new Dialog(actv);
+		
+		//
+		dlg3.setContentView(layoutId);
+		
+		// Title
+		dlg3.setTitle(titleStringId);
+		
+		/****************************
+		 * 2. Add listeners => OnTouch
+		 ****************************/
+		//
+		Button btn_ok = (Button) dlg3.findViewById(okButtonId);
+		Button btn_cancel = (Button) dlg3.findViewById(cancelButtonId);
+		
+		//
+		btn_ok.setTag(okTag);
+		btn_cancel.setTag(cancelTag);
+		
+		//
+		btn_ok.setOnTouchListener(new DB_OTL(actv, dlg3));
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg3));
+		
+		/****************************
+		 * 3. Add listeners => OnClick
+		 ****************************/
+		//
+		btn_ok.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, dlg3));
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, dlg3));
+		
+		
+		return dlg3;
+		
+	}//public static Dialog dlg_template_okCancel_SecondDialog()
 
 }//public class Methods_dialog

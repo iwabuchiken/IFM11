@@ -1,4 +1,4 @@
-package ifm11.listener.dialog;
+package ifm11.listeners.dialog;
 
 import ifm11.utils.Tags;
 import android.app.Activity;

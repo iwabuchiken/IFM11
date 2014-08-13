@@ -1,8 +1,8 @@
 package ifm11.main;
 
 import ifm11.items.MyView;
-import ifm11.listener.button.BO_CL;
-import ifm11.listener.button.BO_TL;
+import ifm11.listeners.button.BO_CL;
+import ifm11.listeners.button.BO_TL;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;

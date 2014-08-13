@@ -583,6 +583,33 @@ public class TNActv extends ListActivity {
 		
 		super.onListItemClick(lv, v, position, id);
 		
+//		////////////////////////////////
+//
+//		// dispatch: move mode
+//
+//		////////////////////////////////
+//		if (CONS.TNActv.moveMode == true) {
+//		
+//			// Log
+//			String msg_Log = "move mode => true";
+//			Log.d("TNActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			onListItemClick__Move(lv, position);
+//			
+//			return;
+//			
+//		} else {
+//			
+//			// Log
+//			String msg_Log = "move mode => false";
+//			Log.d("TNActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			onListItemClick__Move(lv, position);
+//
+//		}
+		
 		////////////////////////////////
 
 		// get: item
@@ -661,6 +688,50 @@ public class TNActv extends ListActivity {
 		
 	}//onListItemClick
 
+	private void 
+	onListItemClick__Move
+	(ListView lv, int position) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// get: item
+
+		////////////////////////////////
+		TI ti = (TI) lv.getItemAtPosition(position);
+
+		////////////////////////////////
+
+		// register: position
+
+		////////////////////////////////
+		if (CONS.TNActv.checkedPositions == null) {
+			
+			CONS.TNActv.checkedPositions = new ArrayList<Integer>();
+					
+		}
+		
+		CONS.TNActv.checkedPositions.add(position);
+		
+		////////////////////////////////
+
+		// notify
+
+		////////////////////////////////
+		if (CONS.TNActv.adp_TNActv_Main_Move != null) {
+			
+			CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
+			
+		}//if (bAdapter != null)
+		
+		// Log
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "New position => " + position +
+				" / " + "(length=" + CONS.TNActv.checkedPositions.size() + ")");
+		
+	}//onListItemClick__Move
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// 
@@ -696,6 +767,8 @@ public class TNActv extends ListActivity {
 			break;// case R.id.thumb_actv_menu_move_files
 		
 		case R.id.thumb_actv_menu_move_files:	//------------------------------------------
+			
+			_case_Opt_MoveFiles();
 			
 //			if (move_mode == false) {
 //				
@@ -738,6 +811,34 @@ public class TNActv extends ListActivity {
 		return super.onOptionsItemSelected(item);
 		
 	}//public boolean onOptionsItemSelected(MenuItem item)
+
+
+	private void 
+	_case_Opt_MoveFiles() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// validate: any positions
+
+		////////////////////////////////
+		if (CONS.TNActv.checkedPositions.size() < 1) {
+			
+			String msg = "No checked positions";
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// start: dialog
+
+		////////////////////////////////
+		Methods_dlg.dlg_MoveFiles(this);
+		
+	}//_case_Opt_MoveFiles
 
 
 	//REF http://stackoverflow.com/questions/7066657/android-how-to-dynamically-change-menu-item-text-outside-of-onoptionsitemssele answered Aug 15 '11 at 15:27
