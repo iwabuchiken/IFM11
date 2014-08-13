@@ -145,6 +145,50 @@ public class DOI_CL implements OnItemClickListener {
 	(String choice) {
 		// TODO Auto-generated method stub
 		
+		////////////////////////////////
+
+		// validate: table name and the choice => same?
+
+		////////////////////////////////
+//		String tname_New = Methods.conv_CurrentPath_to_TableName(choice);
+		String tname_New = Methods.conv_CurrentPathMove_to_TableName(choice);
+	
+		String pref_CurPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		String tname_Current = Methods.conv_CurrentPath_to_TableName(pref_CurPath);
+		
+		if (tname_Current.equals(tname_New)) {
+			
+			String msg = "You are choosing the same table as the current one";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// choice => Upper dir? ("..")
+
+		////////////////////////////////
+		if (choice.equals(CONS.Admin.dirString_UpperDir)) {
+
+			Methods_dlg.conf_MoveFiles__Folder_Top(actv, dlg1, dlg2);
+			
+			return;
+			
+		}
+
+		
+		////////////////////////////////
+
+		// dlg: confirm
+
+		////////////////////////////////
 		Methods_dlg.conf_MoveFiles__Folder(actv, dlg1, dlg2, choice);
 		
 	}

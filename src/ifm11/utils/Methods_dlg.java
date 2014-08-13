@@ -1442,6 +1442,62 @@ public class Methods_dlg {
 		dlg3.show();
 		
 	}//conf_MoveFiles__Folder
+	
+	public static void 
+	conf_MoveFiles__Folder_Top
+	(Activity actv, 
+			Dialog dlg1, Dialog dlg2) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// dialog
+		
+		////////////////////////////////
+		Dialog dlg3 = 
+				Methods_dlg.dlg_Tmpl_OkCancel_ThirdDialog(
+						actv, 
+						R.layout.dlg_tmpl_confirm_simple, 
+						R.string.generic_tv_confirm, 
+						
+						R.id.dlg_tmpl_confirm_simple_btn_ok, 
+						R.id.dlg_tmpl_confirm_simple_btn_cancel, 
+						
+						Tags.DialogTags.DLG_CONF_MOVE_FILES_FOLDER_TOP_OK, 
+						Tags.DialogTags.GENERIC_DISMISS_THIRD_DIALOG, 
+						
+						dlg1, dlg2);
+		
+		////////////////////////////////
+		
+		// view: message
+		
+		////////////////////////////////
+		TextView tv_Msg = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_message);
+		
+		tv_Msg.setText(actv.getString(
+				R.string.dlg_move_files_confirm_move_to_flolder_top_msg));
+		
+		////////////////////////////////
+		
+		// view: item name
+		
+		////////////////////////////////
+		TextView tv_ItemName = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
+//		dlg_tmpl_confirm_simple_tv_message
+		
+		tv_ItemName.setText(CONS.Paths.dname_Base);
+		
+		////////////////////////////////
+		
+		// show
+		
+		////////////////////////////////
+		dlg3.show();
+		
+	}//conf_MoveFiles__Folder
 
 	public static
 	Dialog dlg_Tmpl_OkCancel_ThirdDialog

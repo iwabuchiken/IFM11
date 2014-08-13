@@ -1620,6 +1620,48 @@ public class Methods {
 		
 	}//conv_CurrentPath_to_TableName(String currentPath)
 
+	public static String 
+	conv_CurrentPathMove_to_TableName
+	(String choice) {
+		// TODO Auto-generated method stub
+		
+		String[] tokens = choice.split(File.separator);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (tokens == null) {
+			
+			// Log
+			String msg_Log = "tokens => null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return choice;
+			
+		}
+		
+		////////////////////////////////
+
+		// size => 1
+
+		////////////////////////////////
+		if (tokens.length == 1) {
+			
+			return tokens[0];
+			
+		}
+
+		////////////////////////////////
+
+		// size > 1
+
+		////////////////////////////////
+		return StringUtils.join(tokens, CONS.DB.jointString_TableName);
+		
+	}//conv_CurrentPathMove_to_TableName
+
 	public static void 
 	start_Activity_TNActv
 	(Activity actv) {
