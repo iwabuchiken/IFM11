@@ -189,11 +189,25 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_SEARCH_OK://------------------------------------------------
+			
+			dlg_DLG_SEARCH_OK();
+			
+			break;
+			
 
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	dlg_DLG_SEARCH_OK() {
+		// TODO Auto-generated method stub
+		
+		Methods.searchItem(actv, dlg1);
+		
+	}
 
 	private void 
 	dlg_DLG_CONF_MOVE_FILES_FOLDER_OK() {

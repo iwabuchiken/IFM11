@@ -463,6 +463,12 @@ public class MainActv extends ListActivity {
 			
 			break;
 			
+		case R.id.main_opt_menu_search://------------------
+			
+			Methods_dlg.dlg_SeratchItem(this);
+			
+			break;
+			
 		default://------------------------
 			break;
 

@@ -1548,4 +1548,76 @@ public class Methods_dlg {
 		
 	}//public static Dialog dlg_template_okCancel_SecondDialog()
 
+	public static void 
+	dlg_SeratchItem
+	(Activity actv) {
+		/*----------------------------
+		 * Steps
+		 * 1. Dialog
+		 * 9. Show
+			----------------------------*/
+		Dialog dlg = dlg_Tmpl_OkCancel(actv,
+				R.layout.dlg_search, R.string.dlg_search_title,
+				
+				R.id.dlg_search_bt_ok, R.id.dlg_search_cancel,
+				DialogTags.DLG_SEARCH_OK, DialogTags.GENERIC_DISMISS);
+
+		/*----------------------------
+		 * 9. Show
+			----------------------------*/
+		dlg.show();
+		
+	}//public static void dlg_seratchItem(Activity actv)
+
+	public static Dialog 
+	dlg_Tmpl_OkCancel
+	(Activity actv, 
+		int layoutId, int titleStringId,
+		int okButtonId, int cancelButtonId, 
+		DialogTags okTag, DialogTags cancelTag) {
+		/*----------------------------
+		* Steps
+		* 1. Set up
+		* 2. Add listeners => OnTouch
+		* 3. Add listeners => OnClick
+		----------------------------*/
+		
+		// 
+		Dialog dlg = new Dialog(actv);
+		
+		//
+		dlg.setContentView(layoutId);
+		
+		// Title
+		dlg.setTitle(titleStringId);
+		
+		/*----------------------------
+		* 2. Add listeners => OnTouch
+		----------------------------*/
+		//
+		Button btn_ok = (Button) dlg.findViewById(okButtonId);
+		Button btn_cancel = (Button) dlg.findViewById(cancelButtonId);
+		
+		//
+		btn_ok.setTag(okTag);
+		btn_cancel.setTag(cancelTag);
+		
+		//
+		btn_ok.setOnTouchListener(new DB_OTL(actv, dlg));
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg));
+		
+		/*----------------------------
+		* 3. Add listeners => OnClick
+		----------------------------*/
+		//
+		btn_ok.setOnClickListener(new DB_OCL(actv, dlg));
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg));
+		
+		//
+		//dlg.show();
+		
+		return dlg;
+	
+	}//public static Dialog dlg_template_okCancel()
+
 }//public class Methods_dialog

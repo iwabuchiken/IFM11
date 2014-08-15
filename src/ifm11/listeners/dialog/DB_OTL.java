@@ -55,7 +55,7 @@ public class DB_OTL implements OnTouchListener {
 
 				case dlg_confirm_move_files_ok:
 
-				case dlg_search_ok:
+				case DLG_SEARCH_OK:
 					
 				case dlg_register_patterns_register:
 
@@ -103,7 +103,7 @@ public class DB_OTL implements OnTouchListener {
 
 			case dlg_confirm_move_files_ok:
 				
-			case dlg_search_ok:
+			case DLG_SEARCH_OK:
 				
 			case dlg_register_patterns_register:
 				

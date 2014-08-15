@@ -11,6 +11,7 @@ import ifm11.listeners.dialog.DL;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.TNActv;
+import ifm11.tasks.SearchTask;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -46,6 +47,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -3786,6 +3788,114 @@ public class Methods {
 		}
 		
 	}//add_NumOfItems_MainActv_List
+
+	public static void 
+	searchItem
+	(Activity actv, Dialog dlg) {
+		/*----------------------------
+		 * Steps
+		 * 1. Get search words
+		 * 2. Format words
+		 * 
+		 * 2-2. Get table name from current path
+		 * 3. Search task
+		 * 
+		 * 9. Dismiss dialog
+			----------------------------*/
+		EditText et = (EditText) dlg.findViewById(R.id.dlg_search_et);
+		
+		String words = et.getText().toString();
+		
+		if (words.equals("")) {
+			
+			// debug
+//			Toast.makeText(actv, "������ĂȂ���", Toast.LENGTH_LONG).show();
+			Toast.makeText(actv, "語句を入れてないよ", Toast.LENGTH_LONG).show();
+			
+			return;
+			
+		}//if (words.equals(""))
+		
+		////////////////////////////////
+
+		// Format words
+
+		////////////////////////////////
+		words = words.replace(CONS.Admin.char_Space_Whole, CONS.Admin.char_Space_Half);
+//		words = words.replace('　', ' ');
+		
+		String[] a_words = words.split(" ");
+		
+		//debug
+		for (String w : a_words) {
+			
+			// Log
+			String msg_Log = "word = " + w;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+//		// Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "a_words.length => " + a_words.length);
+		
+		////////////////////////////////
+
+		// Get table name from current path
+
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Can't get the current path => Use the top table";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			return;
+			
+		}
+		
+		String tableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		/*----------------------------
+		 * 3. Search task
+			----------------------------*/
+		CheckBox cb_AllTable = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_all_table);
+		
+		int search_mode = 0;	// 0 => Specific table (default)
+		
+		if (cb_AllTable.isChecked()) {
+			
+			search_mode = 1;	// 1 => All tables
+			
+		}//if (condition)
+		
+		// Log
+		String msg_Log = "search mode => " + search_mode;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		SearchTask st = new SearchTask(actv, search_mode);
+
+		st.execute(a_words, new String[]{tableName});
+		
+		/*----------------------------
+		 * 9. Dismiss dialog
+			----------------------------*/
+//		dlg.dismiss();
+		
+	}//public static void searchItem(Activity actv, Dialog dlg)
 
 }//public class Methods
 

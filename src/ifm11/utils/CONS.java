@@ -385,6 +385,10 @@ public class CONS {
 		
 		public static final String dName_backup = "cm5_backup";
 		
+		public static final String char_Space_Half	= " ";
+		
+		public static final String char_Space_Whole	= "　";
+		
 		////////////////////////////////
 
 		// MainActv.java

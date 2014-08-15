@@ -49,7 +49,7 @@ public class Tags {
 		dlg_register_patterns_register,
 
 		// dlg_search.xml
-		dlg_search, dlg_search_ok,
+		dlg_search, DLG_SEARCH_OK,
 
 		// dlg_admin_patterns.xml
 
@@ -84,7 +84,7 @@ public class Tags {
 		DLG_DELETE_FOLDER_CONF_OK,
 		
 		// dlg: conf: move files: to folder
-		DLG_CONF_MOVE_FILES_FOLDER_OK, DLG_CONF_MOVE_FILES_FOLDER_TOP_OK,
+		DLG_CONF_MOVE_FILES_FOLDER_OK, DLG_CONF_MOVE_FILES_FOLDER_TOP_OK, 
 		
 	}//public static enum DialogTags
 	
