@@ -756,6 +756,58 @@ public class MainActv extends ListActivity {
 				
 			}
 
+			////////////////////////////////
+
+			// add: num of items
+
+			////////////////////////////////
+//			Methods.add_NumOfItems_MainActv_List(this, currentPath);
+			
+//			String tname = Methods.conv_CurrentPath_to_TableName(currentPath);
+//			
+//			int numOfItems = DBUtils.get_NumOfEntries_TI(this, tname);
+//			
+//			// Log
+//			msg_Log = "numOfItems => " + numOfItems;
+//			Log.d("MainActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			for (String name : CONS.MainActv.list_RootDir) {
+//				
+//				if (name.equals(CONS.Admin.fname_List)) {
+//					
+//					name = String.format("%s (%d)", name, numOfItems);
+//					
+//					// Log
+//					msg_Log = "yes: list.txt";
+//					Log.d("MainActv.java"
+//							+ "["
+//							+ Thread.currentThread().getStackTrace()[2]
+//									.getLineNumber() + "]", msg_Log);
+//				} else {
+//					
+//					// Log
+//					msg_Log = "no";
+//					Log.d("MainActv.java"
+//							+ "["
+//							+ Thread.currentThread().getStackTrace()[2]
+//									.getLineNumber() + "]", msg_Log);
+//				}
+//			}
+//			
+//			//debug
+//			for (String name : CONS.MainActv.list_RootDir) {
+//				
+//				// Log
+//				msg_Log = "name = " + name;
+//				Log.d("MainActv.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", msg_Log);
+//			}
+			
+			
 		}//if (this.CONS.MainActv.list_RootDir == null)
 		
 		return true;

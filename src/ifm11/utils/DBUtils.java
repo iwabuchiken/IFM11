@@ -2595,5 +2595,145 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//update_TI_All__TableName
 
+	/******************************
+		@return -1 => Query exception<br>
+				-2 => Query returned null<br>
+				-3 => Query returned no entry<br>
+	 ******************************/
+	public static int 
+	get_NumOfEntries_TI
+	(Activity actv, String tname) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		//
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+//		////////////////////////////////
+//		
+//		// setup: cols
+//		
+//		////////////////////////////////
+//		String[] cols = null;
+//		
+//		if (tname.equals(CONS.DB.tname_IFM11)) {
+			
+		String[] cols = CONS.DB.col_names_IFM11_full;
+					
+//		} else if (tname.equals(CONS.DB.tname_MemoPatterns)) {
+//
+//			cols = CONS.DB.col_names_MemoPatterns_full;
+//			
+//		} else if (tname.equals(CONS.DB.tname_RefreshLog)) {
+//			
+//			cols = CONS.DB.col_names_refresh_log_full;
+//			
+//		}
+		
+		////////////////////////////////
+
+		// Query
+
+		////////////////////////////////
+		Cursor c = null;
+		
+		actv.startManagingCursor(c);
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		String where = CONS.DB.col_names_IFM11_full[11]
+						+ " = ?";
+		
+		String[] args = new String[]{
+				
+				tname
+				
+		};
+		
+		try {
+			
+			c = rdb.query(
+					
+					CONS.DB.tname_IFM11,			// 1
+					CONS.DB.col_names_IFM11_full,	// 2
+					where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			rdb.close();
+			
+			return -1;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+			rdb.close();
+			
+			return -2;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+			rdb.close();
+			
+			return -3;
+			
+		}//if (c == null)		
+		
+		////////////////////////////////
+
+		// prep: return
+
+		////////////////////////////////
+		int numOfItems = c.getCount();
+		
+		////////////////////////////////
+
+		// close
+
+		////////////////////////////////
+		rdb.close();
+		
+		
+		return numOfItems;
+		
+	}//get_NumOfEntries_TI
+
 }//public class DBUtils
 

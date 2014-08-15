@@ -3257,12 +3257,14 @@ public class Methods {
 		CONS.MainActv.list_RootDir.addAll(
 				Methods.get_FileList(new File(newPath)));
 		
-		////////////////////////////////
-		
-		// notify
-		
-		////////////////////////////////
-		CONS.MainActv.aAdapter.notifyDataSetChanged();
+//		////////////////////////////////
+//		
+//		// notify
+//		
+//		////////////////////////////////
+//		CONS.MainActv.aAdapter.update_Cur_TableName();
+//		
+//		CONS.MainActv.aAdapter.notifyDataSetChanged();
 		
 		////////////////////////////////
 		
@@ -3274,6 +3276,15 @@ public class Methods {
 				CONS.Pref.pname_MainActv, 
 				CONS.Pref.pkey_CurrentPath, 
 				newPath);
+		
+		////////////////////////////////
+		
+		// notify
+		
+		////////////////////////////////
+		CONS.MainActv.aAdapter.update_Cur_TableName();
+		
+		CONS.MainActv.aAdapter.notifyDataSetChanged();
 		
 		////////////////////////////////
 		
@@ -3378,12 +3389,19 @@ public class Methods {
 		CONS.MainActv.list_RootDir.addAll(
 							Methods.get_FileList(new File(newPath)));
 		
-		////////////////////////////////
-	
-		// notify
-	
-		////////////////////////////////
-		CONS.MainActv.aAdapter.notifyDataSetChanged();
+//		////////////////////////////////
+//
+//		// add: num of items
+//
+//		////////////////////////////////
+//		Methods.add_NumOfItems_MainActv_List(actv, newPath);
+		
+//		////////////////////////////////
+//	
+//		// notify
+//	
+//		////////////////////////////////
+//		CONS.MainActv.aAdapter.notifyDataSetChanged();
 		
 		////////////////////////////////
 	
@@ -3395,6 +3413,15 @@ public class Methods {
 				CONS.Pref.pname_MainActv, 
 				CONS.Pref.pkey_CurrentPath, 
 				newPath);
+		
+		////////////////////////////////
+		
+		// notify
+	
+		////////////////////////////////
+		CONS.MainActv.aAdapter.update_Cur_TableName();
+		
+		CONS.MainActv.aAdapter.notifyDataSetChanged();
 		
 		////////////////////////////////
 	
@@ -3687,6 +3714,78 @@ public class Methods {
 
 		
 	}//go_Down_Dir_Move
+
+	public static void
+	add_NumOfItems_MainActv_List
+	(Activity actv, String currentPath) {
+		// TODO Auto-generated method stub
+	
+		////////////////////////////////
+
+		// setup: vars
+
+		////////////////////////////////
+		List<String> tmp_List = new ArrayList<String>();
+		
+		String tname = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		int numOfItems = DBUtils.get_NumOfEntries_TI(
+							actv, 
+							tname);
+		
+		// Log
+		String msg_Log = "numOfItems => " + numOfItems;
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		for (String name : CONS.MainActv.list_RootDir) {
+			
+			if (name.equals(CONS.Admin.fname_List)) {
+				
+				tmp_List.add(String.format("%s (%d)", name, numOfItems));
+//				name = String.format("%s (%d)", name, numOfItems);
+				
+				// Log
+				msg_Log = "yes: list.txt";
+				Log.d("MainActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+			} else {
+				
+				tmp_List.add(name);
+				
+				// Log
+				msg_Log = "no";
+				Log.d("MainActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+			}
+		}
+		
+		////////////////////////////////
+
+		// update: list
+
+		////////////////////////////////
+		CONS.MainActv.list_RootDir.clear();
+		
+		CONS.MainActv.list_RootDir.addAll(tmp_List);
+		
+		//debug
+		for (String name : CONS.MainActv.list_RootDir) {
+			
+			// Log
+			msg_Log = "name = " + name;
+			Log.d("MainActv.java"
+					+ "["
+					+ Thread.currentThread().getStackTrace()[2]
+							.getLineNumber() + "]", msg_Log);
+		}
+		
+	}//add_NumOfItems_MainActv_List
 
 }//public class Methods
 

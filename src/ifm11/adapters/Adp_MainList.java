@@ -2,10 +2,12 @@ package ifm11.adapters;
 
 import ifm11.main.R;
 import ifm11.utils.CONS;
+import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -37,6 +39,9 @@ public class Adp_MainList extends ArrayAdapter<String> implements OnTouchListene
 
 	// Inflater
 	LayoutInflater inflater;
+	
+	//
+	String cur_TableName;
 
 	/*--------------------------------------------------------
 	 * Constructor
@@ -49,6 +54,14 @@ public class Adp_MainList extends ArrayAdapter<String> implements OnTouchListene
 		// Context
 		this.con = con;
 
+		String currentPath = Methods.get_Pref_String(
+				(Activity)con, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		this.cur_TableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
 		// Inflater
 		inflater = (LayoutInflater) con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
@@ -106,9 +119,24 @@ public class Adp_MainList extends ArrayAdapter<String> implements OnTouchListene
 		
 		////////////////////////////////
 
+		// list.txt => add num of entries
+
+		////////////////////////////////
+		
+		if (item.equals(CONS.Admin.fname_List)) {
+			
+			int numOfItems = DBUtils.get_NumOfEntries_TI((Activity)con, this.cur_TableName);
+			
+			item = String.format(Locale.JAPAN, "%s (%d)", item, numOfItems);
+			
+		}
+		////////////////////////////////
+
 		// Set: text
 
 		////////////////////////////////
+		
+		
 		tv_Main.setText(item);
 		
 		////////////////////////////////
@@ -226,5 +254,24 @@ public class Adp_MainList extends ArrayAdapter<String> implements OnTouchListene
 //        return true;
         
     }//public boolean onTouch(View v, MotionEvent event)
+
+    public void update_Cur_TableName() {
+
+		String currentPath = Methods.get_Pref_String(
+				(Activity)con, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		this.cur_TableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		// Log
+		String msg_Log = "cur_TableName => updated to: " + cur_TableName;
+		Log.d("Adp_MainList.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+    }
+    
     
 }//public class TIListAdapter extends ArrayAdapter<TI>
