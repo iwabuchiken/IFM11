@@ -172,12 +172,42 @@ public class DOI_CL implements OnItemClickListener {
 		
 		////////////////////////////////
 
+		// get: current path-move
+
+		////////////////////////////////
+		String curPath_Move = Methods.get_Pref_String(
+						actv, 
+						CONS.Pref.pname_MainActv, 
+						CONS.Pref.pkey_TNActv__CurPath_Move, 
+						CONS.DB.tname_IFM11);
+
+		////////////////////////////////
+
 		// choice => Upper dir? ("..")
 
 		////////////////////////////////
 		if (choice.equals(CONS.Admin.dirString_UpperDir)) {
 
-			Methods_dlg.conf_MoveFiles__Folder_Top(actv, dlg1, dlg2);
+			////////////////////////////////
+
+			// Uppder dir => top dir?
+
+			////////////////////////////////
+			if (curPath_Move.equals(CONS.DB.tname_IFM11)) {
+
+			
+				Methods_dlg.conf_MoveFiles__Folder_Top(actv, dlg1, dlg2);
+
+			////////////////////////////////
+
+			// Upper dir => not the top dir
+
+			////////////////////////////////
+			} else {
+				
+				Methods.go_Up_Dir_Move(actv);
+				
+			}
 			
 			return;
 			
