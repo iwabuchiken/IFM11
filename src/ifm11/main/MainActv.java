@@ -112,6 +112,21 @@ public class MainActv extends ListActivity {
 		
 		String[] fnames = dbDir.list();
 		
+		/******************************
+			validate: null
+		 ******************************/
+		if (fnames == null) {
+			
+			// Log
+			msg_Log = "fnames => null";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}
+		
 		////////////////////////////////
 
 		// show

@@ -146,7 +146,22 @@ DLOI_LCL implements OnItemLongClickListener {
 				
 			}
 			
-		}
+		}//if (item.equals(CONS.Admin.dirString_UpperDir))
+		
+		////////////////////////////////
+
+		// lower dir
+
+		////////////////////////////////
+		// Log
+		msg_Log = "lower dir => " + item;
+		Log.d("DLOI_LCL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		Methods.go_Down_Dir_Move(actv, item);
+		
+		return;
 		
 //		////////////////////////////////
 //
