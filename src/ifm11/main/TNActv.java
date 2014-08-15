@@ -433,6 +433,75 @@ public class TNActv extends ListActivity {
 	_Setup_SetList() {
 		// TODO Auto-generated method stub
 		
+//		////////////////////////////////
+//
+//		// dispatch: Search done?
+//
+//		////////////////////////////////
+//		if (CONS.TNActv.searchDone == true) {
+//			
+//			// Log
+//			String msg_Log = "searchDone => true";
+//			Log.d("TNActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		} else {
+//			
+//			// Log
+//			String msg_Log = "searchDone => false";
+//			Log.d("TNActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}
+		
+		////////////////////////////////
+
+		// get: pref: list type
+
+		////////////////////////////////
+		String listType = Methods.get_Pref_String(
+				this, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_TNActv__ListType, 
+				null);
+		
+		if (listType == null) {
+			
+			listType = CONS.Enums.ListType.STANDARD.toString();
+			
+		}
+		
+		// Log
+		String msg_Log = "listType => " + listType;
+		Log.d("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (listType.equals(
+						CONS.Enums.ListType.SEARCH.toString())
+				&& CONS.TNActv.searchedItems != null) {
+			
+			_Setup_SetList__Search();
+			
+			return true;
+			
+		} else {
+
+			// Log
+			msg_Log = "not equal to => " + CONS.Enums.ListType.SEARCH.toString();
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
 		////////////////////////////////
 
 		// get: pref: current path
@@ -457,7 +526,7 @@ public class TNActv extends ListActivity {
 		}
 		
 		// Log
-		String msg_Log = "currentPath => " + currentPath;
+		msg_Log = "currentPath => " + currentPath;
 		Log.d("TNActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
@@ -515,6 +584,41 @@ public class TNActv extends ListActivity {
 	}//_Setup_SetList
 
 
+	private void 
+	_Setup_SetList__Search() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// build: TI list
+
+		////////////////////////////////
+//		List<TI> list_TNActv_Main = DBUtils.find_All_TI__Search(this);
+		CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI__Search(this);
+		
+		if (CONS.TNActv.list_TNActv_Main == null) {
+//			if (list_TNActv_Main == null) {
+			
+			// Log
+			String msg_Log = "CONS.TNActv.list_TNActv_Main => null";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {
+		
+			// Log
+			String msg_Log = "CONS.TNActv.list_TNActv_Main.size => "
+							+ CONS.TNActv.list_TNActv_Main.size();
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		
+		}
+		
+	}//_Setup_SetList__Search
+
+
 	@Override
 	protected void onStop() {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
@@ -543,6 +647,41 @@ public class TNActv extends ListActivity {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onDestroy()");
 		
+		////////////////////////////////
+
+		// reset: searchDone
+
+		////////////////////////////////
+		CONS.TNActv.searchDone = false;
+		
+		////////////////////////////////
+
+		// reset: pref: list type
+
+		////////////////////////////////
+		boolean res = Methods.set_Pref_String(
+							this, 
+							CONS.Pref.pname_MainActv, 
+							CONS.Pref.pkey_TNActv__ListType, 
+							null);
+		
+		if (res == true) {
+			
+			// Log
+			String msg_Log = "pref: list type => set to null";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {
+
+			// Log
+			String msg_Log = "pref: list type => NOT set to null";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
 		
 	}//protected void onDestroy()
 

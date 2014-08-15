@@ -326,6 +326,10 @@ public class CONS {
 		
 		public static String pkey_TNActv__CurPath_Move
 									= "pkey_TNActv__CurPath_Move";
+		
+		// standard, search, history, a.o.
+		public static final String pkey_TNActv__ListType
+									= "pkey_TNActv__ListType";
 
 	}
 
@@ -362,6 +366,13 @@ public class CONS {
 		// TNActv, long click, move files
 		public static List<String> dir_List;
 
+		// MainActv: option "Search"
+		public static List<Long> searchedItems;
+		
+		// TNActv refers to this var; if true, _Setup_SetList()
+		//		builds other TI list using the var "searchedItems"
+		public static boolean searchDone	= false;
+		
 	}
 	
 	public static class IMageActv {
@@ -471,6 +482,12 @@ public class CONS {
 			
 		}//public static enum MoveMode
 
+		public static enum ListType {
+			
+			STANDARD, SEARCH, HISTORY,
+			
+		}
+		
 	}//Enums
 	
 }//public class CONS

@@ -11,7 +11,7 @@ import ifm11.listeners.dialog.DL;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.TNActv;
-import ifm11.tasks.SearchTask;
+import ifm11.tasks.Task_Search;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -3886,14 +3886,16 @@ public class Methods {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		SearchTask st = new SearchTask(actv, search_mode);
+		Task_Search st = new Task_Search(actv, search_mode);
 
 		st.execute(a_words, new String[]{tableName});
 		
-		/*----------------------------
-		 * 9. Dismiss dialog
-			----------------------------*/
-//		dlg.dismiss();
+		////////////////////////////////
+
+		// Dismiss dialog
+
+		////////////////////////////////
+		dlg.dismiss();
 		
 	}//public static void searchItem(Activity actv, Dialog dlg)
 
