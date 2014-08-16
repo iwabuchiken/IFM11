@@ -116,6 +116,7 @@
 	    <string name="dlg_search_title">サーチ</string>
 	    <string name="dlg_search_tv_message">サーチする語句を入れてください（複数の場合、スペースで区切ります）</string>
 	    <string name="dlg_search_message_all_table">全テーブル検索</string>
+	    <string name="dlg_search_message_file_name">Search by file name</string>
 	    
 	    <string name="dlg_search_message_no_words">No search words</string>
 
