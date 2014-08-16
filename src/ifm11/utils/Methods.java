@@ -3969,108 +3969,66 @@ public class Methods {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-//		/*********************************
-//		 * Delete from memory
-//		 *********************************/
-////		File f = new File(ti.getFile_path(), ti.getFile_name());
+		/*********************************
+		 * Delete from memory
+		 *********************************/
+		String msg = null;
+		
+		int colorID = 0;
+		
+		File f = new File(ti.getFile_path(), ti.getFile_name());
 //		File f = new File(ti.getFile_path());
-//		
-//		if (f.exists()) {
-//
-//			// REF http://stackoverflow.com/questions/1248292/how-to-delete-a-file-from-sd-card Niko Gamulin
-////			boolean res = f.delete();
-//			boolean res_b = f.delete();
-//			
-//			if (res_b == true) {
-//				
-//				// debug
-//				Toast.makeText(actv, "File deleted: " + f.getName(), Toast.LENGTH_SHORT).show();
-//				
-//				// Log
-//				Log.d("["
-//						+ "Methods_IFM9.java : "
-//						+ +Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", "File deleted: " + f.getName());
-//				
-//				return true;
-//				
-//			} else {//if (res == true)
-//			
-//				// debug
-//				Toast.makeText(actv, "File deletion => Failed : " + f.getName(), Toast.LENGTH_SHORT).show();
-//				
-//				// Log
-//				Log.d("["
-//						+ "Methods_IFM9.java : "
-//						+ +Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]",
-//						"File deletion => Failed : " + f.getName());
-//				
-//				return false;
-//
-//
-//			}//if (res == true)
-//			
-//		} else {//if (f.exists())
-//			
-//			// Log
-//			Log.d("["
-//					+ "Methods_IFM9.java : "
-//					+ +Thread.currentThread().getStackTrace()[2]
-//							.getLineNumber() + "]", "File => Doesn't exist: " + f.getAbsolutePath());
-//			
-//			// debug
-//			Toast.makeText(actv, "File => Doesn't exist: " + f.getName(), Toast.LENGTH_SHORT).show();
-//			
-//			return false;
-//			
-//		}//if (f.exists())
 		
-		
-//		
-//		/***************************************
-//		 * Delete from: List
-//		 ***************************************/
-//		if (res == true) {
-//			
-//			TNActv.tiList.remove(ti);
-//
-//			if (TNActv.aAdapter != null) {
-//			
-//				TNActv.aAdapter.notifyDataSetChanged();
-//				
-//			}//if (TNActv.aAdapter == condition)
-//			
-//			// debug
-//			Toast.makeText(actv,
-//					"Item deleted: " + ti.getFile_name(),
-//					Toast.LENGTH_LONG).show();
-//			
-//			/*********************************
-//			 * Delete from DB: History
-//			 *********************************/
-//			res = 
-//					Methods_IFM9.delete_TI_from_history(actv, ti);
-//			
-//			/*********************************
-//			 * Dismiss dialogues
-//			 *********************************/
-//			dlg2.dismiss();
-//			dlg1.dismiss();
-//
-//		} else {//if (res == true)
-//
-//			// debug
-//			Toast.makeText(actv,
-//					"Item deletion from DB => failed: " + ti.getFile_name(),
-//					Toast.LENGTH_LONG).show();
-//			
-//			dlg2.dismiss();
-//			
-//			return;
-//
-//		}//if (res == true)
+		if (f.exists()) {
 
+			// REF http://stackoverflow.com/questions/1248292/how-to-delete-a-file-from-sd-card Niko Gamulin
+//			boolean res = f.delete();
+			boolean res_b = f.delete();
+			
+			if (res_b == true) {
+		
+				msg = "TI deleted from DB/sdcard";
+				
+				colorID = R.color.green4;
+				
+			} else {//if (res == true)
+			
+				msg = "TI deleted from DB\nnot from sdcard";
+				
+				colorID = R.color.gold2;
+				
+			}//if (res == true)
+			
+		} else {//if (f.exists())
+			
+			msg = "TI deleted from DB\n" +
+					"File doesn't exist";
+			
+			colorID = R.color.gold2;
+			
+		}//if (f.exists())
+		
+		////////////////////////////////
+
+		// dismiss
+
+		////////////////////////////////
+		dlg2.dismiss();
+		dlg1.dismiss();
+		
+		// Log
+		msg_Log = "dlgs => dismissed";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		Methods_dlg.dlg_ShowMessage(actv, msg, colorID);
+		
 		
 	}//delete_TI
 
