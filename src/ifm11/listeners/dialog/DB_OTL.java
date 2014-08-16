@@ -69,7 +69,7 @@ public class DB_OTL implements OnTouchListener {
 
 				case DLG_SEARCH_OK:
 					
-				case dlg_register_patterns_register:
+				case DLG_REGISTER_PATTERNS_REGISTER:
 
 				case dlg_confirm_delete_patterns_ok:
 					
@@ -119,7 +119,7 @@ public class DB_OTL implements OnTouchListener {
 				
 			case DLG_SEARCH_OK:
 				
-			case dlg_register_patterns_register:
+			case DLG_REGISTER_PATTERNS_REGISTER:
 				
 			case dlg_confirm_delete_patterns_ok:
 				

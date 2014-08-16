@@ -156,11 +156,42 @@ public class DOI_CL implements OnItemClickListener {
 			
 			break;// case dlg_bmactv_list_long_click
 			
+		case DLG_ADMIN_PATTERNS_LV://----------------------------------------------
+			
+			choice = (String) parent.getItemAtPosition(position);
+			
+			case_DLG_ADMIN_PATTERNS_LV(choice);
+			
+			break;// case dlg_bmactv_list_long_click
+			
 		default:
 			break;
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_DLG_ADMIN_PATTERNS_LV
+	(String choice) {
+		// TODO Auto-generated method stub
+		if (choice.equals(actv.getString(R.string.generic_tv_register))) {
+			
+			Methods_dlg.dlg_RegisterPatterns(actv, dlg1);
+			
+		} else if (choice.equals(actv.getString(R.string.generic_tv_edit))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
+			
+//			Methods_dlg.dlg_EditTI(actv, dlg1, ti);
+			
+		} else if (choice.equals(actv.getString(R.string.generic_tv_delete))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
+			
+//			Methods_dlg.dlg_EditTI(actv, dlg1, ti);
+			
+		} else {
+			
+		}
+		
+		
+	}//case_DLG_ADMIN_PATTERNS_LV
 
 	private void 
 	case_DLG_ACTV_TN_LONG_CLICK

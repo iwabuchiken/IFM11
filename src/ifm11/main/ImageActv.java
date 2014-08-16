@@ -260,7 +260,7 @@ public class ImageActv extends Activity {
 			
 //			Methods.dlg_register_patterns(this);
 			
-//			Methods_dlg.dlg_patterns(this);
+			Methods_dlg.dlg_patterns(this);
 			
 			break;
 		}//switch (item.getItemId())

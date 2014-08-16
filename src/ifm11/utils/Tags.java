@@ -46,7 +46,7 @@ public class Tags {
 		dlg_memo_patterns,
 		
 		// dlg_register_patterns.xml
-		dlg_register_patterns_register,
+		DLG_REGISTER_PATTERNS_REGISTER,
 
 		// dlg_search.xml
 		dlg_search, DLG_SEARCH_OK,
@@ -104,7 +104,7 @@ public class Tags {
 		DLG_DB_ADMIN_LV,
 
 		// dlg_admin_patterns.xml
-		dlg_admin_patterns_lv,
+		DLG_ADMIN_PATTERNS_LV,
 
 		// dlg_delete_patterns.xml
 		dlg_delete_patterns_gv,

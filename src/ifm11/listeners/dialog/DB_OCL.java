@@ -224,11 +224,25 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_REGISTER_PATTERNS_REGISTER://------------------------------------------------
+			
+			case_DLG_REGISTER_PATTERNS_REGISTER();
+			
+			break;
+			
 
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_DLG_REGISTER_PATTERNS_REGISTER() {
+		// TODO Auto-generated method stub
+		
+		Methods_dlg.dlg_register_patterns_isInputEmpty(actv, dlg1, dlg2);
+		
+	}//case_DLG_REGISTER_PATTERNS_REGISTER
 
 	private void 
 	case_DLG_EDIT_TI_BT_OK() {

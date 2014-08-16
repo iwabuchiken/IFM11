@@ -2307,6 +2307,108 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//insert_Data_Patterns
 
+	/******************************
+		@return -1	=> Table doesn't exist<br>
+				-2	=> Insertion failed<br>
+				-3	=> Exception<br>
+				1 <	=> The row ID
+	 ******************************/
+	public static int 
+	insert_Data_Patterns_single
+	(Activity actv, String pattern) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists
+		
+		////////////////////////////////
+		if (!DBUtils.tableExists(
+				actv, CONS.DB.dbName, CONS.DB.tname_MemoPatterns)) {
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exist => " + CONS.DB.tname_MemoPatterns);
+			
+			return -1;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+		
+		////////////////////////////////
+		
+		// Iteration
+		
+		////////////////////////////////
+		ContentValues val = null;
+//		
+		////////////////////////////////
+		
+		// prep: content values
+		
+		////////////////////////////////
+		val = _insert_Data_Patterns__ContentValues(pattern);
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.insert(CONS.DB.tname_MemoPatterns, null, val);
+			//			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res == -1) {
+				
+				// Log
+				String msg_Log = "insertion => failed: " + pattern;
+				Log.e("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				wdb.close();
+				
+				return -2;
+				
+			} else {
+				
+				// Set as successful
+				wdb.setTransactionSuccessful();
+				
+			}
+			
+			//			// Set as successful
+			//			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+			wdb.close();
+			
+			return (int) res;
+			
+		} catch (Exception e) {
+			
+			// Log
+			// Log
+			String msg_Log = String.format(
+					"Exception(%s) => %s", 
+					pattern, e.toString());
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -3;
+			
+		}//try
+			
+	}//insert_Data_Patterns_single
+	
 	private static ContentValues 
 	_insert_Data_Patterns__ContentValues
 	(String pattern) {
@@ -2491,6 +2593,30 @@ public class DBUtils extends SQLiteOpenHelper{
 		return val;
 		
 	}//_insert_Data_Patterns__ContentValues
+	
+//	private static ContentValues 
+//	_insert_Data_Patterns__ContentValues
+//	(String pattern) {
+//		// TODO Auto-generated method stub
+//		ContentValues val = new ContentValues();
+//		
+////		android.provider.BaseColumns._ID,		// 0
+////		"created_at", "modified_at",			// 1,2
+////		"word",									// 3
+////		"table_name"							// 4		
+//		
+//		val.put(
+//				CONS.DB.col_names_MemoPatterns_full[2],		// modified_at 
+//				Methods.conv_MillSec_to_TimeLabel(
+//						Methods.getMillSeconds_now()));
+//		
+//		val.put(
+//				CONS.DB.col_names_MemoPatterns_full[3],		// word
+//				pattern);
+//		
+//		return val;
+//		
+//	}//_insert_Data_Patterns__ContentValues
 
 	private static ContentValues 
 	get_ContentValues__TI_TableName

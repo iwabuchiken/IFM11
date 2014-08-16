@@ -129,6 +129,16 @@
     	<string name="dlg_edit_ti_tv_file_path">File path</string>
     	<string name="dlg_edit_ti_tv_memos">Memos</string>
     	<string name="dlg_edit_ti_tv_table_name">Table name</string>
-	    	    
-	    							    
+
+    <!-- dlg_memo_patterns.xml -->
+    	<string name="dlg_memo_patterns_title">定型</string>
+    			    	    
+    <!-- dlg_register_patterns.xml -->
+    <string name="dlg_register_patterns_title">定型句登録</string>
+    <string name="dlg_register_patterns_tv_word">語句</string>
+    <string name="dlg_register_patterns_tv_table_name">テーブル名</string>
+    <string name="dlg_register_patterns_tv_prompot_input">Pattern => Empty</string>
+    		    							    
+    
+    
 </resources>
