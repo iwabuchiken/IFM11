@@ -107,7 +107,7 @@ public class Tags {
 		DLG_ADMIN_PATTERNS_LV,
 
 		// dlg_delete_patterns.xml
-		dlg_delete_patterns_gv,
+		DLG_DELETE_PATTERNS_GV,
 
 		// dlg_moveFiles_search(Activity actv)
 		dlg_move_files_search,

@@ -2,6 +2,7 @@ package ifm11.listeners.dialog;
 
 
 import ifm11.items.TI;
+import ifm11.items.WordPattern;
 import ifm11.main.R;
 import ifm11.tasks.Task_RefreshDB;
 import ifm11.utils.CONS;
@@ -99,7 +100,7 @@ public class DOI_CL implements OnItemClickListener {
 //		
 		vib.vibrate(CONS.Admin.vibLength_click);
 		
-		String item = (String) parent.getItemAtPosition(position);
+//		String item = (String) parent.getItemAtPosition(position);
 		
 		/*----------------------------
 		 * 3. Switching
@@ -109,6 +110,8 @@ public class DOI_CL implements OnItemClickListener {
 //		case dlg_db_admin_lv://----------------------------------------------
 		case DLG_DB_ADMIN_LV://----------------------------------------------
 			
+			String item = (String) parent.getItemAtPosition(position);
+			
 			case_Dlg_Db_Admin_lv(item);
 			
 			break;// case dlg_add_memos_gv
@@ -117,9 +120,11 @@ public class DOI_CL implements OnItemClickListener {
 			
 		case DLG_ADD_MEMOS_GV://----------------------------------------------
 			
-			String word = (String) parent.getItemAtPosition(position);
+			WordPattern wp = (WordPattern) parent.getItemAtPosition(position);
+//			String word = (String) parent.getItemAtPosition(position);
 			
-			case_DLG_ADD_MEMOS_GV(word);
+			case_DLG_ADD_MEMOS_GV(wp);
+//			case_DLG_ADD_MEMOS_GV(word);
 //			Methods.add_pattern_to_text(dlg1, position, word);
 			
 			break;
@@ -164,11 +169,34 @@ public class DOI_CL implements OnItemClickListener {
 			
 			break;// case dlg_bmactv_list_long_click
 			
+//		case dlg_delete_patterns_gv://----------------------------------------------
+		case DLG_DELETE_PATTERNS_GV://----------------------------------------------
+			
+			wp = (WordPattern) parent.getItemAtPosition(position);
+			
+			case_DLG_DELETE_PATTERNS_GV(wp);
+			
+			break;// case dlg_bmactv_list_long_click
+			
 		default:
 			break;
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_DLG_DELETE_PATTERNS_GV
+	(WordPattern wp) {
+		// TODO Auto-generated method stub
+		
+		// Log
+		String msg_Log = String.format("word = %s / id = %d", wp.getWord(), (int)wp.getDb_Id());
+		Log.d("DOI_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		
+	}//case_DLG_DELETE_PATTERNS_GV
 
 	private void 
 	case_DLG_ADMIN_PATTERNS_LV
@@ -185,6 +213,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (choice.equals(actv.getString(R.string.generic_tv_delete))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
 			
 //			Methods_dlg.dlg_EditTI(actv, dlg1, ti);
+			Methods_dlg.dlg_DeletePatterns(actv, dlg1);
 			
 		} else {
 			
@@ -327,10 +356,12 @@ public class DOI_CL implements OnItemClickListener {
 
 	private void 
 	case_DLG_ADD_MEMOS_GV
-	(String word) {
+	(WordPattern wp) {
+//		(String word) {
 		// TODO Auto-generated method stub
 
-		Methods.add_Memo_to_GridView(actv, dlg1, word);
+		Methods.add_Memo_to_GridView(actv, dlg1, wp.getWord());
+//		Methods.add_Memo_to_GridView(actv, dlg1, word);
 		
 	}//case_DLG_ADD_MEMOS_GV
 

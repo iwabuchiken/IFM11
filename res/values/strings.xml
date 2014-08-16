@@ -139,6 +139,8 @@
     <string name="dlg_register_patterns_tv_table_name">テーブル名</string>
     <string name="dlg_register_patterns_tv_prompot_input">Pattern => Empty</string>
     		    							    
+    <!-- dlg_delete_patterns.xml -->
+    	<string name="dlg_delete_patterns_title">Delete patterns</string>
     
     
 </resources>

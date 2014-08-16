@@ -384,6 +384,8 @@ public class CONS {
 		
 		public static List<String> patternList = null;
 		
+		
+		
 	}
 	
 	public static class Admin {

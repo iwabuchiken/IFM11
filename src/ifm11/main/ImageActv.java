@@ -307,6 +307,12 @@ public class ImageActv extends Activity {
 		// add memo
 
 		////////////////////////////////
+		// Log
+		String msg_Log = "showing dialog...";
+		Log.d("ImageActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		Methods_dlg.dlg_AddMemo(
 						this, 
 						db_Id);
