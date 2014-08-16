@@ -87,6 +87,9 @@ public class Tags {
 		DLG_CONF_MOVE_FILES_FOLDER_OK, DLG_CONF_MOVE_FILES_FOLDER_TOP_OK,
 		DLG_DELETE_TI_CONF_OK,
 		
+		// dlg: edit TI
+		DLG_EDIT_TI_BT_OK,
+		
 	}//public static enum DialogTags
 	
 	public static enum DialogItemTags {

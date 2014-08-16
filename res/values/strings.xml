@@ -122,5 +122,12 @@
 	<!-- dlg: conf: delete ti -->
 	    <string name="dlg_tmpl_confirm_simple_msg_delete_file">
 	        									Delete file, too</string>
+    <!-- dlg_edit_ti.xml -->
+    	<string name="dlg_edit_ti_title">Edit item</string>
+    	<string name="dlg_edit_ti_tv_file_name">File name</string>
+    	<string name="dlg_edit_ti_tv_file_path">File path</string>
+    	<string name="dlg_edit_ti_tv_memos">Memos</string>
+    	<string name="dlg_edit_ti_tv_table_name">Table name</string>
+	    	    
 	    							    
 </resources>

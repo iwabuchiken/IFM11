@@ -1745,4 +1745,91 @@ public class Methods_dlg {
 		
 	}//conf_DeleteTI
 
+	public static void
+	dlg_EditTI(Activity actv, Dialog dlg1, TI ti) {
+		// TODO Auto-generated method stub
+
+		Dialog dlg2 = new Dialog(actv);
+		
+		//
+		dlg2.setContentView(R.layout.dlg_edit_ti);
+		
+		// Title
+		dlg2.setTitle(R.string.dlg_edit_ti_title);
+
+		////////////////////////////////
+
+		// view: buttons
+
+		////////////////////////////////
+		Button btn_ok = (Button) dlg2.findViewById(R.id.dlg_edit_ti_bt_ok);
+		Button btn_cancel = (Button) dlg2.findViewById(R.id.dlg_edit_ti_bt_cancel);
+		
+		////////////////////////////////
+
+		// listener: ontouch
+
+		////////////////////////////////
+//		btn_ok.setTag(DialogTags.dlg_edit_ti_bt_ok);
+		btn_ok.setTag(DialogTags.DLG_EDIT_TI_BT_OK);
+		btn_cancel.setTag(DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+		
+		//
+		btn_ok.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2));
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2));
+		
+		////////////////////////////////
+
+		// listener: onclick
+
+		////////////////////////////////
+		btn_ok.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, ti));
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2));
+
+//		Dialog dlg2 = dlg_template_okCancel_2Dialogues_TI(
+//					actv,
+//					R.layout.dlg_edit_ti,
+//					R.string.dlg_edit_ti_title,
+//					
+//					R.id.dlg_edit_ti_bt_ok,
+//					R.id.dlg_edit_ti_bt_cancel,
+//					
+//					DialogTags.dlg_edit_ti_bt_ok,
+//					DialogTags.GENERIC_DISMISS_SECOND_DIALOG,
+//					
+//					dlg1,
+//					ti);
+		
+		/***************************************
+		 * Set: Texts
+		 ***************************************/
+		EditText etFileName = (EditText) dlg2.findViewById(
+							R.id.dlg_edit_ti_et_file_name);
+		
+		etFileName.setText(ti.getFile_name());
+		
+		EditText etFilePath = (EditText) dlg2.findViewById(
+				R.id.dlg_edit_ti_et_file_path);
+		
+		etFilePath.setText(ti.getFile_path());
+		
+		EditText etMemos = (EditText) dlg2.findViewById(
+				R.id.dlg_edit_ti_et_memos);
+		
+		etMemos.setText(ti.getMemo());
+		
+		TextView tvTableName = (TextView) dlg2.findViewById(
+				R.id.dlg_edit_ti_tv_table_name_value);
+		
+		tvTableName.setText(ti.getTable_name());
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		dlg2.show();
+		
+	}//dlg_editTI(Activity actv, Dialog dlg1, TI ti)
+
 }//public class Methods_dialog

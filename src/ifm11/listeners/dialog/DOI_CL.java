@@ -173,7 +173,7 @@ public class DOI_CL implements OnItemClickListener {
 			
 		} else if (choice.equals(actv.getString(R.string.generic_tv_edit))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
 			
-//			Methods_dlg.dlg_editTI(actv, dlg1, ti);
+			Methods_dlg.dlg_EditTI(actv, dlg1, ti);
 			
 		} else if (choice.equals(actv.getString(
 						R.string.generic_tv_upload))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
