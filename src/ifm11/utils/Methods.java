@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -2723,12 +2724,42 @@ public class Methods {
 
 		////////////////////////////////
 
-		// rebuild: tiList
+		// prep: list type
 
 		////////////////////////////////
 		CONS.TNActv.list_TNActv_Main.clear();
 		
-		CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tableName));
+		// List type
+		String listType = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_TNActv__ListType, 
+				null);
+		
+		if (listType == null) {
+			
+			listType = CONS.Enums.ListType.STANDARD.toString();
+			
+		}
+
+		////////////////////////////////
+
+		// rebuild: tiList
+
+		////////////////////////////////
+		if (listType.equals(
+						CONS.Enums.ListType.SEARCH.toString())
+				&& CONS.TNActv.searchedItems != null) {
+			
+			CONS.TNActv.list_TNActv_Main.addAll(
+					_moveMode_False__Search(actv, tableName));
+			
+		} else {
+
+			CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tableName));
+			
+		}
+
 		
 		Methods.sort_List_TI(
 						CONS.TNActv.list_TNActv_Main, 
@@ -2758,6 +2789,30 @@ public class Methods {
 		((ListActivity) actv).setListAdapter(CONS.TNActv.adp_TNActv_Main_Move);
 
 	}//_moveMode_False
+
+	private static List<TI> 
+	_moveMode_False__Search
+	(Activity actv, String tableName) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// build: TI list
+
+		////////////////////////////////
+		List<TI> list_TNActv_Main = DBUtils.find_All_TI__Search(actv);
+//		CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI__Search(this);
+		
+		if (list_TNActv_Main == null) {
+//			if (list_TNActv_Main == null) {
+			
+			list_TNActv_Main = DBUtils.find_All_TI(actv, tableName);
+			
+		}
+		
+		return list_TNActv_Main;
+		
+	}//_moveMode_False__Search
 
 	/******************************
 		this method is used when<br>
