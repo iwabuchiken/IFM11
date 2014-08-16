@@ -3039,38 +3039,11 @@ public class Methods {
 		
 		// Log
 		String msg_Log = "target path => " + choice;
-//=======
-//	/******************************
-//		@param dirName => The function doesn't validate if the dir exists
-//	 ******************************/
-//	public static void 
-//	go_Down_Dir
-//	(Activity actv, String dirName) {
-//		// TODO Auto-generated method stub
-//	
-//		////////////////////////////////
-//	
-//		// new file
-//	
-//		////////////////////////////////
-//		String currentPath = Methods.get_Pref_String(
-//				actv, 
-//				CONS.Pref.pname_MainActv, 
-//				CONS.Pref.pkey_CurrentPath, 
-//				null);
-//		
-//		File dpath_New = new File(currentPath, dirName);
-//		
-//		String newPath = dpath_New.getAbsolutePath();
-//		
-//		// Log
-//		String msg_Log = "new path => " + dpath_New.getAbsolutePath();
-//>>>>>>> master
+
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-//<<<<<<< HEAD
 		////////////////////////////////
 
 		// conv: choice string to => table name
@@ -3080,19 +3053,12 @@ public class Methods {
 		
 		// Log
 		msg_Log = "tname_New => " + tname_New;
-//=======
-//		String tname_New = 
-//				Methods.conv_CurrentPath_to_TableName(dpath_New.getAbsolutePath());
-//		
-//		msg_Log = "tname_New =>" +
-//				" " + tname_New;
-//>>>>>>> master
+		
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
 		////////////////////////////////
-//<<<<<<< HEAD
 
 		// build: TI list from => checkedPositions
 
@@ -3126,58 +3092,11 @@ public class Methods {
 		// Log
 		msg_Log = "moved => " + counter;
 		
-		
-		
-//=======
-	
-//		// list_RootDir
-//	
-//		////////////////////////////////
-//		CONS.MainActv.list_RootDir.clear();
-//		
-//		CONS.MainActv.list_RootDir.addAll(
-//							Methods.get_FileList(new File(newPath)));
-//		
-//		////////////////////////////////
-//	
-//		// notify
-//	
-//		////////////////////////////////
-//		CONS.MainActv.aAdapter.notifyDataSetChanged();
-//		
-//		////////////////////////////////
-//	
-//		// pref
-//	
-//		////////////////////////////////
-//		boolean res = Methods.set_Pref_String(
-//				actv, 
-//				CONS.Pref.pname_MainActv, 
-//				CONS.Pref.pkey_CurrentPath, 
-//				newPath);
-//		
-//		////////////////////////////////
-//	
-//		// Button: up
-//	
-//		////////////////////////////////
-//		ImageButton bt_Up = (ImageButton) actv.findViewById(R.id.main_bt_up);
-//		
-//		bt_Up.setEnabled(true);
-//		
-//	//	bt_Up.setBackgroundResource(R.drawable.main_up);
-//		
-//		bt_Up.setImageDrawable(actv.getResources().getDrawable(R.drawable.main_up));
-//		
-//		// Log
-//		msg_Log = "button => enabled";
-//>>>>>>> master
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
 		////////////////////////////////
-//<<<<<<< HEAD
 
 		// clear: checkedPositions
 
