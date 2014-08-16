@@ -1,6 +1,7 @@
 package ifm11.tasks;
 
 import ifm11.main.R;
+import ifm11.main.TNActv;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
@@ -781,7 +782,16 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 						CONS.Pref.pkey_TNActv__ListType, 
 						CONS.Enums.ListType.SEARCH.toString());
 		
+		////////////////////////////////
+
+		// start: TNActv
+
+		////////////////////////////////
+		Intent i = new Intent();
 		
+		i.setClass(actv, TNActv.class);
+
+		actv.startActivity(i);
 		
 //		// debug
 ////		Toast.makeText(actv, result, 2000).show();
