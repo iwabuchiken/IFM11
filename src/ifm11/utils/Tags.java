@@ -84,7 +84,8 @@ public class Tags {
 		DLG_DELETE_FOLDER_CONF_OK,
 		
 		// dlg: conf: move files: to folder
-		DLG_CONF_MOVE_FILES_FOLDER_OK, DLG_CONF_MOVE_FILES_FOLDER_TOP_OK, 
+		DLG_CONF_MOVE_FILES_FOLDER_OK, DLG_CONF_MOVE_FILES_FOLDER_TOP_OK,
+		DLG_DELETE_TI_CONF_OK,
 		
 	}//public static enum DialogTags
 	
@@ -116,6 +117,10 @@ public class Tags {
 		
 		// dlg: ActvMain, long click
 		DLG_ACTVMAIN_LONGCLICK,
+		
+		// dlg: TNActv, long click
+		DLG_ACTV_TN_LONG_CLICK,
+		
 		
 	}//public static enum DialogItemTags
 	
@@ -203,7 +208,10 @@ public class Tags {
 		actv_main_lv,
 		
 		// BMActv.java
-		actv_bm_lv,
+		actv_bm_lv, 
+		
+		// TNActv
+		ACTV_TN_LV,
 		
 	}//public static enum ListTags
 

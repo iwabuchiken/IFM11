@@ -118,5 +118,9 @@
 	    <string name="dlg_search_message_all_table">全テーブル検索</string>
 	    
 	    <string name="dlg_search_message_no_words">No search words</string>
-   							    
+
+	<!-- dlg: conf: delete ti -->
+	    <string name="dlg_tmpl_confirm_simple_msg_delete_file">
+	        									Delete file, too</string>
+	    							    
 </resources>

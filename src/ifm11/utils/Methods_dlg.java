@@ -1620,4 +1620,129 @@ public class Methods_dlg {
 	
 	}//public static Dialog dlg_template_okCancel()
 
+	public static void 
+	dlg_TNActv_LongClick
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		
+		Dialog dlg1 = Methods_dlg.dlg_Template_Cancel(
+				actv, R.layout.dlg_tmpl_cancel_lv, 
+				R.string.generic_tv_menu, 
+				R.id.dlg_tmpl_cancel_lv_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS);
+
+		/*----------------------------
+		* 2. Prep => List
+		----------------------------*/
+		String[] choices = {
+				actv.getString(R.string.generic_tv_edit),
+				actv.getString(R.string.generic_tv_delete),
+				actv.getString(R.string.generic_tv_upload),
+		};
+		
+		List<String> list = new ArrayList<String>();
+		
+		for (String item : choices) {
+		
+			list.add(item);
+		
+		}
+		
+		/*----------------------------
+		* 3. Adapter
+		----------------------------*/
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						actv,
+						//R.layout.dlg_db_admin,
+						R.layout.list_row_simple_1,
+//						android.R.layout.simple_list_item_1,
+						list
+		);
+		
+		/*----------------------------
+		* 4. Set adapter
+		----------------------------*/
+		ListView lv = (ListView) dlg1.findViewById(R.id.dlg_tmpl_cancel_lv_lv);
+		
+		lv.setAdapter(adapter);
+		
+		/*----------------------------
+		* 5. Set listener to list
+		----------------------------*/
+		lv.setTag(Tags.DialogItemTags.DLG_ACTV_TN_LONG_CLICK);
+		
+		lv.setOnItemClickListener(new DOI_CL(actv, dlg1, ti));
+		
+		/*----------------------------
+		* 6. Show dialog
+		----------------------------*/
+		dlg1.show();
+		
+		
+	}//dlg_TNActv_LongClick
+
+	public static void
+	conf_DeleteTI
+	(Activity actv, Dialog dlg1, TI ti) {
+		// TODO Auto-generated method stub
+		// 
+		Dialog dlg2 = new Dialog(actv);
+		
+		//
+		dlg2.setContentView(R.layout.dlg_tmpl_confirm_simple_cb);
+		
+		// Title
+		dlg2.setTitle(R.string.generic_tv_confirm);
+		
+		////////////////////////////////
+
+		// Set: Message
+
+		////////////////////////////////
+		TextView tvMessage = 
+				(TextView) dlg2.findViewById(R.id.dlg_tmpl_confirm_simple_cb_tv_message);
+		
+//		tvMessage.setText("このアイテムを削除しますか？");
+		tvMessage.setText("このアイテムを削除しますか？");
+		
+		////////////////////////////////
+
+		// Set folder name to text view
+
+		////////////////////////////////
+		TextView tv = 
+				(TextView) dlg2.findViewById(R.id.dlg_tmpl_confirm_simple_cb_tv_item_name);
+		
+		tv.setText(ti.getFile_name());
+		
+		/*----------------------------
+		 * 3. Add listeners => OnTouch
+			----------------------------*/
+		//
+		Button btn_ok = (Button) dlg2.findViewById(R.id.dlg_tmpl_confirm_simple_cb_btn_ok);
+		Button btn_cancel = (Button) dlg2.findViewById(R.id.dlg_tmpl_confirm_simple_cb_btn_cancel);
+		
+		//
+		btn_ok.setTag(DialogTags.DLG_DELETE_TI_CONF_OK);
+		btn_cancel.setTag(DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+		
+		//
+		btn_ok.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2));
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2));
+		
+		/*----------------------------
+		 * 4. Add listeners => OnClick
+			----------------------------*/
+		//
+		btn_ok.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, ti));
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2));
+		
+		/*----------------------------
+		 * 5. Show dialog
+			----------------------------*/
+		dlg2.show();
+
+		
+	}//conf_DeleteTI
+
 }//public class Methods_dialog

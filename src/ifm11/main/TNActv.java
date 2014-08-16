@@ -4,10 +4,12 @@ package ifm11.main;
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.items.TI;
+import ifm11.listeners.LOI_LCL;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.Tags;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -225,12 +227,37 @@ public class TNActv extends ListActivity {
 		////////////////////////////////
 		_Setup_Options();
 		
+		////////////////////////////////
+
+		// setup: listeners
+
+		////////////////////////////////
+		_Setup_SetListeners();
+		
 //		/*----------------------------
 //		 * 5. Initialize vars
 //			----------------------------*/
 //		checkedPositions = new ArrayList<Integer>();
 
 	}//protected void onStart()
+
+	private void 
+	_Setup_SetListeners() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// long click
+
+		////////////////////////////////
+		ListView lv = this.getListView();
+		
+		lv.setTag(Tags.ListTags.ACTV_TN_LV);
+		
+		lv.setOnItemLongClickListener(new LOI_LCL(this));
+		
+	}//_Setup_SetListeners
+
 
 	private void 
 	_Setup_Options() {

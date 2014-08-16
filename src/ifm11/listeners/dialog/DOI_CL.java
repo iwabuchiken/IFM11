@@ -1,6 +1,7 @@
 package ifm11.listeners.dialog;
 
 
+import ifm11.items.TI;
 import ifm11.main.R;
 import ifm11.tasks.Task_RefreshDB;
 import ifm11.utils.CONS;
@@ -33,6 +34,7 @@ public class DOI_CL implements OnItemClickListener {
 	//
 	Vibrator vib;
 	private String file_Name;
+	private TI ti;
 	
 	//
 //	Methods.DialogTags dlgTag = null;
@@ -65,6 +67,18 @@ public class DOI_CL implements OnItemClickListener {
 		this.dlg1 = dlg1;
 		
 		this.file_Name	= file_Name;
+		
+		vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+
+	}
+
+	public DOI_CL(Activity actv, Dialog dlg1, TI ti) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv = actv;
+		this.dlg1 = dlg1;
+
+		this.ti		= ti;
 		
 		vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -134,11 +148,44 @@ public class DOI_CL implements OnItemClickListener {
 			
 			break;// case dlg_bmactv_list_long_click
 			
+		case DLG_ACTV_TN_LONG_CLICK://----------------------------------------------
+			
+			choice = (String) parent.getItemAtPosition(position);
+			
+			case_DLG_ACTV_TN_LONG_CLICK(choice);
+			
+			break;// case dlg_bmactv_list_long_click
+			
 		default:
 			break;
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_DLG_ACTV_TN_LONG_CLICK
+	(String choice) {
+		// TODO Auto-generated method stub
+
+		if (choice.equals(actv.getString(R.string.generic_tv_delete))) {
+			
+			Methods_dlg.conf_DeleteTI(actv, dlg1, ti);
+			
+		} else if (choice.equals(actv.getString(R.string.generic_tv_edit))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
+			
+//			Methods_dlg.dlg_editTI(actv, dlg1, ti);
+			
+		} else if (choice.equals(actv.getString(
+						R.string.generic_tv_upload))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
+			
+//			Methods_dlg.uploadImageFile_main(actv, dlg1, ti);
+//			Methods_dlg.dlg_confirm_uploadImageFile(actv, dlg1, ti);
+			
+		}//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
+
+		
+		
+	}//case_DLG_ACTV_TN_LONG_CLICK
 
 	private void 
 	case_DLG_MOVE_FILES_FOLDER

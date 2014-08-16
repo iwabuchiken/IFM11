@@ -372,6 +372,9 @@ public class CONS {
 		// TNActv refers to this var; if true, _Setup_SetList()
 		//		builds other TI list using the var "searchedItems"
 		public static boolean searchDone	= false;
+
+		// Used => Deleting TI in TNActv list view
+		public static int inList_Pos;
 		
 	}
 	

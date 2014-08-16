@@ -1,5 +1,6 @@
 package ifm11.listeners;
 
+import ifm11.items.TI;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
@@ -76,6 +77,14 @@ LOI_LCL implements OnItemLongClickListener {
 			
 			break;// case actv_bm_lv
 			
+		case ACTV_TN_LV://----------------------------------------------------
+			
+			TI ti = (TI) parent.getItemAtPosition(position);
+			
+			case_ACTV_TN_LV(ti, position);
+			
+			break;// case actv_bm_lv
+			
 		default:
 			break;
 		
@@ -84,6 +93,25 @@ LOI_LCL implements OnItemLongClickListener {
 		return true;
 		
 	}//onItemLongClick (AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_ACTV_TN_LV(TI ti, int inList_Pos) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// set: position
+
+		////////////////////////////////
+		CONS.TNActv.inList_Pos = inList_Pos;
+		
+		////////////////////////////////
+
+		// dialog
+
+		////////////////////////////////
+		Methods_dlg.dlg_TNActv_LongClick(actv, ti);
+		
+	}
 
 	private void 
 	case_ACTV_MAIN_LV(String item) {

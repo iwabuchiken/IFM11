@@ -1,5 +1,6 @@
 package ifm11.listeners.dialog;
 
+import ifm11.items.TI;
 import ifm11.main.R;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
@@ -33,6 +34,7 @@ public class DB_OCL implements OnClickListener {
 	long db_Id;
 	String tableName;
 	private String item_Name;	// Methods_dlg.conf_DropTable
+	private TI ti;
 	
 	public DB_OCL(Activity actv, Dialog dlg1) {
 		//
@@ -110,6 +112,21 @@ public class DB_OCL implements OnClickListener {
 		this.dlg1	= dlg1;
 		
 		this.db_Id	= db_id;
+		
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+
+	}
+
+	public 
+	DB_OCL
+	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv	= actv;
+		this.dlg1	= dlg1;
+		
+		this.dlg2	= dlg2;
+		this.ti		= ti;
 		
 		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -195,11 +212,26 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_DELETE_TI_CONF_OK://------------------------------------------------
+			
+			dlg_DLG_DELETE_TI_CONF_OK();
+			
+			break;
+			
 
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	dlg_DLG_DELETE_TI_CONF_OK() {
+		// TODO Auto-generated method stub
+		
+		Methods.delete_TI(actv, dlg1, dlg2, ti);
+		
+		
+	}//dlg_DLG_DELETE_TI_CONF_OK
 
 	private void 
 	dlg_DLG_SEARCH_OK() {

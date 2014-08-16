@@ -1154,7 +1154,9 @@ public class DBUtils extends SQLiteOpenHelper{
 	 * 
 	 * <Steps> 1.
 	 ****************************************/
-	public static boolean isInDB_long(SQLiteDatabase db, String tableName, long file_id) {
+	public static boolean 
+	isInDB_long
+	(SQLiteDatabase db, String tableName, long file_id) {
 		
 		String sql = "SELECT COUNT(*) FROM " + tableName + " WHERE file_id = '" +
 						String.valueOf(file_id) + "'";
@@ -2929,6 +2931,97 @@ public class DBUtils extends SQLiteOpenHelper{
 		return ti_List;
 		
 	}//find_All_TI__Search
+
+	/******************************
+		@return -1	=> TI doesn't exist in db<br>
+				-2	=> ti.table_name ==> null<br>
+				-3	=> deletion => returned 0<br>
+	 ******************************/
+	public static int 
+	delete_TI
+	(Activity actv, TI ti, boolean checked) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// delete: from db
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+
+		// validate: is in db
+
+		////////////////////////////////
+		boolean res = DBUtils.isInDB_long_ai(wdb, CONS.DB.tname_IFM11, ti.getDb_Id());
+
+		if (res == false) {
+			
+			wdb.close();
+			
+			return -1;
+			
+		}
+		
+		////////////////////////////////
+
+		// validate: table name => set
+
+		////////////////////////////////
+		String tableName = ti.getTable_name();
+		
+		if (tableName == null) {
+			
+			wdb.close();
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+
+		// Query
+
+		////////////////////////////////
+		String where = CONS.DB.col_names_IFM11_full[0] + " = ?";
+//		String where = CONS.DB.col_names_IFM11[1] + " = ?";
+		
+		String[] args = new String[]{
+				
+							String.valueOf(ti.getDb_Id())
+							
+						};
+ 
+		int res_int = wdb.delete(CONS.DB.tname_IFM11, where, args);
+		
+		/******************************
+			validate: success
+		 ******************************/
+		if (res_int < 1) {
+			
+			wdb.close();
+			
+			return -3;
+			
+		}
+		
+		////////////////////////////////
+
+		// close
+
+		////////////////////////////////
+		wdb.close();
+		
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return res_int;
+		
+	}//delete_TI
 
 }//public class DBUtils
 
