@@ -35,6 +35,8 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 	static String[] string_searchedItems_table_names;
 	
 	int search_mode;
+
+	private int search_Type;
 	
 	public Task_Search(Activity actv, String[] search_words) {
 		
@@ -71,6 +73,19 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 
 	}//public SearchTask(Activity actv2, int search_mode)
 	
+
+
+	public Task_Search
+	(Activity actv, int search_mode, int search_Type) {
+		// TODO Auto-generated constructor stub
+		this.actv = actv;
+		
+		this.search_mode = search_mode;
+		this.search_Type		= search_Type;
+		
+		string_searchedItems_table_names = null;
+
+	}
 
 
 	@Override
@@ -445,35 +460,42 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 			
 		}//if (c == null)
 		
-//		String sql = "SELECT * FROM " + targetTable;
-//		
-//		// Log
-//		Log.d("SearchTask.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "targetTable: " + targetTable);
-//		
-//		
-//		Cursor c = rdb.rawQuery(sql, null);
-//		
-		
 		////////////////////////////////
 
 		// Search
 
 		////////////////////////////////
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
 		// Move cursor
 		c.moveToFirst();
 		
 		int i;	// counter for cursor iteration
 		int j;	// counter for keywords iteration
 		
+		String target = null;
+		
 		for (i = 0; i < c.getCount(); i++) {
 //			for (int i = 0; i < c.getCount(); i++) {
 			
 //			String memo = c.getString(6);
-			String memo = c.getString(8);	// memos
+			if (this.search_Type == 1) {
+				
+				target = c.getString(5);	// file_name
+				
+			} else {
+
+				target = c.getString(8);	// memos
+				
+			}
 			
-			if (memo == null) {
+			if (target == null) {
 
 				c.moveToNext();
 				
@@ -483,14 +505,14 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 			
 			for(j = 0; j < keywords.length; j ++) {
 				
-				if (memo.matches(".*" + keywords[j] + ".*")) {
+				if (target.matches(".*" + keywords[j] + ".*")) {
 //					if (memo.matches(".*" + string + ".*")) {
 					
 					// Log
 					Log.d("SearchTask.java"
 							+ "["
 							+ Thread.currentThread().getStackTrace()[2]
-									.getLineNumber() + "]", "memo => " + memo);
+									.getLineNumber() + "]", "memo => " + target);
 					
 				
 					////////////////////////////////

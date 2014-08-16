@@ -3841,9 +3841,12 @@ public class Methods {
 		
 		String tableName = Methods.conv_CurrentPath_to_TableName(currentPath);
 		
-		/*----------------------------
-		 * 3. Search task
-			----------------------------*/
+		////////////////////////////////
+
+		// prep: search
+
+		////////////////////////////////
+		// Checkbox => all table
 		CheckBox cb_AllTable = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_all_table);
 		
 		int search_mode = 0;	// 0 => Specific table (default)
@@ -3859,8 +3862,31 @@ public class Methods {
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+
+		// Checkbox => all table
+		CheckBox cb_FileName = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_file_name);
 		
-		Task_Search st = new Task_Search(actv, search_mode);
+		int search_Type = 0;	// 0 => Specific table (default)
+		
+		if (cb_FileName.isChecked()) {
+			
+			search_Type = 1;	// 1 => Search by file name
+			
+		}//if (condition)
+		
+		// Log
+		msg_Log = "search_Type => " + search_Type;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// search
+
+		////////////////////////////////
+		Task_Search st = new Task_Search(actv, search_mode, search_Type);
+//		Task_Search st = new Task_Search(actv, search_mode);
 
 		st.execute(a_words, new String[]{tableName});
 		
