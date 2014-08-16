@@ -2454,6 +2454,44 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//_insert_Data_Patterns__ContentValues
 	
+	/******************************
+		update => modified_at, file_path, file_name, memos
+	 ******************************/
+	private static ContentValues 
+	_update_TI__Get_ContentValues_All
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[2],		// modified_at 
+				Methods.conv_MillSec_to_TimeLabel(
+						Methods.getMillSeconds_now()));
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[4],		// file_path
+				ti.getFile_path());
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[5],		// file_name
+				ti.getFile_name());
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[8],		// memos
+				ti.getMemo());
+		
+		return val;
+		
+	}//_insert_Data_Patterns__ContentValues
+
 	private static ContentValues 
 	get_ContentValues__TI_TableName
 	(Activity actv, String tableName) {
@@ -3022,6 +3060,105 @@ public class DBUtils extends SQLiteOpenHelper{
 		return res_int;
 		
 	}//delete_TI
+
+	/******************************
+		@return -1 => Insertion failed<br>
+				-2 => Exception<br>
+				1 => Insertion done<br>
+	 ******************************/
+	public static int 
+	update_TI__All
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// setup: db
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		////////////////////////////////
+
+		// setup: contentvals
+
+		////////////////////////////////
+		
+		ContentValues val = _update_TI__Get_ContentValues_All(actv, ti);
+//		ContentValues val = new ContentValues();
+		
+		String where = CONS.DB.col_names_IFM11_full[0]
+						+ " = ?";
+		
+		String[] args = new String[]{String.valueOf(ti.getDb_Id())};
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.update(CONS.DB.tname_IFM11, val, where, args);
+//			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res < 1) {
+//				if (res == -1) {
+				
+//				// Log
+//				String msg_Log = String.format(
+//									"insertion => failed (result = %d)"
+//									, res);
+//
+//				Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+				
+				wdb.endTransaction();
+		
+				wdb.close();
+				
+				return -1;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
+			
+			wdb.close();
+			
+			return 1;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return -2;
+			
+		}//try		
+		
+//		return false;
+		
+	}//update_TI__All
 
 }//public class DBUtils
 

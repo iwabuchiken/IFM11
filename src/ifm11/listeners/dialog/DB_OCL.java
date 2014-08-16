@@ -218,11 +218,25 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DLG_EDIT_TI_BT_OK://------------------------------------------------
+			
+			case_DLG_EDIT_TI_BT_OK();
+			
+			break;
+			
 
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_DLG_EDIT_TI_BT_OK() {
+		// TODO Auto-generated method stub
+		
+		Methods.edit_TI(actv, dlg1, dlg2, ti);
+		
+	}//DLG_EDIT_TI_BT_OK
 
 	private void 
 	dlg_DLG_DELETE_TI_CONF_OK() {

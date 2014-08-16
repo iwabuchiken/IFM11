@@ -4032,5 +4032,103 @@ public class Methods {
 		
 	}//delete_TI
 
+	public static void
+	edit_TI
+	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {
+		// TODO Auto-generated method stub
+		
+		EditText etFileName = (EditText) dlg2.findViewById(
+				R.id.dlg_edit_ti_et_file_name);
+
+		EditText etFilePath = (EditText) dlg2.findViewById(
+			R.id.dlg_edit_ti_et_file_path);
+		
+		EditText etMemos = (EditText) dlg2.findViewById(
+			R.id.dlg_edit_ti_et_memos);
+		
+		ti.setFile_name(etFileName.getText().toString());
+		ti.setFile_path(etFilePath.getText().toString());
+		ti.setMemo(etMemos.getText().toString());
+
+		
+//		// TODO Auto-generated method stub
+//		DBUtils dbu = new DBUtils(actv, MainActv.dbName);
+		
+		int res = DBUtils.update_TI__All(actv, ti);
+//		boolean res = dbu.updateData_TI(actv, ti);
+
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		String msg = null;
+		
+		int colorID = 0;
+		
+		if (res == -1) {
+
+			msg = "Insertion failed";
+			
+			colorID = R.color.red;
+			
+		} else if (res == -2) {
+			
+			msg = "database exception";
+			
+			colorID = R.color.red;
+			
+		} else if (res == 1) {
+			
+			msg = "TI => updated";
+			
+			colorID = R.color.green4;
+			
+			////////////////////////////////
+
+			// dismiss
+
+			////////////////////////////////
+			// dismiss
+			dlg2.dismiss();
+			dlg1.dismiss();
+			
+			////////////////////////////////
+
+			// update: listview
+
+			////////////////////////////////
+			CONS.TNActv.adp_TNActv_Main.notifyDataSetChanged();
+			
+			// Log
+			String msg_Log = "adapter => notified";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}
+		
+		Methods_dlg.dlg_ShowMessage(actv, msg, colorID);
+		
+		
+//		/***************************************
+//		 * Close dialogues
+//		 ***************************************/
+//		if (res == true) {
+//			
+//			// debug
+//			Toast.makeText(actv, "Data updated", Toast.LENGTH_LONG).show();
+//			
+//			dlg2.dismiss();
+//			dlg1.dismiss();
+//			
+//		} else {//if (res == true)
+//			
+//			// debug
+//			Toast.makeText(actv, "Update data => Failed", Toast.LENGTH_LONG).show();
+//			
+//		}//if (res == true)
+		
+	}//edit_TI
+
 }//public class Methods
 
