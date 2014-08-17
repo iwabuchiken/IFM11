@@ -1,10 +1,12 @@
 package ifm11.listeners.button;
 
 import ifm11.utils.CONS;
+import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Tags;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.os.Vibrator;
 import android.util.Log;
@@ -82,6 +84,36 @@ public class BO_CL implements OnClickListener {
 			
 			break;
 
+		case ACTV_TN_IB_BACK://-----------------------------------------------------------------------------
+			
+			case_ACTV_TN_IB_BACK();
+			
+			break;
+			
+		case ACTV_TN_IB_TOP://-----------------------------------------------------------------------------
+			
+			case_ACTV_TN_IB_TOP();
+			
+			break;
+			
+		case ACTV_TN_IB_BOTTOM://-----------------------------------------------------------------------------
+			
+			case_ACTV_TN_IB_BOTTOM();
+			
+			break;
+			
+		case ACTV_TN_IB_DOWN://-----------------------------------------------------------------------------
+			
+			case_ACTV_TN_IB_DOWN();
+			
+			break;
+			
+		case ACTV_TN_IB_UP://-----------------------------------------------------------------------------
+			
+			case_ACTV_TN_IB_UP();
+			
+			break;
+			
 //		case thumb_activity_ib_bottom: //----------------------------------------------
 //			
 //			int numOfGroups = TNActv.tiList.size() / lv.getChildCount();
@@ -118,6 +150,131 @@ public class BO_CL implements OnClickListener {
 		}//switch (tag)
 		
 	}//public void onClick(View v)
+
+	private void 
+	case_ACTV_TN_IB_TOP() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.TNActv.list_TNActv_Main == null) {
+			
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+			CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+			
+		}
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		lv.setSelection(0);
+		
+	}//case_ACTV_TN_IB_TOP
+
+	private void 
+	case_ACTV_TN_IB_BOTTOM() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.TNActv.list_TNActv_Main == null) {
+			
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+			CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+			
+		}
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int numOfGroups = CONS.TNActv.list_TNActv_Main.size() / lv.getChildCount();
+		
+		int indexOfLastChild = lv.getChildCount() * numOfGroups;
+		
+		lv.setSelection(indexOfLastChild);
+		
+	}//case_ACTV_TN_IB_TOP
+	
+	private void 
+	case_ACTV_TN_IB_DOWN() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.TNActv.list_TNActv_Main == null) {
+			
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+			CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+			
+		}
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int new_Position = lv.getLastVisiblePosition();
+		
+		if((new_Position + lv.getChildCount()) 
+				> CONS.TNActv.list_TNActv_Main.size()) {
+			
+			new_Position = CONS.TNActv.list_TNActv_Main.size() - lv.getChildCount();
+			
+		}
+		
+		lv.setSelection(new_Position);
+		
+	}//case_ACTV_TN_IB_TOP
+	
+	
+	private void 
+	case_ACTV_TN_IB_UP() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.TNActv.list_TNActv_Main == null) {
+			
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+			CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+			
+		}
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int lastPos = lv.getLastVisiblePosition();
+		
+		int childCount = lv.getChildCount();
+		
+		int new_Position;
+		
+		if (lastPos - (childCount * 2) + 2 > 0) {
+			
+			new_Position = lastPos - (childCount * 2) + 2;
+			
+		} else {
+			
+			new_Position = 0;
+
+		}
+		
+		lv.setSelection(new_Position);		
+		
+	}//case_ACTV_TN_IB_TOP
+	
+	
+	private void 
+	case_ACTV_TN_IB_BACK() {
+		// TODO Auto-generated method stub
+		
+		actv.finish();
+		
+		actv.overridePendingTransition(0, 0);
+		
+	}
 
 	private void case_ACTV_MAIN_IB_UP() {
 		// TODO Auto-generated method stub

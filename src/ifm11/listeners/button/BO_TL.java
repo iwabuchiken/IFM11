@@ -1,6 +1,7 @@
 package ifm11.listeners.button;
 
 import ifm11.main.R;
+import ifm11.utils.CONS;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.app.Dialog;
@@ -35,6 +36,8 @@ public class BO_TL implements OnTouchListener {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		Tags.ButtonTags tag = (Tags.ButtonTags) v.getTag();
 		
+//		vib.vibrate(CONS.Admin.vibLength_click);
+		
 		switch (event.getActionMasked()) {
 		case MotionEvent.ACTION_DOWN:
 			
@@ -49,19 +52,12 @@ public class BO_TL implements OnTouchListener {
 				
 				break;// case ib_up
 				
-			case thumb_activity_ib_bottom://----------------------------------------------------
+			case ACTV_TN_IB_BOTTOM://----------------------------------------------------
 				
 				ib = (ImageButton) v;
 				ib.setImageResource(R.drawable.ifm8_thumb_bottom_50x50_disenabled);
 						
 				break;// case thumb_activity_ib_bottom
-
-			case thumb_activity_ib_top://----------------------------------------------------
-				
-				ib = (ImageButton) v;
-				ib.setImageResource(R.drawable.ifm8_thumb_top_50x50_disenabled);
-				
-				break;// case thumb_activity_ib_top
 
 			case image_activity_prev://----------------------------------------------------
 				
@@ -74,6 +70,20 @@ public class BO_TL implements OnTouchListener {
 				
 				ib = (ImageButton) v;
 				ib.setImageResource(R.drawable.ifm8_forward_disenabled);
+				
+				break;// case image_activity_next
+				
+			case ACTV_TN_IB_BACK://----------------------------------------------------
+				
+				ib = (ImageButton) v;
+				ib.setImageResource(R.drawable.ifm8_thumb_back_50x50_disenabled);
+				
+				break;// case image_activity_next
+				
+			case ACTV_TN_IB_TOP://----------------------------------------------------
+				
+				ib = (ImageButton) v;
+				ib.setImageResource(R.drawable.ifm8_thumb_top_50x50_disenabled);
 				
 				break;// case image_activity_next
 				
@@ -93,17 +103,17 @@ public class BO_TL implements OnTouchListener {
 				
 				break;// case ib_up
 				
-			case thumb_activity_ib_bottom://----------------------------------------------------
+			case ACTV_TN_IB_BOTTOM://----------------------------------------------------
 				
 				ib = (ImageButton) v;
-				ib.setImageResource(R.drawable.ifm8_thumb_bottom_50x50);
+				ib.setImageResource(R.drawable.actv_tn_bt_bottom_45x45);
 
 				break;// case thumb_activity_ib_bottom
 				
-			case thumb_activity_ib_top://----------------------------------------------------
+			case ACTV_TN_IB_TOP://----------------------------------------------------
 				
 				ib = (ImageButton) v;
-				ib.setImageResource(R.drawable.ifm8_thumb_top_50x50);
+				ib.setImageResource(R.drawable.actv_tn_bt_top_45x45);
 				
 				break;// case thumb_activity_ib_top
 
@@ -118,6 +128,13 @@ public class BO_TL implements OnTouchListener {
 				
 				ib = (ImageButton) v;
 				ib.setImageResource(R.drawable.ifm8_forward);
+				
+				break;// case image_activity_next
+				
+			case ACTV_TN_IB_BACK://----------------------------------------------------
+				
+				ib = (ImageButton) v;
+				ib.setImageResource(R.drawable.ifm8_thumb_back_50x50);
 				
 				break;// case image_activity_next
 				

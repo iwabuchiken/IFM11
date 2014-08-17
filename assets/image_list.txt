@@ -1,2 +1,4 @@
 1	proj_icon_64x64.png	1402200647_microscope.png	https://www.iconfinder.com/icons/66100/biology_microscope_science_icon#size=128
 2	main_opt_move_disabled.png	1407872100_71_41x41.png	https://www.iconfinder.com/icons/53737/forbidden_stop_icon#size=68
+3	actv_tn_bt_top.png	1408255569_up.png(1408255569_up_45x45.png)	https://www.iconfinder.com/icons/308945/arrow_up_icon#size=64
+4	actv_tn_bt_bottom_45x45.png	1408256032_down.png(1408256032_down.png)	https://www.iconfinder.com/icons/308965/arrow_down_icon#size=64	

@@ -140,7 +140,8 @@ public class Tags {
 		db_manager_activity_register_patterns,
 		
 		// thumb_activity.xml
-		thumb_activity_ib_back, thumb_activity_ib_bottom, thumb_activity_ib_top,
+		ACTV_TN_IB_BACK, ACTV_TN_IB_BOTTOM, ACTV_TN_IB_TOP,
+		ACTV_TN_IB_DOWN, ACTV_TN_IB_UP,
 		
 		// image_activity.xml
 		image_activity_back, image_activity_prev, image_activity_next,

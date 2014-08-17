@@ -42,48 +42,30 @@
 
         <ImageButton
             android:id="@+id/thumb_activity_ib_toTop"
-            
             style="@style/v1_ib"
-            
-            
-            android:src="@drawable/ifm8_thumb_top_50x50_disenabled" 
-            
-            />
+            android:background="@color/gold2"
+            android:src="@drawable/actv_tn_bt_top_45x45" />
 
         <ImageButton
             android:id="@+id/thumb_activity_ib_prev_page"
-            
             style="@style/v1_ib"
-            
-            android:src="@drawable/ifm8_thumb_up_50x50_disenabled"
-            
-             />
+            android:src="@drawable/ifm8_thumb_up_50x50" />
 
         <ImageButton
             android:id="@+id/thumb_activity_ib_back"
-            
             style="@style/v1_ib"
-            
-            android:src="@drawable/ifm8_thumb_back_50x50_disenabled"
-			/>
+            android:src="@drawable/ifm8_thumb_back_50x50" />
 
         <ImageButton
             android:id="@+id/thumb_activity_ib_next_page"
-            
             style="@style/v1_ib"
-        	
-            android:src="@drawable/ifm8_thumb_down_50x50_disenabled"
-            
-            />
+            android:src="@drawable/ifm8_thumb_down_50x50" />
 
         <ImageButton
             android:id="@+id/thumb_activity_ib_toBottom"
-            
             style="@style/v1_ib"
-        	
-            android:src="@drawable/ifm8_thumb_bottom_50x50_disenabled"
-            
-            />
+            android:background="@color/gold2"
+            android:src="@drawable/actv_tn_bt_bottom_45x45" />
 
     </LinearLayout>
 
