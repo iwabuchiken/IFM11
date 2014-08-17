@@ -1746,6 +1746,8 @@ public class DBUtils extends SQLiteOpenHelper{
 //		"memos", "tags",						// 8,9
 //		"last_viewed_at",						// 10
 //		"table_name"							// 11
+//		"uploaded_at",							// 12
+		
 		List<TI> ti_List = new ArrayList<TI>();
 		
 		while(c.moveToNext()) {
@@ -1768,6 +1770,9 @@ public class DBUtils extends SQLiteOpenHelper{
 					
 					.setLast_viewed_at(c.getString(10))
 					.setTable_name(c.getString(11))
+
+					.setUploaded_at(c.getString(12))
+					
 					.build();
 			
 			ti_List.add(ti);
@@ -1937,6 +1942,9 @@ public class DBUtils extends SQLiteOpenHelper{
 				
 				.setLast_viewed_at(c.getString(10))
 				.setTable_name(c.getString(11))
+				
+				.setUploaded_at(c.getString(12))
+				
 				.build();
 		
 		////////////////////////////////
@@ -2091,23 +2099,26 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		TI ti = new TI.Builder()
 		
-		.setDb_Id(c.getLong(0))
-		.setCreated_at(c.getString(1))
-		.setModified_at(c.getString(2))
-		
-		.setFileId(c.getLong(3))
-		.setFile_path(c.getString(4))
-		.setFile_name(c.getString(5))
-		
-		.setDate_added(c.getString(6))
-		.setDate_modified(c.getString(7))
-		
-		.setMemo(c.getString(8))
-		.setTags(c.getString(9))
-		
-		.setLast_viewed_at(c.getString(10))
-		.setTable_name(c.getString(11))
-		.build();
+						.setDb_Id(c.getLong(0))
+						.setCreated_at(c.getString(1))
+						.setModified_at(c.getString(2))
+						
+						.setFileId(c.getLong(3))
+						.setFile_path(c.getString(4))
+						.setFile_name(c.getString(5))
+						
+						.setDate_added(c.getString(6))
+						.setDate_modified(c.getString(7))
+						
+						.setMemo(c.getString(8))
+						.setTags(c.getString(9))
+						
+						.setLast_viewed_at(c.getString(10))
+						.setTable_name(c.getString(11))
+						
+						.setUploaded_at(c.getString(12))
+						
+						.build();
 		
 		////////////////////////////////
 		

@@ -150,7 +150,7 @@ public class CONS {
 			"memos", "tags",						// 5,6
 			"last_viewed_at",						// 7
 			"table_name",							// 8
-//			"uploaded_at",							// 9
+			"uploaded_at",							// 9
 			
 		};
 		
@@ -164,7 +164,7 @@ public class CONS {
 			"memos", "tags",						// 8,9
 			"last_viewed_at",						// 10
 			"table_name",							// 11
-//			"uploaded_at",							// 12
+			"uploaded_at",							// 12
 			
 		};
 
@@ -174,7 +174,7 @@ public class CONS {
 			"TEXT", "TEXT",				// 5,6
 			"TEXT",						// 7
 			"TEXT",						// 8
-//			"TEXT",						// 9
+			"TEXT",						// 9
 		};
 		
 		////////////////////////////////
