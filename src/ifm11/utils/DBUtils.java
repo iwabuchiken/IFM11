@@ -3,6 +3,7 @@ package ifm11.utils;
 
 
 import ifm11.items.TI;
+import ifm11.items.WordPattern;
 import ifm11.main.R;
 
 import java.io.File;
@@ -3285,6 +3286,92 @@ public class DBUtils extends SQLiteOpenHelper{
 //		return false;
 		
 	}//update_TI__All
+
+	/******************************
+		@return
+				-1	=> Pattern not in db<br>
+				-2	=> Deletion failed<br>
+	 ******************************/
+	public static int 
+	del_Pattern
+	(Activity actv, WordPattern wp) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// delete: from db
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+
+		// validate: is in db
+
+		////////////////////////////////
+		boolean res = DBUtils.isInDB_long_ai(
+							wdb, 
+							CONS.DB.tname_MemoPatterns, 
+							wp.getDb_Id());
+		
+		// Log
+		String msg_Log = "res => " + res;
+		Log.d("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		if (res == false) {
+			
+			wdb.close();
+			
+			return -1;
+			
+		}
+
+		////////////////////////////////
+
+		// Query
+
+		////////////////////////////////
+		String where = CONS.DB.col_names_MemoPatterns_full[0] + " = ?";
+//		String where = CONS.DB.col_names_IFM11[1] + " = ?";
+		
+		String[] args = new String[]{
+				
+							String.valueOf(wp.getDb_Id())
+							
+						};
+ 
+		int res_int = wdb.delete(CONS.DB.tname_MemoPatterns, where, args);
+		
+		/******************************
+			validate: success
+		 ******************************/
+		if (res_int == 0) {
+			
+			wdb.close();
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+
+		// close
+
+		////////////////////////////////
+		wdb.close();
+		
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return res_int;
+		
+	}//del_Pattern
 
 }//public class DBUtils
 

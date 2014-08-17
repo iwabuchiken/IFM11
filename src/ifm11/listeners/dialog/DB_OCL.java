@@ -1,6 +1,7 @@
 package ifm11.listeners.dialog;
 
 import ifm11.items.TI;
+import ifm11.items.WordPattern;
 import ifm11.main.R;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
@@ -35,6 +36,7 @@ public class DB_OCL implements OnClickListener {
 	String tableName;
 	private String item_Name;	// Methods_dlg.conf_DropTable
 	private TI ti;
+	private WordPattern wp;
 	
 	public DB_OCL(Activity actv, Dialog dlg1) {
 		//
@@ -130,6 +132,24 @@ public class DB_OCL implements OnClickListener {
 		
 		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
 
+	}
+
+	public DB_OCL
+	(Activity actv, 
+		Dialog dlg1, Dialog dlg2, Dialog dlg3,
+		WordPattern wp) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv	= actv;
+		
+		this.dlg1	= dlg1;
+		this.dlg2	= dlg2;
+		this.dlg3	= dlg3;
+		
+		this.wp		= wp;
+		
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+		
 	}
 
 	public void onClick(View v) {
@@ -230,11 +250,24 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
-
+		case DLG_DELETE_PATTERN_CONF_OK://------------------------------------------------
+			
+			case_DLG_DELETE_PATTERN_CONF_OK();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_DLG_DELETE_PATTERN_CONF_OK() {
+		// TODO Auto-generated method stub
+		
+		Methods.del_Pattern(actv, dlg1, dlg2, dlg3, wp);
+		
+	}
 
 	private void 
 	case_DLG_REGISTER_PATTERNS_REGISTER() {

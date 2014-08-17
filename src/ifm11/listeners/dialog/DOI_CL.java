@@ -188,12 +188,8 @@ public class DOI_CL implements OnItemClickListener {
 	case_DLG_DELETE_PATTERNS_GV
 	(WordPattern wp) {
 		// TODO Auto-generated method stub
-		
-		// Log
-		String msg_Log = String.format("word = %s / id = %d", wp.getWord(), (int)wp.getDb_Id());
-		Log.d("DOI_CL.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
+
+		Methods_dlg.conf_Delete_Pattern(actv, dlg1, dlg2, wp);
 		
 		
 	}//case_DLG_DELETE_PATTERNS_GV
@@ -229,7 +225,7 @@ public class DOI_CL implements OnItemClickListener {
 
 		if (choice.equals(actv.getString(R.string.generic_tv_delete))) {
 			
-			Methods_dlg.conf_DeleteTI(actv, dlg1, ti);
+			Methods_dlg.conf_Delete_TI(actv, dlg1, ti);
 			
 		} else if (choice.equals(actv.getString(R.string.generic_tv_edit))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
 			
@@ -646,7 +642,7 @@ public class DOI_CL implements OnItemClickListener {
 		if (choice.equals(actv.getString(
 				R.string.dlg_actvmain_lv_delete))) {	// Edit
 
-			Methods_dlg.conf_DeleteFolder(actv, dlg1, file_Name, choice);
+			Methods_dlg.conf_Delete_Folder(actv, dlg1, file_Name, choice);
 			
 		} else {//if (item.equals(actv.getString(R.string.generic_tv_edit)))
 			

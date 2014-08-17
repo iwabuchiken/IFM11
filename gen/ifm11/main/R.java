@@ -232,6 +232,7 @@ public final class R {
         /**  dlg_db_admin.xml 
          */
         public static final int dlg_db_admin_title=0x7f060013;
+        public static final int dlg_delete_patterns_conf_message=0x7f06004b;
         /**  dlg_delete_patterns.xml 
          */
         public static final int dlg_delete_patterns_title=0x7f06004a;

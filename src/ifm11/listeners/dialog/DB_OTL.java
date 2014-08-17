@@ -17,6 +17,7 @@ public class DB_OTL implements OnTouchListener {
 	Activity actv;
 	Dialog dlg1;
 	private Dialog dlg2;
+	private Dialog dlg3;
 	
 	public DB_OTL(Activity actv, Dialog dlg) {
 		//
@@ -38,6 +39,17 @@ public class DB_OTL implements OnTouchListener {
 		this.dlg1 = dlg1;
 		this.dlg2 = dlg2;
 
+	}
+
+	public DB_OTL(Activity actv, Dialog dlg1, Dialog dlg2, Dialog dlg3) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv = actv;
+		
+		this.dlg1 = dlg1;
+		this.dlg2 = dlg2;
+		this.dlg3 = dlg3;
+		
 	}
 
 	//	@Override
@@ -89,6 +101,8 @@ public class DB_OTL implements OnTouchListener {
 					
 				case DLG_DELETE_TI_CONF_OK:
 					
+				case DLG_DELETE_PATTERN_CONF_OK:
+					
 					v.setBackgroundColor(Color.GRAY);
 					
 					break;
@@ -138,6 +152,8 @@ public class DB_OTL implements OnTouchListener {
 			case DLG_CREATE_DIR_OK:
 				
 			case DLG_DELETE_TI_CONF_OK:
+				
+			case DLG_DELETE_PATTERN_CONF_OK:
 				
 					v.setBackgroundColor(Color.WHITE);
 					

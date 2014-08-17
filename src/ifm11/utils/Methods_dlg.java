@@ -1106,7 +1106,7 @@ public class Methods_dlg {
 	}//dlg_Template_Cancel
 
 	public static void 
-	conf_DeleteFolder
+	conf_Delete_Folder
 	(Activity actv, Dialog dlg1,
 			String folderName, String dlg1_Choice) {
 		// TODO Auto-generated method stub
@@ -1709,7 +1709,7 @@ public class Methods_dlg {
 	}//dlg_TNActv_LongClick
 
 	public static void
-	conf_DeleteTI
+	conf_Delete_TI
 	(Activity actv, Dialog dlg1, TI ti) {
 		// TODO Auto-generated method stub
 		// 
@@ -2112,7 +2112,7 @@ public class Methods_dlg {
 		 * 5. Prep => Adapter
 		 * 6. Set adapter
 			----------------------------*/
-		GridView gv = dlg_DeletePatterns__GridView(actv, dlg1, dlg2);
+		GridView gv = _dlg_DeletePatterns__GridView(actv, dlg1, dlg2);
 
 		/*----------------------------
 		 * 7. Show dialog
@@ -2122,7 +2122,7 @@ public class Methods_dlg {
 	}//public static void dlg_delete_patterns(Activity actv, Dialog dlg)
 
 	private static GridView 
-	dlg_DeletePatterns__GridView
+	_dlg_DeletePatterns__GridView
 	(Activity actv, Dialog dlg1, Dialog dlg2) {
 		/*----------------------------
 		 * 1. Set up db
@@ -2230,7 +2230,8 @@ public class Methods_dlg {
 //		CONS.IMageActv.patternList = new ArrayList<String>();
 //		List<String> patternList = new ArrayList<String>();
 		
-		List<WordPattern> patternList = new ArrayList<WordPattern>();
+		CONS.IMageActv.patternList = new ArrayList<WordPattern>();
+//		List<WordPattern> patternList = new ArrayList<WordPattern>();
 		
 		WordPattern wp = null;
 		
@@ -2247,7 +2248,8 @@ public class Methods_dlg {
 							.setWord(c.getString(3))
 							.build();
 				
-				patternList.add(wp);
+				CONS.IMageActv.patternList.add(wp);
+//				patternList.add(wp);
 				
 				c.moveToNext();
 				
@@ -2268,10 +2270,12 @@ public class Methods_dlg {
 		/*----------------------------
 		 * 5. Prep => Adapter
 			----------------------------*/
-		Adp_WordPatterns adapter = new Adp_WordPatterns(
+//		Adp_WordPatterns adapter = new Adp_WordPatterns(
+		CONS.IMageActv.adapter = new Adp_WordPatterns(
 										actv,
 										R.layout.add_memo_grid_view,
-										patternList
+										CONS.IMageActv.patternList
+//										patternList
 										);
 //		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 //				actv,
@@ -2282,7 +2286,8 @@ public class Methods_dlg {
 		/*----------------------------
 		 * 6. Set adapter to view
 			----------------------------*/
-		gv.setAdapter(adapter);
+		gv.setAdapter(CONS.IMageActv.adapter);
+//		gv.setAdapter(adapter);
 		
 		/*----------------------------
 		 * 7. Set listener
@@ -2305,5 +2310,70 @@ public class Methods_dlg {
 
 		return gv;
 	}//private static GridView dlg_delete_patterns_2_grid_view(Activity actv, Dialog dlg, Dialog dlg2)
+
+	public static void 
+	conf_Delete_Pattern
+	(Activity actv, 
+		Dialog dlg1, Dialog dlg2, WordPattern wp) {
+		// TODO Auto-generated method stub
+		
+		Dialog dlg3 = new Dialog(actv);
+		
+		//
+		dlg3.setContentView(R.layout.dlg_tmpl_confirm_simple);
+		
+		// Title
+		dlg3.setTitle(R.string.generic_tv_confirm);
+		
+		////////////////////////////////
+
+		// Set: Message
+
+		////////////////////////////////
+		TextView tvMessage = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_message);
+		
+//		tvMessage.setText("このアイテムを削除しますか？");
+		tvMessage.setText(actv.getString(R.string.dlg_delete_patterns_conf_message));
+		
+		////////////////////////////////
+
+		// Set: item name
+
+		////////////////////////////////
+		TextView tv = 
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
+		
+		String itemName = String.format("%s(id=%d)", wp.getWord(), (int)wp.getDb_Id());
+		tv.setText(itemName);
+		
+		/*----------------------------
+		 * 3. Add listeners => OnTouch
+			----------------------------*/
+		//
+		Button btn_ok = (Button) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_btn_ok);
+		Button btn_cancel = (Button) dlg3.findViewById(R.id.dlg_tmpl_confirm_simple_btn_cancel);
+		
+		//
+		btn_ok.setTag(DialogTags.DLG_DELETE_PATTERN_CONF_OK);
+		btn_cancel.setTag(DialogTags.GENERIC_DISMISS_THIRD_DIALOG);
+		
+		//
+		btn_ok.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2, dlg3));
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2, dlg3));
+		
+		/*----------------------------
+		 * 4. Add listeners => OnClick
+			----------------------------*/
+		//
+		btn_ok.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, dlg3, wp));
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, dlg3));
+		
+		/*----------------------------
+		 * 5. Show dialog
+			----------------------------*/
+		dlg3.show();
+		
+	}//conf_Delete_Pattern
 
 }//public class Methods_dialog

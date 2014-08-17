@@ -3,7 +3,9 @@ package ifm11.utils;
 import ifm11.adapters.Adp_MainList;
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
+import ifm11.adapters.Adp_WordPatterns;
 import ifm11.items.TI;
+import ifm11.items.WordPattern;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -382,9 +384,11 @@ public class CONS {
 		
 		public static ArrayAdapter<String> adp_ImageActv_GridView = null;
 		
-		public static List<String> patternList = null;
+//		public static List<String> patternList = null;
 		
+		public static List<WordPattern> patternList;
 		
+		public static Adp_WordPatterns adapter;
 		
 	}
 	

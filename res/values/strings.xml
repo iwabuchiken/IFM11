@@ -141,6 +141,7 @@
     		    							    
     <!-- dlg_delete_patterns.xml -->
     	<string name="dlg_delete_patterns_title">Delete patterns</string>
+    	<string name="dlg_delete_patterns_conf_message">Delete pattern?</string>
     
     
 </resources>

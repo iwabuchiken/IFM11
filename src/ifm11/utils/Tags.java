@@ -90,6 +90,9 @@ public class Tags {
 		// dlg: edit TI
 		DLG_EDIT_TI_BT_OK,
 		
+		// dlg: delete patterns
+		DLG_DELETE_PATTERN_CONF_OK,
+		
 	}//public static enum DialogTags
 	
 	public static enum DialogItemTags {

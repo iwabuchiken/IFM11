@@ -7,6 +7,7 @@ import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_TI;
 import ifm11.items.TI;
+import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
@@ -4155,6 +4156,79 @@ public class Methods {
 //		}//if (res == true)
 		
 	}//edit_TI
+
+	public static void 
+	del_Pattern
+	(Activity actv, 
+		Dialog dlg1, Dialog dlg2, Dialog dlg3, 
+		WordPattern wp) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////////////////////////////////////
+
+		// Delete from: Table
+
+		////////////////////////////////////////////////////////////////
+		int res = DBUtils.del_Pattern(actv, wp);
+
+		////////////////////////////////
+
+		// validt: done
+
+		////////////////////////////////
+		if (res < 1) {
+			
+			String msg = null;
+			
+			switch(res) {
+			
+			case -1: msg = "Pattern doesn't exist in db: " + wp.getWord();
+				
+				break;
+				
+			case -2: msg = "Deletion failed => " + wp.getWord();
+				
+				break;
+				
+			default:
+				
+				msg = "Unknown error";
+				
+				break;
+				
+			}
+			
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			dlg3.dismiss();
+			
+			return;
+			
+		}
+
+		////////////////////////////////
+
+		// delete from: listview
+
+		////////////////////////////////
+		CONS.IMageActv.patternList.remove(wp);
+
+		if (CONS.IMageActv.adapter != null) {
+		
+			CONS.IMageActv.adapter.notifyDataSetChanged();
+			
+		}//if (TNActv.aAdapter == condition)
+		
+		////////////////////////////////
+
+		// dismiss
+
+		////////////////////////////////
+		dlg3.dismiss();
+		dlg2.dismiss();
+		dlg1.dismiss();
+		
+	}//del_Pattern
 
 }//public class Methods
 
