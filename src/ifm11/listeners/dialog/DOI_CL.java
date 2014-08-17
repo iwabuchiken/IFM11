@@ -234,6 +234,8 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (choice.equals(actv.getString(
 						R.string.generic_tv_upload))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
 			
+			Methods_dlg.upload_Image(actv, dlg1, ti);
+			
 //			Methods_dlg.uploadImageFile_main(actv, dlg1, ti);
 //			Methods_dlg.dlg_confirm_uploadImageFile(actv, dlg1, ti);
 			

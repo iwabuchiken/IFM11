@@ -153,5 +153,10 @@
     	<string name="dlg_delete_patterns_title">Delete patterns</string>
     	<string name="dlg_delete_patterns_conf_message">Delete pattern?</string>
     
+    <!-- dlg: upload image -->
+    	<string name="dlg_upload_image_title">Upload</string>
+    	<string name="dlg_upload_image_item_remote">To remote</string>
+    	<string name="dlg_upload_image_item_email">Email</string>
+    	<string name="dlg_upload_image_item_tweet">Tweet</string>
     
 </resources>

@@ -130,6 +130,9 @@ public class Tags {
 		// dlg: TNActv, long click
 		DLG_ACTV_TN_LONG_CLICK,
 		
+		// dlg: upload image
+		DLG_ACTV_TN_LIST_UPLOAD,
+		
 		
 	}//public static enum DialogItemTags
 	

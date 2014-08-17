@@ -230,6 +230,52 @@ public class Methods_dlg {
 		
 	}//public static Dialog dlg_template_okCancel()
 
+	public static Dialog 
+	dlg_Template_Cancel_SecondDialog
+	(Activity actv, Dialog dlg1,
+			int layoutId, String title,
+			int cancelButtonId, Tags.DialogTags cancelTag) {
+		/****************************
+		 * Steps
+		 * 1. Set up
+		 * 2. Add listeners => OnTouch
+		 * 3. Add listeners => OnClick
+		 ****************************/
+		
+		// 
+		Dialog dlg2 = new Dialog(actv);
+		
+		//
+		dlg2.setContentView(layoutId);
+		
+		// Title
+		dlg2.setTitle(title);
+		
+		/****************************
+		 * 2. Add listeners => OnTouch
+		 ****************************/
+		//
+		Button btn_cancel = (Button) dlg2.findViewById(cancelButtonId);
+		
+		//
+		btn_cancel.setTag(cancelTag);
+		
+		//
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg2));
+		
+		/****************************
+		 * 3. Add listeners => OnClick
+		 ****************************/
+		//
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2));
+		
+		//
+		//dlg.show();
+		
+		return dlg2;
+		
+	}//public static Dialog dlg_template_okCancel()
+	
 	public static void 
 	conf_DropTable
 	(Activity actv, Dialog dlg1, String tname) {
@@ -2492,5 +2538,77 @@ public class Methods_dlg {
 		dlg2.show();		
 		
 	}//_conf_Exec_Sql__AddCol_IFM11
+
+	public static void 
+	upload_Image
+	(Activity actv, Dialog dlg1, TI ti) {
+		// TODO Auto-generated method stub
+
+		Dialog dlg2 = Methods_dlg.dlg_Template_Cancel_SecondDialog(
+				actv, dlg1,
+				R.layout.dlg_tmpl_cancel_lv_2, 
+				
+				actv.getString(R.string.dlg_upload_image_title)
+					+ ": "
+					+ ti.getFile_name(), 
+				
+				R.id.dlg_tmpl_cancel_lv_2_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+
+//		Dialog dlg2 = Methods_dlg.dlg_Template_Cancel_SecondDialog(
+//				actv, dlg1,
+//				R.layout.dlg_tmpl_toast_ok, 
+//				R.string.generic_tv_confirm, 
+//				
+//				R.id.dlg_tmpl_toast_ok_bt_cancel, 
+//				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+
+		/*----------------------------
+		* 2. Prep => List
+		----------------------------*/
+		String[] choices = {
+				actv.getString(R.string.dlg_upload_image_item_remote),
+				actv.getString(R.string.dlg_upload_image_item_email),
+		};
+		
+		List<String> list = new ArrayList<String>();
+		
+		for (String item : choices) {
+		
+			list.add(item);
+		
+		}
+		
+		/*----------------------------
+		* 3. Adapter
+		----------------------------*/
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						actv,
+						//R.layout.dlg_db_admin,
+						R.layout.list_row_simple_1,
+//						android.R.layout.simple_list_item_1,
+						list
+		);
+		
+		/*----------------------------
+		* 4. Set adapter
+		----------------------------*/
+		ListView lv = (ListView) dlg2.findViewById(R.id.dlg_tmpl_cancel_lv_2_lv);
+		
+		lv.setAdapter(adapter);
+		
+		/*----------------------------
+		* 5. Set listener to list
+		----------------------------*/
+		lv.setTag(Tags.DialogItemTags.DLG_ACTV_TN_LIST_UPLOAD);
+		
+		lv.setOnItemClickListener(new DOI_CL(actv, dlg1, ti));
+		
+		/*----------------------------
+		* 6. Show dialog
+		----------------------------*/
+		dlg2.show();
+		
+	}//upload_Image
 
 }//public class Methods_dialog

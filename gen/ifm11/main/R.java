@@ -280,6 +280,12 @@ public final class R {
         /**  dlg: conf: delete ti 
          */
         public static final int dlg_tmpl_confirm_simple_msg_delete_file=0x7f060042;
+        public static final int dlg_upload_image_item_email=0x7f060051;
+        public static final int dlg_upload_image_item_remote=0x7f060050;
+        public static final int dlg_upload_image_item_tweet=0x7f060052;
+        /**  dlg: upload image 
+         */
+        public static final int dlg_upload_image_title=0x7f06004f;
         public static final int generic_bt_cancel=0x7f060002;
         /**  Generic items 
          */
