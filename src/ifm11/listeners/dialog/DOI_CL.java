@@ -85,6 +85,20 @@ public class DOI_CL implements OnItemClickListener {
 
 	}
 
+	public DOI_CL
+	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {
+		// TODO Auto-generated constructor stub
+		this.actv = actv;
+		
+		this.dlg1 = dlg1;
+		this.dlg2 = dlg2;
+
+		this.ti		= ti;
+		
+		vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+		
+	}
+
 	//	@Override
 	public void 
 	onItemClick
@@ -178,11 +192,48 @@ public class DOI_CL implements OnItemClickListener {
 			
 			break;// case dlg_bmactv_list_long_click
 			
+		case DLG_ACTV_TN_LIST_UPLOAD://----------------------------------------------
+			
+			choice = (String) parent.getItemAtPosition(position);
+			
+			case_DLG_ACTV_TN_LIST_UPLOAD(choice);
+			
+			break;// case dlg_bmactv_list_long_click
+			
 		default:
 			break;
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_DLG_ACTV_TN_LIST_UPLOAD
+	(String choice) {
+		// TODO Auto-generated method stub
+		if (choice.equals(actv.getString(
+							R.string.dlg_upload_image_item_remote))) {
+			
+			Methods_dlg.conf_Upload_Image(actv, dlg1, dlg2, ti);
+			
+		} else if (choice.equals(actv.getString(
+						R.string.dlg_upload_image_item_email))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
+
+			String msg = actv.getString(
+					R.string.dlg_upload_image_item_email)
+					+ " => "
+					+ "Sorry. Under construction";
+			
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			
+		} else {
+			
+			String msg = "Unknown choice => " + choice;
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+		}
+		
+	}//case_DLG_ACTV_TN_LIST_UPLOAD
 
 	private void 
 	case_DLG_DELETE_PATTERNS_GV

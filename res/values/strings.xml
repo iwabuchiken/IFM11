@@ -159,4 +159,6 @@
     	<string name="dlg_upload_image_item_email">Email</string>
     	<string name="dlg_upload_image_item_tweet">Tweet</string>
     
+    	<string name="dlg_upload_image_confirm">Upload to remote?</string>
+    	
 </resources>

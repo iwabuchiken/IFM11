@@ -14,6 +14,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,6 +153,23 @@ public class DB_OCL implements OnClickListener {
 		
 	}
 
+	public DB_OCL
+	(Activity actv, 
+		Dialog dlg1, Dialog dlg2, Dialog d3, 
+		TI ti) {
+		// TODO Auto-generated constructor stub
+		this.actv	= actv;
+		
+		this.dlg1	= dlg1;
+		this.dlg2	= dlg2;
+		this.dlg3	= d3;
+
+		this.ti		= ti;
+		
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+		
+	}
+
 	public void onClick(View v) {
 		//
 		Tags.DialogTags tag_name = (Tags.DialogTags) v.getTag();
@@ -262,10 +280,31 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case UPLOAD_REMOTE_OK://------------------------------------------------
+			
+			case_UPLOAD_REMOTE_OK();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_UPLOAD_REMOTE_OK() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get view: checkbox
+
+		////////////////////////////////
+		CheckBox cb = (CheckBox) dlg3.findViewById(
+							R.id.dlg_tmpl_confirm_simple_cb_delete_file);
+		
+		
+	}
 
 	private void 
 	case_EXEC_SQL_OK() {

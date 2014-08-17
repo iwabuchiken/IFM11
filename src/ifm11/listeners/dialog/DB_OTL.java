@@ -103,6 +103,8 @@ public class DB_OTL implements OnTouchListener {
 					
 				case DLG_DELETE_PATTERN_CONF_OK:
 					
+				case UPLOAD_REMOTE_OK:
+					
 					v.setBackgroundColor(Color.GRAY);
 					
 					break;
@@ -154,6 +156,8 @@ public class DB_OTL implements OnTouchListener {
 			case DLG_DELETE_TI_CONF_OK:
 				
 			case DLG_DELETE_PATTERN_CONF_OK:
+				
+			case UPLOAD_REMOTE_OK:
 				
 					v.setBackgroundColor(Color.WHITE);
 					

@@ -2602,7 +2602,7 @@ public class Methods_dlg {
 		----------------------------*/
 		lv.setTag(Tags.DialogItemTags.DLG_ACTV_TN_LIST_UPLOAD);
 		
-		lv.setOnItemClickListener(new DOI_CL(actv, dlg1, ti));
+		lv.setOnItemClickListener(new DOI_CL(actv, dlg1, dlg2, ti));
 		
 		/*----------------------------
 		* 6. Show dialog
@@ -2610,5 +2610,82 @@ public class Methods_dlg {
 		dlg2.show();
 		
 	}//upload_Image
+
+	public static void 
+	conf_Upload_Image
+	(Activity actv, 
+		Dialog dlg1, Dialog dlg2, TI ti) {
+		// TODO Auto-generated method stub
+		
+		Dialog d3 = new Dialog(actv);
+		
+		//
+		d3.setContentView(R.layout.dlg_tmpl_confirm_simple_cb);
+		
+		// Title
+		d3.setTitle(R.string.generic_tv_confirm);
+		
+		////////////////////////////////
+
+		// set: message
+
+		////////////////////////////////
+		TextView tv_Message = (TextView) d3.findViewById(
+								R.id.dlg_tmpl_confirm_simple_cb_tv_message);
+		
+		tv_Message.setText(actv.getString(
+					R.string.dlg_upload_image_confirm));
+
+		////////////////////////////////
+		
+		// set: item name
+		
+		////////////////////////////////
+		TextView tv_ItemName = (TextView) d3.findViewById(
+				R.id.dlg_tmpl_confirm_simple_cb_tv_item_name);
+		
+		tv_ItemName.setText(ti.getFile_name());
+		
+		////////////////////////////////
+
+		// button: cancel
+
+		////////////////////////////////
+		Button btn_Cancel = (Button) d3.findViewById(
+						R.id.dlg_tmpl_confirm_simple_cb_btn_cancel);
+		
+		//
+//		btn_Cancel.setTag(Tags.DialogTags.dlg_generic_dismiss_second_dialog);
+		btn_Cancel.setTag(Tags.DialogTags.GENERIC_DISMISS_THIRD_DIALOG);
+		
+		//
+		btn_Cancel.setOnTouchListener(new DB_OTL(actv, dlg1, d3));
+		
+		btn_Cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, d3));
+		
+		////////////////////////////////
+		
+		// button: ok
+		
+		////////////////////////////////
+		Button btn_Ok = (Button) d3.findViewById(
+				R.id.dlg_tmpl_confirm_simple_cb_btn_ok);
+		
+		//
+		btn_Ok.setTag(Tags.DialogTags.UPLOAD_REMOTE_OK);
+		
+		//
+		btn_Ok.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2, d3));
+		
+		btn_Ok.setOnClickListener(new DB_OCL(actv, dlg1, dlg2, d3, ti));
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		d3.show();		
+		
+	}//conf_Upload_Image
 
 }//public class Methods_dialog
