@@ -301,6 +301,7 @@ public class CONS {
 			public static String _20140817_154650_addCol_IFM11_UpdatedAt_TITLE = 
 									"Add column: uploaded_at";
 			
+			//REF http://stackoverflow.com/questions/7622122/sqlite-add-column-keep-data answered Oct 1 '11 at 18:32
 			public static String _20140817_154650_addCol_IFM11_UpdatedAt_SQL = 
 					"ALTER TABLE" + " "
 					+ CONS.DB.tname_IFM11 + " "
@@ -430,6 +431,9 @@ public class CONS {
 		public static final String char_Space_Half	= " ";
 		
 		public static final String char_Space_Whole	= "　";
+		
+		// millseconds; used in Methods_dlg.dlg_ShowMessage_Duration
+		public static final int dflt_MessageDialog_Length	= 3000;
 		
 		////////////////////////////////
 

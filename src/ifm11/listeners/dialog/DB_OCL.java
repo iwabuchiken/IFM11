@@ -3,6 +3,7 @@ package ifm11.listeners.dialog;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.main.R;
+import ifm11.tasks.Task_FTP;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
@@ -297,14 +298,43 @@ public class DB_OCL implements OnClickListener {
 		
 		////////////////////////////////
 
+		// validate: network status
+
+		////////////////////////////////
+		boolean res = Methods.isOnline(actv);
+		
+		if (res == false) {
+			
+			String msg = "Sorry. Network is not ready";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			return;
+			
+		} else {
+			
+			// Log
+			String msg_Log = "Network is ready";
+			Log.d("DB_OCL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+
 		// get view: checkbox
 
 		////////////////////////////////
 		CheckBox cb = (CheckBox) dlg3.findViewById(
 							R.id.dlg_tmpl_confirm_simple_cb_delete_file);
 		
+		Task_FTP task = new Task_FTP(
+							actv, dlg1, dlg2, dlg3,
+							ti, cb.isChecked());
 		
-	}
+		task.execute("abc");
+		
+	}//case_UPLOAD_REMOTE_OK
 
 	private void 
 	case_EXEC_SQL_OK() {

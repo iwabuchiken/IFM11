@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.SocketException;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -44,6 +45,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -4338,6 +4341,488 @@ public class Methods {
 
 		
 	}//_exec_Sql__AddCol_IFM11
+
+	/*********************************
+	 * REF=> http://www.searchman.info/tips/2640.html
+	 * 
+	 * #sqlite db file: "database disk image is malformed"
+	 * REF=> http://stackoverflow.com/questions/9058169/sqlite-database-disk-image-is-malformed-on-windows-but-fine-on-android
+	 * 
+	 * @return
+		 * -1	=> SocketException
+		 * -2	=> IOException
+		 * -3	=> IOException in disconnecting
+		 * 
+		 * -2	=> Log in failed
+		 * >0	=> Reply code
+	 * 
+	 *********************************/
+	public static int 
+	ftp_connect_disconnect
+	(Activity actv) {
+		/*********************************
+		 * memo
+		 *********************************/
+		// FTP client
+		FTPClient fp = new FTPClient();
+		
+		int reply_code;
+		
+		String server_name = "ftp.benfranklin.chips.jp";
+		
+		String uname = "chips.jp-benfranklin";
+
+		String passwd = "9x9jh4";
+		
+//		String fpath = StringUtils.join(
+//				new String[]{
+//						MainActv.dirPath_db,
+//						MainActv.fileName_db
+//				}, File.separator);
+//		
+//		String fpath_audio = StringUtils.join(
+//				new String[]{
+//						MainActv.dirName_ExternalStorage,
+//						"Audios",
+//						"Fiddle_music",
+//						"Gaelic Folk Song.mp3"
+//				}, File.separator);
+
+//		String fpath_remote = "./" + MainActv.fileName_db;
+		
+		String fpath_remote = "./" + "Gaelic Folk Song.mp3.v2";
+		
+		/*********************************
+		 * Connect
+		 *********************************/
+		try {
+			
+			fp.connect(server_name);
+			
+			reply_code = fp.getReplyCode();
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "fp.getReplyCode()=" + fp.getReplyCode());
+			
+		} catch (SocketException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			return -1;
+			
+		} catch (IOException e) {
+
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			return -2;
+		}
+
+		//debug
+		/*********************************
+		 * Disconnect
+		 *********************************/
+		try {
+			
+			fp.disconnect();
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "fp => Disconnected");
+
+			return reply_code;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			return -3;
+			
+		}
+
+		
+//		return 0;
+		
+//		/*********************************
+//		 * Log in
+//		 *********************************/
+//		boolean res;
+//		
+//		try {
+//			
+//			res = fp.login(uname, passwd);
+//			
+//			if(res == false) {
+//				
+//				reply_code = fp.getReplyCode();
+//				
+//				// Log
+//				Log.e("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "Log in failed => " + reply_code);
+//				
+//				fp.disconnect();
+//				
+//				return -2;
+//				
+//			} else {
+//				
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "Log in => Succeeded");
+//				
+//			}
+//
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		
+//		/*********************************
+//		 * FTP files
+//		 *********************************/
+//		// �t�@�C�����M
+//		FileInputStream is;
+//		
+//		try {
+//			
+//			is = new FileInputStream(fpath);
+////			is = new FileInputStream(fpath_audio);
+//			
+////			fp.storeFile("./" + MainActv.fileName_db, is);// �T�[�o�[��
+//			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
+//			
+////			fp.makeDirectory("./ABC");
+//			
+//			if (res == true) {
+//				
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "File => Stored");
+//				
+//			} else {//if (res == true)
+//
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "Store file => Failed");
+//
+//			}//if (res == true)
+//			
+//			is.close();
+//
+//		} catch (FileNotFoundException e) {
+//
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception: " + e.toString());
+//			
+//		} catch (IOException e) {
+//			
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception: " + e.toString());
+//
+//		}
+//						
+//		/*********************************
+//		 * Disconnect
+//		 *********************************/
+//		try {
+//			
+//			fp.disconnect();
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "fp => Disconnected");
+//
+//			return reply_code;
+//			
+//		} catch (IOException e) {
+//			
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Error: " + e.toString());
+//			
+//			return -1;
+//			
+//		}
+		
+	}//ftp_connect_disconnect
+
+	/*********************************
+	 * REF=> http://www.searchman.info/tips/2640.html
+	 * 
+	 * #sqlite db file: "database disk image is malformed"
+	 * REF=> http://stackoverflow.com/questions/9058169/sqlite-database-disk-image-is-malformed-on-windows-but-fine-on-android
+	 * @param ti 
+	 * 
+	 * @return
+	 * -1	=> SocketException
+	 * -2	=> IOException
+	 * -3	=> IOException in disconnecting
+	 * 
+	 * -2	=> Log in failed
+	 * >0	=> Reply code
+	 * 
+	 *********************************/
+	public static int 
+	ftp_Image_to_Remote
+	(Activity actv, TI ti) {
+		/*********************************
+		 * memo
+		 *********************************/
+		// FTP client
+		FTPClient fp = new FTPClient();
+		
+		int reply_code;
+		
+		String server_name = "ftp.benfranklin.chips.jp";
+		
+		String uname = "chips.jp-benfranklin";
+		
+		String passwd = "9x9jh4";
+		
+//		String fpath = StringUtils.join(
+//				new String[]{
+//						MainActv.dirPath_db,
+//						MainActv.fileName_db
+//				}, File.separator);
+//		
+//		String fpath_audio = StringUtils.join(
+//				new String[]{
+//						MainActv.dirName_ExternalStorage,
+//						"Audios",
+//						"Fiddle_music",
+//						"Gaelic Folk Song.mp3"
+//				}, File.separator);
+		
+//		String fpath_remote = "./" + MainActv.fileName_db;
+		
+		String fpath_remote = "./" + "Gaelic Folk Song.mp3.v2";
+		
+		/*********************************
+		 * Connect
+		 *********************************/
+		try {
+			
+			// Log
+			String msg_Log = "connecting...";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			fp.connect(server_name);
+			
+			reply_code = fp.getReplyCode();
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "fp.getReplyCode()=" + fp.getReplyCode());
+			
+		} catch (SocketException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			return -1;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			return -2;
+		}
+		
+		//debug
+		/*********************************
+		 * Disconnect
+		 *********************************/
+		try {
+			
+			// Log
+			String msg_Log = "disconnecting...";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			fp.disconnect();
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "fp => Disconnected");
+			
+			return reply_code;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			return -3;
+			
+		}
+		
+		
+//		return 0;
+		
+//		/*********************************
+//		 * Log in
+//		 *********************************/
+//		boolean res;
+//		
+//		try {
+//			
+//			res = fp.login(uname, passwd);
+//			
+//			if(res == false) {
+//				
+//				reply_code = fp.getReplyCode();
+//				
+//				// Log
+//				Log.e("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "Log in failed => " + reply_code);
+//				
+//				fp.disconnect();
+//				
+//				return -2;
+//				
+//			} else {
+//				
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "Log in => Succeeded");
+//				
+//			}
+//
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		
+//		/*********************************
+//		 * FTP files
+//		 *********************************/
+//		// �t�@�C�����M
+//		FileInputStream is;
+//		
+//		try {
+//			
+//			is = new FileInputStream(fpath);
+////			is = new FileInputStream(fpath_audio);
+//			
+////			fp.storeFile("./" + MainActv.fileName_db, is);// �T�[�o�[��
+//			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
+//			
+////			fp.makeDirectory("./ABC");
+//			
+//			if (res == true) {
+//				
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "File => Stored");
+//				
+//			} else {//if (res == true)
+//
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "Store file => Failed");
+//
+//			}//if (res == true)
+//			
+//			is.close();
+//
+//		} catch (FileNotFoundException e) {
+//
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception: " + e.toString());
+//			
+//		} catch (IOException e) {
+//			
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception: " + e.toString());
+//
+//		}
+//						
+//		/*********************************
+//		 * Disconnect
+//		 *********************************/
+//		try {
+//			
+//			fp.disconnect();
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "fp => Disconnected");
+//
+//			return reply_code;
+//			
+//		} catch (IOException e) {
+//			
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Error: " + e.toString());
+//			
+//			return -1;
+//			
+//		}
+		
+	}//ftp_connect_disconnect
+
+	//REF http://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-timeouts answered Oct 24 '10 at 16:28
+	public static boolean isOnline(Activity actv) {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) actv.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	    	
+	        return true;
+	        
+	    }
+	    
+	    return false;
+	    
+	}
 
 }//public class Methods
 
