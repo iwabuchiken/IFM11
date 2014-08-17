@@ -3373,5 +3373,87 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//del_Pattern
 
+	/******************************
+		@return
+			-1 => Unknown sql type<br>
+			-2 => Exception<br>
+			1 => Sql done<br>
+	 ******************************/
+	public static int 
+	exec_Sql
+	(Activity actv, String sql_Type) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();		
+		
+		String sql = null;
+
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (sql_Type.equals(
+				CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE)) {
+			
+			sql = CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_SQL;
+			
+		} else {
+
+			wdb.close();
+			
+			// Log
+			String msg_Log = "Unknown sql type => " + sql_Type;
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+		try {
+			
+			wdb.execSQL(sql);
+			
+			// Log
+			String msg_Log = "sql done => " + sql;
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+
+			// Log
+			String msg_Log = "Exception => " + e.toString();
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -2;
+			
+		}
+		
+		
+		////////////////////////////////
+
+		// close
+
+		////////////////////////////////
+		wdb.close();
+		
+		return 1;
+		
+	}//exec_Sql
+
 }//public class DBUtils
 

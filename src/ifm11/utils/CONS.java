@@ -149,7 +149,8 @@ public class CONS {
 			"date_added", "date_modified",			// 3,4
 			"memos", "tags",						// 5,6
 			"last_viewed_at",						// 7
-			"table_name"							// 8
+			"table_name",							// 8
+//			"uploaded_at",							// 9
 			
 		};
 		
@@ -162,7 +163,8 @@ public class CONS {
 			"date_added", "date_modified",			// 6,7
 			"memos", "tags",						// 8,9
 			"last_viewed_at",						// 10
-			"table_name"							// 11
+			"table_name",							// 11
+//			"uploaded_at",							// 12
 			
 		};
 
@@ -171,7 +173,8 @@ public class CONS {
 			"TEXT", "TEXT",				// 3,4
 			"TEXT", "TEXT",				// 5,6
 			"TEXT",						// 7
-			"TEXT"						// 8
+			"TEXT",						// 8
+//			"TEXT",						// 9
 		};
 		
 		////////////////////////////////
@@ -288,6 +291,25 @@ public class CONS {
 			RefreshHistory
 		}
 		
+		////////////////////////////////
+
+		// sqls
+
+		////////////////////////////////
+		public static class Sqls {
+			
+			public static String _20140817_154650_addCol_IFM11_UpdatedAt_TITLE = 
+									"Add column: uploaded_at";
+			
+			public static String _20140817_154650_addCol_IFM11_UpdatedAt_SQL = 
+					"ALTER TABLE" + " "
+					+ CONS.DB.tname_IFM11 + " "
+					+ "ADD COLUMN" + " "
+					+ "uploaded_at" + " "
+					+ "TEXT"
+					;
+			
+		}
 		
 	}//public static class DB
 

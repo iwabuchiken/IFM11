@@ -55,7 +55,7 @@ public class Methods_dlg {
 		 * 5. Set listener to list
 		 * 6. Show dialog
 			****************************/
-		Dialog dlg = Methods_dlg.dlg_Template_Cancel(
+		Dialog dlg1 = Methods_dlg.dlg_Template_Cancel(
 									actv, R.layout.dlg_tmpl_list_cancel, 
 									R.string.dlg_db_admin_title, 
 									R.id.dlg_tmpl_list_cancel_bt_cancel, 
@@ -86,7 +86,14 @@ public class Methods_dlg {
 				actv.getString(R.string.dlg_db_admin_item_restore_db),
 				
 				actv.getString(R.string.dlg_db_admin_item_import_db_file),
+				
 				actv.getString(R.string.dlg_db_admin_item_import_patterns),
+				
+				CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE
+//				actv.getString(R.string.dlg_db_admin_item_exec_sql)
+//					+ "/"
+//					+ actv.getString(R.string.dlg_db_admin_exec_sql_add_col)
+							,
 				
 					};
 		
@@ -112,7 +119,7 @@ public class Methods_dlg {
 		/****************************
 		 * 4. Set adapter
 			****************************/
-		ListView lv = (ListView) dlg.findViewById(R.id.dlg_tmpl_list_cancel_lv);
+		ListView lv = (ListView) dlg1.findViewById(R.id.dlg_tmpl_list_cancel_lv);
 //		ListView lv = (ListView) dlg.findViewById(R.id.dlg_db_admin_lv);
 		
 		lv.setAdapter(adapter);
@@ -122,12 +129,12 @@ public class Methods_dlg {
 			****************************/
 		lv.setTag(Tags.DialogItemTags.DLG_DB_ADMIN_LV);
 		
-		lv.setOnItemClickListener(new DOI_CL(actv, dlg));
+		lv.setOnItemClickListener(new DOI_CL(actv, dlg1));
 		
 		/****************************
 		 * 6. Show dialog
 			****************************/
-		dlg.show();
+		dlg1.show();
 		
 		
 	}//public static void dlg_db_activity(Activity actv)
@@ -2375,5 +2382,115 @@ public class Methods_dlg {
 		dlg3.show();
 		
 	}//conf_Delete_Pattern
+
+	public static void 
+	conf_Exec_Sql
+	(Activity actv, 
+		Dialog dlg1, String sql_Type) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (sql_Type.equals(CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE)) {
+			
+			_conf_Exec_Sql__AddCol_IFM11(actv, dlg1);
+//			// Log
+//			String msg_Log = "sql type => " + sql_Type;
+//			Log.d("Methods_dlg.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+			
+		} else {
+			
+			String msg = "Unknown sql operation => " + sql_Type;
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+
+		}
+		
+	}//conf_Exec_Sql
+
+	private static void 
+	_conf_Exec_Sql__AddCol_IFM11
+	(Activity actv, Dialog dlg1) {
+		// TODO Auto-generated method stub
+		
+		Dialog dlg2 = new Dialog(actv);
+		
+		//
+		dlg2.setContentView(R.layout.dlg_tmpl_confirm_simple);
+		
+		// Title
+		dlg2.setTitle(R.string.generic_tv_confirm);
+		
+		////////////////////////////////
+
+		// set: message
+
+		////////////////////////////////
+		TextView tv_Message = (TextView) dlg2.findViewById(
+								R.id.dlg_tmpl_confirm_simple_tv_message);
+		
+		tv_Message.setText(actv.getString(
+					R.string.dlg_db_admin_item_exec_sql_confirm));
+
+		////////////////////////////////
+		
+		// set: item name
+		
+		////////////////////////////////
+		TextView tv_ItemName = (TextView) dlg2.findViewById(
+				R.id.dlg_tmpl_confirm_simple_tv_item_name);
+		
+		tv_ItemName.setText(CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE);
+		
+		////////////////////////////////
+
+		// button: cancel
+
+		////////////////////////////////
+		Button btn_Cancel = (Button) dlg2.findViewById(
+						R.id.dlg_tmpl_confirm_simple_btn_cancel);
+		
+		//
+//		btn_Cancel.setTag(Tags.DialogTags.dlg_generic_dismiss_second_dialog);
+		btn_Cancel.setTag(Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+		
+		//
+		btn_Cancel.setOnTouchListener(new DB_OTL(actv, dlg2));
+		
+		btn_Cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2));
+		
+		////////////////////////////////
+		
+		// button: ok
+		
+		////////////////////////////////
+		Button btn_Ok = (Button) dlg2.findViewById(
+				R.id.dlg_tmpl_confirm_simple_btn_ok);
+		
+		//
+		btn_Ok.setTag(Tags.DialogTags.EXEC_SQL_OK);
+		
+		//
+		btn_Ok.setOnTouchListener(new DB_OTL(actv, dlg2));
+		
+		btn_Ok.setOnClickListener(new DB_OCL(
+							actv, 
+							dlg1, dlg2, 
+							CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE));
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		dlg2.show();		
+		
+	}//_conf_Exec_Sql__AddCol_IFM11
 
 }//public class Methods_dialog

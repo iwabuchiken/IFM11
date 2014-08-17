@@ -256,10 +256,40 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case EXEC_SQL_OK://------------------------------------------------
+			
+			case_EXEC_SQL_OK();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_EXEC_SQL_OK() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (item_Name.equals(CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE)) {
+			
+			Methods.exec_Sql(actv, dlg1, dlg2, item_Name);
+			
+		} else {
+
+			// Log
+			String msg_Log = "Unknown case => " + item_Name;
+			Log.d("DB_OCL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+	}
 
 	private void 
 	case_DLG_DELETE_PATTERN_CONF_OK() {

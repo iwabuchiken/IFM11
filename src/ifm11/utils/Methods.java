@@ -4230,5 +4230,114 @@ public class Methods {
 		
 	}//del_Pattern
 
+	public static void 
+	exec_Sql
+	(Activity actv, 
+		Dialog dlg1, Dialog dlg2,
+		String sql_Type) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		// Log
+		String msg_Log = "sql_Type => " + sql_Type;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		if (sql_Type.equals(
+				CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE)) {
+			
+			Methods._exec_Sql__AddCol_IFM11(actv, dlg1, dlg2, sql_Type);
+			
+		} else {
+
+			// Log
+			msg_Log = "Unknown case => " + sql_Type;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		
+		
+	}//exec_Sql
+
+	private static void 
+	_exec_Sql__AddCol_IFM11
+	(Activity actv, Dialog dlg1,
+			Dialog dlg2, String sql_Type) {
+		// TODO Auto-generated method stub
+		
+//		// Log
+//		String msg_Log = "_exec_Sql__AddCol_IFM11";
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// execute
+
+		////////////////////////////////
+		int res = DBUtils.exec_Sql(actv, sql_Type);
+		
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		String msg = null;
+		int colorId = 0;
+		
+		switch(res) {
+		
+		case 1:
+			
+			dlg2.dismiss();
+			dlg1.dismiss();
+			
+			msg = "Sql => done";
+			colorId = R.color.green4;
+			
+			break;
+			
+		case -1:
+			
+			dlg2.dismiss();
+			
+			msg = "Unknown sql type";
+			colorId = R.color.gold2;
+			
+			break;
+
+		case -2:
+			
+			dlg2.dismiss();
+			
+			msg = "Exception";
+			colorId = R.color.red;
+			
+			break;
+			
+		default:
+			
+			dlg2.dismiss();
+			
+			msg = "Unknown result";
+			colorId = R.color.gold2;
+			
+			break;
+			
+		}
+			
+		Methods_dlg.dlg_ShowMessage(actv, msg, colorId);
+
+		
+	}//_exec_Sql__AddCol_IFM11
+
 }//public class Methods
 

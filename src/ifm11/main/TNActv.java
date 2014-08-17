@@ -264,6 +264,7 @@ public class TNActv extends ListActivity {
 		lv.setTag(Tags.ListTags.ACTV_TN_LV);
 		
 		lv.setOnItemLongClickListener(new LOI_LCL(this));
+
 		
 	}//_Setup_SetListeners
 

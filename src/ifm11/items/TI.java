@@ -37,6 +37,8 @@ public class TI {
 	
 	String table_name;
 
+	String uploaded_at;
+	
 	public TI(Builder builder) {
 		// TODO Auto-generated constructor stub
 		
@@ -71,11 +73,25 @@ public class TI {
 		this.created_at	= builder.created_at;
 		
 		this.modified_at	= builder.modified_at;
+
+		this.uploaded_at	= builder.uploaded_at;
 		
 	}
 
 	
 	
+	public String getUploaded_at() {
+		return uploaded_at;
+	}
+
+
+
+	public void setUploaded_at(String uploaded_at) {
+		this.uploaded_at = uploaded_at;
+	}
+
+
+
 	public long getDb_Id() {
 		return db_Id;
 	}
@@ -209,10 +225,16 @@ public class TI {
 		
 		String table_name;
 
+		String uploaded_at;
+		
 		public TI build() {
 			
 			return new TI(this);
 			
+		}
+
+		public Builder setUploaded_at(String uploaded_at) {
+			this.uploaded_at = uploaded_at; return this;
 		}
 
 		public Builder setDb_Id(long db_Id) {

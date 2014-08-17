@@ -112,7 +112,7 @@ public class DOI_CL implements OnItemClickListener {
 			
 			String item = (String) parent.getItemAtPosition(position);
 			
-			case_Dlg_Db_Admin_lv(item);
+			case_DLG_DB_ADMIN_LV(item);
 			
 			break;// case dlg_add_memos_gv
 
@@ -362,7 +362,7 @@ public class DOI_CL implements OnItemClickListener {
 	}//case_DLG_ADD_MEMOS_GV
 
 	private void
-	case_Dlg_Db_Admin_lv(String item) {
+	case_DLG_DB_ADMIN_LV(String item) {
 		// TODO Auto-generated method stub
 		
 		// Log
@@ -479,6 +479,23 @@ public class DOI_CL implements OnItemClickListener {
 				R.string.dlg_db_admin_item_import_patterns))) {
 			
 			Methods.import_Patterns(actv, dlg1);
+			
+			return;
+			
+			////////////////////////////////
+			
+			// exec sql
+			
+			////////////////////////////////
+		} else if (item.equals(
+				CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE)) {
+			
+			Methods_dlg.conf_Exec_Sql(
+							actv, 
+							dlg1, 
+							CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE);
+			
+//			Methods.exec_Sql(actv, dlg1, CONS.DB.Sqls.addCol_IFM11_Updated_at);
 			
 			return;
 			

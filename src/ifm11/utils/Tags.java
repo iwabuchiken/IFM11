@@ -91,7 +91,10 @@ public class Tags {
 		DLG_EDIT_TI_BT_OK,
 		
 		// dlg: delete patterns
-		DLG_DELETE_PATTERN_CONF_OK,
+		DLG_DELETE_PATTERN_CONF_OK, 
+		
+		// dlg: db admin
+		EXEC_SQL_OK,
 		
 	}//public static enum DialogTags
 	
