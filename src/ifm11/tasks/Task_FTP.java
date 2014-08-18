@@ -1,3 +1,16 @@
+/********************************************
+ * Task_FTP
+ * 
+ * 18/08/2014 10:30:12
+ * 
+ * <What for>
+ * 	1. Ftp image file to remote server
+ * 	2. Ftp db file to remote server
+ * 
+ * <Usage>
+ * 	1. The "ftp_Type" parameter in doInBackground()
+ * 		=> use CONS.Remote.FtpType
+ *********************************************/
 package ifm11.tasks;
 
 import ifm11.items.TI;
@@ -32,6 +45,8 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 	
 	String ftpTag;//=> Use this field for ftp_upload_db_file
 
+	private String ftp_Type;
+	
 	Vibrator vib;
 
 	private Dialog d1;
@@ -89,22 +104,44 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 	@Override
 //	protected String doInBackground(String... ftpTags) {
 	protected Integer
-	doInBackground(String... ftpTags) {
+	doInBackground(String... ftp_Type) {
 		
 		vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
 
+		this.ftp_Type = ftp_Type[0];
+		
 		// Log
 		String msg_Log = "starting... doInBackground";
 		Log.d("TaskFTP.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+
+		// Log
+		msg_Log = "ftp type[0] => " + ftp_Type[0];
+		Log.d("Task_FTP.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 		////////////////////////////////
 
-		// upload
+		// dispatch
 
 		////////////////////////////////
-		int res = Methods.ftp_Image_to_Remote(actv, ti);
+		int res = CONS.Remote.initial_IntValue;
+		
+		if (ftp_Type[0].equals(CONS.Remote.FtpType.IMAGE.toString())) {
+			
+			res = Methods.ftp_Image_to_Remote(actv, ti);
+			
+		} else {
+
+			// Log
+			msg_Log = "Unknown ftp type => " + ftp_Type[0];
+			Log.d("Task_FTP.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
 		
 		return res;
 //		return 0;
@@ -117,7 +154,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		
 		super.onPostExecute(res);
 		
-		String msg = "Upload done. result => " + res.intValue();
+		String msg = "Upload result => " + res.intValue();
 		Methods_dlg.dlg_ShowMessage_Duration(
 						actv, msg, CONS.Admin.dflt_MessageDialog_Length);
 		

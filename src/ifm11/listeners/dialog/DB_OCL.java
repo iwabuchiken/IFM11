@@ -332,7 +332,8 @@ public class DB_OCL implements OnClickListener {
 							actv, dlg1, dlg2, dlg3,
 							ti, cb.isChecked());
 		
-		task.execute("abc");
+		task.execute(CONS.Remote.FtpType.IMAGE.toString());
+//		task.execute("abc");
 		
 	}//case_UPLOAD_REMOTE_OK
 

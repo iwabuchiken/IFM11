@@ -495,6 +495,28 @@ public class CONS {
 		
 	}
 
+	public static class Remote {
+		
+		public static enum FtpType {
+			
+			IMAGE, DB_FILE,
+			
+		}
+		
+		public static String server_Name = "ftp.benfranklin.chips.jp";
+		
+		public static String uname = "chips.jp-benfranklin";
+		
+		public static String passwd = "9x9jh4";
+		
+		public static String remote_Root_Image = "./cake_apps/images/ifm11";
+
+		// initialize res:int in Task_FTP.doInBackground()
+		public static int initial_IntValue = -100;
+		
+	}
+
+	
 	public static class 
 	Enums {
 		
@@ -519,7 +541,7 @@ public class CONS {
 
 		public static enum ListType {
 			
-			STANDARD, SEARCH, HISTORY,
+			STANDARD, SEARCH, HISTORY, ANY,
 			
 		}
 		

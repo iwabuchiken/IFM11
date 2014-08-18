@@ -60,6 +60,7 @@ import android.widget.Toast;
 
 // Apache
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
 // REF=> http://commons.apache.org/net/download_net.cgi
@@ -249,6 +250,9 @@ public class Methods {
 		
 	}//private long getMillSeconds_now(int year, int month, int date)
 
+	/******************************
+		@return format => "yyyyMMdd_HHmmss"
+	 ******************************/
 	public static String get_TimeLabel(long millSec) {
 		
 		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -4579,6 +4583,17 @@ public class Methods {
 	 * -1	=> SocketException
 	 * -2	=> IOException
 	 * -3	=> IOException in disconnecting
+	 * -4	=> Login failed
+	 * -5	=> IOException in logging-in
+	 * 
+	 * -6	=> storeFile returned false
+	 * -7	=> can't find the source file
+	 * -8	=> can't find the source file; can't disconnect FTP client
+	 * -9	=> storeFile ---> IOException
+	 * -10	=> storeFile ---> IOException; can't disconnect FTP client
+	 * 
+	 * -11	=> set file type ---> failed
+	 * -12	=> IOException in logging-in; can't disconnect FTP client
 	 * 
 	 * -2	=> Log in failed
 	 * >0	=> Reply code
@@ -4595,17 +4610,18 @@ public class Methods {
 		
 		int reply_code;
 		
-		String server_name = "ftp.benfranklin.chips.jp";
+//		String server_name = CONS.Remote.server_Name;
+////		String server_name = "ftp.benfranklin.chips.jp";
+//		
+//		String uname = "chips.jp-benfranklin";
+//		
+//		String passwd = "9x9jh4";
 		
-		String uname = "chips.jp-benfranklin";
-		
-		String passwd = "9x9jh4";
-		
-//		String fpath = StringUtils.join(
-//				new String[]{
-//						MainActv.dirPath_db,
-//						MainActv.fileName_db
-//				}, File.separator);
+		String fpath_Src = StringUtils.join(
+				new String[]{
+						ti.getFile_path(),
+						ti.getFile_name()
+				}, File.separator);
 //		
 //		String fpath_audio = StringUtils.join(
 //				new String[]{
@@ -4617,7 +4633,21 @@ public class Methods {
 		
 //		String fpath_remote = "./" + MainActv.fileName_db;
 		
-		String fpath_remote = "./" + "Gaelic Folk Song.mp3.v2";
+//		String fpath_remote = "./cake_apps/images"
+		String fpath_remote = StringUtils.join(
+					new String[]{
+							CONS.Remote.remote_Root_Image,
+//							"./cake_apps/images",
+							ti.getFile_name()
+							+ "_"
+							+ Methods.get_TimeLabel(
+									Methods.getMillSeconds_now())
+					}, File.separator);
+//				"./cake_apps/images"
+//							+ ti.getFile_name()
+//							+ "_"
+//							+ Methods.get_TimeLabel(Methods.getMillSeconds_now());
+//		String fpath_remote = "./" + "Gaelic Folk Song.mp3.v2";
 		
 		/*********************************
 		 * Connect
@@ -4630,7 +4660,8 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
-			fp.connect(server_name);
+			fp.connect(CONS.Remote.server_Name);
+//			fp.connect(server_name);
 			
 			reply_code = fp.getReplyCode();
 			
@@ -4657,6 +4688,204 @@ public class Methods {
 			
 			return -2;
 		}
+		
+		/*********************************
+		 * Log in
+		 *********************************/
+		boolean res;
+		
+		try {
+			
+//			res = fp.login(uname, passwd);
+			res = fp.login(
+						CONS.Remote.uname, 
+						CONS.Remote.passwd);
+			
+			if(res == false) {
+				
+				reply_code = fp.getReplyCode();
+				
+				// Log
+				Log.e("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "Log in failed => " + reply_code);
+				
+				fp.disconnect();
+				
+				return -4;
+				
+			} else {
+				
+				// Log
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "Log in => Succeeded");
+				
+			}
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			// Log
+			String msg_Log = "IOException";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			e1.printStackTrace();
+			
+			try {
+				
+				fp.disconnect();
+				
+				return -5;
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				return -12;
+				
+			}
+			
+		}
+		
+		/*********************************
+		 * FTP files
+		 *********************************/
+		// �t�@�C�����M
+		FileInputStream is;
+		
+		try {
+			
+			// Log
+			String msg_Log = "fpath_Src => " + fpath_Src;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			is = new FileInputStream(fpath_Src);
+//			is = new FileInputStream(fpath_audio);
+			
+			// Log
+			msg_Log = "Input stream => created";
+//			String msg_Log = "Input stream => created";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			////////////////////////////////
+
+			// set: file type
+
+			////////////////////////////////
+			// REF http://stackoverflow.com/questions/7740817/how-to-upload-an-image-to-ftp-using-ftpclient answered Oct 12 '11 at 13:52
+			res = fp.setFileType(FTP.BINARY_FILE_TYPE);
+
+			/******************************
+				validate
+			 ******************************/
+			if (res == false) {
+				
+				// Log
+				msg_Log = "set file type => failed";
+				Log.e("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				is.close();
+				
+				fp.disconnect();
+				
+				return -11;
+				
+			}
+			
+			////////////////////////////////
+
+			// store
+
+			////////////////////////////////
+			// Log
+			msg_Log = "Stroing file to remote... => "
+						+ fpath_remote;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+//			fp.storeFile("./" + MainActv.fileName_db, is);// �T�[�o�[��
+			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
+			
+//			fp.makeDirectory("./ABC");
+			
+			if (res == true) {
+				
+				// Log
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "File => Stored");
+				
+			} else {//if (res == true)
+
+				// Log
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "Store file => Failed");
+				
+				fp.disconnect();
+				
+				return -6;
+
+			}//if (res == true)
+			
+			is.close();
+
+		} catch (FileNotFoundException e) {
+
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception: " + e.toString());
+			
+			try {
+				
+				fp.disconnect();
+				
+				return -7;
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				
+				return -8;
+				
+			}
+			
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception: " + e.toString());
+			
+			try {
+				fp.disconnect();
+				
+				return -9;
+				
+			} catch (IOException e1) {
+				
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				
+				return -10;
+				
+			}
+
+		}
+
 		
 		//debug
 		/*********************************
