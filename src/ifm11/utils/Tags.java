@@ -96,8 +96,11 @@ public class Tags {
 		// dlg: db admin
 		EXEC_SQL_OK,
 		
-		// dlg: conf upload remote
+		// dlg: conf upload remote => image file
 		UPLOAD_REMOTE_OK,
+		
+		// dlg: conf upload => db file
+		UPLOAD_DB_FILE_OK,
 		
 	}//public static enum DialogTags
 	

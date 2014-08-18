@@ -68,10 +68,22 @@ public class Methods_dlg {
 		 * 2. Prep => List
 			****************************/
 		String[] choices = {
-				
+
+				////////////////////////////////
+
+				// DB
+
+				////////////////////////////////
 				actv.getString(R.string.dlg_db_admin_item_backup_db),
 				actv.getString(R.string.dlg_db_admin_item_refresh_db),
 				
+				actv.getString(R.string.dlg_db_admin_item_upload_db),
+				
+				////////////////////////////////
+
+				// drop/create tables
+
+				////////////////////////////////
 				actv.getString(R.string.dlg_db_admin_item_drop_table_ifm11),
 				actv.getString(R.string.dlg_db_admin_item_create_table_ifm11),
 				
@@ -84,7 +96,12 @@ public class Methods_dlg {
 						R.string.dlg_db_admin_item_create_table_memo_patterns),
 				actv.getString(
 						R.string.dlg_db_admin_item_drop_table_memo_patterns),
-											
+
+				////////////////////////////////
+
+				// others
+
+				////////////////////////////////
 				actv.getString(R.string.dlg_db_admin_item_restore_db),
 				
 				actv.getString(R.string.dlg_db_admin_item_import_db_file),
@@ -232,6 +249,62 @@ public class Methods_dlg {
 		
 	}//public static Dialog dlg_template_okCancel()
 
+	public static Dialog 
+	dlg_Template_OkCancel_SecondDialog
+	(Activity actv, Dialog dlg1,
+			int layoutId, int titleStringId,
+			
+			int okButtonId, Tags.DialogTags okTag,
+			int cancelButtonId, Tags.DialogTags cancelTag) {
+		/****************************
+		 * Steps
+		 * 1. Set up
+		 * 2. Add listeners => OnTouch
+		 * 3. Add listeners => OnClick
+		 ****************************/
+		
+		// 
+		Dialog dlg2 = new Dialog(actv);
+		
+		//
+		dlg2.setContentView(layoutId);
+		
+		// Title
+		dlg2.setTitle(titleStringId);
+		
+		////////////////////////////////
+		
+		// button: cancel
+		
+		////////////////////////////////
+		Button btn_Ok = (Button) dlg2.findViewById(okButtonId);
+		
+		btn_Ok.setTag(okTag);
+		
+		btn_Ok.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2));
+		
+		btn_Ok.setOnClickListener(new DB_OCL(actv, dlg1, dlg2));
+		
+		////////////////////////////////
+
+		// button: cancel
+
+		////////////////////////////////
+		Button btn_cancel = (Button) dlg2.findViewById(cancelButtonId);
+		
+		btn_cancel.setTag(cancelTag);
+		
+		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg1, dlg2));
+		
+		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg1, dlg2));
+		
+		//
+		//dlg.show();
+		
+		return dlg2;
+		
+	}//public static Dialog dlg_template_okCancel()
+	
 	public static Dialog 
 	dlg_Template_Cancel_SecondDialog
 	(Activity actv, Dialog dlg1,
@@ -2709,6 +2782,11 @@ public class Methods_dlg {
 		
 		tv_Message.setText(message);
 		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
 		dlg.show();
 		
 		//REF http://xjaphx.wordpress.com/2011/07/13/auto-close-dialog-after-a-specific-time/
@@ -2722,4 +2800,97 @@ public class Methods_dlg {
 		
 	}
 
+	/******************************
+		@param duration => millseconds
+	 ******************************/
+	public static void
+	dlg_ShowMessage_Duration
+	(Activity actv, String message, int colorID, int duration) {
+		
+		final Dialog dlg = Methods_dlg.dlg_Template_Cancel(
+				actv, R.layout.dlg_tmpl_toast_ok, 
+				R.string.generic_tv_confirm, 
+				R.id.dlg_tmpl_toast_ok_bt_cancel, 
+//				R.id.dlg_db_admin_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS);
+		
+		TextView tv_Message = 
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+		
+		tv_Message.setText(message);
+		
+		////////////////////////////////
+
+		// background
+
+		////////////////////////////////
+//		tv_Message.setBackgroundColor(colorID);
+		tv_Message.setBackgroundColor(actv.getResources().getColor(colorID));
+
+		////////////////////////////////
+		
+		// show
+		
+		////////////////////////////////
+		dlg.show();
+		
+		//REF http://xjaphx.wordpress.com/2011/07/13/auto-close-dialog-after-a-specific-time/
+		final Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			public void run() {
+				dlg.dismiss(); // when the task active then close the dialog
+				t.cancel(); // also just top the timer thread, otherwise, you may receive a crash report
+			}
+		}, duration); // after 2 second (or 2000 miliseconds), the task will be active.
+		
+	}
+
+	public static void 
+	conf_Upload_DB
+	(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+
+//		Dialog dlg2 = Methods_dlg.dlg_Template_Cancel_SecondDialog(
+		Dialog d2 = Methods_dlg.dlg_Template_OkCancel_SecondDialog(
+				actv, d1,
+				R.layout.dlg_tmpl_confirm_simple, 
+				R.string.generic_tv_confirm, 
+				
+				R.id.dlg_tmpl_confirm_simple_btn_ok, 
+				Tags.DialogTags.UPLOAD_DB_FILE_OK,
+				
+				R.id.dlg_tmpl_confirm_simple_btn_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG
+				);
+		
+		////////////////////////////////
+
+		// set: message
+
+		////////////////////////////////
+		TextView tv_Message = 
+				(TextView) d2.findViewById(R.id.dlg_tmpl_confirm_simple_tv_message);
+		
+		tv_Message.setText(actv.getString(R.string.dlg_upload_image_confirm));
+		
+		////////////////////////////////
+		
+		// set: item name
+		
+		////////////////////////////////
+		TextView tv_ItemName = 
+				(TextView) d2.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
+		
+		// "DB"
+		tv_ItemName.setText(actv.getString(R.string.main_opt_menu_db_activity));
+
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		d2.show();
+
+	}//conf_Upload_DB
+	
 }//public class Methods_dialog

@@ -439,6 +439,15 @@ public class DOI_CL implements OnItemClickListener {
 			_case_Dlg_Db_Admin_lv__RefreshDB();
 //			Methods.refresh_MainDB(actv);
 			
+		} else if (item.equals(actv.getString(		// Refresh DB
+				R.string.dlg_db_admin_item_upload_db))) {
+			
+			_case_Dlg_Db_Admin_lv__UploadDB();
+			
+			return;
+			
+//			Methods.refresh_MainDB(actv);
+			
 		////////////////////////////////
 
 		// create/drop: ifm11
@@ -560,6 +569,14 @@ public class DOI_CL implements OnItemClickListener {
 		dlg1.dismiss();
 		
 	}//case_Dlg_Db_Admin_lv(String item)
+
+	private void 
+	_case_Dlg_Db_Admin_lv__UploadDB() {
+		// TODO Auto-generated method stub
+		
+		Methods_dlg.conf_Upload_DB(actv, dlg1);
+		
+	}//_case_Dlg_Db_Admin_lv__UploadDB
 
 	private void 
 	_case_Dlg_Db_Admin_lv__RefreshDB() {

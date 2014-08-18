@@ -287,11 +287,71 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case UPLOAD_DB_FILE_OK://------------------------------------------------
+			
+			case_UPLOAD_DB_FILE_OK();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
 
+	private void 
+	case_UPLOAD_DB_FILE_OK() {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// validate: network status
+
+		////////////////////////////////
+		boolean res = Methods.isOnline(actv);
+		
+		if (res == false) {
+			
+			String msg = "Sorry. Network is not ready";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			return;
+			
+		} else {
+			
+			// Log
+			String msg_Log = "Network is ready";
+			Log.d("DB_OCL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+//		////////////////////////////////
+//
+//		// get view: checkbox
+//
+//		////////////////////////////////
+//		CheckBox cb = (CheckBox) dlg2.findViewById(
+//							R.id.dlg_tmpl_confirm_simple_cb_delete_file);
+
+		////////////////////////////////
+
+		// task
+
+		////////////////////////////////
+		Task_FTP task = new Task_FTP(
+							actv, dlg1, dlg2,
+							CONS.Remote.FtpType.DB_FILE.toString()
+							);
+//		cb.isChecked());
+		
+		task.execute(CONS.Remote.FtpType.DB_FILE.toString());
+		
+	}//case_UPLOAD_DB_FILE_OK
+
+	/******************************
+		Upload image files
+	 ******************************/
 	private void 
 	case_UPLOAD_REMOTE_OK() {
 		// TODO Auto-generated method stub
@@ -330,6 +390,7 @@ public class DB_OCL implements OnClickListener {
 		
 		Task_FTP task = new Task_FTP(
 							actv, dlg1, dlg2, dlg3,
+							CONS.Remote.FtpType.IMAGE.toString(),
 							ti, cb.isChecked());
 		
 		task.execute(CONS.Remote.FtpType.IMAGE.toString());

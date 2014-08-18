@@ -14,6 +14,7 @@
 package ifm11.tasks;
 
 import ifm11.items.TI;
+import ifm11.main.R;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
@@ -86,20 +87,51 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 	public Task_FTP
 	(Activity actv, 
 		Dialog dlg1, Dialog dlg2, Dialog dlg3,
-			TI ti, boolean delete) {
+			String ftp_Type, TI ti, boolean delete) {
 		// TODO Auto-generated constructor stub
 		this.actv	= actv;
-		
-		this.ti		= ti;
 		
 		this.d1	= dlg1;
 		this.d2	= dlg2;
 		this.d3	= dlg3;
 		
+		this.ti		= ti;
+		this.ftp_Type	= ftp_Type;
+		
 		this.delete	= delete;
 
 		
 	}
+
+	public Task_FTP
+	(Activity actv, Dialog d1, Dialog d2, boolean delete) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv	= actv;
+		
+		this.d1	= d1;
+		this.d2	= d2;
+		
+		this.delete	= delete;
+		
+	}
+
+	public Task_FTP
+	(Activity actv, Dialog d1, Dialog d2, String ftp_Type) {
+		
+		this.actv	= actv;
+		
+		this.d1	= d1;
+		this.d2	= d2;
+		
+		this.ftp_Type	= ftp_Type;
+		
+	}
+	
+
+	/******************************
+		Used when: Uploading DB file
+	 ******************************/
 
 	@Override
 //	protected String doInBackground(String... ftpTags) {
@@ -108,7 +140,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		
 		vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
 
-		this.ftp_Type = ftp_Type[0];
+//		this.ftp_Type = ftp_Type[0];
 		
 		// Log
 		String msg_Log = "starting... doInBackground";
@@ -129,14 +161,28 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		////////////////////////////////
 		int res = CONS.Remote.initial_IntValue;
 		
-		if (ftp_Type[0].equals(CONS.Remote.FtpType.IMAGE.toString())) {
+		if (this.ftp_Type.equals(CONS.Remote.FtpType.IMAGE.toString())) {
+//			if (ftp_Type[0].equals(CONS.Remote.FtpType.IMAGE.toString())) {
 			
 			res = Methods.ftp_Image_to_Remote(actv, ti);
+			
+		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
+//		} else if (ftp_Type[0].equals(CONS.Remote.FtpType.DB_FILE.toString())) {
+			
+			res = Methods.ftp_Remote_DB(actv);
+//			// Log
+//			msg_Log = "Sorry. Under construction...";
+//			Log.d("Task_FTP.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			return 0;
 			
 		} else {
 
 			// Log
-			msg_Log = "Unknown ftp type => " + ftp_Type[0];
+			msg_Log = "Unknown ftp type => " + this.ftp_Type;
+//			msg_Log = "Unknown ftp type => " + ftp_Type[0];
 			Log.d("Task_FTP.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
@@ -154,26 +200,218 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		
 		super.onPostExecute(res);
 		
-		String msg = "Upload result => " + res.intValue();
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (ftp_Type.equals(CONS.Remote.FtpType.IMAGE.toString())) {
+			
+			_onPostExecute__Upload_Image(res);
+			
+		} else if (ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
+			
+			_onPostExecute__Upload_DB(res);
+			
+		} else {
+
+//			// Log
+//			msg_Log = "Unknown ftp type => " + ftp_Type[0];
+//			Log.d("Task_FTP.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+			
+		}
+		
+//		String msg = "Upload result => " + res.intValue();
+//		Methods_dlg.dlg_ShowMessage_Duration(
+//						actv, msg, CONS.Admin.dflt_MessageDialog_Length);
+//		
+//		// Log
+//		Log.d("Task_FTP.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg);
+		
+	}//protected void onPostExecute(String result)
+
+	private void 
+	_onPostExecute__Upload_DB
+	(Integer res) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		int res_i = res.intValue();
+		
+		String msg = null;
+		int colorID = 0;
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		switch(res_i) {
+		
+		case 220:
+			
+			msg = "Upload result => " + res_i;
+			colorID = R.color.green4;
+			
+			////////////////////////////////
+
+			// dismiss
+
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			if(d2 != null) d2.dismiss();
+			if(d1 != null) d1.dismiss();
+			
+			break;
+
+		case 0:
+			
+			msg = "Sorry. Uploading DB is not ready yet";
+			colorID = R.color.gold2;
+			
+			if(d2 != null) d2.dismiss();
+
+			break;
+			
+		default:
+			
+			msg = "Upload result => " + res_i;
+			colorID = R.color.red;
+			
+			break;
+			
+		}
+		
+		// Log
+		String msg_Log = "colorID => " + colorID;
+		Log.d("Task_FTP.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		Methods_dlg.dlg_ShowMessage_Duration(
-						actv, msg, CONS.Admin.dflt_MessageDialog_Length);
+						actv, 
+						msg,
+						colorID,
+						CONS.Admin.dflt_MessageDialog_Length);
+		
+		// Log
+		Log.d("Task_FTP.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg);
+
+
+	}//_onPostExecute__Upload_DB
+
+	private void 
+	_onPostExecute__Upload_Image
+	(Integer res) {
+		// TODO Auto-generated method stub
+	
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		int res_i = res.intValue();
+		
+		String msg = null;
+		int colorID = 0;
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		switch(res_i) {
+		
+		case 220:
+			
+			msg = "Upload result => " + res.intValue();
+			colorID = R.color.green4;
+			
+			////////////////////////////////
+
+			// dismiss
+
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			if(d2 != null) d2.dismiss();
+			if(d1 != null) d1.dismiss();
+			
+			break;
+			
+		default:
+			
+			msg = "Upload result => " + res.intValue();
+			colorID = R.color.red;
+			
+			break;
+			
+		}
+		
+		Methods_dlg.dlg_ShowMessage_Duration(
+						actv, 
+						msg,
+						colorID,
+						CONS.Admin.dflt_MessageDialog_Length);
 		
 		// Log
 		Log.d("Task_FTP.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg);
 		
-	}//protected void onPostExecute(String result)
+	}//_onPostExecute__Upload_Image
 
 	@Override
-	protected void onPreExecute() {
+	protected void 
+	onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
-
-		String msg = "Uploading... " + ti.getFile_name();
-		Methods_dlg.dlg_ShowMessage_Duration(
-						actv, msg, CONS.Admin.dflt_MessageDialog_Length);
 		
-	}
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		String msg = null;
+		int colorID = 0;
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (this.ftp_Type.equals(CONS.Remote.FtpType.IMAGE.toString())) {
+//			if (ftp_Type[0].equals(CONS.Remote.FtpType.IMAGE.toString())) {
+			
+			msg = "Uploading... " + ti.getFile_name();
+			colorID = R.color.green4;
+			
+		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
+//		} else if (ftp_Type[0].equals(CONS.Remote.FtpType.DB_FILE.toString())) {
+			
+			msg = "Uploading db file... ";
+			colorID = R.color.green4;
+			
+		} else {
+
+			// Log
+			msg = "Unknown ftp type => " + this.ftp_Type;
+			colorID = R.color.red;
+			
+		}
+
+		Methods_dlg.dlg_ShowMessage_Duration(
+						actv, msg, 
+						colorID,
+						CONS.Admin.dflt_MessageDialog_Length);
+		
+	}//onPreExecute
 	
 }

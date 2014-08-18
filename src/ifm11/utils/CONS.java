@@ -120,6 +120,8 @@ public class CONS {
 		public static String dbName_IFM10 = "ifm10.db";
 		
 		public static String dPath_dbFile;
+		
+		// Do not hardcode "/data/"; use Context.getFilesDir().getPath()
 //		public static String dPath_dbFile = "/data/data/cm7.main/databases";
 		
 		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
@@ -511,6 +513,8 @@ public class CONS {
 		
 		public static String remote_Root_Image = "./cake_apps/images/ifm11";
 
+		public static String remote_Root_DBFile = "./android_app_data/IFM11";
+		
 		// initialize res:int in Task_FTP.doInBackground()
 		public static int initial_IntValue = -100;
 		

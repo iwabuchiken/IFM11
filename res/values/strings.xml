@@ -32,6 +32,8 @@
    		<string name="dlg_db_admin_item_backup_db">Backup DB</string>
    		<string name="dlg_db_admin_item_refresh_db">Refresh DB</string>
    		
+   		<string name="dlg_db_admin_item_upload_db">Upload DB</string>
+   		
    		<string name="dlg_db_admin_item_drop_table_ifm11">Drop table: ifm11</string>
    		<string name="dlg_db_admin_item_create_table_ifm11">
    		    							Create table: ifm11</string>
@@ -153,6 +155,9 @@
     	<string name="dlg_delete_patterns_title">Delete patterns</string>
     	<string name="dlg_delete_patterns_conf_message">Delete pattern?</string>
     
+    <!-- dlg: upload db file -->
+    	<string name="dlg_upload_db_title">Upload DB</string>
+    	
     <!-- dlg: upload image -->
     	<string name="dlg_upload_image_title">Upload</string>
     	<string name="dlg_upload_image_item_remote">To remote</string>
