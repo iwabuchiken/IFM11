@@ -1,8 +1,6 @@
 
 package ifm11.utils;
 
-
-
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_TI;
@@ -12,6 +10,7 @@ import ifm11.listeners.dialog.DL;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.TNActv;
+import ifm11.tasks.Task_HTTP;
 import ifm11.tasks.Task_Search;
 
 import java.io.File;
@@ -20,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
@@ -32,6 +33,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,6 +64,14 @@ import android.widget.Toast;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 // REF=> http://commons.apache.org/net/download_net.cgi
 //REF=> http://www.searchman.info/tips/2640.html
@@ -4639,9 +4649,9 @@ public class Methods {
 							CONS.Remote.remote_Root_Image,
 //							"./cake_apps/images",
 							ti.getFile_name()
-							+ "_"
-							+ Methods.get_TimeLabel(
-									Methods.getMillSeconds_now())
+//							+ "_"
+//							+ Methods.get_TimeLabel(
+//									Methods.getMillSeconds_now())
 					}, File.separator);
 //				"./cake_apps/images"
 //							+ ti.getFile_name()
@@ -5378,6 +5388,217 @@ public class Methods {
 	    return false;
 	    
 	}
+
+	/******************************
+		@return 
+			-20 Exception in building entity<br>
+			-21 ClientProtocolException in executing post<br>
+			-22 IOException in executing post<br>
+			-23 HttpResponse => null<br>
+			-23 HttpResponse => null<br>
+	 ******************************/
+	public static int 
+	post_ImageData_to_Remote
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		
+//		Task_HTTP task = new Task_HTTP(actv, ti, CONS.Remote.HttpType.IMAGE.toString());
+//		
+//		task.execute("abc");
+//		
+//		return CONS.Remote.status_220;
+
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		String url = CONS.Remote.Http.url_Post_ImageData;
+		
+		HttpEntity param = _post_ImageData_to_Remote__GetParam(actv, ti);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (param == null) {
+			
+			// Log
+			String msg_Log = "param => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -20;
+			
+		}
+		
+		////////////////////////////////
+
+		// HttpPost
+
+		////////////////////////////////
+		HttpPost httpPost = new HttpPost(url);
+		
+		//REF content-type http://d.hatena.ne.jp/hogem/20091023/1256304878
+		httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
+//		httpPost.setHeader("Content-type", "text/html");
+		
+		httpPost.setEntity(param);
+		
+		// Log
+		String msg_Log;
+		try {
+			
+			msg_Log = "url => " + httpPost.getURI().toURL().toString();
+			
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		DefaultHttpClient dhc = new DefaultHttpClient();
+		
+		HttpResponse hr = null;
+		
+		try {
+			
+//			hr = dhc.execute(postRequest);
+//			hr = dhc.execute(httpGet);
+			hr = dhc.execute(httpPost);
+			
+		} catch (ClientProtocolException e) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", e.toString());
+			
+			return -21;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", e.toString());
+			
+			return -22;
+			
+		}
+
+		////////////////////////////////
+
+		// Validate: Return
+
+		////////////////////////////////
+		if (hr == null) {
+			
+//			// debug
+//			Toast.makeText(actv, "hr == null", 2000).show();
+			
+			// Log
+			Log.d("TaskHTTP.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "hr == null");
+			
+//			return CONS.Task_GetTexts.EXECUTE_POST_NULL;
+			return -23;
+			
+		} else {//if (hr == null)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Http response => Obtained");
+
+			
+//			return null;
+			
+		}//if (hr == null)
+
+		////////////////////////////////
+
+		// Status code
+
+		////////////////////////////////
+		int status = hr.getStatusLine().getStatusCode();
+		
+//		if (status == CONS.HTTP_Response.CREATED
+//				|| status == CONS.HTTP_Response.OK) {
+		if (status == CONS.Remote.status_Created
+				|| status == CONS.Remote.status_OK) {
+
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "status=" + status);
+
+//			return CONS.HTTP_Response.CREATED;
+			
+		} else {//if (status == CONS.HTTP_Response.CREATED)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "status=" + status);
+			
+			return CONS.Remote.status_NOT_CREATED;
+			
+		}//if (status == CONS.HTTP_Response.CREATED)
+
+		
+		return status;
+		
+	}//post_ImageData_to_Remote
+
+	/******************************
+		@return null => UnsupportedEncodingException
+	 ******************************/
+	private static HttpEntity 
+	_post_ImageData_to_Remote__GetParam
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		
+		//REF http://stackoverflow.com/questions/3288823/how-to-add-parameters-in-android-http-post answered Jul 20 '10 at 15:10
+		List<NameValuePair> params = new LinkedList<NameValuePair>();
+		
+		params.add(new BasicNameValuePair("data[Image][file_name]", ti.getFile_name()));
+//		params.add(new BasicNameValuePair("file_name", ti.getFile_name()));
+
+		HttpEntity entity = null;
+		
+		try {
+			
+			entity = new UrlEncodedFormEntity(params);
+			
+			// Log
+			String msg_Log = "entity => created";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} catch (UnsupportedEncodingException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		
+		return entity;
+		
+//		return null;
+		
+	}//_post_ImageData_to_Remote__GetParam
 
 }//public class Methods
 

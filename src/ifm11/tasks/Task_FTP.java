@@ -166,6 +166,20 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			
 			res = Methods.ftp_Image_to_Remote(actv, ti);
 			
+			//test
+//			res = CONS.Remote.status_220;
+			
+			////////////////////////////////
+
+			// post data
+
+			////////////////////////////////
+			if (res == CONS.Remote.status_220) {
+				
+				res = Methods.post_ImageData_to_Remote(actv, ti);
+				
+			}
+			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 //		} else if (ftp_Type[0].equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 			
@@ -328,9 +342,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		// dispatch
 
 		////////////////////////////////
-		switch(res_i) {
-		
-		case 220:
+		if (res_i >= 200 && res_i <= 220) {
 			
 			msg = "Upload result => " + res.intValue();
 			colorID = R.color.green4;
@@ -344,15 +356,35 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			if(d2 != null) d2.dismiss();
 			if(d1 != null) d1.dismiss();
 			
-			break;
+		} else {
+			switch(res_i) {
 			
-		default:
-			
-			msg = "Upload result => " + res.intValue();
-			colorID = R.color.red;
-			
-			break;
-			
+//			case 220:
+//				
+//				
+//				
+//				msg = "Upload result => " + res.intValue();
+//				colorID = R.color.green4;
+//				
+//				////////////////////////////////
+//	
+//				// dismiss
+//	
+//				////////////////////////////////
+//				if(d3 != null) d3.dismiss();
+//				if(d2 != null) d2.dismiss();
+//				if(d1 != null) d1.dismiss();
+//				
+//				break;
+				
+			default:
+				
+				msg = "Upload result => " + res.intValue();
+				colorID = R.color.red;
+				
+				break;
+				
+			}
 		}
 		
 		Methods_dlg.dlg_ShowMessage_Duration(
