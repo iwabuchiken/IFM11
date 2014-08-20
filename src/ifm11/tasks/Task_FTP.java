@@ -16,6 +16,7 @@ package ifm11.tasks;
 import ifm11.items.TI;
 import ifm11.main.R;
 import ifm11.utils.CONS;
+import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 
@@ -365,8 +366,23 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		////////////////////////////////
 		if (res_i >= 200 && res_i <= 220) {
 			
-			msg = "Upload result => " + res.intValue();
-			colorID = R.color.green4;
+			boolean tmp_b = DBUtils.update_TI__UploadedAt(actv, ti);
+			
+			if (tmp_b == true) {
+				
+				msg = "Upload result => " + res.intValue();
+				colorID = R.color.green4;
+				
+			} else {
+				
+				msg = "Upload result => " + res.intValue()
+						+ " / "
+						+ "record not saved!";
+				
+				colorID = R.color.gold2;
+
+			}
+			
 			
 			////////////////////////////////
 

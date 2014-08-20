@@ -5626,10 +5626,34 @@ public class Methods {
 		//REF http://stackoverflow.com/questions/3288823/how-to-add-parameters-in-android-http-post answered Jul 20 '10 at 15:10
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
+		// Android
 //		android.provider.BaseColumns._ID,		// 0
 //		"created_at", "modified_at",			// 1,2
 //		"file_id", "file_path", "file_name",	// 3,4,5
 //		"date_added", "date_modified",			// 6,7
+
+		// Cake
+//		   id			INTEGER PRIMARY KEY     AUTOINCREMENT	NOT NULL,
+//		   created_at			VARCHAR(30),
+//		   updated_at			VARCHAR(30),
+//		   
+//		   local_id				INTEGER,
+//		   local_created_at		VARCHAR(30),
+//		   local_modified_at	VARCHAR(30),
+//		   
+//		   file_id				INTEGER,
+//		   file_path			TEXT,
+//		   file_name			TEXT,
+//		   
+//		   local_date_added		VARCHAR(30),
+//		   local_date_modified	VARCHAR(30),
+//		   
+//		   memos				TEXT,
+//		   tags					TEXT,
+//		   
+//		   local_last_viewed_at	TEXT,
+//		   table_name			TEXT
+
 		
 		params.add(new BasicNameValuePair(
 				"data[Image][local_id]", 
@@ -5668,30 +5692,25 @@ public class Methods {
 					)
 		);
 
-//		String tmp_Memo = null;
-//		
-//		try {
-//			
-//			tmp_Memo = URLEncoder.encode(ti.getMemo(), "UTF-8");
-//			
-//			// Log
-//			String msg_Log = "memo => encoded";
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		} catch (UnsupportedEncodingException e1) {
-//			// TODO Auto-generated catch block
-//			
-//			e1.printStackTrace();
-//			
-//		}
-//		
-//		if (tmp_Memo == null) {
-//			
-//			tmp_Memo = ti.getMemo();
-//			
-//		}
+//		   local_date_added		VARCHAR(30),
+//		   local_date_modified	VARCHAR(30),
+
+		
+		
+		params.add(new BasicNameValuePair(
+				"data[Image][local_date_added]", 
+//						tmp_Memo
+				ti.getDate_added()
+				)
+		);
+		
+		params.add(new BasicNameValuePair(
+				"data[Image][local_date_modified]", 
+//						tmp_Memo
+				ti.getDate_modified()
+				)
+		);
+		
 		params.add(new BasicNameValuePair(
 						"data[Image][memos]", 
 //						tmp_Memo

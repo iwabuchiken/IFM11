@@ -2541,6 +2541,112 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//update_TI
 
+	public static boolean 
+	update_TI__UploadedAt
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// prep: content values
+		
+		////////////////////////////////
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name",							// 11
+//		"uploaded_at",							// 12
+		
+		// ContentValues
+		ContentValues val = _update_TI__Get_ContentValues_General(
+						actv, 
+						ti,
+						CONS.DB.col_names_IFM11_full[12],
+						Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now())
+//						Methods.get_TimeLabel(Methods.getMillSeconds_now())
+		);
+		
+//		ContentValues val = new ContentValues();
+		
+		String where = CONS.DB.col_names_IFM11_full[0]
+				+ " = ?";
+		
+		String[] args = new String[]{String.valueOf(ti.getDb_Id())};
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.update(CONS.DB.tname_IFM11, val, where, args);
+//			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res < 1) {
+//				if (res == -1) {
+				
+				// Log
+				String msg_Log = String.format(
+						"insertion => failed (result = %d)"
+						, res);
+				
+				Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+				
+				wdb.endTransaction();
+				
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try		
+		
+//		return false;
+		
+	}//update_TI__UploadedAt
+	
 	private static ContentValues 
 	_update_TI__Get_ContentValues_Memo
 	(Activity actv, TI ti) {
@@ -2563,6 +2669,31 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				CONS.DB.col_names_IFM11_full[8],		// memos
 				ti.getMemo());
+		
+		return val;
+		
+	}//_insert_Data_Patterns__ContentValues
+	
+	private static ContentValues 
+	_update_TI__Get_ContentValues_General
+	(Activity actv, TI ti, String key, String value) {
+		// TODO Auto-generated method stub
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[2],		// modified_at 
+				Methods.conv_MillSec_to_TimeLabel(
+						Methods.getMillSeconds_now()));
+		
+		val.put(key, value);
 		
 		return val;
 		
