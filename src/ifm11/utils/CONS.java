@@ -505,6 +505,17 @@ public class CONS {
 			
 		}
 		
+		public static enum HttpType {
+			
+			IMAGE,
+			
+		}
+		
+		////////////////////////////////
+
+		// ftp
+
+		////////////////////////////////
 		public static String server_Name = "ftp.benfranklin.chips.jp";
 		
 		public static String uname = "chips.jp-benfranklin";
@@ -517,6 +528,26 @@ public class CONS {
 		
 		// initialize res:int in Task_FTP.doInBackground()
 		public static int initial_IntValue = -100;
+		
+		////////////////////////////////
+
+		// status code
+
+		////////////////////////////////
+		public static final int status_220		= 220;
+
+		public static final int status_Created	= 201;
+		
+		public static final int status_NOT_CREATED	= -201;
+		
+		public static final int status_OK		= 200;
+		
+		public static class Http {
+			
+			public static final String url_Post_ImageData =
+						"http://benfranklin.chips.jp/cake_apps/Cake_IFM11/images/add";
+			
+		}
 		
 	}
 

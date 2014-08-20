@@ -1,8 +1,6 @@
 
 package ifm11.utils;
 
-
-
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_TI;
@@ -12,6 +10,7 @@ import ifm11.listeners.dialog.DL;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.TNActv;
+import ifm11.tasks.Task_HTTP;
 import ifm11.tasks.Task_Search;
 
 import java.io.File;
@@ -20,7 +19,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.SocketException;
+import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,6 +34,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,6 +65,19 @@ import android.widget.Toast;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 // REF=> http://commons.apache.org/net/download_net.cgi
 //REF=> http://www.searchman.info/tips/2640.html
@@ -4580,22 +4596,21 @@ public class Methods {
 	 * @param ti 
 	 * 
 	 * @return
-	 * -1	=> SocketException
-	 * -2	=> IOException
-	 * -3	=> IOException in disconnecting
-	 * -4	=> Login failed
-	 * -5	=> IOException in logging-in
+	 * -1	=> SocketException<br>
+	 * -2	=> IOException<br>
+	 * -3	=> IOException in disconnecting<br>
+	 * -4	=> Login failed<br>
+	 * -5	=> IOException in logging-in<br>
 	 * 
-	 * -6	=> storeFile returned false
-	 * -7	=> can't find the source file
-	 * -8	=> can't find the source file; can't disconnect FTP client
-	 * -9	=> storeFile ---> IOException
-	 * -10	=> storeFile ---> IOException; can't disconnect FTP client
+	 * -6	=> storeFile returned false<br>
+	 * -7	=> can't find the source file<br>
+	 * -8	=> can't find the source file; can't disconnect FTP client<br>
+	 * -9	=> storeFile ---> IOException<br>
+	 * -10	=> storeFile ---> IOException; can't disconnect FTP client<br>
 	 * 
-	 * -11	=> set file type ---> failed
-	 * -12	=> IOException in logging-in; can't disconnect FTP client
+	 * -11	=> set file type ---> failed<br>
+	 * -12	=> IOException in logging-in; can't disconnect FTP client<br>
 	 * 
-	 * -2	=> Log in failed
 	 * >0	=> Reply code
 	 * 
 	 *********************************/
@@ -4639,9 +4654,9 @@ public class Methods {
 							CONS.Remote.remote_Root_Image,
 //							"./cake_apps/images",
 							ti.getFile_name()
-							+ "_"
-							+ Methods.get_TimeLabel(
-									Methods.getMillSeconds_now())
+//							+ "_"
+//							+ Methods.get_TimeLabel(
+//									Methods.getMillSeconds_now())
 					}, File.separator);
 //				"./cake_apps/images"
 //							+ ti.getFile_name()
@@ -5379,5 +5394,450 @@ public class Methods {
 	    
 	}
 
+	/******************************
+		@return 
+			-20 UnsupportedEncodingException<br>
+			-21 ClientProtocolException in executing post<br>
+			-22 IOException in executing post<br>
+			-23 HttpResponse => null<br>
+			-24 EntityUtils.toString => ParseException<br>
+			-25 EntityUtils.toString => IOException<br>
+			-26 StrinEntity => UnsupportedEncodingException<br>
+	 ******************************/
+	public static int 
+	post_ImageData_to_Remote
+	(Activity actv, TI ti) {
+		
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		String url = CONS.Remote.Http.url_Post_ImageData;
+		
+//		String param = _post_ImageData_to_Remote__GetParam(actv, ti);
+		HttpEntity param = _post_ImageData_to_Remote__GetParam(actv, ti);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (param == null) {
+			
+			// Log
+//			String msg_Log = "Building param => JSONException";
+			String msg_Log = "Building param => UnsupportedEncodingException";
+	//		msg_Log = "Building param => UnsupportedEncodingException";
+	//		String msg_Log = "Building param => UnsupportedEncodingException";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -20;
+			
+		}
+		
+//		////////////////////////////////
+//
+//		// conv: HttpEntity => StringEntity
+//
+//		////////////////////////////////
+//		
+//		// Log
+//		String tmp = null;
+//		
+//		try {
+//			
+//			tmp = EntityUtils.toString( param, HTTP.UTF_8 );
+//			
+//			String msg_Log = "param => " + tmp ;
+//			
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		} catch (org.apache.http.ParseException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//			
+//			return -24;
+//			
+//		} catch (IOException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//			
+//			return -25;
+//			
+//		}
+		
+		////////////////////////////////
+
+		// HttpPost
+
+		////////////////////////////////
+		HttpPost httpPost = new HttpPost(url);
+		
+		//REF content-type http://d.hatena.ne.jp/hogem/20091023/1256304878
+		httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
+//		httpPost.setHeader("Content-type", "text/html");
+		
+//		httpPost.setHeader("Accept", "application/json");
+//	    httpPost.setHeader("Content-type", "application/json");
+		
+//		try {
+//			
+//			httpPost.setEntity(new StringEntity(param, HTTP.UTF_8));
+////			httpPost.setEntity(new StringEntity(tmp, HTTP.UTF_8));
+//			
+//		} catch (UnsupportedEncodingException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//			
+//			return -26;
+//			
+//		}
+		
+		httpPost.setEntity(param);
+		
+		// Log
+//		msg_Log;
+		String msg_Log;
+		
+		try {
+			
+			msg_Log = "url => " + httpPost.getURI().toURL().toString();
+			
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		DefaultHttpClient dhc = new DefaultHttpClient();
+		
+		HttpResponse hr = null;
+		
+		try {
+			
+//			hr = dhc.execute(postRequest);
+//			hr = dhc.execute(httpGet);
+			hr = dhc.execute(httpPost);
+			
+		} catch (ClientProtocolException e) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", e.toString());
+			
+			return -21;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", e.toString());
+			
+			return -22;
+			
+		}
+
+		////////////////////////////////
+
+		// Validate: Return
+
+		////////////////////////////////
+		if (hr == null) {
+			
+//			// debug
+//			Toast.makeText(actv, "hr == null", 2000).show();
+			
+			// Log
+			Log.d("TaskHTTP.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "hr == null");
+			
+//			return CONS.Task_GetTexts.EXECUTE_POST_NULL;
+			return -23;
+			
+		} else {//if (hr == null)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Http response => Obtained");
+
+			
+//			return null;
+			
+		}//if (hr == null)
+
+		////////////////////////////////
+
+		// Status code
+
+		////////////////////////////////
+		int status = hr.getStatusLine().getStatusCode();
+		
+//		if (status == CONS.HTTP_Response.CREATED
+//				|| status == CONS.HTTP_Response.OK) {
+		if (status == CONS.Remote.status_Created
+				|| status == CONS.Remote.status_OK) {
+
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "status=" + status);
+
+//			return CONS.HTTP_Response.CREATED;
+			
+		} else {//if (status == CONS.HTTP_Response.CREATED)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "status=" + status);
+			
+			return CONS.Remote.status_NOT_CREATED;
+			
+		}//if (status == CONS.HTTP_Response.CREATED)
+
+		
+		return status;
+		
+	}//post_ImageData_to_Remote
+
+	/******************************
+		@return null => UnsupportedEncodingException
+	 ******************************/
+//	private static String 
+	private static HttpEntity 
+	_post_ImageData_to_Remote__GetParam
+	(Activity actv, TI ti) {
+		
+		//REF http://stackoverflow.com/questions/3288823/how-to-add-parameters-in-android-http-post answered Jul 20 '10 at 15:10
+		List<NameValuePair> params = new LinkedList<NameValuePair>();
+
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+		
+		params.add(new BasicNameValuePair(
+				"data[Image][local_id]", 
+				String.valueOf(ti.getDb_Id())));
+		
+		params.add(
+				new BasicNameValuePair(
+						"data[Image][local_created_at]", 
+						ti.getCreated_at()
+						)
+				);
+		
+		params.add(
+				new BasicNameValuePair(
+						"data[Image][local_modified_at]", 
+						ti.getModified_at()
+						)
+				);
+		
+		params.add(
+				new BasicNameValuePair(
+					"data[Image][file_id]", 
+					String.valueOf(ti.getFileId())
+				)
+		);
+		
+		params.add(new BasicNameValuePair(
+						"data[Image][file_path]", 
+						ti.getFile_name()
+					)
+		);
+
+		params.add(new BasicNameValuePair(
+						"data[Image][file_name]", 
+						ti.getFile_name()
+					)
+		);
+
+//		String tmp_Memo = null;
+//		
+//		try {
+//			
+//			tmp_Memo = URLEncoder.encode(ti.getMemo(), "UTF-8");
+//			
+//			// Log
+//			String msg_Log = "memo => encoded";
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		} catch (UnsupportedEncodingException e1) {
+//			// TODO Auto-generated catch block
+//			
+//			e1.printStackTrace();
+//			
+//		}
+//		
+//		if (tmp_Memo == null) {
+//			
+//			tmp_Memo = ti.getMemo();
+//			
+//		}
+		params.add(new BasicNameValuePair(
+						"data[Image][memos]", 
+//						tmp_Memo
+						ti.getMemo()
+						)
+		);
+		
+		params.add(
+				new BasicNameValuePair(
+						"data[Image][tags]", 
+						ti.getTags()
+						)
+				);
+		
+//		"memos", "tags",						// 8,9
+		params.add(
+				new BasicNameValuePair(
+						"data[Image][local_last_viewed_at]", 
+						ti.getLast_viewed_at()
+						)
+				);
+		
+//		"last_viewed_at",						// 10
+		params.add(new BasicNameValuePair(
+						"data[Image][table_name]", 
+						ti.getTable_name()
+						)
+		);
+		
+//		"table_name",							// 11
+//		"uploaded_at",							// 12
+
+		HttpEntity entity = null;
+		
+		try {
+			
+			entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+//			entity = new UrlEncodedFormEntity(params);
+			
+			// Log
+			String msg_Log = "entity => created";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} catch (UnsupportedEncodingException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return null;
+			
+		}
+		
+		return entity;
+		
+//		return null;
+		
+	}//_post_ImageData_to_Remote__GetParam
+
+	/******************************
+		@return null => JSONException
+	 ******************************/
+	private static String 
+//	private static HttpEntity 
+	_post_ImageData_to_Remote__GetParam_Json
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+//		   id			INTEGER PRIMARY KEY     AUTOINCREMENT	NOT NULL,
+//		   created_at			VARCHAR(30),
+//		   updated_at			VARCHAR(30),
+//		   
+//		   
+//		   
+//		   
+		
+		JSONObject joBody = new JSONObject();
+//		JSONObject joRoot = new JSONObject();
+		
+		try {
+
+//			   local_id				INTEGER,
+//			   local_created_at		VARCHAR(30),
+//			   local_modified_at	VARCHAR(30),
+			joBody.put("local_id", ti.getDb_Id());
+			joBody.put("local_created_at", ti.getCreated_at());
+			joBody.put("local_modified_at", ti.getModified_at());
+			
+//			   file_id				INTEGER,
+//			   file_path			TEXT,
+//			   file_name			TEXT,
+			joBody.put("file_id", ti.getFileId());
+			joBody.put("file_path", ti.getFile_path());
+			joBody.put("file_name", ti.getFile_name());
+			
+//			   local_date_added		VARCHAR(30),
+//			   local_date_modified	VARCHAR(30),
+			joBody.put(
+						"local_date_added",
+						ti.getDate_added()
+			);
+
+			joBody.put(
+					"local_date_modified",
+					ti.getDate_modified()
+					);
+			
+			
+//			   memos				TEXT,
+//			   tags					TEXT,
+//			   
+//			   local_last_viewed_at	TEXT,
+//			   table_name			TEXT
+			joBody.put("memos", ti.getMemo());
+			joBody.put("tags", ti.getTags());
+			joBody.put("local_last_viewed_at", ti.getLast_viewed_at());
+			joBody.put("table_name", ti.getTable_name());
+			
+//			joRoot.put("image_dev", joBody);
+//			joRoot.put("image", joBody);
+//			joBody.put("file_name", "1_v1.png");
+//			joBody.put("table_name", "IFM_Android");
+			
+		} catch (JSONException e) {
+			
+			// Log
+			Log.d("TaskHTTP.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			return null;
+			
+		}
+		
+		// Log
+		String msg_Log = "joBody => " + joBody.toString();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		return joBody.toString();
+		
+	}//_post_ImageData_to_Remote__GetParam
+	
 }//public class Methods
 

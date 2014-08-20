@@ -162,9 +162,22 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		int res = CONS.Remote.initial_IntValue;
 		
 		if (this.ftp_Type.equals(CONS.Remote.FtpType.IMAGE.toString())) {
-//			if (ftp_Type[0].equals(CONS.Remote.FtpType.IMAGE.toString())) {
 			
 			res = Methods.ftp_Image_to_Remote(actv, ti);
+			
+			////////////////////////////////
+
+			// post data
+
+			////////////////////////////////
+			if (res == CONS.Remote.status_220) {
+				
+				//REF http://wikiwiki.jp/android/?AsyncTask%A4%C7%A5%D0%A5%C3%A5%AF%A5%B0%A5%E9%A5%A6%A5%F3%A5%C9%BD%E8%CD%FD%A4%F2%B9%D4%A4%A6 "進捗ダイアログの更新"
+				this.publishProgress(CONS.Remote.status_220);
+				
+				res = Methods.post_ImageData_to_Remote(actv, ti);
+				
+			}
 			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 //		} else if (ftp_Type[0].equals(CONS.Remote.FtpType.DB_FILE.toString())) {
@@ -193,6 +206,28 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 //		return 0;
 
 	}//doInBackground(String... ftpTags)
+
+	@Override
+	protected void onCancelled() {
+		// TODO Auto-generated method stub
+		super.onCancelled();
+		
+		
+		
+	}
+
+	@Override
+	protected void onProgressUpdate(Integer... values) {
+		// TODO Auto-generated method stub
+		super.onProgressUpdate(values);
+		
+		String msg = "Image file => uploaded. Posting info....";
+		Methods_dlg.dlg_ShowMessage_Duration(
+					actv, msg, 
+					CONS.Admin.dflt_MessageDialog_Length);
+		
+	}
+	
 
 	@Override
 //	protected void onPostExecute(String result) {
@@ -328,9 +363,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		// dispatch
 
 		////////////////////////////////
-		switch(res_i) {
-		
-		case 220:
+		if (res_i >= 200 && res_i <= 220) {
 			
 			msg = "Upload result => " + res.intValue();
 			colorID = R.color.green4;
@@ -344,15 +377,105 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			if(d2 != null) d2.dismiss();
 			if(d1 != null) d1.dismiss();
 			
-			break;
+		} else {
+			switch(res_i) {
+//			-1 => SocketException
+//			-2 => IOException
+//			-3 => IOException in disconnecting
 			
-		default:
+			case -1: 
 			
-			msg = "Upload result => " + res.intValue();
-			colorID = R.color.red;
+				msg = "Upload result => SocketException";
+				colorID = R.color.red;
+				
+				break;
 			
-			break;
-			
+			case -2: 
+				
+				msg = "Upload result => IOException";
+				colorID = R.color.red;
+				
+				break;
+				
+			case -3: 
+				
+				msg = "Upload result => IOException in disconnecting";
+				colorID = R.color.red;
+				
+				break;
+				
+//				-4 => Login failed
+//				-5 => IOException in logging-in
+//				-6 => storeFile returned false
+				
+			case -4: 
+				
+				msg = "Upload result => Login failed";
+				colorID = R.color.red;
+				
+				break;
+				
+			case -5: 
+				
+				msg = "Upload result => IOException in logging-in";
+				colorID = R.color.red;
+				
+				break;
+				
+			case -6: 
+				
+				msg = "Upload result => storeFile returned false";
+				colorID = R.color.red;
+				
+				break;
+
+			case -7: 
+				
+				msg = "Upload result => can't find the source file";
+				colorID = R.color.red;
+				
+				break;
+				
+//				-7 => can't find the source file
+			case -8: 
+				
+				msg = "Upload result => can't find the " +
+						"source file; can't disconnect FTP client";
+				colorID = R.color.red;
+				
+				break;
+				
+//				-8 => can't find the source file; can't disconnect FTP client
+			case -9: 
+				
+				msg = "Upload result => storeFile ---> IOException";
+				colorID = R.color.red;
+				
+				break;
+				
+//				-9 => storeFile ---> IOException
+			case -10: 
+				
+				msg = "Upload result => storeFile ---> " +
+						"IOException; can't disconnect FTP client";
+				colorID = R.color.red;
+				
+				break;
+				
+//				-10 => storeFile ---> IOException; can't disconnect FTP client
+//				-11 => set file type ---> failed
+//				-12 => IOException in logging-in; can't disconnect FTP client
+//				>0 => Reply code
+
+				
+			default:
+				
+				msg = "Upload result => " + res.intValue();
+				colorID = R.color.red;
+				
+				break;
+				
+			}
 		}
 		
 		Methods_dlg.dlg_ShowMessage_Duration(
