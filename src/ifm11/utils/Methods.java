@@ -1747,7 +1747,6 @@ public class Methods {
 		@return
 			false => 1. No db file<br>
 	 ******************************/
-	
 	public static boolean 
 	import_DB
 	(Activity actv, Dialog dlg1) {
@@ -2016,8 +2015,6 @@ public class Methods {
 		// insert
 
 		////////////////////////////////
-		boolean res;
-		
 		int counter = DBUtils.insert_Data_Patterns(actv, patterns_List);
 			
 		return counter;
@@ -4084,21 +4081,41 @@ public class Methods {
 
 	public static void
 	edit_TI
-	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {
+	(Activity actv, Dialog dlg1, Dialog d2, TI ti) {
 		// TODO Auto-generated method stub
 		
-		EditText etFileName = (EditText) dlg2.findViewById(
+		////////////////////////////////
+
+		// get: view
+
+		////////////////////////////////
+		EditText etFileName = (EditText) d2.findViewById(
 				R.id.dlg_edit_ti_et_file_name);
 
-		EditText etFilePath = (EditText) dlg2.findViewById(
+		EditText etFilePath = (EditText) d2.findViewById(
 			R.id.dlg_edit_ti_et_file_path);
 		
-		EditText etMemos = (EditText) dlg2.findViewById(
+		EditText etMemos = (EditText) d2.findViewById(
 			R.id.dlg_edit_ti_et_memos);
 		
+		////////////////////////////////
+		
+		// get: stirngs
+		
+		////////////////////////////////
+		String new_Memo = etMemos.getText().toString();
+		
+		String cur_Memo = ti.getMemo();
+	
+		////////////////////////////////
+
+		// set: new memo
+
+		////////////////////////////////
 		ti.setFile_name(etFileName.getText().toString());
 		ti.setFile_path(etFilePath.getText().toString());
-		ti.setMemo(etMemos.getText().toString());
+		ti.setMemo(new_Memo);
+//		ti.setMemo(etMemos.getText().toString());
 
 		
 //		// TODO Auto-generated method stub
@@ -4107,6 +4124,37 @@ public class Methods {
 		int res = DBUtils.update_TI__All(actv, ti);
 //		boolean res = dbu.updateData_TI(actv, ti);
 
+		////////////////////////////////
+
+		// Update all images?
+
+		////////////////////////////////
+		CheckBox cb = (CheckBox) d2.findViewById(R.id.dlg_edit_ti_cb_add_to_all_images);
+		
+		int res_i = 0;
+		
+		if (res == 1 && cb.isChecked()) {
+			
+			String diff = StringUtils.strip(new_Memo, cur_Memo);
+			
+			if (diff != null && diff != "") {
+				
+				res_i = DBUtils.update_TIs__Memo(actv, ti.getTable_name(), diff);
+				
+				
+			}
+			
+//			// Log
+//			String msg_Log = String.format(
+//								"cur = %s // new = %s // diff = %s", 
+//								cur_Memo, new_Memo, diff);
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+			
+			
+		}
+		
 		////////////////////////////////
 
 		// report
@@ -4130,9 +4178,25 @@ public class Methods {
 			
 		} else if (res == 1) {
 			
-			msg = "TI => updated";
-			
-			colorID = R.color.green4;
+			if (res_i > 0) {
+				
+//				// Update TI list
+//				CONS.TNActv.list_TNActv_Main.clear();
+//				
+//				CONS.TNActv.list_TNActv_Main.addAll(
+//								DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11));
+				
+				msg = "TI => updated\nOther memos updated";
+				
+				colorID = R.color.green4;
+				
+			} else {
+				
+				msg = "TI => updated\nOther memos not updated";
+				
+				colorID = R.color.gold2;
+				
+			}
 			
 			////////////////////////////////
 
@@ -4140,7 +4204,7 @@ public class Methods {
 
 			////////////////////////////////
 			// dismiss
-			dlg2.dismiss();
+			d2.dismiss();
 			dlg1.dismiss();
 			
 			////////////////////////////////

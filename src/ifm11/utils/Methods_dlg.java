@@ -1186,7 +1186,6 @@ public class Methods_dlg {
 		
 		llButton.setLayoutParams(params);
 		
-		
 		/****************************
 		* 6. Show dialog
 		****************************/

@@ -3597,5 +3597,168 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//exec_Sql
 
+	/******************************
+		@param diff2 
+	 * @return
+			-1	list_TIs => null<br>
+			> 0	Number of items updated<br>
+	 ******************************/
+	public static int 
+	update_TIs__Memo
+	(Activity actv, String tname, String diff) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+//		String tname = CONS.DB.tname_IFM11;
+		
+		int res_i = 0;
+		
+		////////////////////////////////
+
+		// list
+
+		////////////////////////////////
+		List<TI> list_TIs = DBUtils.find_All_TI(actv, tname);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (list_TIs == null) {
+			
+			// Log
+			String msg_Log = "list_TIs => null";
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+		////////////////////////////////
+
+		// iterate
+
+		////////////////////////////////
+		ContentValues val = new ContentValues();;
+		
+		String where = null;
+		String[] args = null;
+		
+		String tmp = null;
+		
+		for (TI ti : list_TIs) {
+
+			////////////////////////////////
+
+			// content values
+
+			////////////////////////////////
+			val.put(
+					CONS.DB.col_names_IFM11_full[2],		// modified_at 
+					Methods.conv_MillSec_to_TimeLabel(
+							Methods.getMillSeconds_now()));
+			
+			tmp = ti.getMemo();
+			
+			// Memo
+			if (tmp == null) {
+				
+				val.put(
+						CONS.DB.col_names_IFM11_full[8],		// memos
+						diff + " ");
+				
+			} else {
+
+				val.put(
+						CONS.DB.col_names_IFM11_full[8],		// memos
+						tmp + " " + diff + " ");
+				
+			}
+
+			try {
+				
+				where = CONS.DB.col_names_IFM11_full[0] + " = ?";
+				
+				args = new String[]{String.valueOf(ti.getDb_Id())};
+				
+				// Start transaction
+				wdb.beginTransaction();
+				
+				// Insert data
+				long res = wdb.update(CONS.DB.tname_IFM11, val, where, args);
+//				long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+				
+				if (res < 1) {
+//					if (res == -1) {
+
+					// Log
+					String msg_Log = "res < 1: " + ti.getDb_Id();
+					Log.d("DBUtils.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					continue;
+					
+//					// Log
+//					String msg_Log = String.format(
+//										"insertion => failed (result = %d)"
+//										, res);
+//
+//					Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+//					
+//					wdb.endTransaction();
+//			
+//					wdb.close();
+//					
+//					return false;
+					
+				} else {
+					
+					// Log
+					String msg_Log = "insertion => done";
+					Log.d("DBUtils.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+				}
+				
+				// Set as successful
+				wdb.setTransactionSuccessful();
+				
+				// End transaction
+				wdb.endTransaction();
+
+				res_i += 1;
+				
+			} catch (Exception e) {
+
+				// Log
+				String msg_Log = String.format(
+							"%s%d (%s)", 
+							"Exception: ", ti.getDb_Id(), e.toString());
+				
+				continue;
+				
+			}//try		
+
+		}//for (TI ti : list_TIs)
+		
+		////////////////////////////////
+
+		// close
+
+		////////////////////////////////
+		wdb.close();
+		
+		return res_i;
+		
+	}//update_TIs__Memo
+
 }//public class DBUtils
 

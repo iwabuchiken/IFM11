@@ -141,6 +141,8 @@
     	<string name="dlg_edit_ti_tv_file_path">File path</string>
     	<string name="dlg_edit_ti_tv_memos">Memos</string>
     	<string name="dlg_edit_ti_tv_table_name">Table name</string>
+    	<string name="dlg_edit_ti_cb_add_to_all_image">
+    	    								Add memo to all images</string>
 
     <!-- dlg_memo_patterns.xml -->
     	<string name="dlg_memo_patterns_title">定型</string>

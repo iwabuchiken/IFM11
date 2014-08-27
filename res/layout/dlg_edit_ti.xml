@@ -134,6 +134,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <CheckBox
+            android:id="@+id/dlg_edit_ti_cb_add_to_all_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dlg_edit_ti_cb_add_to_all_image"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         
         android:layout_marginBottom="10dp"
