@@ -470,6 +470,12 @@ public class MainActv extends ListActivity {
 			
 			break;
 			
+		case R.id.main_opt_menu_others://------------------
+			
+			Methods_dlg.dlg_OptMenu_MainActv_Others(this);
+			
+			break;
+			
 		default://------------------------
 			break;
 

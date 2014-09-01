@@ -137,7 +137,7 @@ public class Tags {
 		DLG_ACTV_TN_LONG_CLICK,
 		
 		// dlg: upload image
-		DLG_ACTV_TN_LIST_UPLOAD,
+		DLG_ACTV_TN_LIST_UPLOAD, ACTV_MAIN_OPTMENU_OTHERS,
 		
 		
 	}//public static enum DialogItemTags

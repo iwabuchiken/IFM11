@@ -1,6 +1,7 @@
 package ifm11.listeners.dialog;
 
 
+import ifm11.items.ListItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.main.R;
@@ -114,6 +115,10 @@ public class DOI_CL implements OnItemClickListener {
 //		
 		vib.vibrate(CONS.Admin.vibLength_click);
 		
+		ListItem li;
+		WordPattern	wp;
+		String item;
+
 //		String item = (String) parent.getItemAtPosition(position);
 		
 		/*----------------------------
@@ -124,7 +129,7 @@ public class DOI_CL implements OnItemClickListener {
 //		case dlg_db_admin_lv://----------------------------------------------
 		case DLG_DB_ADMIN_LV://----------------------------------------------
 			
-			String item = (String) parent.getItemAtPosition(position);
+			item = (String) parent.getItemAtPosition(position);
 			
 			case_DLG_DB_ADMIN_LV(item);
 			
@@ -134,7 +139,7 @@ public class DOI_CL implements OnItemClickListener {
 			
 		case DLG_ADD_MEMOS_GV://----------------------------------------------
 			
-			WordPattern wp = (WordPattern) parent.getItemAtPosition(position);
+			wp = (WordPattern) parent.getItemAtPosition(position);
 //			String word = (String) parent.getItemAtPosition(position);
 			
 			case_DLG_ADD_MEMOS_GV(wp);
@@ -200,12 +205,43 @@ public class DOI_CL implements OnItemClickListener {
 			
 			break;// case dlg_bmactv_list_long_click
 			
+		case ACTV_MAIN_OPTMENU_OTHERS://----------------------------------------------
+			
+			li = (ListItem) parent.getItemAtPosition(position);
+			
+			case_ACTV_MAIN_OPTMENU_OTHERS(li);
+//			case_Admin_LV(li);
+			
+			break;// case dlg_add_memos_gv
+
 		default:
 			break;
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 
+	private void 
+	case_ACTV_MAIN_OPTMENU_OTHERS
+	(ListItem item) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (item.getText().equals(actv.getString(
+				R.string.dlg_actv_main_other_see_log))) {
+
+			Methods.start_Activity_LogActv(actv, dlg1);
+			
+		} else {
+			
+		}
+
+	}//case_ACTV_MAIN_OPTMENU_OTHERS
+
+	
 	private void 
 	case_DLG_ACTV_TN_LIST_UPLOAD
 	(String choice) {

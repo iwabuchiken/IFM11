@@ -44,7 +44,8 @@ public class LCL implements OnLongClickListener {
 		}
 //		TILIST_CB
 		
-		return false;
+		return true;
+//		return false;
 	}
 
 	private void 

@@ -30,9 +30,9 @@
 	</item>
 	
 	<item 
-	    android:id="@+id/main_opt_menu_ftp" 
-	    android:title="@string/main_opt_menu_ftp" 
-	    android:icon="@android:drawable/ic_menu_send">
+	    android:id="@+id/main_opt_menu_others" 
+	    android:title="@string/main_opt_menu_others" 
+	    android:icon="@drawable/general_ib_ball_blue_30x30">
 	    
 	</item>
 		

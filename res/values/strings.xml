@@ -25,6 +25,7 @@
 	    <string name="main_opt_menu_preferences">Preferences</string>
 	    <string name="main_opt_menu_history">History</string>
 	    <string name="main_opt_menu_ftp">FTP</string>
+	    <string name="main_opt_menu_others">Others</string>
 
 	    
     <!-- dlg_db_admin.xml -->
@@ -167,5 +168,8 @@
     	<string name="dlg_upload_image_item_tweet">Tweet</string>
     
     	<string name="dlg_upload_image_confirm">Upload to remote?</string>
-    	
+
+    <!-- dlg: MainActv: Others -->
+    	<string name="dlg_actv_main_other_see_log">See log</string>    	
+    		
 </resources>

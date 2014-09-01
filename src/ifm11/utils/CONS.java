@@ -437,6 +437,10 @@ public class CONS {
 		// millseconds; used in Methods_dlg.dlg_ShowMessage_Duration
 		public static final int dflt_MessageDialog_Length	= 3000;
 		
+		// X out of 100
+		// Usage => e.g. width = screen_width * 100 / ratio_Dialog_to_Screen_W
+		public static final int ratio_Dialog_to_Screen_W = 70;
+
 		////////////////////////////////
 
 		// MainActv.java

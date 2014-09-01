@@ -7,6 +7,7 @@ import ifm11.comps.Comp_TI;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
+import ifm11.main.LogActv;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.TNActv;
@@ -5920,6 +5921,23 @@ public class Methods {
 		return joBody.toString();
 		
 	}//_post_ImageData_to_Remote__GetParam
+
+	public static void 
+	start_Activity_LogActv
+	(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+
+		Intent i = new Intent();
+		
+		i.setClass(actv, LogActv.class);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+
+		d1.dismiss();
+		
+	}//start_Activity_LogActv
 	
 }//public class Methods
 
