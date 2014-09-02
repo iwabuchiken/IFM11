@@ -4,9 +4,12 @@ import ifm11.adapters.Adp_LogFileList;
 import ifm11.adapters.Adp_MainList;
 import ifm11.adapters.Adp_ShowLogFile_List;
 import ifm11.items.LogItem;
+import ifm11.listeners.button.BO_CL;
+import ifm11.listeners.button.BO_TL;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.Tags;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 public class ShowLogActv extends ListActivity {
@@ -261,22 +265,94 @@ public class ShowLogActv extends ListActivity {
 		res = _Setup_Adapter();
 		
 		if (res == false) return;
+
+		////////////////////////////////
+
+		// listeners
+
+		////////////////////////////////
+		res = this._Setup_SetListeners_Navigation();
 		
-//		////////////////////////////////
-//
-//		// set: selection
-//
-//		////////////////////////////////
-//		ListView lv = this.getListView();
-//		
-//		int numOfGroups = CONS.ShowLogActv.list_ShowLog_Files.size() / lv.getChildCount();
-//		
-//		int indexOfLastChild = lv.getChildCount() * numOfGroups;
-//
-//		
-//		lv.setSelection(indexOfLastChild);
+		if (res == false) return;
 		
 	}//protected void onStart()
+
+	private boolean
+	_Setup_SetListeners_Navigation() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// Back
+		
+		////////////////////////////////
+		ImageButton ib_Back = (ImageButton) findViewById(R.id.actv_showlog_ib_back);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+		ib_Back.setTag(Tags.ButtonTags.ACTV_SHOWLOG_IB_BACK);
+		
+		ib_Back.setOnTouchListener(new BO_TL(this));
+		ib_Back.setOnClickListener(new BO_CL(this));
+		
+		////////////////////////////////
+		
+		// Top
+		
+		////////////////////////////////
+		ImageButton ib_TOP = (ImageButton) findViewById(R.id.actv_showlog_ib_toTop);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_TOP.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_TOP.setTag(Tags.ButtonTags.ACTV_SHOWLOG_IB_TOP);
+		
+		ib_TOP.setOnTouchListener(new BO_TL(this));
+		ib_TOP.setOnClickListener(new BO_CL(this));
+		
+		////////////////////////////////
+		
+		// Bottom
+		
+		////////////////////////////////
+		ImageButton ib_Bottom = (ImageButton) findViewById(R.id.actv_showlog_ib_toBottom);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_Bottom.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_Bottom.setTag(Tags.ButtonTags.ACTV_SHOWLOG_IB_BOTTOM);
+		
+		ib_Bottom.setOnTouchListener(new BO_TL(this));
+		ib_Bottom.setOnClickListener(new BO_CL(this));
+		
+		////////////////////////////////
+		
+		// Down
+		
+		////////////////////////////////
+		ImageButton ib_Down = (ImageButton) findViewById(R.id.actv_showlog_ib_next_page);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_Down.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_Down.setTag(Tags.ButtonTags.ACTV_SHOWLOG_IB_DOWN);
+		
+		ib_Down.setOnTouchListener(new BO_TL(this));
+		ib_Down.setOnClickListener(new BO_CL(this));
+		
+		////////////////////////////////
+		
+		// Up
+		
+		////////////////////////////////
+		ImageButton ib_Up = (ImageButton) findViewById(R.id.actv_showlog_ib_prev_page);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_Up.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_Up.setTag(Tags.ButtonTags.ACTV_SHOWLOG_IB_UP);
+		
+		ib_Up.setOnTouchListener(new BO_TL(this));
+		ib_Up.setOnClickListener(new BO_CL(this));
+		
+		return true;
+		
+	}//_Setup_SetListeners_Navigations
 
 	private boolean 
 	_Setup_Adapter() {
