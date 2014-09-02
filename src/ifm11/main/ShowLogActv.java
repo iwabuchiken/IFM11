@@ -2,38 +2,36 @@ package ifm11.main;
 
 import ifm11.adapters.Adp_LogFileList;
 import ifm11.adapters.Adp_MainList;
-import ifm11.listeners.LOI_LCL;
-import ifm11.listeners.button.BO_CL;
+import ifm11.adapters.Adp_ShowLogFile_List;
+import ifm11.items.LogItem;
 import ifm11.utils.CONS;
-import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
-import ifm11.utils.Tags;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
-
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
-public class LogActv extends ListActivity {
+public class ShowLogActv extends ListActivity {
 
     /** Called when the activity is first created. */
     @Override
@@ -57,7 +55,7 @@ public class LogActv extends ListActivity {
         
         this.setTitle(this.getClass().getName());
         
-        setContentView(R.layout.actv_log);
+        setContentView(R.layout.actv_showlog);
         
     }//public void onCreate(Bundle savedInstanceState)
 
@@ -68,9 +66,7 @@ public class LogActv extends ListActivity {
 	}//private void do_debug()
 
 	@Override
-	protected void 
-	onListItemClick
-	(ListView lv, View v, int position, long id) {
+	protected void onListItemClick(ListView lv, View v, int position, long id) {
 		
 		super.onListItemClick(lv, v, position, id);
 		
@@ -122,7 +118,7 @@ public class LogActv extends ListActivity {
 			return;
 			
 		}
-	
+		
 		////////////////////////////////
 
 		// start activity
@@ -130,38 +126,7 @@ public class LogActv extends ListActivity {
 		////////////////////////////////
 		Methods.start_Activity_ShowLogActv(this, itemName);
 		
-		////////////////////////////////
-
-		// Set pref: Current position
-
-		////////////////////////////////
-		_ItemClick_SetPref_CurrentPosition(position);
-
 	}//protected void onListItemClick(ListView l, View v, int position, long id)
-
-	private void
-	_ItemClick_SetPref_CurrentPosition(int position) {
-		// TODO Auto-generated method stub
-		Methods.set_Pref_Int(
-				this,
-				CONS.Pref.pname_MainActv,
-				CONS.Pref.pkey_CurrentPosition_LogActv,
-//				CONS.Pref.pkey_CurrentPosition,
-				position);
-		
-		// Log
-//		String msg_log = "Pref: " + CONS.Pref.pkey_CurrentPosition
-		String msg_log = "Pref: " + CONS.Pref.pkey_CurrentPosition_LogActv
-						+ " => "
-						+ "Set to: " + position;
-		
-		Log.d("MainActv.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_log);
-		
-		CONS.LogActv.adp_LogFile_List.notifyDataSetChanged();
-
-	}
 
 	@Override
 	protected void onDestroy() {
@@ -256,7 +221,8 @@ public class LogActv extends ListActivity {
 	}//protected void onResume()
 
 	@Override
-	protected void onStart() {
+	protected void 
+	onStart() {
 		
 		super.onStart();
 
@@ -274,161 +240,277 @@ public class LogActv extends ListActivity {
 		// Init vars
 
 		////////////////////////////////
-		_Setup_InitVars();
+		res = _Setup_InitVars();
 		
-		////////////////////////////////
-
-		// list
-
-		////////////////////////////////
-		res = _Setup_List();
-		
-		if (res == false) {
-			
-			return;
-			
-		}
-		
-		////////////////////////////////
-
-		// adapter
-
-		////////////////////////////////
-		_Setup_Adapter();
-		
-	}//protected void onStart()
-
-	private boolean
-	_Setup_Adapter() {
-		// TODO Auto-generated method stub
-	
-		CONS.LogActv.adp_LogFile_List = new Adp_LogFileList(
-				this,
-				R.layout.list_row_simple_2,
-//				android.R.layout.simple_list_item_1,
-				CONS.LogActv.list_LogFiles
-				);
-
-		
-		if (CONS.LogActv.adp_LogFile_List == null) {
-			
-			// Log
-			String msg_log = "CONS.LogActv.adp_LogFile_List => null";
-			Log.d("MainActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_log);
-			
-			return false;
-			
-		}//if (adapter == null)
-
-		this.setListAdapter(CONS.LogActv.adp_LogFile_List);
-		
-		return true;
-		
-	}//_Setup_Adapter
-	
-
-	private boolean 
-	_Setup_List() {
-		// TODO Auto-generated method stub
-		
-		File dir_Log = new File(CONS.DB.dPath_Log);
-		
-		/******************************
-			validate: exists
-		 ******************************/
-		if (!dir_Log.exists()) {
-
-			boolean res = dir_Log.mkdirs();
-			
-			if (res == true) {
-				
-				// Log
-				String msg_Log = "Log dir => created: " + dir_Log.getAbsolutePath();
-				Log.d("LogActv.java"
-						+ "["
-						+ Thread.currentThread().getStackTrace()[2]
-								.getLineNumber() + "]", msg_Log);
-				
-			} else {
-
-				// Log
-				String msg_Log = "Log dir => not created: " + dir_Log.getAbsolutePath();
-				Log.e("LogActv.java"
-						+ "["
-						+ Thread.currentThread().getStackTrace()[2]
-								.getLineNumber() + "]", msg_Log);
-				
-				String msg = "Log dir doesn't exist\nCan't be created";
-				Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
-				
-				return false;
-				
-			}
-//			String msg = "Log directory => doesn't exist";
-//			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
-//
-//			return false;
-			
-		}
-		
-		////////////////////////////////
-
-		// get: files list
-
-		////////////////////////////////
-		String[] list_LogFiles = dir_Log.list();
-		
-		/******************************
-			validate: any log files
-		 ******************************/
-		if (list_LogFiles == null || list_LogFiles.length < 1) {
-			
-			String msg = "Log files => doesn't exist";
-			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
-
-			return false;
-			
-		}
-		
-		// Log
-		String msg_Log = "list_LogFiles.length => " + list_LogFiles.length;
-		Log.d("LogActv.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
+		if (res == false) return;
 		
 		////////////////////////////////
 
 		// build: list
 
 		////////////////////////////////
-		for (String name : list_LogFiles) {
+		res = _Setup_List();
+
+		if (res == false) return;
+
+		////////////////////////////////
+
+		// adapter
+
+		////////////////////////////////
+		res = _Setup_Adapter();
+		
+		if (res == false) return;
+		
+//		////////////////////////////////
+//
+//		// set: selection
+//
+//		////////////////////////////////
+//		ListView lv = this.getListView();
+//		
+//		int numOfGroups = CONS.ShowLogActv.list_ShowLog_Files.size() / lv.getChildCount();
+//		
+//		int indexOfLastChild = lv.getChildCount() * numOfGroups;
+//
+//		
+//		lv.setSelection(indexOfLastChild);
+		
+	}//protected void onStart()
+
+	private boolean 
+	_Setup_Adapter() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// build: adapter
+
+		////////////////////////////////
+		CONS.ShowLogActv.adp_ShowLog_File_List = new Adp_ShowLogFile_List(
+				
+				this,
+				R.layout.list_row_logitem,
+				CONS.ShowLogActv.list_ShowLog_Files
+				);
+
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.ShowLogActv.adp_ShowLog_File_List == null) {
 			
-			CONS.LogActv.list_LogFiles.add(name);
+			// Log
+			String msg_Log = "CONS.ShowLogActv.adp_ShowLog_File_List => null";
+			Log.e("ShowLogActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "can't build adapter";
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+			
+			return false;
 			
 		}
 		
-		// Log
-		msg_Log = "CONS.LogActv.list_LogFiles.size() => "
-						+ CONS.LogActv.list_LogFiles.size();
-		Log.d("LogActv.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
+		////////////////////////////////
+
+		// set dapter
+
+		////////////////////////////////
+		this.setListAdapter(CONS.ShowLogActv.adp_ShowLog_File_List);
 		
 		return true;
 		
+	}//_Setup_Adapter
+	
+
+	/******************************
+		@return
+			false => 1. Log file => doesn't exist<br>
+					2. CONS.ShowLogActv.list_RawLines => null<br>
+	 ******************************/
+	private boolean 
+	_Setup_List() {
+		// TODO Auto-generated method stub
+		
+		String msg_Log;
+		
+		////////////////////////////////
+
+		// validate: files exists
+
+		////////////////////////////////
+		File fpath_Log = new File(
+				CONS.DB.dPath_Log,
+				CONS.ShowLogActv.fname_Target_LogFile);
+		
+		if (!fpath_Log.exists()) {
+			
+			String msg = "Log file => doesn't exist";
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+			
+			return false;
+		}
+		
+		////////////////////////////////
+
+		// read file
+
+		////////////////////////////////
+		FileInputStream fis = null;
+		
+//		CONS.ShowLogActv.list_RawLines = new ArrayList<String>();
+		
+		List<String> list = 
+						Methods.get_LogLines(this, fpath_Log.getAbsolutePath());
+		
+		/******************************
+			validate
+		 ******************************/
+		if (list == null) {
+			
+			return false;
+			
+		} else {
+			
+			////////////////////////////////
+			
+			// list => reverse
+			
+			////////////////////////////////
+			Collections.reverse(list);
+			
+			////////////////////////////////
+
+			// add all
+
+			////////////////////////////////
+			CONS.ShowLogActv.list_RawLines.addAll(list);
+			
+		}
+
+//		// Log
+//		String msg_Log = "list.get(0) => " + list.get(0);
+//		Log.d("ShowLogActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		//REF http://stackoverflow.com/questions/5412499/android-reverse-the-order-of-an-array answered Mar 23 '11 at 22:38
+//		Collections.reverse(list);
+//		
+//		// Log
+//		msg_Log = "[reverse] list.get(0) => " + list.get(0);
+//		Log.d("ShowLogActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// build: LogItem list
+
+		////////////////////////////////
+		List<LogItem> list_LogItem = 
+				Methods.conv_LogLinesList_to_LogItemList(
+									this, CONS.ShowLogActv.list_RawLines);
+
+		/******************************
+			validate
+		 ******************************/
+		if (list_LogItem == null) {
+			
+			// Log
+			msg_Log = "list_LogItem => null";
+			Log.e("ShowLogActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return false;
+			
+		} else {
+
+			// Log
+			msg_Log = "list_LogItem => not null"
+						+ "(" + list_LogItem.size() + ")";
+			Log.d("ShowLogActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			CONS.ShowLogActv.list_ShowLog_Files.addAll(list_LogItem);
+			
+			////////////////////////////////
+
+			// sort
+
+			////////////////////////////////
+			
+			
+			return true;
+			
+		}
+		
 	}//_Setup_List
 
-	private void 
+	private boolean
 	_Setup_InitVars() {
 		// TODO Auto-generated method stub
 		
 		CONS.Admin.vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+
+		CONS.ShowLogActv.list_ShowLog_Files = new ArrayList<LogItem>();
 		
-		CONS.LogActv.list_LogFiles = new ArrayList<String>();
+		CONS.ShowLogActv.list_RawLines = new ArrayList<String>();
+		
+		////////////////////////////////
+
+		// intent
+
+		////////////////////////////////
+		boolean res = _Setup_InitVars__Intent();
+		
+		if (res == false) {
+			
+			return false;
+		}
+		
+		return true;
 		
 	}//_Setup_InitVars
+
+	private boolean 
+	_Setup_InitVars__Intent() {
+		// TODO Auto-generated method stub
+		
+//		Intent i = new Intent();
+		Intent i = this.getIntent();
+		
+		CONS.ShowLogActv.fname_Target_LogFile = 
+						i.getStringExtra(CONS.Intent.iKey_LogActv_LogFileName);
+		
+		// Log
+		String msg_Log = "CONS.ShowLogActv.fname_Target_LogFile => " 
+					+ CONS.ShowLogActv.fname_Target_LogFile;
+		Log.d("ShowLogActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.ShowLogActv.fname_Target_LogFile == null) {
+			
+			String msg = "Can't get the log file name";
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+			
+			// Log
+			Log.d("ShowLogActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg);
+			
+			return false;
+			
+		}
+		
+		return true;
+		
+	}
 
 	@Override
 	public void onBackPressed() {

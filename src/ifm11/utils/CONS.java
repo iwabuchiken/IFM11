@@ -1,9 +1,12 @@
 package ifm11.utils;
 
+import ifm11.adapters.Adp_LogFileList;
 import ifm11.adapters.Adp_MainList;
+import ifm11.adapters.Adp_ShowLogFile_List;
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.adapters.Adp_WordPatterns;
+import ifm11.items.LogItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 
@@ -67,32 +70,15 @@ public class CONS {
 		// MainActv
 
 		////////////////////////////////
-		public static String iKey_CurrentPath_MainActv = "current_path";
-
-		
-		////////////////////////////////
-
-		// ALActv
+		public static final String iKey_CurrentPath_MainActv = "current_path";
 
 		////////////////////////////////
-		public static String iKey_AI_FilePath_Full = "iKey_AI_FilePath_Full";
-		
-		public static String iKey_AI_Db_Id = "iKey_AI_Db_Id";
-		
-		public static String iKey_AI_TableName = "iKey_AI_TableName";
-		
-		////////////////////////////////
 
-		// BMActv
+		// ShowLogActv
 
 		////////////////////////////////
-		public static String iKey_BMActv_AI_Id = "bmactv_key_ai_id";
-//		public static String bmactv_key_ai_id = "bmactv_key_ai_id";
-		
-		public static String iKey_BMActv_TableName = "bmactv_key_table_name";
-		
-		public static String iKey_BMActv_Position = "bmactv_key_position";
-//		public static String bmactv_key_position = "bmactv_key_position";
+		public static final String iKey_LogActv_LogFileName =
+													"iKey_LogActv_LogFileName";
 		
 		/***************************************
 		 * Request codes
@@ -328,7 +314,8 @@ public class CONS {
 		
 	}//public static class DB
 
-	public static class Pref {
+	public static class 
+	Pref {
 		////////////////////////////////
 
 		// Commons
@@ -370,7 +357,15 @@ public class CONS {
 		public static final String pkey_TNActv__ListType
 									= "pkey_TNActv__ListType";
 
-	}
+		////////////////////////////////
+
+		// LogActv
+
+		////////////////////////////////
+		public static String pkey_CurrentPosition_LogActv = 
+									"pkey_CurrentPosition_LogActv";
+		
+	}//Pref
 
 	public static class MainActv {
 		
@@ -388,7 +383,21 @@ public class CONS {
 		
 //		public static ArrayAdapter<String> adp_LogFile_List = null;
 		
-		public static Adp_MainList adp_LogFile_List;
+		public static Adp_LogFileList adp_LogFile_List;
+		
+	}
+	
+	public static class ShowLogActv {
+		
+		public static List<LogItem> list_ShowLog_Files = null;
+		
+//		public static ArrayAdapter<String> adp_LogFile_List = null;
+		
+		public static Adp_ShowLogFile_List adp_ShowLog_File_List;
+		
+		public static String fname_Target_LogFile = null;
+		
+		public static List<String> list_RawLines = null;
 		
 	}
 	

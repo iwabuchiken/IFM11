@@ -71,6 +71,11 @@ public class Task_RefreshDB extends AsyncTask<String, Integer, Integer> {
 			
 			msg = "Refreshed => " + val;
 			
+			String log_msg = "Refresh => done: " + val;
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
 			break;
 				
 		}

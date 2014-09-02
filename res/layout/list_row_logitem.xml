@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_row_logitem_list_row_slimple_1_tv"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@color/black"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:textColor="@color/black"
+    android:textSize="25sp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/list_row_logitem_tv_date"
+            style="@style/tv_basic_2"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/list_row_logitem_tv_time"
+            style="@style/tv_basic_2"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/list_row_logitem_TV_filename"
+            style="@style/tv_basic_1"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/list_row_logitem_TV_line"
+            style="@style/tv_basic_1"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/list_row_logitem_TV_text"
+            style="@style/tv_basic_1"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:gravity="top|left"
+            android:text="TextView"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+</LinearLayout>
