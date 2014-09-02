@@ -4,22 +4,26 @@ package ifm11.utils;
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_TI;
+import ifm11.items.LogItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
 import ifm11.main.LogActv;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
+import ifm11.main.ShowLogActv;
 import ifm11.main.TNActv;
 import ifm11.tasks.Task_HTTP;
 import ifm11.tasks.Task_Search;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.SocketException;
@@ -38,6 +42,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -5960,6 +5966,30 @@ public class Methods {
 	}//start_Activity_LogActv
 
 	public static void 
+	start_Activity_ShowLogActv
+	(Activity actv, String itemName) {
+		// TODO Auto-generated method stub
+		
+		// Log
+		String msg_Log = "itemName => " + itemName;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		Intent i = new Intent();
+		
+		i.setClass(actv, ShowLogActv.class);
+
+		i.putExtra(CONS.Intent.iKey_LogActv_LogFileName, itemName);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+		
+		
+	}//start_Activity_LogActv
+	
+	public static void 
 	write_Log
 	(Activity actv, String message,
 			String fileName, int lineNumber) {
@@ -6010,6 +6040,7 @@ public class Methods {
 		////////////////////////////////
 		try {
 			
+			//REF append http://stackoverflow.com/questions/8544771/how-to-write-data-with-fileoutputstream-without-losing-old-data answered Dec 17 '11 at 12:37
 			FileOutputStream fos = new FileOutputStream(fpath_Log, true);
 //			FileOutputStream fos = new FileOutputStream(fpath_Log);
 			
@@ -6021,6 +6052,7 @@ public class Methods {
 							message
 						);
 			
+			//REF getBytes() http://www.adakoda.com/android/000240.html
 			fos.write(text.getBytes());
 //			fos.write(message.getBytes());
 			
@@ -6046,7 +6078,182 @@ public class Methods {
 		}
 		
 	}//write_Log
-	
+
+	public static List<String> 
+	get_LogLines
+	(Activity actv, String fpath_LogFile) {
+		// TODO Auto-generated method stub
+		
+		int count_Lines = 0;
+		int count_Read = 0;
+		
+		List<String> list = new ArrayList<String>();
+		
+//		File f = new File(fpath_LogFile);
+		
+		try {
+			
+//			fis = new FileInputStream(fpath_Log);
+			
+			BufferedReader br = new BufferedReader(
+						new InputStreamReader(new FileInputStream(fpath_LogFile)));
+//			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+			
+			String line = null;
+			
+			line = br.readLine();
+					
+			while(line != null) {
+				
+				list.add(line);
+				
+				count_Lines += 1;
+				count_Read += 1;
+				
+				line = br.readLine();
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			String msg = "FileNotFoundException";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return null;
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			count_Lines += 1;
+			
+		}
+		
+		// Log
+		String msg_Log = String.format(
+							Locale.JAPAN,
+							"count_Lines => %d / count_Read => %d", 
+							count_Lines, count_Read);
+		
+		Log.d("ShowLogActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		
+		return list;
+		
+	}//get_LogLines
+
+	public static List<LogItem> 
+	conv_LogLinesList_to_LogItemList
+	(Activity actv, List<String> list_RawLines) {
+		// TODO Auto-generated method stub
+		String msg_Log;
+		
+		List<LogItem> list_LogItems = new ArrayList<LogItem>();
+		
+		String reg = "\\[(.+?)\\] \\[(.+?)\\] (.+)";
+//		String reg = "\\[(.+)\\] \\[(.+)\\] (.+)";
+		
+		Pattern p = Pattern.compile(reg);
+		
+		Matcher m = null;
+		
+		LogItem loi = null;
+		
+		for (String string : list_RawLines) {
+			
+			m = p.matcher(string);
+			
+			if (m.find()) {
+
+				loi = _build_LogItem_from_Matcher(actv, m);
+				
+				if (loi != null) {
+					
+					list_LogItems.add(loi);
+					
+				}
+				
+			}//if (m.find())
+			
+		}//for (String string : list_RawLines)
+		
+		/******************************
+			validate
+		 ******************************/
+		if (list_LogItems.size() < 1) {
+			
+			// Log
+			msg_Log = "list_LogItems.size() => " + list_LogItems.size();
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}
+		
+		return list_LogItems;
+		
+	}//conv_LogLinesList_to_LogItemList
+
+	/******************************
+		@return
+			null => Matcher.groupCount() != 3
+	 ******************************/
+	private static LogItem 
+	_build_LogItem_from_Matcher
+	(Activity actv, Matcher m) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// validate
+
+		////////////////////////////////
+		if (m.groupCount() != 3) {
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+
+		// prep: data
+
+		////////////////////////////////
+		String[] tokens_TimeLabel = m.group(1).split(" ");
+		
+		String[] tokens_FileInfo = m.group(2).split(" : ");
+		
+		String text = m.group(3);
+		
+		String date = tokens_TimeLabel[0];
+		
+		String time = tokens_TimeLabel[1].split("\\.")[0];
+		
+		String fileName = tokens_FileInfo[0];
+		
+		String line = tokens_FileInfo[1];
+		
+		////////////////////////////////
+
+		// LogItem
+
+		////////////////////////////////
+		LogItem loi = new LogItem.Builder()
+					
+					.setDate(date)
+					.setTime(time)
+					.setMethod(fileName)
+					.setLine(Integer.parseInt(line))
+					.setText(text)
+					.build();
+		
+		return loi;
+		
+	}//_build_LogItem_from_Matcher
+
 }//public class Methods
 
 /*
