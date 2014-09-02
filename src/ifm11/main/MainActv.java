@@ -72,6 +72,17 @@ public class MainActv extends ListActivity {
         
         setContentView(R.layout.actv_main);
         
+        ////////////////////////////////
+
+		// log
+
+		////////////////////////////////
+        String log_msg = "Starting MainActv...";
+		Methods.write_Log(this,
+					log_msg,
+					Thread.currentThread().getStackTrace()[2].getFileName(),
+					Thread.currentThread().getStackTrace()[2].getLineNumber());
+        
     }//public void onCreate(Bundle savedInstanceState)
 
     private void do_debug() {

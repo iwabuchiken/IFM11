@@ -11,6 +11,7 @@ import ifm11.utils.Tags;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -211,6 +212,8 @@ public class LogActv extends ListActivity {
 	protected void onStart() {
 		
 		super.onStart();
+
+		boolean res;
 		
 		////////////////////////////////
 
@@ -226,13 +229,157 @@ public class LogActv extends ListActivity {
 		////////////////////////////////
 		_Setup_InitVars();
 		
+		////////////////////////////////
+
+		// list
+
+		////////////////////////////////
+		res = _Setup_List();
+		
+		if (res == false) {
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// adapter
+
+		////////////////////////////////
+		_Setup_Adapter();
+		
 	}//protected void onStart()
+
+	private boolean
+	_Setup_Adapter() {
+		// TODO Auto-generated method stub
+	
+		CONS.LogActv.adp_LogFile_List = new Adp_MainList(
+				this,
+				R.layout.list_row_simple_1,
+//				android.R.layout.simple_list_item_1,
+				CONS.LogActv.list_LogFiles
+				);
+
+		
+		if (CONS.LogActv.adp_LogFile_List == null) {
+			
+			// Log
+			String msg_log = "CONS.LogActv.adp_LogFile_List => null";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_log);
+			
+			return false;
+			
+		}//if (adapter == null)
+
+		this.setListAdapter(CONS.LogActv.adp_LogFile_List);
+		
+		return true;
+		
+	}//_Setup_Adapter
+	
+
+	private boolean 
+	_Setup_List() {
+		// TODO Auto-generated method stub
+		
+		File dir_Log = new File(CONS.DB.dPath_Log);
+		
+		/******************************
+			validate: exists
+		 ******************************/
+		if (!dir_Log.exists()) {
+
+			boolean res = dir_Log.mkdirs();
+			
+			if (res == true) {
+				
+				// Log
+				String msg_Log = "Log dir => created: " + dir_Log.getAbsolutePath();
+				Log.d("LogActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+
+				// Log
+				String msg_Log = "Log dir => not created: " + dir_Log.getAbsolutePath();
+				Log.e("LogActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				String msg = "Log dir doesn't exist\nCan't be created";
+				Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+				
+				return false;
+				
+			}
+//			String msg = "Log directory => doesn't exist";
+//			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+//
+//			return false;
+			
+		}
+		
+		////////////////////////////////
+
+		// get: files list
+
+		////////////////////////////////
+		String[] list_LogFiles = dir_Log.list();
+		
+		/******************************
+			validate: any log files
+		 ******************************/
+		if (list_LogFiles == null || list_LogFiles.length < 1) {
+			
+			String msg = "Log files => doesn't exist";
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+
+			return false;
+			
+		}
+		
+		// Log
+		String msg_Log = "list_LogFiles.length => " + list_LogFiles.length;
+		Log.d("LogActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// build: list
+
+		////////////////////////////////
+		for (String name : list_LogFiles) {
+			
+			CONS.LogActv.list_LogFiles.add(name);
+			
+		}
+		
+		// Log
+		msg_Log = "CONS.LogActv.list_LogFiles.size() => "
+						+ CONS.LogActv.list_LogFiles.size();
+		Log.d("LogActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		return true;
+		
+	}//_Setup_List
 
 	private void 
 	_Setup_InitVars() {
 		// TODO Auto-generated method stub
 		
 		CONS.Admin.vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+		
+		CONS.LogActv.list_LogFiles = new ArrayList<String>();
 		
 	}//_Setup_InitVars
 

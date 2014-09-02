@@ -116,25 +116,37 @@ public class CONS {
 		// Paths and names
 
 		////////////////////////////////
-		public static String dbName = "ifm11.db";
-		public static String dbName_IFM10 = "ifm10.db";
+		public final static String dbName = "ifm11.db";
+		public final static String dbName_IFM10 = "ifm10.db";
 		
 		public static String dPath_dbFile;
 		
 		// Do not hardcode "/data/"; use Context.getFilesDir().getPath()
 //		public static String dPath_dbFile = "/data/data/cm7.main/databases";
+
+		public final static String dPath_Data_Root = "/mnt/sdcard-ext/ifm11_data";
 		
-		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
+		public final static String dPath_dbFile_backup = dPath_Data_Root + "/backup";
+//		public final static String dPath_dbFile_backup = dPath_Data_Root + "/ifm11_backup";
+//		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
 		
-		public static String dPath_dbFile_backup_IFM10 = 
+		public final static String dPath_dbFile_backup_IFM10 = 
 										"/mnt/sdcard-ext/IFM10_backup";
 		
 //		public static String dPath_dbFile = 
 //							Methods.get_DirPath(new MainActv().getFilesDir().getPath());
 		
-		public static String fname_DB_Backup_Trunk = "ifm11_backup";
+		public final static String fname_DB_Backup_Trunk = "ifm11_backup";
 		
-		public static String fname_DB_Backup_ext = ".bk";
+		public final static String fname_DB_Backup_ext = ".bk";
+		
+		public final static String dPath_Log = dPath_Data_Root + "/log";
+		
+		public final static String fname_Log = "log.txt";
+		
+		public final static String fname_Log_Trunk = "log";
+		
+		public final static String fname_Log_ext = ".txt";
 		
 //		public static String dname_TapeATalk_Sdcard = "tapeatalk_records";
 		
@@ -370,6 +382,16 @@ public class CONS {
 		
 	}
 
+	public static class LogActv {
+		
+		public static List<String> list_LogFiles = null;
+		
+//		public static ArrayAdapter<String> adp_LogFile_List = null;
+		
+		public static Adp_MainList adp_LogFile_List;
+		
+	}
+	
 	public static class TNActv {
 		
 		public static List<TI> list_TNActv_Main = null;

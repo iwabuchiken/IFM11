@@ -167,12 +167,25 @@ public class Methods {
 		if (!db_Backup.exists()) {
 			
 			try {
-				db_Backup.mkdir();
 				
-				// Log
-				Log.d("Methods.java" + "["
-						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-						+ "]", "Folder created: " + db_Backup.getAbsolutePath());
+				boolean res = db_Backup.mkdirs();
+//				boolean res = db_Backup.mkdir();
+				
+				if (res == true) {
+					
+					// Log
+					Log.d("Methods.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", "Folder created: " + db_Backup.getAbsolutePath());
+					
+				} else {
+
+					// Log
+					Log.e("Methods.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", "Folder not created: " + db_Backup.getAbsolutePath());
+					
+				}
 			} catch (Exception e) {
 				
 				// Log
@@ -200,12 +213,17 @@ public class Methods {
 		File[] files_dst_folder = new File(CONS.DB.dPath_dbFile_backup).listFiles();
 //		File[] files_dst_folder = new File(CONS.dpath_db_backup).listFiles();
 		
-		int num_of_files = files_dst_folder.length;
+		if (files_dst_folder != null) {
+			
+			int num_of_files = files_dst_folder.length;
+			
+			// Log
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "num of backup files = " + num_of_files);
+			
+		}
 		
-		// Log
-		Log.i("Methods.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", "num of backup files = " + num_of_files);
 		
 		/****************************
 		 * 3. Copy
@@ -216,6 +234,8 @@ public class Methods {
 			iChannel.transferTo(0, iChannel.size(), oChannel);
 			iChannel.close();
 			oChannel.close();
+			
+			
 			
 			// Log
 			Log.i("Methods.java" + "["
@@ -5938,6 +5958,99 @@ public class Methods {
 		d1.dismiss();
 		
 	}//start_Activity_LogActv
+
+	public static void 
+	write_Log
+	(Activity actv, String message,
+			String fileName, int lineNumber) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// file
+
+		////////////////////////////////
+		File fpath_Log = new File(CONS.DB.dPath_Log, CONS.DB.fname_Log);
+		
+		////////////////////////////////
+
+		// file exists?
+
+		////////////////////////////////
+		if (!fpath_Log.exists()) {
+			
+			try {
+				
+				fpath_Log.createNewFile();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				String msg = "Can't create a log file";
+				Methods_dlg.dlg_ShowMessage_Duration(actv, msg, R.color.gold2);
+				
+				return;
+				
+			}
+		} else {
+			
+			// Log
+			String msg_Log = "log file => exists";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+
+		// write
+
+		////////////////////////////////
+		try {
+			
+			FileOutputStream fos = new FileOutputStream(fpath_Log, true);
+//			FileOutputStream fos = new FileOutputStream(fpath_Log);
+			
+			String text = String.format(
+							"[%s] [%s : %d] %s\n", 
+							Methods.conv_MillSec_to_TimeLabel(
+											Methods.getMillSeconds_now()),
+							fileName, lineNumber,
+							message
+						);
+			
+			fos.write(text.getBytes());
+//			fos.write(message.getBytes());
+			
+//			fos.write("\n".getBytes());
+			
+			fos.close();
+			
+			// Log
+			String msg_Log = "log => written";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+//			FileChannel oChannel = new FileOutputStream(fpath_Log).getChannel();
+//			
+//			oChannel.wri
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}//write_Log
 	
 }//public class Methods
 
+/*
+ * [2014/09/02 10:12:47.283] [MainActv.java : 84] Starting MainActv...
+ * 
+ * 
+ */
