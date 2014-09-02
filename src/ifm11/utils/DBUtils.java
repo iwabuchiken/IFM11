@@ -3323,6 +3323,20 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		////////////////////////////////
 
+		// log
+
+		////////////////////////////////
+		String log_msg = String.format(
+					"Delete from DB => done: %s (table = %s)",
+					ti.getFile_name(), ti.getTable_name()
+				);
+		
+		Methods.write_Log(actv, log_msg,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+		
+		////////////////////////////////
+
 		// return
 
 		////////////////////////////////

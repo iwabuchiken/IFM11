@@ -373,6 +373,19 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 				msg = "Upload result => " + res.intValue();
 				colorID = R.color.green4;
 				
+				////////////////////////////////
+
+				// log
+
+				////////////////////////////////
+				String log_msg = String.format(
+							"Upload => done: %s (table = %s)",
+							ti.getFile_name(), ti.getTable_name());
+				
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
 			} else {
 				
 				msg = "Upload result => " + res.intValue()
@@ -380,6 +393,17 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 						+ "record not saved!";
 				
 				colorID = R.color.gold2;
+
+				////////////////////////////////
+
+				// log
+
+				////////////////////////////////
+				String log_msg = "Upload => done, record not saved: " 
+							+ ti.getFile_name();
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
 
 			}
 			
@@ -394,6 +418,13 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			if(d1 != null) d1.dismiss();
 			
 		} else {
+			
+			String log_msg = "Upload => Exception occurred: " 
+							+ ti.getFile_name();
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
 			switch(res_i) {
 //			-1 => SocketException
 //			-2 => IOException
@@ -403,6 +434,8 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			
 				msg = "Upload result => SocketException";
 				colorID = R.color.red;
+				
+				
 				
 				break;
 			

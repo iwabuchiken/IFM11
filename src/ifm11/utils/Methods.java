@@ -6094,7 +6094,8 @@ public class Methods {
 		try {
 			
 //			fis = new FileInputStream(fpath_Log);
-			
+
+			//REF BufferedReader http://stackoverflow.com/questions/7537833/filereader-for-text-file-in-android answered Sep 24 '11 at 8:29
 			BufferedReader br = new BufferedReader(
 						new InputStreamReader(new FileInputStream(fpath_LogFile)));
 //			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -6253,6 +6254,114 @@ public class Methods {
 		return loi;
 		
 	}//_build_LogItem_from_Matcher
+
+	/******************************
+		@return
+			null => 1. Log file => doesn't exist<br>
+			//REF http://stackoverflow.com/questions/2290757/how-can-you-escape-the-character-in-javadoc answered Dec 11 '11 at 11:11<br>
+			2. {@literal List<String>} list => null<br>
+			3. list_LogItem => null<br>
+	 ******************************/
+	public static List<LogItem> 
+	get_LogItem_List
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		String msg_Log;
+		
+		////////////////////////////////
+
+		// validate: files exists
+
+		////////////////////////////////
+		File fpath_Log = new File(
+				CONS.DB.dPath_Log,
+				CONS.ShowLogActv.fname_Target_LogFile);
+		
+		if (!fpath_Log.exists()) {
+			
+			String msg = "Log file => doesn't exist";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+
+		// read file
+
+		////////////////////////////////
+		FileInputStream fis = null;
+		
+//		CONS.ShowLogActv.list_RawLines = new ArrayList<String>();
+		
+		List<String> list = 
+						Methods.get_LogLines(actv, fpath_Log.getAbsolutePath());
+		
+		/******************************
+			validate
+		 ******************************/
+		if (list == null) {
+			
+			return null;
+			
+		} else {
+			
+			////////////////////////////////
+			
+			// list => reverse
+			
+			////////////////////////////////
+			Collections.reverse(list);
+			
+			////////////////////////////////
+
+			// add all
+
+			////////////////////////////////
+			CONS.ShowLogActv.list_RawLines.addAll(list);
+			
+		}
+
+		////////////////////////////////
+
+		// build: LogItem list
+
+		////////////////////////////////
+		List<LogItem> list_LogItem = 
+				Methods.conv_LogLinesList_to_LogItemList(
+									actv, CONS.ShowLogActv.list_RawLines);
+
+		/******************************
+			validate
+		 ******************************/
+		if (list_LogItem == null) {
+			
+			// Log
+			msg_Log = "list_LogItem => null";
+			Log.e("ShowLogActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+		} else {
+
+			// Log
+			msg_Log = "list_LogItem => not null"
+						+ "(" + list_LogItem.size() + ")";
+			Log.d("ShowLogActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+//			CONS.ShowLogActv.list_ShowLog_Files.addAll(list_LogItem);
+			
+			return list_LogItem;
+			
+		}
+		
+	}//get_LogItem_List
 
 }//public class Methods
 

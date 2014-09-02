@@ -85,6 +85,7 @@ public class BO_CL implements OnClickListener {
 			break;
 
 		case ACTV_TN_IB_BACK://-----------------------------------------------------------------------------
+		case ACTV_SHOWLOG_IB_BACK://-----------------------------------------------------------------------------
 			
 			case_ACTV_TN_IB_BACK();
 			
@@ -96,9 +97,21 @@ public class BO_CL implements OnClickListener {
 			
 			break;
 			
+		case ACTV_SHOWLOG_IB_TOP://-----------------------------------------------------------------------------
+			
+			case_ACTV_SHOWLOG_IB_TOP();
+			
+			break;
+			
 		case ACTV_TN_IB_BOTTOM://-----------------------------------------------------------------------------
 			
 			case_ACTV_TN_IB_BOTTOM();
+			
+			break;
+			
+		case ACTV_SHOWLOG_IB_BOTTOM://-----------------------------------------------------------------------------
+			
+			case_ACTV_SHOWLOG_IB_BOTTOM();
 			
 			break;
 			
@@ -108,9 +121,21 @@ public class BO_CL implements OnClickListener {
 			
 			break;
 			
+		case ACTV_SHOWLOG_IB_DOWN://-----------------------------------------------------------------------------
+			
+			case_ACTV_SHOWLOG_IB_DOWN();
+			
+			break;
+			
 		case ACTV_TN_IB_UP://-----------------------------------------------------------------------------
 			
 			case_ACTV_TN_IB_UP();
+			
+			break;
+			
+		case ACTV_SHOWLOG_IB_UP://-----------------------------------------------------------------------------
+			
+			case_ACTV_SHOWLOG_IB_UP();
 			
 			break;
 			
@@ -173,6 +198,28 @@ public class BO_CL implements OnClickListener {
 	}//case_ACTV_TN_IB_TOP
 
 	private void 
+	case_ACTV_SHOWLOG_IB_TOP() {
+		// TODO Auto-generated method stub
+		
+//		/******************************
+//			validate: list
+//		 ******************************/
+//		if (CONS.ShowLogActv.list_ShowLog_Files == null) {
+//			
+////			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//			
+//			CONS.ShowLogActv.list_ShowLog_Files = 
+//							Methods.get_LogItem_List(actv);
+//			
+//		}
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		lv.setSelection(0);
+		
+	}//case_ACTV_TN_IB_TOP
+	
+	private void 
 	case_ACTV_TN_IB_BOTTOM() {
 		// TODO Auto-generated method stub
 		
@@ -190,6 +237,31 @@ public class BO_CL implements OnClickListener {
 		ListView lv = ((ListActivity) actv).getListView();
 		
 		int numOfGroups = CONS.TNActv.list_TNActv_Main.size() / lv.getChildCount();
+		
+		int indexOfLastChild = lv.getChildCount() * numOfGroups;
+		
+		lv.setSelection(indexOfLastChild);
+		
+	}//case_ACTV_TN_IB_TOP
+	
+	private void 
+	case_ACTV_SHOWLOG_IB_BOTTOM() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.ShowLogActv.list_ShowLog_Files == null) {
+			
+			CONS.ShowLogActv.list_ShowLog_Files = 
+							Methods.get_LogItem_List(actv);
+			
+		}
+			
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int numOfGroups = 
+					CONS.ShowLogActv.list_ShowLog_Files.size() / lv.getChildCount();
 		
 		int indexOfLastChild = lv.getChildCount() * numOfGroups;
 		
@@ -220,6 +292,36 @@ public class BO_CL implements OnClickListener {
 				> CONS.TNActv.list_TNActv_Main.size()) {
 			
 			new_Position = CONS.TNActv.list_TNActv_Main.size() - lv.getChildCount();
+			
+		}
+		
+		lv.setSelection(new_Position);
+		
+	}//case_ACTV_TN_IB_TOP
+	
+	private void 
+	case_ACTV_SHOWLOG_IB_DOWN() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.ShowLogActv.list_ShowLog_Files == null) {
+			
+			CONS.ShowLogActv.list_ShowLog_Files = 
+							Methods.get_LogItem_List(actv);
+			
+		}
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int new_Position = lv.getLastVisiblePosition();
+		
+		if((new_Position + lv.getChildCount()) 
+				> CONS.ShowLogActv.list_ShowLog_Files.size()) {
+			
+			new_Position = 
+					CONS.ShowLogActv.list_ShowLog_Files.size() - lv.getChildCount();
 			
 		}
 		
@@ -259,6 +361,42 @@ public class BO_CL implements OnClickListener {
 			
 			new_Position = 0;
 
+		}
+		
+		lv.setSelection(new_Position);		
+		
+	}//case_ACTV_TN_IB_TOP
+	
+	private void 
+	case_ACTV_SHOWLOG_IB_UP() {
+		// TODO Auto-generated method stub
+		
+//		/******************************
+//			validate: list
+//		 ******************************/
+//		if (CONS.ShowLogActv.list_ShowLog_Files == null) {
+//			
+//			CONS.ShowLogActv.list_ShowLog_Files = 
+//							Methods.get_LogItem_List(actv);
+//			
+//		}		
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int lastPos = lv.getLastVisiblePosition();
+		
+		int childCount = lv.getChildCount();
+		
+		int new_Position;
+		
+		if (lastPos - (childCount * 2) + 2 > 0) {
+			
+			new_Position = lastPos - (childCount * 2) + 2;
+			
+		} else {
+			
+			new_Position = 0;
+			
 		}
 		
 		lv.setSelection(new_Position);		
