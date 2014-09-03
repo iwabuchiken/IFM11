@@ -6363,6 +6363,167 @@ public class Methods {
 		
 	}//get_LogItem_List
 
+	/******************************
+		@return
+			-1 File doesn't exist<br>
+			-2 can't delete file<br>
+			1 deleted
+	 ******************************/
+	public static int 
+	delete_File
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// file
+
+		////////////////////////////////
+		File f = new File(ti.getFile_path(), ti.getFile_name());
+		
+		if (!f.exists()) {
+			
+			// Log
+			String msg_Log = "file => doesn't exist: " + f.getAbsolutePath();
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+
+		////////////////////////////////
+
+		// delete
+
+		////////////////////////////////
+		boolean res = f.delete();
+		
+		if (res == true) {
+			
+			// Log
+			String msg_Log = "file => deleted: " + f.getAbsolutePath();
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return 1;
+			
+		} else {
+			
+			// Log
+			String msg_Log = "can't delete file: " + f.getAbsolutePath();
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -2;
+
+		}
+		
+	}//delete_File
+
+	/******************************
+		@return
+			-1 Can't get current path<br>
+			-2 list_TNActv_Main => null<br>
+			1 updated, notified<br>
+	 ******************************/
+	public static int 
+	update_List_TNActv_Main
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get: pref: current path
+
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+
+		/******************************
+			validate
+		 ******************************/
+		if (currentPath == null) {
+			
+			// Log
+			String msg_Log = "Can't get current path";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+		////////////////////////////////
+
+		// conv: to table name
+
+		////////////////////////////////
+		String tname = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+//		// Log
+//		msg_Log = "tname => " + tname;
+//		Log.d("TNActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// build: list
+
+		////////////////////////////////
+		CONS.TNActv.list_TNActv_Main.clear();
+		
+		CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tname));
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.TNActv.list_TNActv_Main == null) {
+			
+			// Log
+			String msg_Log = "list_TNActv_Main => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+
+		// sort
+
+		////////////////////////////////
+		Methods.sort_List_TI(
+				CONS.TNActv.list_TNActv_Main, 
+				CONS.Enums.SortType.CREATED_AT, 
+				CONS.Enums.SortOrder.ASC);
+
+		////////////////////////////////
+
+		// notify
+
+		////////////////////////////////
+		CONS.TNActv.adp_TNActv_Main.notifyDataSetChanged();
+		
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return 1;
+		
+	}//update_List_TNActv_Main
+
 }//public class Methods
 
 /*

@@ -369,9 +369,88 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			boolean tmp_b = DBUtils.update_TI__UploadedAt(actv, ti);
 			
 			if (tmp_b == true) {
-				
-				msg = "Upload result => " + res.intValue();
+
+				msg = "Upload result => " + res.intValue()
+						;
 				colorID = R.color.green4;
+
+				////////////////////////////////
+
+				// delete file
+
+				////////////////////////////////
+				if (this.delete == true) {
+					
+					int tmp_i = DBUtils.delete_TI(actv, ti, true);
+					
+					switch(tmp_i) {
+//					-1 => TI doesn't exist in db
+//					-2 => ti.table_name ==> null
+//					-3 => deletion => returned 0
+//					> 1 => Number of items affected
+					case -1: msg += "(DB record doesn't exist)";
+						
+						break;
+						
+					case -2: msg += "(TI doesn't have a table name)";
+					
+						break;
+						
+					case -3: msg += "(delete returned 0)";
+					
+						break;
+					
+					case 1: msg += "(deleted from DB)";
+					
+						Methods.update_List_TNActv_Main(actv);
+						
+						break;
+					
+					default: msg += "(delete returned: " + tmp_i + ")";
+					
+						Methods.update_List_TNActv_Main(actv);
+						
+						break;
+					
+					}
+					
+					tmp_i = Methods.delete_File(actv, ti);
+					
+					switch(tmp_i) {
+					
+//					-1 File doesn't exist
+//					-2 can't delete file
+//					1 deleted
+					
+					case 1:
+						
+						msg += "(File deleted)";
+						colorID = R.color.green4;
+						
+						break;
+						
+					case -1:
+						
+						msg += "(File not deleted: File doesn't exist)";
+						colorID = R.color.gold2;
+						
+						break;
+						
+					case -2:
+						
+						msg += "(File not deleted: can't delete)";
+						colorID = R.color.gold2;
+						
+						break;
+						
+					}
+					
+				} else {
+					
+					msg += "(File kept)";
+					
+				}//if (this.delete == true)
+				
 				
 				////////////////////////////////
 
@@ -379,8 +458,8 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 
 				////////////////////////////////
 				String log_msg = String.format(
-							"Upload => done: %s (table = %s)",
-							ti.getFile_name(), ti.getTable_name());
+							"%s (%s, %s) ()",
+							msg, ti.getFile_name(), ti.getTable_name());
 				
 				Methods.write_Log(actv, log_msg, Thread.currentThread()
 						.getStackTrace()[2].getFileName(), Thread
@@ -417,7 +496,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			if(d2 != null) d2.dismiss();
 			if(d1 != null) d1.dismiss();
 			
-		} else {
+		} else {//if (res_i >= 200 && res_i <= 220)
 			
 			String log_msg = "Upload => Exception occurred: " 
 							+ ti.getFile_name();
@@ -525,7 +604,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 				break;
 				
 			}
-		}
+		}//if (res_i >= 200 && res_i <= 220)
 		
 		Methods_dlg.dlg_ShowMessage_Duration(
 						actv, 

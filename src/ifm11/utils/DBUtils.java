@@ -3243,6 +3243,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		@return -1	=> TI doesn't exist in db<br>
 				-2	=> ti.table_name ==> null<br>
 				-3	=> deletion => returned 0<br>
+				> 1	=> Number of items affected
 	 ******************************/
 	public static int 
 	delete_TI

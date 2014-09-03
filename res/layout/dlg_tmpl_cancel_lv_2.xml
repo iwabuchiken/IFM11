@@ -8,7 +8,7 @@
     <ListView
         android:id="@+id/dlg_tmpl_cancel_lv_2_lv"
         android:layout_width="match_parent"
-        android:layout_height="300dp" >
+        android:layout_height="wrap_content" >
     </ListView>
 
     <LinearLayout
