@@ -446,6 +446,8 @@ public class CONS {
 		
 		public static Adp_WordPatterns adapter;
 		
+		public static TI ti;
+		
 	}
 	
 	public static class Admin {
@@ -536,7 +538,7 @@ public class CONS {
 		
 		public static enum FtpType {
 			
-			IMAGE, DB_FILE,
+			IMAGE, DB_FILE, IMAGE_MULTIPLE,
 			
 		}
 		

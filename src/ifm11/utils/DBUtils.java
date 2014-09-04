@@ -3445,6 +3445,129 @@ public class DBUtils extends SQLiteOpenHelper{
 	}//update_TI__All
 
 	/******************************
+		@return -1 => Insertion failed<br>
+				-2 => Exception<br>
+				1 => Insertion done<br>
+	 ******************************/
+	public static int 
+	update_TI
+	(Activity actv, TI ti, String colName, String value) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// setup: db
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// setup: contentvals
+		
+		////////////////////////////////
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name",							// 11
+//		"uploaded_at",							// 12		
+		
+		val.put(
+				CONS.DB.col_names_IFM11_full[2],		// modified_at 
+				Methods.conv_MillSec_to_TimeLabel(
+						Methods.getMillSeconds_now()));
+		
+		val.put(colName, value);
+		
+		////////////////////////////////
+
+		// args
+
+		////////////////////////////////
+		String where = CONS.DB.col_names_IFM11_full[0]
+				+ " = ?";
+		
+		String[] args = new String[]{String.valueOf(ti.getDb_Id())};
+
+		////////////////////////////////
+
+		// update
+
+		////////////////////////////////
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.update(CONS.DB.tname_IFM11, val, where, args);
+//			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+			
+			if (res < 1) {
+//				if (res == -1) {
+				
+//				// Log
+//				String msg_Log = String.format(
+//									"insertion => failed (result = %d)"
+//									, res);
+//
+//				Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+				
+				wdb.endTransaction();
+				
+				wdb.close();
+				
+				return -1;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
+			
+			wdb.close();
+			
+			return 1;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return -2;
+			
+		}//try		
+		
+//		return false;
+		
+	}//update_TI__All
+	
+	/******************************
 		@return
 				-1	=> Pattern not in db<br>
 				-2	=> Deletion failed<br>

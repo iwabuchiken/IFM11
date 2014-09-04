@@ -100,7 +100,7 @@ public class Tags {
 		UPLOAD_REMOTE_OK,
 		
 		// dlg: conf upload => db file
-		UPLOAD_DB_FILE_OK,
+		UPLOAD_DB_FILE_OK, UPLOAD_REMOTE_MULTIPLE_IMAGES_OK,
 		
 	}//public static enum DialogTags
 	

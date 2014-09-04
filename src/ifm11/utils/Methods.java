@@ -5147,6 +5147,605 @@ public class Methods {
 	 * 
 	 * #sqlite db file: "database disk image is malformed"
 	 * REF=> http://stackoverflow.com/questions/9058169/sqlite-database-disk-image-is-malformed-on-windows-but-fine-on-android
+	 * @param ti 
+	 * 
+	 * @return
+	 * -1	=> SocketException, IOException, IOException in disconnecting<br>
+	 * 			, Login failed, IOException in logging-in<br>
+	 * -2	=> list_UploadImages => null<br>
+	 * -3	=> IOException in disconnecting the client<br>
+	 * >0	=> Number of items uploaded<br>
+	 * 
+	 * Also, the following could happen...<br>
+	 * 		storeFile returned false, 
+	 * 		can't find the source file, 
+	 * 		can't find the source file,
+	 * 		can't disconnect FTP client,
+	 * 		storeFile ---> IOException,
+	 * 		storeFile ---> IOException,
+	 * 		can't disconnect FTP client, 
+	 * 		set file type ---> failed,
+	 * 		IOException in logging-in,
+	 * 		can't disconnect FTP client
+	 *********************************/
+	public static int 
+	ftp_MulipleImages_to_Remote
+	(Activity actv) {
+		/*********************************
+		 * get: client
+		 *********************************/
+		FTPClient fp = _ftp_MulipleImages_to_Remote__Setup_Client(actv);
+		
+		if (fp == null) {
+			
+			return -1;
+			
+		}
+		
+		////////////////////////////////
+
+		// prep: TI list for upload
+
+		////////////////////////////////
+		List<TI> list_UploadImages = Methods._move_Files__Get_ToMoveList();
+
+		//validate
+		if (list_UploadImages == null) {
+			
+			// Log
+			String msg_Log = "list_UploadImages => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			Methods.write_Log(actv, msg_Log, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+			return -2;
+			
+		}
+		
+		/*********************************
+		 * FTP files
+		 *********************************/
+//		String fpath_Src = null;
+//		String fpath_remote = null;
+		int list_Size = list_UploadImages.size();
+		
+		int counter = 0;
+		
+		for (TI ti : list_UploadImages) {
+			
+			boolean res = _ftp_MulipleImages_to_Remote__Upload_Image(
+									actv, fp, ti);
+			
+			if (res == true) {
+				
+				counter += 1;
+				
+			}
+			
+		}
+		
+//		fpath_Src = StringUtils.join(
+//				new String[]{
+//						ti.getFile_path(),
+//						ti.getFile_name()
+//				}, File.separator);
+//		
+//		fpath_remote = StringUtils.join(
+//				new String[]{
+//						CONS.Remote.remote_Root_Image,
+//						ti.getFile_name()
+//				}, File.separator);
+//		
+//		// �t�@�C�����M
+//		FileInputStream is;
+//		
+//		try {
+//			
+//			// Log
+//			String msg_Log = "fpath_Src => " + fpath_Src;
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			is = new FileInputStream(fpath_Src);
+////			is = new FileInputStream(fpath_audio);
+//			
+//			// Log
+//			msg_Log = "Input stream => created";
+////			String msg_Log = "Input stream => created";
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			////////////////////////////////
+//			
+//			// set: file type
+//			
+//			////////////////////////////////
+//			// REF http://stackoverflow.com/questions/7740817/how-to-upload-an-image-to-ftp-using-ftpclient answered Oct 12 '11 at 13:52
+//			res = fp.setFileType(FTP.BINARY_FILE_TYPE);
+//			
+//			/******************************
+//				validate
+//			 ******************************/
+//			if (res == false) {
+//				
+//				// Log
+//				msg_Log = "set file type => failed";
+//				Log.e("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", msg_Log);
+//				
+//				is.close();
+//				
+//				fp.disconnect();
+//				
+//				return -11;
+//				
+//			}
+//			
+//			////////////////////////////////
+//			
+//			// store
+//			
+//			////////////////////////////////
+//			// Log
+//			msg_Log = "Stroing file to remote... => "
+//					+ fpath_remote;
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+////			fp.storeFile("./" + MainActv.fileName_db, is);// �T�[�o�[��
+//			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
+//			
+////			fp.makeDirectory("./ABC");
+//			
+//			if (res == true) {
+//				
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "File => Stored");
+//				
+//			} else {//if (res == true)
+//				
+//				// Log
+//				Log.d("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", "Store file => Failed");
+//				
+//				fp.disconnect();
+//				
+//				return -6;
+//				
+//			}//if (res == true)
+//			
+//			is.close();
+//			
+//		} catch (FileNotFoundException e) {
+//			
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception: " + e.toString());
+//			
+//			try {
+//				
+//				fp.disconnect();
+//				
+//				return -7;
+//				
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//				
+//				return -8;
+//				
+//			}
+//			
+//			
+//		} catch (IOException e) {
+//			
+//			// Log
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception: " + e.toString());
+//			
+//			try {
+//				fp.disconnect();
+//				
+//				return -9;
+//				
+//			} catch (IOException e1) {
+//				
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//				
+//				return -10;
+//				
+//			}
+//			
+//		}
+//		
+		
+		//debug
+		/*********************************
+		 * Disconnect
+		 *********************************/
+		try {
+			
+			// Log
+			String msg_Log = "disconnecting...";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			fp.disconnect();
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "fp => Disconnected");
+			
+			return counter;
+//			return reply_code;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			return -3;
+			
+		}
+		
+	}//ftp_MulipleImages_to_Remote
+	
+	
+	/******************************
+		@return
+			false => 1. set file type => failed<br>
+					2. Store file => Failed<br>
+	 ******************************/
+	private static boolean 
+	_ftp_MulipleImages_to_Remote__Upload_Image
+	(Activity actv, FTPClient fp, TI ti) {
+		// TODO Auto-generated method stub
+		boolean res;
+		String msg_Log;
+		
+		////////////////////////////////
+
+		// file paths
+
+		////////////////////////////////
+		String fpath_Src = StringUtils.join(
+				new String[]{
+						ti.getFile_path(),
+						ti.getFile_name()
+				}, File.separator);
+		
+		String fpath_remote = StringUtils.join(
+				new String[]{
+						CONS.Remote.remote_Root_Image,
+						ti.getFile_name()
+				}, File.separator);
+		
+		////////////////////////////////
+
+		// input stream
+
+		////////////////////////////////
+		FileInputStream is = null;
+		
+		try {
+			
+			// Log
+			msg_Log = "fpath_Src => " + fpath_Src;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			is = new FileInputStream(fpath_Src);
+			
+			// Log
+			msg_Log = "Input stream => created";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			////////////////////////////////
+			
+			// set: file type
+			
+			////////////////////////////////
+			// REF http://stackoverflow.com/questions/7740817/how-to-upload-an-image-to-ftp-using-ftpclient answered Oct 12 '11 at 13:52
+			res = fp.setFileType(FTP.BINARY_FILE_TYPE);
+			
+			/******************************
+				validate
+			 ******************************/
+			if (res == false) {
+				
+				// Log
+				msg_Log = "set file type => failed";
+				Log.e("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				is.close();
+				
+				Methods.write_Log(actv, msg_Log, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+//				fp.disconnect();
+				
+				return false;
+				
+			}
+			
+			////////////////////////////////
+			
+			// store
+			
+			////////////////////////////////
+			// Log
+			msg_Log = "Stroing file to remote... => "
+					+ fpath_remote;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
+			
+			if (res == true) {
+				
+				// Log
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "File => Stored");
+				
+				String log_msg = String.format(
+							"File => Stored (%s, %s)",
+							ti.getFile_name(), ti.getTable_name());
+				
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+				is.close();
+				
+				return true;
+				
+			} else {//if (res == true)
+				
+				// Log
+				msg_Log = "Store file => Failed";
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+				Methods.write_Log(actv, msg_Log, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+//				fp.disconnect();
+				
+				is.close();
+				
+				return false;
+				
+			}//if (res == true)
+			
+//			is.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception: " + e.toString());
+			
+			String log_msg = "FileNotFoundException";
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+			try {
+				is.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			return false;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception: " + e.toString());
+
+			String log_msg = "IOException in stroing image to remote";
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+			try {
+				is.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			return false;
+			
+		}//FileInputStream
+		
+	}//_ftp_MulipleImages_to_Remote__Upload_Image
+	
+
+	
+	private static FTPClient 
+	_ftp_MulipleImages_to_Remote__Setup_Client
+	(Activity actv) {
+		// TODO Auto-generated method stub
+	
+		FTPClient fp = new FTPClient();
+		
+		int reply_code;
+		
+		/*********************************
+		 * Connect
+		 *********************************/
+		try {
+			
+			// Log
+			String msg_Log = "connecting...";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			fp.connect(CONS.Remote.server_Name);
+			
+			reply_code = fp.getReplyCode();
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "fp.getReplyCode()=" + fp.getReplyCode());
+			
+		} catch (SocketException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			String log_msg = "SocketException";
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+			return null;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Error: " + e.toString());
+			
+			String log_msg = "IOException";
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+			return null;
+			
+		}
+		
+		/*********************************
+		 * Log in
+		 *********************************/
+		boolean res;
+		
+		try {
+			
+			res = fp.login(
+					CONS.Remote.uname, 
+					CONS.Remote.passwd);
+			
+			if(res == false) {
+				
+				reply_code = fp.getReplyCode();
+				
+				// Log
+				Log.e("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "Log in failed => " + reply_code);
+				
+				String log_msg = "Log in failed => " + reply_code;
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+				fp.disconnect();
+				
+				return null;
+				
+			} else {
+				
+				// Log
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "Log in => Succeeded");
+				
+			}
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			// Log
+			String msg_Log = "IOException";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			e1.printStackTrace();
+			
+			try {
+				
+				fp.disconnect();
+				
+				String log_msg = "Login => IOException";
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+				return null;
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				String log_msg = "Login => IOException; disconnect => IOException";
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+				return null;
+				
+			}
+			
+		}//fp.login
+
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return fp;
+		
+	}//_ftp_MulipleImages_to_Remote__Setup_Client
+	
+
+	/*********************************
+	 * REF=> http://www.searchman.info/tips/2640.html
+	 * 
+	 * #sqlite db file: "database disk image is malformed"
+	 * REF=> http://stackoverflow.com/questions/9058169/sqlite-database-disk-image-is-malformed-on-windows-but-fine-on-android
 	 * @return
 	 * -1	=> SocketException
 	 * -2	=> IOException

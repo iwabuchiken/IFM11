@@ -293,10 +293,57 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case UPLOAD_REMOTE_MULTIPLE_IMAGES_OK://------------------------------------------------
+			
+			case_UPLOAD_REMOTE_MULTIPLE_IMAGES_OK();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_UPLOAD_REMOTE_MULTIPLE_IMAGES_OK() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// validate: network status
+
+		////////////////////////////////
+		boolean res = Methods.isOnline(actv);
+		
+		if (res == false) {
+			
+			String msg = "Sorry. Network is not ready";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			return;
+			
+		} else {
+			
+			// Log
+			String msg_Log = "Network is ready";
+			Log.d("DB_OCL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+
+		// task
+
+		////////////////////////////////
+		Task_FTP task = new Task_FTP(
+				actv, dlg1, dlg2,
+				CONS.Remote.FtpType.IMAGE_MULTIPLE.toString());
+
+		task.execute(CONS.Remote.FtpType.IMAGE_MULTIPLE.toString());
+		
+	}//case_UPLOAD_REMOTE_MULTIPLE_IMAGES_OK
 
 	private void 
 	case_UPLOAD_DB_FILE_OK() {

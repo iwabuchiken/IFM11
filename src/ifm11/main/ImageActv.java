@@ -4,6 +4,7 @@ import ifm11.items.MyView;
 import ifm11.listeners.button.BO_CL;
 import ifm11.listeners.button.BO_TL;
 import ifm11.utils.CONS;
+import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
@@ -94,6 +95,13 @@ public class ImageActv extends Activity {
 		db_Id = i.getLongExtra("db_id", -1);
 		String file_name = i.getStringExtra("file_name");
 		
+		////////////////////////////////
+
+		// get: TI
+
+		////////////////////////////////
+		CONS.IMageActv.ti = DBUtils.get_TI_From_DbId(this, db_Id);
+		
 		/*----------------------------
 		 * 2. Prepare image
 			----------------------------*/
@@ -111,6 +119,12 @@ public class ImageActv extends Activity {
 		 * 5. Set listeners
 			----------------------------*/
 		set_listeners();
+		
+		////////////////////////////////
+
+		// update: last_viewed_at
+
+		////////////////////////////////
 		
 		
 //		Methods.toastAndLog(this, file_path, 2000);
@@ -345,7 +359,95 @@ public class ImageActv extends Activity {
 		_Setup_Initial();
 //		initial_setup();
 		
+		////////////////////////////////
+
+		// last_viewed_at
+
+		////////////////////////////////
+		_Setup_Update_LastViewed();
+		
 	}
+
+	private void 
+	_Setup_Update_LastViewed() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// validate
+
+		////////////////////////////////
+		if (CONS.IMageActv.ti == null) {
+			
+			// Log
+			String msg_Log = "CONS.IMageActv.ti => null";
+			Log.e("ImageActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// update
+
+		////////////////////////////////
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name",							// 11
+//		"uploaded_at",							// 12
+		
+		int res = DBUtils.update_TI(
+						this, 
+						CONS.IMageActv.ti, 
+						CONS.DB.col_names_IFM11_full[10],
+						Methods.conv_MillSec_to_TimeLabel(
+								Methods.getMillSeconds_now())
+						);
+		
+		String msg = null;
+		
+		switch(res) {
+//			-1 => Insertion failed
+//			-2 => Exception
+//			1 => Insertion done
+		case -1:
+			
+			msg = "last_viewed_at => not inserted";
+			
+			break;
+			
+		case -2:
+			
+			msg = "last_viewed_at => Exception";
+			
+			break;
+			
+		case 1:
+			
+			msg = "Insertion done";
+			
+			break;
+			
+		default:
+			msg = "Unknown result => " + res;
+			
+			break;
+			
+		}
+		
+		// Log
+		Log.d("ImageActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg);
+		
+	}//_Setup_Update_LastViewed
 
 	@Override
 	protected void onStop() {

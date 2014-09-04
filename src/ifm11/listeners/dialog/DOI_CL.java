@@ -433,7 +433,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (choice.equals(actv.getString(		// Refresh DB
 				R.string.dlg_move_files_item_remote))) {
 			
-//			Methods_dlg.dlg_MoveFiles__Remote(actv, dlg1);
+			Methods_dlg.dlg_MoveFiles__Remote(actv, dlg1);
 			
 		}
 		

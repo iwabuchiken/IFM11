@@ -180,17 +180,21 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 				
 			}
 			
+		} else if (this.ftp_Type.equals(
+						CONS.Remote.FtpType.IMAGE_MULTIPLE.toString())) {
+			
+			// Log
+			msg_Log = "ftp type => IMAGE_MULTIPLE";
+			Log.d("Task_FTP.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			res = Methods.ftp_MulipleImages_to_Remote(actv);
+			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 //		} else if (ftp_Type[0].equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 			
 			res = Methods.ftp_Remote_DB(actv);
-//			// Log
-//			msg_Log = "Sorry. Under construction...";
-//			Log.d("Task_FTP.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//			return 0;
 			
 		} else {
 
@@ -245,6 +249,10 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			
 			_onPostExecute__Upload_Image(res);
 			
+		} else if (ftp_Type.equals(CONS.Remote.FtpType.IMAGE_MULTIPLE.toString())) {
+			
+			_onPostExecute__Upload_Image_Multiple(res);
+			
 		} else if (ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 			
 			_onPostExecute__Upload_DB(res);
@@ -269,6 +277,28 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 //				+ "]", msg);
 		
 	}//protected void onPostExecute(String result)
+
+	private void 
+	_onPostExecute__Upload_Image_Multiple
+	(Integer res) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		int res_i = res.intValue();
+		
+		String msg = null;
+		int colorID = 0;
+
+		// Log
+		String msg_Log = "res_i => " + res_i;
+		Log.d("Task_FTP.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+	}//_onPostExecute__Upload_Image_Multiple
 
 	private void 
 	_onPostExecute__Upload_DB
@@ -448,6 +478,35 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 				} else {
 					
 					msg += "(File kept)";
+					
+					////////////////////////////////
+
+					// update: uploaded_at
+
+					////////////////////////////////
+//					android.provider.BaseColumns._ID,		// 0
+//					"created_at", "modified_at",			// 1,2
+//					"file_id", "file_path", "file_name",	// 3,4,5
+//					"date_added", "date_modified",			// 6,7
+//					"memos", "tags",						// 8,9
+//					"last_viewed_at",						// 10
+//					"table_name",							// 11
+//					"uploaded_at",							// 12
+
+					int tmp_i = DBUtils.update_TI(
+								actv, 
+								ti, 
+								CONS.DB.col_names_IFM11_full[12], 
+								Methods.conv_MillSec_to_TimeLabel(
+											Methods.getMillSeconds_now())
+								);
+					
+					// Log
+					String msg_Log = "update ti, uploaded_at => " + tmp_i;
+					Log.d("Task_FTP.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
 					
 				}//if (this.delete == true)
 				
@@ -642,6 +701,11 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 //			if (ftp_Type[0].equals(CONS.Remote.FtpType.IMAGE.toString())) {
 			
 			msg = "Uploading... " + ti.getFile_name();
+			colorID = R.color.green4;
+			
+		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.IMAGE_MULTIPLE.toString())) {
+			
+			msg = "Uploading... ";
 			colorID = R.color.green4;
 			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
