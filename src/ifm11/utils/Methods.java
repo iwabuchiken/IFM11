@@ -5214,6 +5214,8 @@ public class Methods {
 		int list_Size = list_UploadImages.size();
 		
 		int counter = 0;
+
+		List<TI> list_Ids_Uploaded = new ArrayList<TI>();
 		
 		for (TI ti : list_UploadImages) {
 			
@@ -5224,157 +5226,12 @@ public class Methods {
 				
 				counter += 1;
 				
+				list_Ids_Uploaded.add(ti);
+				
 			}
 			
 		}
 		
-//		fpath_Src = StringUtils.join(
-//				new String[]{
-//						ti.getFile_path(),
-//						ti.getFile_name()
-//				}, File.separator);
-//		
-//		fpath_remote = StringUtils.join(
-//				new String[]{
-//						CONS.Remote.remote_Root_Image,
-//						ti.getFile_name()
-//				}, File.separator);
-//		
-//		// �t�@�C�����M
-//		FileInputStream is;
-//		
-//		try {
-//			
-//			// Log
-//			String msg_Log = "fpath_Src => " + fpath_Src;
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//			is = new FileInputStream(fpath_Src);
-////			is = new FileInputStream(fpath_audio);
-//			
-//			// Log
-//			msg_Log = "Input stream => created";
-////			String msg_Log = "Input stream => created";
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//			////////////////////////////////
-//			
-//			// set: file type
-//			
-//			////////////////////////////////
-//			// REF http://stackoverflow.com/questions/7740817/how-to-upload-an-image-to-ftp-using-ftpclient answered Oct 12 '11 at 13:52
-//			res = fp.setFileType(FTP.BINARY_FILE_TYPE);
-//			
-//			/******************************
-//				validate
-//			 ******************************/
-//			if (res == false) {
-//				
-//				// Log
-//				msg_Log = "set file type => failed";
-//				Log.e("Methods.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", msg_Log);
-//				
-//				is.close();
-//				
-//				fp.disconnect();
-//				
-//				return -11;
-//				
-//			}
-//			
-//			////////////////////////////////
-//			
-//			// store
-//			
-//			////////////////////////////////
-//			// Log
-//			msg_Log = "Stroing file to remote... => "
-//					+ fpath_remote;
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-////			fp.storeFile("./" + MainActv.fileName_db, is);// �T�[�o�[��
-//			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
-//			
-////			fp.makeDirectory("./ABC");
-//			
-//			if (res == true) {
-//				
-//				// Log
-//				Log.d("Methods.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", "File => Stored");
-//				
-//			} else {//if (res == true)
-//				
-//				// Log
-//				Log.d("Methods.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", "Store file => Failed");
-//				
-//				fp.disconnect();
-//				
-//				return -6;
-//				
-//			}//if (res == true)
-//			
-//			is.close();
-//			
-//		} catch (FileNotFoundException e) {
-//			
-//			// Log
-//			Log.e("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Exception: " + e.toString());
-//			
-//			try {
-//				
-//				fp.disconnect();
-//				
-//				return -7;
-//				
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//				
-//				return -8;
-//				
-//			}
-//			
-//			
-//		} catch (IOException e) {
-//			
-//			// Log
-//			Log.e("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Exception: " + e.toString());
-//			
-//			try {
-//				fp.disconnect();
-//				
-//				return -9;
-//				
-//			} catch (IOException e1) {
-//				
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//				
-//				return -10;
-//				
-//			}
-//			
-//		}
-//		
-		
-		//debug
 		/*********************************
 		 * Disconnect
 		 *********************************/
@@ -5393,7 +5250,13 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "fp => Disconnected");
 			
-			return counter;
+			String log_msg = String.format("FTP done => %d items", counter);
+			
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+//			return counter;
 //			return reply_code;
 			
 		} catch (IOException e) {
@@ -5406,6 +5269,16 @@ public class Methods {
 			return -3;
 			
 		}
+		
+		////////////////////////////////
+
+		// Upload: HTTP
+
+		////////////////////////////////
+		int res = Methods.post_ImageData_to_Remote_Multiple(
+								actv, list_Ids_Uploaded);
+		
+		return res;
 		
 	}//ftp_MulipleImages_to_Remote
 	
@@ -6304,6 +6177,404 @@ public class Methods {
 		return status;
 		
 	}//post_ImageData_to_Remote
+
+	/******************************
+		@return 
+			-20 UnsupportedEncodingException<br>
+			-21 ClientProtocolException in executing post<br>
+			-22 IOException in executing post<br>
+			-23 HttpResponse => null<br>
+			-24 EntityUtils.toString => ParseException<br>
+			-25 EntityUtils.toString => IOException<br>
+			-26 StrinEntity => UnsupportedEncodingException<br>
+	 ******************************/
+	public static int 
+	post_ImageData_to_Remote_Multiple
+	(Activity actv, List<TI> list_TIs) {
+		////////////////////////////////
+		
+		// setup
+		
+		////////////////////////////////
+		String url = CONS.Remote.Http.url_Post_ImageData;
+		
+		////////////////////////////////
+				
+		// HttpPost
+		
+		////////////////////////////////
+		HttpPost httpPost = new HttpPost(url);
+		
+		//REF content-type http://d.hatena.ne.jp/hogem/20091023/1256304878
+		httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
+		
+		HttpEntity param = null;
+		
+		////////////////////////////////
+
+		// post
+
+		////////////////////////////////
+		boolean res;
+
+		int counter = 0;
+		int list_size = list_TIs.size();
+		
+		for (TI ti : list_TIs) {
+			
+			////////////////////////////////
+
+			// param
+
+			////////////////////////////////
+			param = _post_ImageData_to_Remote__GetParam(actv, ti);
+
+			/******************************
+				validate
+			 ******************************/
+			if (param == null) {
+				
+				// Log
+				String msg_Log = "Building param => UnsupportedEncodingException";
+				
+				Log.e("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+				continue;
+				
+			}
+			
+			////////////////////////////////
+
+			// execute
+
+			////////////////////////////////
+			res = _post_ImageData_to_Remote__PostData(
+									actv, ti, httpPost, param);
+
+			if (res == true) {
+				
+				counter += 1;
+				
+			}
+			
+		}//for (TI ti : list_TIs)
+		
+		
+		return counter;
+		
+//		/******************************
+//			validate
+//		 ******************************/
+//		if (param == null) {
+//			
+//			// Log
+////			String msg_Log = "Building param => JSONException";
+//			String msg_Log = "Building param => UnsupportedEncodingException";
+//			//		msg_Log = "Building param => UnsupportedEncodingException";
+//			//		String msg_Log = "Building param => UnsupportedEncodingException";
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			return -20;
+//			
+//		}
+		
+//		////////////////////////////////
+//		
+//		// HttpPost
+//		
+//		////////////////////////////////
+//		HttpPost httpPost = new HttpPost(url);
+//		
+//		//REF content-type http://d.hatena.ne.jp/hogem/20091023/1256304878
+//		httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
+//		httpPost.setHeader("Content-type", "text/html");
+		
+//		httpPost.setHeader("Accept", "application/json");
+//	    httpPost.setHeader("Content-type", "application/json");
+		
+//		try {
+//			
+//			httpPost.setEntity(new StringEntity(param, HTTP.UTF_8));
+////			httpPost.setEntity(new StringEntity(tmp, HTTP.UTF_8));
+//			
+//		} catch (UnsupportedEncodingException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//			
+//			return -26;
+//			
+//		}
+		
+//		httpPost.setEntity(param);
+//		
+//		// Log
+////		msg_Log;
+//		String msg_Log;
+//		
+//		try {
+//			
+//			msg_Log = "url => " + httpPost.getURI().toURL().toString();
+//			
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		} catch (MalformedURLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		
+//		DefaultHttpClient dhc = new DefaultHttpClient();
+//		
+//		HttpResponse hr = null;
+//		
+//		try {
+//			
+////			hr = dhc.execute(postRequest);
+////			hr = dhc.execute(httpGet);
+//			hr = dhc.execute(httpPost);
+//			
+//		} catch (ClientProtocolException e) {
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", e.toString());
+//			
+//			return -21;
+//			
+//		} catch (IOException e) {
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", e.toString());
+//			
+//			return -22;
+//			
+//		}
+//		
+//		////////////////////////////////
+//		
+//		// Validate: Return
+//		
+//		////////////////////////////////
+//		if (hr == null) {
+//			
+////			// debug
+////			Toast.makeText(actv, "hr == null", 2000).show();
+//			
+//			// Log
+//			Log.d("TaskHTTP.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "hr == null");
+//			
+////			return CONS.Task_GetTexts.EXECUTE_POST_NULL;
+//			return -23;
+//			
+//		} else {//if (hr == null)
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", "Http response => Obtained");
+//			
+//			
+////			return null;
+//			
+//		}//if (hr == null)
+//		
+//		////////////////////////////////
+//		
+//		// Status code
+//		
+//		////////////////////////////////
+//		int status = hr.getStatusLine().getStatusCode();
+//		
+////		if (status == CONS.HTTP_Response.CREATED
+////				|| status == CONS.HTTP_Response.OK) {
+//		if (status == CONS.Remote.status_Created
+//				|| status == CONS.Remote.status_OK) {
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", "status=" + status);
+//			
+////			return CONS.HTTP_Response.CREATED;
+//			
+//		} else {//if (status == CONS.HTTP_Response.CREATED)
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", "status=" + status);
+//			
+//			return CONS.Remote.status_NOT_CREATED;
+//			
+//		}//if (status == CONS.HTTP_Response.CREATED)
+		
+		
+//		return status;
+		
+	}//post_ImageData_to_Remote_Multiple
+	
+	/******************************
+		@return
+		false => 1. ClientProtocolException<br>
+				2. IOException<br>
+				3. Response => neither 201 nor 200<br>
+	 ******************************/
+	private static boolean 
+	_post_ImageData_to_Remote__PostData
+	(Activity actv,
+			TI ti, HttpPost httpPost, HttpEntity param) {
+		// TODO Auto-generated method stub
+		
+		httpPost.setEntity(param);
+		
+		// Log
+//		msg_Log;
+		String msg_Log;
+		
+		try {
+			
+			msg_Log = "url => " + httpPost.getURI().toURL().toString();
+			
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		////////////////////////////////
+
+		// Http client
+
+		////////////////////////////////
+		DefaultHttpClient dhc = new DefaultHttpClient();
+		
+		HttpResponse hr = null;
+		
+		try {
+			
+			hr = dhc.execute(httpPost);
+			
+		} catch (ClientProtocolException e) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", e.toString());
+			
+			String log_msg = "Http client => ClientProtocolException";
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+			return false;
+			
+		} catch (IOException e) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", e.toString());
+			
+			String log_msg = "Http client => IOException";
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+
+			return false;
+			
+		}//dhc.execute
+		
+		////////////////////////////////
+		
+		// Validate: Return
+		
+		////////////////////////////////
+		if (hr == null) {
+			
+			// Log
+			Log.d("TaskHTTP.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "HttpResponse => null");
+
+			String log_msg = "HttpResponse => null";
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+			return false;
+			
+		} else {//if (hr == null)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Http response => Obtained");
+			
+			
+//			return null;
+			
+		}//if (hr == null)
+		
+		////////////////////////////////
+		
+		// Status code
+		
+		////////////////////////////////
+		int status = hr.getStatusLine().getStatusCode();
+		
+		if (status == CONS.Remote.status_Created
+				|| status == CONS.Remote.status_OK) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "status=" + status);
+			
+			return true;
+			
+		} else {//if (status == CONS.HTTP_Response.CREATED)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "status=" + status);
+
+			String log_msg = "status => " + status;
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+			return false;
+//			return CONS.Remote.status_NOT_CREATED;
+			
+		}//if (status == CONS.HTTP_Response.CREATED)
+		
+	}//_post_ImageData_to_Remote__PostData
 
 	/******************************
 		@return null => UnsupportedEncodingException
