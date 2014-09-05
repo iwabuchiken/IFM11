@@ -5227,6 +5227,314 @@ public class Methods {
 		
 	}//ftp_MulipleImages_to_Remote
 	
+	/*********************************
+	 * REF=> http://www.searchman.info/tips/2640.html
+	 * 
+	 * #sqlite db file: "database disk image is malformed"
+	 * REF=> http://stackoverflow.com/questions/9058169/sqlite-database-disk-image-is-malformed-on-windows-but-fine-on-android
+	 * @param delete 
+	 * @param ti 
+	 * 
+	 * @return
+	 * -1	=> SocketException, IOException, IOException in disconnecting<br>
+	 * 			, Login failed, IOException in logging-in<br>
+	 * -2	=> list_UploadImages => null<br>
+	 * -3	=> IOException in disconnecting the client<br>
+	 * >0	=> Number of items uploaded<br>
+	 * 
+	 * Also, the following could happen...<br>
+	 * 		storeFile returned false, 
+	 * 		can't find the source file, 
+	 * 		can't find the source file,
+	 * 		can't disconnect FTP client,
+	 * 		storeFile ---> IOException,
+	 * 		storeFile ---> IOException,
+	 * 		can't disconnect FTP client, 
+	 * 		set file type ---> failed,
+	 * 		IOException in logging-in,
+	 * 		can't disconnect FTP client
+	 *********************************/
+	public static int 
+	ftp_MulipleImages_to_Remote_V2
+	(Activity actv, boolean delete) {
+		/*********************************
+		 * get: client
+		 *********************************/
+		FTPClient fp = null;
+//		FTPClient fp = _ftp_MulipleImages_to_Remote__Setup_Client(actv);
+		
+//		if (fp == null) {
+//			
+//			return -1;
+//			
+//		}
+		
+		////////////////////////////////
+		
+		// prep: TI list for upload
+		
+		////////////////////////////////
+		List<TI> list_UploadImages = Methods._move_Files__Get_ToMoveList();
+		
+		//validate
+		if (list_UploadImages == null) {
+			
+			// Log
+			String msg_Log = "list_UploadImages => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			Methods.write_Log(actv, msg_Log, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
+			return -2;
+			
+		}
+		
+		/*********************************
+		 * FTP files
+		 *********************************/
+		
+		int counter = 0;
+		
+		List<TI> list_TIs_Uploaded = new ArrayList<TI>();
+		
+		for (TI ti : list_UploadImages) {
+			////////////////////////////////
+
+			// FTP client
+
+			////////////////////////////////
+			if(fp == null) {
+				
+				fp = _ftp_MulipleImages_to_Remote__Setup_Client(actv);
+				
+			}
+
+			if (fp == null) {
+				
+				// Log
+				String msg_Log = String.format(
+							"FTPClient => null. Skipping the process for: %s, %s",
+							ti.getFile_name(), ti.getTable_name());
+				
+				Log.e("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				Methods.write_Log(actv, msg_Log, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+				continue;
+				
+			}
+
+			////////////////////////////////
+
+			// upload
+
+			////////////////////////////////
+			boolean res = _ftp_MulipleImages_to_Remote__Upload_Image(
+					actv, fp, ti);
+			
+			if (res == true) {
+				
+//				counter += 1;
+//				
+//				list_TIs_Uploaded.add(ti);
+				
+				/*********************************
+				 * Disconnect
+				 *********************************/
+				try {
+					
+					// Log
+					String msg_Log = "disconnecting...";
+					Log.d("Methods.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", msg_Log);
+					
+					fp.disconnect();
+					
+					// Log
+					Log.d("Methods.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", "fp => Disconnected");
+					
+					String log_msg = String.format(Locale.JAPAN,"FTP done => %d items", counter);
+					
+					Methods.write_Log(actv, log_msg, Thread.currentThread()
+							.getStackTrace()[2].getFileName(), Thread.currentThread()
+							.getStackTrace()[2].getLineNumber());
+					
+//					return counter;
+//					return reply_code;
+					
+				} catch (IOException e) {
+					
+					// Log
+					Log.e("Methods.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", "Error: " + e.toString());
+					
+//					return -3;
+					
+				}//Disconnect
+				
+				////////////////////////////////
+				
+				// Upload: HTTP
+				
+				////////////////////////////////
+				String log_msg = String.format(
+						"Uploading image data... => %d items",
+						list_TIs_Uploaded.size());
+				
+				Methods.write_Log(actv, log_msg,
+						Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+				int res_i = Methods.post_ImageData_to_Remote(actv, ti);
+//				res = Methods.post_ImageData_to_Remote_Multiple(
+//						actv, list_TIs_Uploaded, delete);
+
+				////////////////////////////////
+
+				// counter
+
+				////////////////////////////////
+				if (res_i >= 200 && res_i <= 220) {
+					
+					log_msg = "Posting image data done";
+					
+					Methods.write_Log(actv, log_msg, Thread.currentThread()
+							.getStackTrace()[2].getFileName(), Thread
+							.currentThread().getStackTrace()[2].getLineNumber());
+					
+					if (delete == false) {
+						
+						counter += 1;
+						
+					} else {
+
+						////////////////////////////////
+		
+						// delete TI from: DB
+		
+						////////////////////////////////
+						res_i = DBUtils.delete_TI(actv, ti, true);
+						
+						if (res_i < 0) {
+							
+							// Log
+							String msg_Log = String.format(Locale.JAPAN,
+										"image => not removed from DB: %s (%s)",
+										ti.getFile_name(), ti.getTable_name()
+									);
+							Log.d("Methods.java"
+									+ "["
+									+ Thread.currentThread().getStackTrace()[2]
+											.getLineNumber() + "]", msg_Log);
+							
+						} else {
+							
+							counter += 1;
+							
+						}
+
+						////////////////////////////////
+						
+						// delete TI from: listview
+						
+						////////////////////////////////
+						if (CONS.TNActv.list_TNActv_Main != null) {
+							
+							CONS.TNActv.list_TNActv_Main.remove(ti);
+							
+//						if (CONS.TNActv.adp_TNActv_Main_Move != null) {
+//							
+//							CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
+//							
+//						}
+							
+						}//if (CONS.TNActv.list_TNActv_Main != null)
+						
+					}//if (delete == false)
+					
+//					counter += 1;
+					
+				}
+				
+			}//if (res == true)
+			
+		}//for (TI ti : list_UploadImages)
+		
+		/*********************************
+		 * Disconnect
+		 *********************************/
+		if (fp != null && fp.isConnected()) {
+
+			try {
+				
+				// Log
+				String msg_Log = "disconnecting...";
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+				fp.disconnect();
+				
+				// Log
+				Log.d("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "fp => Disconnected");
+				
+				String log_msg = String.format(Locale.JAPAN,"FTP done => %d items", counter);
+				
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread.currentThread()
+						.getStackTrace()[2].getLineNumber());
+				
+	//			return counter;
+	//			return reply_code;
+				
+			} catch (IOException e) {
+				
+				// Log
+				Log.e("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "Error: " + e.toString());
+				
+//				return -3;
+				
+			}
+
+		}
+//		////////////////////////////////
+//		
+//		// Upload: HTTP
+//		
+//		////////////////////////////////
+//		String log_msg = String.format(
+//				"Uploading image data... => %d items",
+//				list_TIs_Uploaded.size());
+//		
+//		Methods.write_Log(actv, log_msg,
+//				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+//				.currentThread().getStackTrace()[2].getLineNumber());
+//		
+//		int res = Methods.post_ImageData_to_Remote_Multiple(
+//				actv, list_TIs_Uploaded, delete);
+		
+		return counter;
+//		return res;
+		
+	}//ftp_MulipleImages_to_Remote
+	
 	
 	/******************************
 		@return
@@ -6199,54 +6507,61 @@ public class Methods {
 
 			if (res == true) {
 				
-				String log_msg = String.format(
-							"Posting image data done. Deleting from DB... (%s, %s)",
-							ti.getFile_name(), ti.getTable_name()
-							);
+				String log_msg = "Posting image data done";
 				
 				Methods.write_Log(actv, log_msg, Thread.currentThread()
 						.getStackTrace()[2].getFileName(), Thread
 						.currentThread().getStackTrace()[2].getLineNumber());
 				
-				counter += 1;
-				
-				////////////////////////////////
-
-				// delete TI from: DB
-
-				////////////////////////////////
-				int res_i = DBUtils.delete_TI(actv, ti, true);
-				
-				if (res_i < 0) {
+				if (delete == false) {
 					
-					// Log
-					String msg_Log = String.format(Locale.JAPAN,
-								"image => not removed from DB: %s (%s)",
-								ti.getFile_name(), ti.getTable_name()
-							);
-					Log.d("Methods.java"
-							+ "["
-							+ Thread.currentThread().getStackTrace()[2]
-									.getLineNumber() + "]", msg_Log);
+					counter += 1;
 					
-				}
-				
-				////////////////////////////////
+				} else {
 
-				// delete TI from: listview
-
-				////////////////////////////////
-				if (CONS.TNActv.list_TNActv_Main != null) {
+					////////////////////////////////
+	
+					// delete TI from: DB
+	
+					////////////////////////////////
+					int res_i = DBUtils.delete_TI(actv, ti, true);
 					
-					CONS.TNActv.list_TNActv_Main.remove(ti);
+					if (res_i < 0) {
+						
+						// Log
+						String msg_Log = String.format(Locale.JAPAN,
+									"image => not removed from DB: %s (%s)",
+									ti.getFile_name(), ti.getTable_name()
+								);
+						Log.d("Methods.java"
+								+ "["
+								+ Thread.currentThread().getStackTrace()[2]
+										.getLineNumber() + "]", msg_Log);
+						
+					} else {
+						
+						counter += 1;
+						
+					}
 
+					////////////////////////////////
+					
+					// delete TI from: listview
+					
+					////////////////////////////////
+					if (CONS.TNActv.list_TNActv_Main != null) {
+						
+						CONS.TNActv.list_TNActv_Main.remove(ti);
+						
 //					if (CONS.TNActv.adp_TNActv_Main_Move != null) {
 //						
 //						CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
 //						
 //					}
+						
+					}//if (CONS.TNActv.list_TNActv_Main != null)
 					
-				}//if (CONS.TNActv.list_TNActv_Main != null)
+				}//if (delete == false)
 				
 			} else {//if (res == true)
 				

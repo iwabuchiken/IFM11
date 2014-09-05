@@ -206,7 +206,8 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
-			res = Methods.ftp_MulipleImages_to_Remote(actv, delete);
+			res = Methods.ftp_MulipleImages_to_Remote_V2(actv, delete);
+//			res = Methods.ftp_MulipleImages_to_Remote(actv, delete);
 			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 //		} else if (ftp_Type[0].equals(CONS.Remote.FtpType.DB_FILE.toString())) {
