@@ -26,8 +26,8 @@ public class DB_OCL implements OnClickListener {
 		----------------------------*/
 	//
 	Activity actv;
-	Dialog dlg1;
-	Dialog dlg2;		//=> Used in dlg_input_empty_btn_XXX
+	Dialog d1;
+	Dialog d2;		//=> Used in dlg_input_empty_btn_XXX
 	Dialog dlg3;
 
 	//
@@ -43,7 +43,7 @@ public class DB_OCL implements OnClickListener {
 	public DB_OCL(Activity actv, Dialog dlg1) {
 		//
 		this.actv = actv;
-		this.dlg1 = dlg1;
+		this.d1 = dlg1;
 		
 		//
 //		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
@@ -54,8 +54,8 @@ public class DB_OCL implements OnClickListener {
 			Dialog dlg2) {
 		//
 		this.actv = actv;
-		this.dlg1 = dlg1;
-		this.dlg2 = dlg2;
+		this.d1 = dlg1;
+		this.d2 = dlg2;
 		
 		//
 //		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
@@ -67,8 +67,8 @@ public class DB_OCL implements OnClickListener {
 			Dialog dlg2, Dialog dlg3) {
 		//
 		this.actv = actv;
-		this.dlg1 = dlg1;
-		this.dlg2 = dlg2;
+		this.d1 = dlg1;
+		this.d2 = dlg2;
 		this.dlg3 = dlg3;
 		
 		//
@@ -80,7 +80,7 @@ public class DB_OCL implements OnClickListener {
 	public DB_OCL(Activity actv, Dialog dlg1, long file_id, String tableName) {
 		// 
 		this.actv = actv;
-		this.dlg1 = dlg1;
+		this.d1 = dlg1;
 		
 		this.tableName = tableName;
 		
@@ -97,8 +97,8 @@ public class DB_OCL implements OnClickListener {
 		// TODO Auto-generated constructor stub
 		
 		this.actv = actv;
-		this.dlg1 = dlg1;
-		this.dlg2 = dlg2;
+		this.d1 = dlg1;
+		this.d2 = dlg2;
 
 		this.item_Name	= item_Name;
 		
@@ -113,7 +113,7 @@ public class DB_OCL implements OnClickListener {
 		// TODO Auto-generated constructor stub
 		
 		this.actv	= actv;
-		this.dlg1	= dlg1;
+		this.d1	= dlg1;
 		
 		this.db_Id	= db_id;
 		
@@ -127,9 +127,9 @@ public class DB_OCL implements OnClickListener {
 		// TODO Auto-generated constructor stub
 		
 		this.actv	= actv;
-		this.dlg1	= dlg1;
+		this.d1	= dlg1;
 		
-		this.dlg2	= dlg2;
+		this.d2	= dlg2;
 		this.ti		= ti;
 		
 		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
@@ -144,8 +144,8 @@ public class DB_OCL implements OnClickListener {
 		
 		this.actv	= actv;
 		
-		this.dlg1	= dlg1;
-		this.dlg2	= dlg2;
+		this.d1	= dlg1;
+		this.d2	= dlg2;
 		this.dlg3	= dlg3;
 		
 		this.wp		= wp;
@@ -161,8 +161,8 @@ public class DB_OCL implements OnClickListener {
 		// TODO Auto-generated constructor stub
 		this.actv	= actv;
 		
-		this.dlg1	= dlg1;
-		this.dlg2	= dlg2;
+		this.d1	= dlg1;
+		this.d2	= dlg2;
 		this.dlg3	= d3;
 
 		this.ti		= ti;
@@ -187,13 +187,13 @@ public class DB_OCL implements OnClickListener {
 		
 		case GENERIC_DISMISS://------------------------------------------------
 			
-			dlg1.dismiss();
+			d1.dismiss();
 			
 			break;
 
 		case GENERIC_DISMISS_SECOND_DIALOG: // ----------------------------------------------------
 			
-			dlg2.dismiss();
+			d2.dismiss();
 			
 			break;// case dlg_generic_dismiss_second_dialog
 
@@ -334,14 +334,37 @@ public class DB_OCL implements OnClickListener {
 		
 		////////////////////////////////
 
+		// delete or not
+
+		////////////////////////////////
+		CheckBox cb = (CheckBox) d2.findViewById(
+				R.id.dlg_tmpl_confirm_simple_cb_delete_file);
+
+		// Log
+		String msg_Log = "cb.isChecked() => " + cb.isChecked();
+		Log.d("DB_OCL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
 		// task
 
 		////////////////////////////////
 		Task_FTP task = new Task_FTP(
-				actv, dlg1, dlg2,
-				CONS.Remote.FtpType.IMAGE_MULTIPLE.toString());
+				actv, d1, d2,
+				CONS.Remote.FtpType.IMAGE_MULTIPLE.toString(),
+				cb.isChecked());
 
 		task.execute(CONS.Remote.FtpType.IMAGE_MULTIPLE.toString());
+		
+		////////////////////////////////
+
+		// dismiss
+
+		////////////////////////////////
+		d2.dismiss();
+		d1.dismiss();
 		
 	}//case_UPLOAD_REMOTE_MULTIPLE_IMAGES_OK
 
@@ -387,7 +410,7 @@ public class DB_OCL implements OnClickListener {
 
 		////////////////////////////////
 		Task_FTP task = new Task_FTP(
-							actv, dlg1, dlg2,
+							actv, d1, d2,
 							CONS.Remote.FtpType.DB_FILE.toString()
 							);
 //		cb.isChecked());
@@ -436,7 +459,7 @@ public class DB_OCL implements OnClickListener {
 							R.id.dlg_tmpl_confirm_simple_cb_delete_file);
 		
 		Task_FTP task = new Task_FTP(
-							actv, dlg1, dlg2, dlg3,
+							actv, d1, d2, dlg3,
 							CONS.Remote.FtpType.IMAGE.toString(),
 							ti, cb.isChecked());
 		
@@ -455,7 +478,7 @@ public class DB_OCL implements OnClickListener {
 		////////////////////////////////
 		if (item_Name.equals(CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE)) {
 			
-			Methods.exec_Sql(actv, dlg1, dlg2, item_Name);
+			Methods.exec_Sql(actv, d1, d2, item_Name);
 			
 		} else {
 
@@ -473,7 +496,7 @@ public class DB_OCL implements OnClickListener {
 	case_DLG_DELETE_PATTERN_CONF_OK() {
 		// TODO Auto-generated method stub
 		
-		Methods.del_Pattern(actv, dlg1, dlg2, dlg3, wp);
+		Methods.del_Pattern(actv, d1, d2, dlg3, wp);
 		
 	}
 
@@ -481,7 +504,7 @@ public class DB_OCL implements OnClickListener {
 	case_DLG_REGISTER_PATTERNS_REGISTER() {
 		// TODO Auto-generated method stub
 		
-		Methods_dlg.dlg_register_patterns_isInputEmpty(actv, dlg1, dlg2);
+		Methods_dlg.dlg_register_patterns_isInputEmpty(actv, d1, d2);
 		
 	}//case_DLG_REGISTER_PATTERNS_REGISTER
 
@@ -489,7 +512,7 @@ public class DB_OCL implements OnClickListener {
 	case_DLG_EDIT_TI_BT_OK() {
 		// TODO Auto-generated method stub
 		
-		Methods.edit_TI(actv, dlg1, dlg2, ti);
+		Methods.edit_TI(actv, d1, d2, ti);
 		
 	}//DLG_EDIT_TI_BT_OK
 
@@ -497,7 +520,7 @@ public class DB_OCL implements OnClickListener {
 	dlg_DLG_DELETE_TI_CONF_OK() {
 		// TODO Auto-generated method stub
 		
-		Methods.delete_TI(actv, dlg1, dlg2, ti);
+		Methods.delete_TI(actv, d1, d2, ti);
 		
 		
 	}//dlg_DLG_DELETE_TI_CONF_OK
@@ -506,7 +529,7 @@ public class DB_OCL implements OnClickListener {
 	dlg_DLG_SEARCH_OK() {
 		// TODO Auto-generated method stub
 		
-		Methods.searchItem(actv, dlg1);
+		Methods.searchItem(actv, d1);
 		
 	}
 
@@ -514,7 +537,7 @@ public class DB_OCL implements OnClickListener {
 	dlg_DLG_CONF_MOVE_FILES_FOLDER_OK() {
 		// TODO Auto-generated method stub
 
-		Methods.move_Files(actv, dlg1, dlg2, dlg3);
+		Methods.move_Files(actv, d1, d2, dlg3);
 		
 		
 	}//dlg_DLG_CONF_MOVE_FILES_FOLDER_OK
@@ -523,7 +546,7 @@ public class DB_OCL implements OnClickListener {
 	case_DLG_CONFIRM_CREATE_FOLDER_OK() {
 		// TODO Auto-generated method stub
 	
-		Methods.create_Dir(actv, dlg1, dlg2);
+		Methods.create_Dir(actv, d1, d2);
 		
 	}
 
@@ -531,7 +554,7 @@ public class DB_OCL implements OnClickListener {
 	case_DLG_CREATE_DIR_OK() {
 		// TODO Auto-generated method stub
 	
-		Methods_dlg.dlg_IsEmpty(actv, dlg1);
+		Methods_dlg.dlg_IsEmpty(actv, d1);
 		
 	}
 
@@ -539,7 +562,7 @@ public class DB_OCL implements OnClickListener {
 	case_DLG_ADD_MEMOS_BT_ADD() {
 		// TODO Auto-generated method stub
 		
-		Methods.add_Memo(actv, dlg1, db_Id);
+		Methods.add_Memo(actv, d1, db_Id);
 		
 	}//case_DLG_ADD_MEMOS_BT_ADD
 
@@ -547,7 +570,7 @@ public class DB_OCL implements OnClickListener {
 	case_DROP_TABLE_OK() {
 		// TODO Auto-generated method stub
 		
-		Methods.drop_Table(actv, dlg1, dlg2, item_Name);
+		Methods.drop_Table(actv, d1, d2, item_Name);
 		
 	}//case_DROP_TABLE_OK
 
@@ -561,7 +584,7 @@ public class DB_OCL implements OnClickListener {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		Methods.del_Folder(actv, dlg1, dlg2, this.item_Name);
+		Methods.del_Folder(actv, d1, d2, this.item_Name);
 		
 	}
 

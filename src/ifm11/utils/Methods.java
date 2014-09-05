@@ -298,7 +298,7 @@ public class Methods {
 	 ******************************/
 	public static String get_TimeLabel(long millSec) {
 		
-		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd_HHmmss");
+		 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.JAPAN);
 		 
 		return sdf1.format(new Date(millSec));
 		
@@ -306,7 +306,7 @@ public class Methods {
 
 	public static List<String> 
 	get_FileList(File dpath) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -924,7 +924,7 @@ public class Methods {
 	_refresh_MainDB__InsertData_RefreshDate
 	(Activity actv, 
 			int numOfItemsAdded, List<TI> list_TI) {
-		// TODO Auto-generated method stub
+		
 		////////////////////////////////
 
 		// prep: last refresh date
@@ -975,7 +975,7 @@ public class Methods {
 	private static int 
 	_refresh_MainDB__InsertData_TIs
 	(Activity actv, List<TI> list_TI) {
-		// TODO Auto-generated method stub
+		
 		
 		boolean res;
 		
@@ -1007,13 +1007,11 @@ public class Methods {
 	private static List<TI> 
 	_refresh_MainDB__Build_TIList
 	(Activity actv, Cursor c) {
-		// TODO Auto-generated method stub
+		
 		
 		List<TI> list_TI = new ArrayList<TI>();
 		
 		while(c.moveToNext()) {
-			
-			String time = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
 			
 			TI ti = new TI.Builder()
 						.setFileId(c.getLong(0))
@@ -1062,10 +1060,6 @@ public class Methods {
 		 * 5. Update table "refresh_log"
 			----------------------------*/
 		c.moveToPrevious();
-		
-		long lastItemDate = c.getLong(3);
-		
-//		updateRefreshLog(actv, wdb, dbu, lastItemDate, numOfItemsAdded);
 		
 		// Log
 		Log.d("Methods.java" + "["
@@ -1141,20 +1135,7 @@ public class Methods {
 	private static Cursor 
 	_refresh_MainDB__ExecQuery
 	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
-		/*----------------------------
-		 * 3. Execute query for image files
-		 * 		1. ContentResolver
-		 * 		2. Uri
-		 * 		3. proj
-		 * 		4. Last refreshed date
-		 * 		5. Execute query
-			----------------------------*/
-		/*----------------------------
-		 * 3.1. ContentResolver, Uri, proj
-			----------------------------*/
-		ContentResolver cr = actv.getContentResolver();
-		
-        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         
         // Log
 		String msg_Log = "uri.path => " + uri.getPath()
@@ -1223,7 +1204,7 @@ public class Methods {
 		}
 		
 		// Log
-		msg_Log = String.format(
+		msg_Log = String.format(Locale.JAPAN,
 						"last_Refreshed => %d (%s)", 
 						last_Refreshed, 
 						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
@@ -1241,7 +1222,7 @@ public class Methods {
 		////////////////////////////////
 		last_Refreshed = last_Refreshed / 1000;
 		
-		msg_Log = String.format(
+		msg_Log = String.format(Locale.JAPAN,
 						"last_Refreshed(converted) => %d (%s)", 
 						last_Refreshed, 
 						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
@@ -1330,7 +1311,7 @@ public class Methods {
 	private static String 
 	_refresh_MainDB__Get_LastRefreshed
 	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
-		// TODO Auto-generated method stub
+		
 		
 //		long lastRefreshedDate = 0;
 		
@@ -1394,7 +1375,7 @@ public class Methods {
 	private static boolean 
 	_refresh_MainDB__Setup_RefreshLog
 	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
-		// TODO Auto-generated method stub
+		
 		
 		boolean result = dbu.tableExists(wdb, CONS.DB.tname_RefreshLog);
 		
@@ -1448,7 +1429,7 @@ public class Methods {
 	drop_Table
 	(Activity actv, 
 			Dialog dlg1, Dialog dlg2, String tname) {
-		// TODO Auto-generated method stub
+		
 		
 		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
 		
@@ -1511,7 +1492,7 @@ public class Methods {
 //			long milliseconds = date.getTime();
 			
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 //			e.printStackTrace();
 			// Log
 			String msg_Log = "Exception: " + e.toString();
@@ -1679,7 +1660,7 @@ public class Methods {
 	public static String 
 	conv_CurrentPathMove_to_TableName
 	(String choice) {
-		// TODO Auto-generated method stub
+		
 		
 		String[] tokens = choice.split(File.separator);
 		
@@ -1721,7 +1702,7 @@ public class Methods {
 	public static void 
 	start_Activity_TNActv
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 		Intent i = new Intent();
 		
 		i.setClass(actv, TNActv.class);
@@ -1747,7 +1728,7 @@ public class Methods {
 	public static void 
 	start_Activity_PrefActv
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 		Intent i = new Intent();
 		
 		i.setClass(actv, PrefActv.class);
@@ -1762,7 +1743,7 @@ public class Methods {
 	public static boolean 
 	file_Exists
 	(Activity actv, String fpath) {
-		// TODO Auto-generated method stub
+		
 		
 		File f = new File(fpath);
 		
@@ -1777,7 +1758,7 @@ public class Methods {
 	public static boolean 
 	import_DB
 	(Activity actv, Dialog dlg1) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -1865,7 +1846,7 @@ public class Methods {
 					File.separator);
 		
 		// Log
-		msg_Log = String.format(
+		msg_Log = String.format(Locale.JAPAN,
 							"src = %s // dst = %s", 
 							src, dst_New);
 		
@@ -1954,7 +1935,7 @@ public class Methods {
 	public static void 
 	import_Patterns
 	(Activity actv, Dialog dlg1) {
-		// TODO Auto-generated method stub
+		
 	
 		////////////////////////////////
 
@@ -2035,7 +2016,7 @@ public class Methods {
 	private static int 
 	_import_Patterns__SavePatterns
 	(Activity actv, List<String> patterns_List) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -2056,7 +2037,7 @@ public class Methods {
 	private static List<String> 
 	_import_Patterns__Get_PatternsList
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 		////////////////////////////////
 
 		// db
@@ -2196,7 +2177,7 @@ public class Methods {
 	public static void 
 	add_Memo
 	(Activity actv, Dialog dlg1, long db_Id) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -2249,7 +2230,7 @@ public class Methods {
 	add_Memo_to_GridView
 	(Activity actv, Dialog dlg1,
 			String word) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -2290,7 +2271,7 @@ public class Methods {
 	public static void 
 	create_Dir
 	(Activity actv, Dialog dlg1, Dialog dlg2) {
-		// TODO Auto-generated method stub
+		
 		
 		/******************************
 			1. Create dir	=> Dir exists?
@@ -2455,7 +2436,7 @@ public class Methods {
 								.getLineNumber() + "]", msg_Log);
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				dlg2.dismiss();
 				
 				String message = "Can't create list.txt";
@@ -2529,7 +2510,7 @@ public class Methods {
 	del_Folder
 	(Activity actv, Dialog dlg1, Dialog dlg2,
 			String folderName) {
-		// TODO Auto-generated method stub
+		
 		
 		String currentPath = Methods.get_Pref_String(
 									actv, 
@@ -2674,7 +2655,7 @@ public class Methods {
 
 	public static boolean drop_Table
 	(Activity actv, String tname) {
-		// TODO Auto-generated method stub
+		
 
 		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
 		
@@ -2685,7 +2666,7 @@ public class Methods {
 	public static void 
 	move_Mode
 	(Activity actv, MenuItem item) {
-		// TODO Auto-generated method stub
+		
 
 		// Log
 		String msg_Log = "CONS.TNActv.moveMode => " + CONS.TNActv.moveMode;
@@ -2719,7 +2700,7 @@ public class Methods {
 	private static void 
 	_moveMode_False
 	(Activity actv, MenuItem item) {
-		// TODO Auto-generated method stub
+		
 		////////////////////////////////
 		
 		// get: environs
@@ -2841,7 +2822,7 @@ public class Methods {
 	private static List<TI> 
 	_moveMode_False__Search
 	(Activity actv, String tableName) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -2872,7 +2853,7 @@ public class Methods {
 	private static void 
 	_moveMode_True
 	(Activity actv, MenuItem item) {
-		// TODO Auto-generated method stub
+		
 
 		////////////////////////////////
 		
@@ -3220,7 +3201,7 @@ public class Methods {
 	}//public static void move_Files
 
 	public static CharSequence conv_CurrentPath_to_DisplayPath(String path) {
-		// TODO Auto-generated method stub
+		
 		
 		String head = CONS.Paths.dpath_Storage_Sdcard;
 		
@@ -3233,7 +3214,7 @@ public class Methods {
 	public static void 
 	go_Up_Dir
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 		
@@ -3294,8 +3275,7 @@ public class Methods {
 		
 		// pref
 		
-		////////////////////////////////
-		boolean res = Methods.set_Pref_String(
+		Methods.set_Pref_String(
 				actv, 
 				CONS.Pref.pname_MainActv, 
 				CONS.Pref.pkey_CurrentPath, 
@@ -3353,7 +3333,7 @@ public class Methods {
 	
 	private static List<TI>
 	_move_Files__Get_ToMoveList() {
-		// TODO Auto-generated method stub
+		
 		
 		List<TI> toMoveFiles = new ArrayList<TI>();
 		
@@ -3377,7 +3357,7 @@ public class Methods {
 	public static void 
 	go_Down_Dir
 	(Activity actv, String dirName) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 		
@@ -3394,18 +3374,7 @@ public class Methods {
 		
 		String newPath = dpath_New.getAbsolutePath();
 		
-		// Log
-		String msg_Log = "new path => " + dpath_New.getAbsolutePath();
-
-		String tname_New = 
-				Methods.conv_CurrentPath_to_TableName(dpath_New.getAbsolutePath());
-		
-		msg_Log = "tname_New =>" +
-				" " + tname_New;
-
-		////////////////////////////////
-		
-		// list_RootDir
+		Methods.conv_CurrentPath_to_TableName(dpath_New.getAbsolutePath());
 		
 		////////////////////////////////
 		CONS.MainActv.list_RootDir.clear();
@@ -3431,8 +3400,7 @@ public class Methods {
 	
 		// pref
 	
-		////////////////////////////////
-		boolean res = Methods.set_Pref_String(
+		Methods.set_Pref_String(
 				actv, 
 				CONS.Pref.pname_MainActv, 
 				CONS.Pref.pkey_CurrentPath, 
@@ -3460,13 +3428,6 @@ public class Methods {
 		
 		bt_Up.setImageDrawable(actv.getResources().getDrawable(R.drawable.main_up));
 		
-		// Log
-		msg_Log = "button => enabled";
-		
-		////////////////////////////////
-		
-		// Show path
-		
 		////////////////////////////////
 		TextView tv_Path = (TextView) actv.findViewById(R.id.main_tv_dir_path);
 		
@@ -3477,7 +3438,7 @@ public class Methods {
 	public static void
 	go_Up_Dir_Move
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 	
 		////////////////////////////////
 
@@ -3586,7 +3547,7 @@ public class Methods {
 	public static String 
 	conv_CurrentPathMove_to_CurrentPathMove_New
 	(String curPath_Move) {
-		// TODO Auto-generated method stub
+		
 		
 		String[] tokens = curPath_Move.split(File.separator);
 		
@@ -3622,7 +3583,7 @@ public class Methods {
 	public static void 
 	go_Down_Dir_Move
 	(Activity actv, String item) {
-		// TODO Auto-generated method stub
+		
 		////////////////////////////////
 
 		// update list
@@ -3742,7 +3703,7 @@ public class Methods {
 	public static void
 	add_NumOfItems_MainActv_List
 	(Activity actv, String currentPath) {
-		// TODO Auto-generated method stub
+		
 	
 		////////////////////////////////
 
@@ -3767,7 +3728,7 @@ public class Methods {
 			
 			if (name.equals(CONS.Admin.fname_List)) {
 				
-				tmp_List.add(String.format("%s (%d)", name, numOfItems));
+				tmp_List.add(String.format(Locale.JAPAN,"%s (%d)", name, numOfItems));
 //				name = String.format("%s (%d)", name, numOfItems);
 				
 				// Log
@@ -3950,7 +3911,7 @@ public class Methods {
 	public static void 
 	delete_TI
 	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {
-		// TODO Auto-generated method stub
+		
 		
 		CheckBox cb = 
 				(CheckBox) dlg2.findViewById(R.id.dlg_tmpl_confirm_simple_cb_delete_file);
@@ -4109,7 +4070,7 @@ public class Methods {
 	public static void
 	edit_TI
 	(Activity actv, Dialog dlg1, Dialog d2, TI ti) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -4145,7 +4106,7 @@ public class Methods {
 //		ti.setMemo(etMemos.getText().toString());
 
 		
-//		// TODO Auto-generated method stub
+//		
 //		DBUtils dbu = new DBUtils(actv, MainActv.dbName);
 		
 		int res = DBUtils.update_TI__All(actv, ti);
@@ -4276,7 +4237,7 @@ public class Methods {
 	(Activity actv, 
 		Dialog dlg1, Dialog dlg2, Dialog dlg3, 
 		WordPattern wp) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////////////////////////////////////
 
@@ -4349,7 +4310,7 @@ public class Methods {
 	(Activity actv, 
 		Dialog dlg1, Dialog dlg2,
 		String sql_Type) {
-		// TODO Auto-generated method stub
+		
 		////////////////////////////////
 
 		// dispatch
@@ -4384,7 +4345,7 @@ public class Methods {
 	_exec_Sql__AddCol_IFM11
 	(Activity actv, Dialog dlg1,
 			Dialog dlg2, String sql_Type) {
-		// TODO Auto-generated method stub
+		
 		
 //		// Log
 //		String msg_Log = "_exec_Sql__AddCol_IFM11";
@@ -4481,28 +4442,6 @@ public class Methods {
 		
 		String server_name = "ftp.benfranklin.chips.jp";
 		
-		String uname = "chips.jp-benfranklin";
-
-		String passwd = "9x9jh4";
-		
-//		String fpath = StringUtils.join(
-//				new String[]{
-//						MainActv.dirPath_db,
-//						MainActv.fileName_db
-//				}, File.separator);
-//		
-//		String fpath_audio = StringUtils.join(
-//				new String[]{
-//						MainActv.dirName_ExternalStorage,
-//						"Audios",
-//						"Fiddle_music",
-//						"Gaelic Folk Song.mp3"
-//				}, File.separator);
-
-//		String fpath_remote = "./" + MainActv.fileName_db;
-		
-		String fpath_remote = "./" + "Gaelic Folk Song.mp3.v2";
-		
 		/*********************************
 		 * Connect
 		 *********************************/
@@ -4598,7 +4537,7 @@ public class Methods {
 //			}
 //
 //		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
+//			
 //			e1.printStackTrace();
 //		}
 //		
@@ -4831,7 +4770,7 @@ public class Methods {
 			}
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			// Log
 			String msg_Log = "IOException";
 			Log.e("Methods.java" + "["
@@ -4847,7 +4786,7 @@ public class Methods {
 				return -5;
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 				
 				return -12;
@@ -4961,7 +4900,7 @@ public class Methods {
 				return -7;
 				
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 				
 				return -8;
@@ -4983,7 +4922,7 @@ public class Methods {
 				
 			} catch (IOException e1) {
 				
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 				
 				return -10;
@@ -5061,7 +5000,7 @@ public class Methods {
 //			}
 //
 //		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
+//			
 //			e1.printStackTrace();
 //		}
 //		
@@ -5147,6 +5086,7 @@ public class Methods {
 	 * 
 	 * #sqlite db file: "database disk image is malformed"
 	 * REF=> http://stackoverflow.com/questions/9058169/sqlite-database-disk-image-is-malformed-on-windows-but-fine-on-android
+	 * @param delete 
 	 * @param ti 
 	 * 
 	 * @return
@@ -5170,7 +5110,7 @@ public class Methods {
 	 *********************************/
 	public static int 
 	ftp_MulipleImages_to_Remote
-	(Activity actv) {
+	(Activity actv, boolean delete) {
 		/*********************************
 		 * get: client
 		 *********************************/
@@ -5209,13 +5149,10 @@ public class Methods {
 		/*********************************
 		 * FTP files
 		 *********************************/
-//		String fpath_Src = null;
-//		String fpath_remote = null;
-		int list_Size = list_UploadImages.size();
 		
 		int counter = 0;
 
-		List<TI> list_Ids_Uploaded = new ArrayList<TI>();
+		List<TI> list_TIs_Uploaded = new ArrayList<TI>();
 		
 		for (TI ti : list_UploadImages) {
 			
@@ -5226,7 +5163,7 @@ public class Methods {
 				
 				counter += 1;
 				
-				list_Ids_Uploaded.add(ti);
+				list_TIs_Uploaded.add(ti);
 				
 			}
 			
@@ -5250,7 +5187,7 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "fp => Disconnected");
 			
-			String log_msg = String.format("FTP done => %d items", counter);
+			String log_msg = String.format(Locale.JAPAN,"FTP done => %d items", counter);
 			
 			Methods.write_Log(actv, log_msg, Thread.currentThread()
 					.getStackTrace()[2].getFileName(), Thread.currentThread()
@@ -5275,8 +5212,16 @@ public class Methods {
 		// Upload: HTTP
 
 		////////////////////////////////
+		String log_msg = String.format(
+						"Uploading image data... => %d items",
+						list_TIs_Uploaded.size());
+		
+		Methods.write_Log(actv, log_msg,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+		
 		int res = Methods.post_ImageData_to_Remote_Multiple(
-								actv, list_Ids_Uploaded);
+								actv, list_TIs_Uploaded, delete);
 		
 		return res;
 		
@@ -5291,7 +5236,7 @@ public class Methods {
 	private static boolean 
 	_ftp_MulipleImages_to_Remote__Upload_Image
 	(Activity actv, FTPClient fp, TI ti) {
-		// TODO Auto-generated method stub
+		
 		boolean res;
 		String msg_Log;
 		
@@ -5388,7 +5333,7 @@ public class Methods {
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", "File => Stored");
 				
-				String log_msg = String.format(
+				String log_msg = String.format(Locale.JAPAN,
 							"File => Stored (%s, %s)",
 							ti.getFile_name(), ti.getTable_name());
 				
@@ -5437,7 +5382,7 @@ public class Methods {
 			try {
 				is.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 			
@@ -5458,7 +5403,7 @@ public class Methods {
 			try {
 				is.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 			
@@ -5473,7 +5418,7 @@ public class Methods {
 	private static FTPClient 
 	_ftp_MulipleImages_to_Remote__Setup_Client
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 	
 		FTPClient fp = new FTPClient();
 		
@@ -5569,7 +5514,7 @@ public class Methods {
 			}
 			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			// Log
 			String msg_Log = "IOException";
 			Log.e("Methods.java" + "["
@@ -5590,7 +5535,7 @@ public class Methods {
 				return null;
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 				
 				String log_msg = "Login => IOException; disconnect => IOException";
@@ -5651,7 +5596,7 @@ public class Methods {
 		int reply_code;
 		
 		// backup db name
-		String dbName_backup = String.format(
+		String dbName_backup = String.format(Locale.JAPAN,
 					"%s_%s%s", 
 					CONS.DB.fname_DB_Backup_Trunk,
 					Methods.get_TimeLabel(
@@ -5744,7 +5689,7 @@ public class Methods {
 			}
 			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			// Log
 			String msg_Log = "IOException";
 			Log.e("Methods.java" + "["
@@ -5760,7 +5705,7 @@ public class Methods {
 				return -5;
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 				
 				return -12;
@@ -5874,7 +5819,7 @@ public class Methods {
 				return -7;
 				
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 				
 				return -8;
@@ -5896,7 +5841,7 @@ public class Methods {
 				
 			} catch (IOException e1) {
 				
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 				
 				return -10;
@@ -6018,13 +5963,13 @@ public class Methods {
 //					+ "]", msg_Log);
 //			
 //		} catch (org.apache.http.ParseException e2) {
-//			// TODO Auto-generated catch block
+//			
 //			e2.printStackTrace();
 //			
 //			return -24;
 //			
 //		} catch (IOException e2) {
-//			// TODO Auto-generated catch block
+//			
 //			e2.printStackTrace();
 //			
 //			return -25;
@@ -6051,7 +5996,7 @@ public class Methods {
 ////			httpPost.setEntity(new StringEntity(tmp, HTTP.UTF_8));
 //			
 //		} catch (UnsupportedEncodingException e2) {
-//			// TODO Auto-generated catch block
+//			
 //			e2.printStackTrace();
 //			
 //			return -26;
@@ -6073,7 +6018,7 @@ public class Methods {
 					+ "]", msg_Log);
 			
 		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		
@@ -6179,7 +6124,8 @@ public class Methods {
 	}//post_ImageData_to_Remote
 
 	/******************************
-		@return 
+		@param delete 
+	 * @return 
 			-20 UnsupportedEncodingException<br>
 			-21 ClientProtocolException in executing post<br>
 			-22 IOException in executing post<br>
@@ -6190,7 +6136,7 @@ public class Methods {
 	 ******************************/
 	public static int 
 	post_ImageData_to_Remote_Multiple
-	(Activity actv, List<TI> list_TIs) {
+	(Activity actv, List<TI> list_TIs, boolean delete) {
 		////////////////////////////////
 		
 		// setup
@@ -6218,8 +6164,6 @@ public class Methods {
 		boolean res;
 
 		int counter = 0;
-		int list_size = list_TIs.size();
-		
 		for (TI ti : list_TIs) {
 			
 			////////////////////////////////
@@ -6255,9 +6199,66 @@ public class Methods {
 
 			if (res == true) {
 				
+				String log_msg = String.format(
+							"Posting image data done. Deleting from DB... (%s, %s)",
+							ti.getFile_name(), ti.getTable_name()
+							);
+				
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
 				counter += 1;
 				
-			}
+				////////////////////////////////
+
+				// delete TI from: DB
+
+				////////////////////////////////
+				int res_i = DBUtils.delete_TI(actv, ti, true);
+				
+				if (res_i < 0) {
+					
+					// Log
+					String msg_Log = String.format(Locale.JAPAN,
+								"image => not removed from DB: %s (%s)",
+								ti.getFile_name(), ti.getTable_name()
+							);
+					Log.d("Methods.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+				}
+				
+				////////////////////////////////
+
+				// delete TI from: listview
+
+				////////////////////////////////
+				if (CONS.TNActv.list_TNActv_Main != null) {
+					
+					CONS.TNActv.list_TNActv_Main.remove(ti);
+
+//					if (CONS.TNActv.adp_TNActv_Main_Move != null) {
+//						
+//						CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
+//						
+//					}
+					
+				}//if (CONS.TNActv.list_TNActv_Main != null)
+				
+			} else {//if (res == true)
+				
+				String log_msg = String.format(
+							"Posting data => failed: %s, %s",
+							ti.getFile_name(), ti.getTable_name());
+				
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+				
+			}//if (res == true)
 			
 		}//for (TI ti : list_TIs)
 		
@@ -6302,7 +6303,7 @@ public class Methods {
 ////			httpPost.setEntity(new StringEntity(tmp, HTTP.UTF_8));
 //			
 //		} catch (UnsupportedEncodingException e2) {
-//			// TODO Auto-generated catch block
+//			
 //			e2.printStackTrace();
 //			
 //			return -26;
@@ -6324,7 +6325,7 @@ public class Methods {
 //					+ "]", msg_Log);
 //			
 //		} catch (MalformedURLException e1) {
-//			// TODO Auto-generated catch block
+//			
 //			e1.printStackTrace();
 //		}
 //		
@@ -6439,7 +6440,7 @@ public class Methods {
 	_post_ImageData_to_Remote__PostData
 	(Activity actv,
 			TI ti, HttpPost httpPost, HttpEntity param) {
-		// TODO Auto-generated method stub
+		
 		
 		httpPost.setEntity(param);
 		
@@ -6456,7 +6457,7 @@ public class Methods {
 					+ "]", msg_Log);
 			
 		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		
@@ -6564,7 +6565,10 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getMethodName()
 					+ "]", "status=" + status);
 
-			String log_msg = "status => " + status;
+			String log_msg = String.format(
+							"status => %d (%s, %s)", 
+							status, ti.getFile_name(), ti.getTable_name());
+			
 			Methods.write_Log(actv, log_msg, Thread.currentThread()
 					.getStackTrace()[2].getFileName(), Thread.currentThread()
 					.getStackTrace()[2].getLineNumber());
@@ -6719,7 +6723,7 @@ public class Methods {
 			
 		} catch (UnsupportedEncodingException e) {
 			
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			
 			return null;
@@ -6739,7 +6743,7 @@ public class Methods {
 //	private static HttpEntity 
 	_post_ImageData_to_Remote__GetParam_Json
 	(Activity actv, TI ti) {
-		// TODO Auto-generated method stub
+		
 //		   id			INTEGER PRIMARY KEY     AUTOINCREMENT	NOT NULL,
 //		   created_at			VARCHAR(30),
 //		   updated_at			VARCHAR(30),
@@ -6821,7 +6825,7 @@ public class Methods {
 	public static void 
 	start_Activity_LogActv
 	(Activity actv, Dialog d1) {
-		// TODO Auto-generated method stub
+		
 
 		Intent i = new Intent();
 		
@@ -6838,7 +6842,7 @@ public class Methods {
 	public static void 
 	start_Activity_ShowLogActv
 	(Activity actv, String itemName) {
-		// TODO Auto-generated method stub
+		
 		
 		// Log
 		String msg_Log = "itemName => " + itemName;
@@ -6863,7 +6867,7 @@ public class Methods {
 	write_Log
 	(Activity actv, String message,
 			String fileName, int lineNumber) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -6884,7 +6888,7 @@ public class Methods {
 				fpath_Log.createNewFile();
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 				
 				String msg = "Can't create a log file";
@@ -6914,7 +6918,7 @@ public class Methods {
 			FileOutputStream fos = new FileOutputStream(fpath_Log, true);
 //			FileOutputStream fos = new FileOutputStream(fpath_Log);
 			
-			String text = String.format(
+			String text = String.format(Locale.JAPAN,
 							"[%s] [%s : %d] %s\n", 
 							Methods.conv_MillSec_to_TimeLabel(
 											Methods.getMillSeconds_now()),
@@ -6940,10 +6944,10 @@ public class Methods {
 //			oChannel.wri
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -6952,7 +6956,7 @@ public class Methods {
 	public static List<String> 
 	get_LogLines
 	(Activity actv, String fpath_LogFile) {
-		// TODO Auto-generated method stub
+		
 		
 		int count_Lines = 0;
 		int count_Read = 0;
@@ -6985,8 +6989,15 @@ public class Methods {
 				
 			}
 			
+			////////////////////////////////
+
+			// close
+
+			////////////////////////////////
+			br.close();
+			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			
 			String msg = "FileNotFoundException";
@@ -6995,13 +7006,13 @@ public class Methods {
 			return null;
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			
 			count_Lines += 1;
 			
 		}
-		
+
 		// Log
 		String msg_Log = String.format(
 							Locale.JAPAN,
@@ -7020,7 +7031,7 @@ public class Methods {
 	public static List<LogItem> 
 	conv_LogLinesList_to_LogItemList
 	(Activity actv, List<String> list_RawLines) {
-		// TODO Auto-generated method stub
+		
 		String msg_Log;
 		
 		List<LogItem> list_LogItems = new ArrayList<LogItem>();
@@ -7075,7 +7086,7 @@ public class Methods {
 	private static LogItem 
 	_build_LogItem_from_Matcher
 	(Activity actv, Matcher m) {
-		// TODO Auto-generated method stub
+		
 
 		////////////////////////////////
 
@@ -7135,7 +7146,7 @@ public class Methods {
 	public static List<LogItem> 
 	get_LogItem_List
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 		
 		String msg_Log;
 		
@@ -7161,11 +7172,6 @@ public class Methods {
 
 		// read file
 
-		////////////////////////////////
-		FileInputStream fis = null;
-		
-//		CONS.ShowLogActv.list_RawLines = new ArrayList<String>();
-		
 		List<String> list = 
 						Methods.get_LogLines(actv, fpath_Log.getAbsolutePath());
 		
@@ -7242,7 +7248,7 @@ public class Methods {
 	public static int 
 	delete_File
 	(Activity actv, TI ti) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 
@@ -7303,7 +7309,7 @@ public class Methods {
 	public static int 
 	update_List_TNActv_Main
 	(Activity actv) {
-		// TODO Auto-generated method stub
+		
 		
 		////////////////////////////////
 

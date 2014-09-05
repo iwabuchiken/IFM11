@@ -130,6 +130,23 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 	}
 	
 
+	public Task_FTP
+	(Activity actv, 
+		Dialog d1, Dialog d2, 
+		String ftp_Type, boolean delete) {
+		// TODO Auto-generated constructor stub
+		
+		this.actv	= actv;
+		
+		this.d1	= d1;
+		this.d2	= d2;
+		
+		this.ftp_Type	= ftp_Type;
+
+		this.delete		= delete;
+		
+	}
+
 	/******************************
 		Used when: Uploading DB file
 	 ******************************/
@@ -189,7 +206,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
-			res = Methods.ftp_MulipleImages_to_Remote(actv);
+			res = Methods.ftp_MulipleImages_to_Remote(actv, delete);
 			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
 //		} else if (ftp_Type[0].equals(CONS.Remote.FtpType.DB_FILE.toString())) {
@@ -284,6 +301,17 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		// TODO Auto-generated method stub
 		////////////////////////////////
 
+		// notify adapter
+
+		////////////////////////////////
+		if (CONS.TNActv.adp_TNActv_Main_Move != null) {
+			
+			CONS.TNActv.adp_TNActv_Main_Move.notifyDataSetChanged();
+			
+		}
+		
+		////////////////////////////////
+
 		// setup
 
 		////////////////////////////////
@@ -297,6 +325,10 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		Log.d("Task_FTP.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+		
+		Methods.write_Log(actv, msg_Log,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
 		
 	}//_onPostExecute__Upload_Image_Multiple
 

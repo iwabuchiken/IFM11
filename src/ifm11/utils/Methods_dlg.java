@@ -3080,13 +3080,14 @@ public class Methods_dlg {
 		
 		Dialog d2 = Methods_dlg.dlg_Template_OkCancel_SecondDialog(
 				actv, d1,
-				R.layout.dlg_tmpl_confirm_simple, 
+				R.layout.dlg_tmpl_confirm_simple_cb, 
+//				R.layout.dlg_tmpl_confirm_simple, 
 				R.string.generic_tv_confirm, 
 				
-				R.id.dlg_tmpl_confirm_simple_btn_ok, 
+				R.id.dlg_tmpl_confirm_simple_cb_btn_ok, 
 				Tags.DialogTags.UPLOAD_REMOTE_MULTIPLE_IMAGES_OK,
 				
-				R.id.dlg_tmpl_confirm_simple_btn_cancel, 
+				R.id.dlg_tmpl_confirm_simple_cb_btn_cancel, 
 				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG
 				);
 		
@@ -3096,7 +3097,7 @@ public class Methods_dlg {
 
 		////////////////////////////////
 		TextView tv_Message = 
-				(TextView) d2.findViewById(R.id.dlg_tmpl_confirm_simple_tv_message);
+				(TextView) d2.findViewById(R.id.dlg_tmpl_confirm_simple_cb_tv_message);
 		
 		tv_Message.setText(actv.getString(R.string.dlg_upload_image_confirm));
 		
@@ -3106,7 +3107,7 @@ public class Methods_dlg {
 		
 		////////////////////////////////
 		TextView tv_ItemName = 
-				(TextView) d2.findViewById(R.id.dlg_tmpl_confirm_simple_tv_item_name);
+				(TextView) d2.findViewById(R.id.dlg_tmpl_confirm_simple_cb_tv_item_name);
 		
 		// "DB"
 		tv_ItemName.setText(String.valueOf(CONS.TNActv.checkedPositions.size()) + " items");
