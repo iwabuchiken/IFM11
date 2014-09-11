@@ -738,7 +738,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.IMAGE_MULTIPLE.toString())) {
 			
-			msg = "Uploading... ";
+			msg = "Uploading multiple images...";
 			colorID = R.color.green4;
 			
 		} else if (this.ftp_Type.equals(CONS.Remote.FtpType.DB_FILE.toString())) {
@@ -759,6 +759,19 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 						actv, msg, 
 						colorID,
 						CONS.Admin.dflt_MessageDialog_Length);
+		
+		////////////////////////////////
+
+		// dismiss
+
+		////////////////////////////////
+		if (d3 != null) d3.dismiss();
+		if (d2 != null) d2.dismiss();
+		if (d1 != null) d1.dismiss();
+		
+		Methods.write_Log(actv, msg,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
 		
 	}//onPreExecute
 	

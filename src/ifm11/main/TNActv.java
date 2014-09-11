@@ -178,7 +178,7 @@ public class TNActv extends ListActivity {
 		
 		////////////////////////////////
 
-		// vib
+		// init: vib
 
 		////////////////////////////////
 		if (CONS.Admin.vib == null) {
@@ -188,6 +188,18 @@ public class TNActv extends ListActivity {
 			
 		}
 		
+		////////////////////////////////
+		
+		// is running => true
+		
+		////////////////////////////////
+		//REF http://stackoverflow.com/questions/5446565/android-how-do-i-check-if-activity-is-running answered Mar 27 '11 at 1:48
+		if (CONS.Admin.isRunning_TNActv == false) {
+			
+			CONS.Admin.isRunning_TNActv = true;
+			
+		}
+
 		////////////////////////////////
 
 		// debug
@@ -741,6 +753,13 @@ public class TNActv extends ListActivity {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onStop()");
 
+		////////////////////////////////
+
+		// is running => false
+
+		////////////////////////////////
+		CONS.Admin.isRunning_TNActv = false;
+		
 	}
 
 	@Override

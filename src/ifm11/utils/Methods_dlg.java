@@ -68,6 +68,13 @@ public class Methods_dlg {
 //									R.id.dlg_db_admin_bt_cancel, 
 									Tags.DialogTags.GENERIC_DISMISS);
 		
+		//test
+		// Log
+		String msg_Log = "actv => " + actv.getClass().getName();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		/****************************
 		 * 2. Prep => List
 			****************************/
@@ -2772,7 +2779,36 @@ public class Methods_dlg {
 	public static void
 	dlg_ShowMessage_Duration
 	(Activity actv, String message, int duration) {
+
+		////////////////////////////////
+
+		// validate
+
+		////////////////////////////////
+		String actv_Name = actv.getClass().getName();
 		
+		if (actv_Name.equals(CONS.Admin.actvName_TNActv)) {
+			
+			if (CONS.Admin.isRunning_TNActv == false) {
+				
+				// Log
+				String msg_Log = "TNActv => not running";
+				Log.i("Methods_dlg.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				return;
+				
+			}
+			
+		}
+		
+		////////////////////////////////
+
+		// build dlg
+
+		////////////////////////////////
 		final Dialog dlg = Methods_dlg.dlg_Template_Cancel(
 				actv, R.layout.dlg_tmpl_toast_ok, 
 				R.string.generic_tv_confirm, 
