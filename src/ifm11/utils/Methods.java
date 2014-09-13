@@ -7224,6 +7224,57 @@ public class Methods {
 		
 		////////////////////////////////
 
+		// validate: size
+
+		////////////////////////////////
+		long len = fpath_Log.length();
+		
+		if (len > CONS.DB.logFile_MaxSize) {
+		
+			fpath_Log.renameTo(new File(
+						fpath_Log.getParent(), 
+						CONS.DB.fname_Log_Trunk
+						+ "_"
+						+ Methods.get_TimeLabel(Methods.getMillSeconds_now())
+//						+ Methods.get_TimeLabel(fpath_Log.lastModified())
+						+ CONS.DB.fname_Log_ext
+						));
+			
+			// new log.txt
+			try {
+				
+				fpath_Log = new File(fpath_Log.getParent(), CONS.DB.fname_Log);
+//				File f = new File(fpath_Log.getParent(), CONS.DB.fname_Log);
+				
+				fpath_Log.createNewFile();
+				
+				// Log
+				String msg_Log = "new log.txt => created";
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				
+				// Log
+				String msg_Log = "log.txt => can't create!";
+				Log.e("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				e.printStackTrace();
+				
+				return;
+				
+			}
+			
+		}//if (len > CONS.DB.logFile_MaxSize)
+		
+		////////////////////////////////
+
 		// write
 
 		////////////////////////////////

@@ -134,6 +134,8 @@ public class CONS {
 		
 		public final static String fname_Log_ext = ".txt";
 		
+		public static final long logFile_MaxSize = 40000;
+		
 //		public static String dname_TapeATalk_Sdcard = "tapeatalk_records";
 		
 		////////////////////////////////
@@ -474,6 +476,10 @@ public class CONS {
 		// Usage => e.g. width = screen_width * 100 / ratio_Dialog_to_Screen_W
 		public static final int ratio_Dialog_to_Screen_W = 70;
 
+		// is running
+		public static boolean isRunning_TNActv = true;
+		public static String actvName_TNActv = "ifm11.main.TNActv";
+		
 		////////////////////////////////
 
 		// MainActv.java
