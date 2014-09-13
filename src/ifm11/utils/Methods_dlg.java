@@ -213,6 +213,13 @@ public class Methods_dlg {
 							.setTextColor_ID(R.color.yellow_dark)
 							.build());
 		
+		list.add(new ListItem.Builder()
+						.setText(actv.getString(
+								R.string.dlg_db_admin_item_restore_db))
+								.setIconID(R.drawable.menu_icon_admin_32x32_green)
+								.setTextColor_ID(R.color.green4)
+								.build());
+		
 		return list;
 		
 //		////////////////////////////////
