@@ -42,6 +42,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -78,73 +79,81 @@ public class Methods_dlg {
 		/****************************
 		 * 2. Prep => List
 			****************************/
-		String[] choices = {
-
-				////////////////////////////////
-
-				// DB
-
-				////////////////////////////////
-				actv.getString(R.string.dlg_db_admin_item_backup_db),
-				actv.getString(R.string.dlg_db_admin_item_refresh_db),
-				
-				actv.getString(R.string.dlg_db_admin_item_upload_db),
-				
-				////////////////////////////////
-
-				// drop/create tables
-
-				////////////////////////////////
-				actv.getString(R.string.dlg_db_admin_item_drop_table_ifm11),
-				actv.getString(R.string.dlg_db_admin_item_create_table_ifm11),
-				
-				actv.getString(
-							R.string.dlg_db_admin_item_drop_table_refresh_log),
-				actv.getString(
-							R.string.dlg_db_admin_item_create_table_refresh_log),
-				
-				actv.getString(
-						R.string.dlg_db_admin_item_create_table_memo_patterns),
-				actv.getString(
-						R.string.dlg_db_admin_item_drop_table_memo_patterns),
-
-				////////////////////////////////
-
-				// others
-
-				////////////////////////////////
-				actv.getString(R.string.dlg_db_admin_item_restore_db),
-				
-				actv.getString(R.string.dlg_db_admin_item_import_db_file),
-				
-				actv.getString(R.string.dlg_db_admin_item_import_patterns),
-				
-				CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE
-//				actv.getString(R.string.dlg_db_admin_item_exec_sql)
-//					+ "/"
-//					+ actv.getString(R.string.dlg_db_admin_exec_sql_add_col)
-							,
-				
-					};
+		List<ListItem> list = _dlg_Db_Actv__Get_ItemList(actv);
+//		String[] choices = {
+//
+//				////////////////////////////////
+//
+//				// DB
+//
+//				////////////////////////////////
+//				actv.getString(R.string.dlg_db_admin_item_backup_db),
+//				actv.getString(R.string.dlg_db_admin_item_refresh_db),
+//				
+//				actv.getString(R.string.dlg_db_admin_item_upload_db),
+//				
+//				////////////////////////////////
+//
+//				// drop/create tables
+//
+//				////////////////////////////////
+//				actv.getString(R.string.dlg_db_admin_item_drop_table_ifm11),
+//				actv.getString(R.string.dlg_db_admin_item_create_table_ifm11),
+//				
+//				actv.getString(
+//							R.string.dlg_db_admin_item_drop_table_refresh_log),
+//				actv.getString(
+//							R.string.dlg_db_admin_item_create_table_refresh_log),
+//				
+//				actv.getString(
+//						R.string.dlg_db_admin_item_create_table_memo_patterns),
+//				actv.getString(
+//						R.string.dlg_db_admin_item_drop_table_memo_patterns),
+//
+//				////////////////////////////////
+//
+//				// others
+//
+//				////////////////////////////////
+//				actv.getString(R.string.dlg_db_admin_item_restore_db),
+//				
+//				actv.getString(R.string.dlg_db_admin_item_import_db_file),
+//				
+//				actv.getString(R.string.dlg_db_admin_item_import_patterns),
+//				
+//				CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE
+////				actv.getString(R.string.dlg_db_admin_item_exec_sql)
+////					+ "/"
+////					+ actv.getString(R.string.dlg_db_admin_exec_sql_add_col)
+//							,
+//				
+//					};
 		
-		List<String> list = new ArrayList<String>();
-		
-		for (String item : choices) {
-			
-			list.add(item);
-			
-		}
+//		List<String> list = new ArrayList<String>();
+//		
+//		for (String item : choices) {
+//			
+//			list.add(item);
+//			
+//		}
 		
 		/****************************
 		 * 3. Adapter
 			****************************/
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+		Adp_ListItems adapter = new Adp_ListItems(
 				actv,
 //				R.layout.dlg_db_admin,
 //				android.R.layout.simple_list_item_1,
 				R.layout.list_row_simple_1,
 				list
 				);
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+//				actv,
+////				R.layout.dlg_db_admin,
+////				android.R.layout.simple_list_item_1,
+//				R.layout.list_row_simple_1,
+//				list
+//				);
 
 		/****************************
 		 * 4. Set adapter
@@ -168,6 +177,94 @@ public class Methods_dlg {
 		
 		
 	}//public static void dlg_db_activity(Activity actv)
+
+	private static List<ListItem> 
+	_dlg_Db_Actv__Get_ItemList
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		List<ListItem> list = new ArrayList<ListItem>();
+		
+		list.add(new ListItem.Builder()
+					.setText(actv.getString(
+								R.string.dlg_db_admin_item_backup_db))
+					.setIconID(R.drawable.menu_icon_admin_32x32_blue)
+					.setTextColor_ID(R.color.blue1)
+					.build());
+
+		list.add(new ListItem.Builder()
+					.setText(actv.getString(
+							R.string.dlg_db_admin_item_refresh_db))
+							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
+							.setTextColor_ID(R.color.black)
+							.build());
+		
+		list.add(new ListItem.Builder()
+					.setText(actv.getString(
+							R.string.dlg_db_admin_item_upload_db))
+							.setIconID(R.drawable.menu_icon_admin_32x32_purple)
+							.setTextColor_ID(R.color.purple4)
+							.build());
+		
+		list.add(new ListItem.Builder()
+					.setText(actv.getString(
+							R.string.dlg_db_admin_item_operations))
+							.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
+							.setTextColor_ID(R.color.yellow_dark)
+							.build());
+		
+		return list;
+		
+//		////////////////////////////////
+//
+//		// DB
+//
+//		////////////////////////////////
+//		actv.getString(R.string.dlg_db_admin_item_backup_db),
+//		actv.getString(R.string.dlg_db_admin_item_refresh_db),
+//		
+//		actv.getString(R.string.dlg_db_admin_item_upload_db),
+//		
+//		////////////////////////////////
+//
+//		// drop/create tables
+//
+//		////////////////////////////////
+//		actv.getString(R.string.dlg_db_admin_item_drop_table_ifm11),
+//		actv.getString(R.string.dlg_db_admin_item_create_table_ifm11),
+//		
+//		actv.getString(
+//					R.string.dlg_db_admin_item_drop_table_refresh_log),
+//		actv.getString(
+//					R.string.dlg_db_admin_item_create_table_refresh_log),
+//		
+//		actv.getString(
+//				R.string.dlg_db_admin_item_create_table_memo_patterns),
+//		actv.getString(
+//				R.string.dlg_db_admin_item_drop_table_memo_patterns),
+//
+//		////////////////////////////////
+//
+//		// others
+//
+//		////////////////////////////////
+//		actv.getString(R.string.dlg_db_admin_item_restore_db),
+//		
+//		actv.getString(R.string.dlg_db_admin_item_import_db_file),
+//		
+//		actv.getString(R.string.dlg_db_admin_item_import_patterns),
+//		
+//		CONS.DB.Sqls._20140817_154650_addCol_IFM11_UpdatedAt_TITLE
+////		actv.getString(R.string.dlg_db_admin_item_exec_sql)
+////			+ "/"
+////			+ actv.getString(R.string.dlg_db_admin_exec_sql_add_col)
+//					,
+//		
+//			};
+
+//		return null;
+		
+	}//_dlg_Db_Actv__Get_ItemList
 
 	public static
 	Dialog dlg_Template_Cancel
@@ -3167,5 +3264,228 @@ public class Methods_dlg {
 		d2.show();		
 		
 	}//dlg_MoveFiles__Remote
+
+	public static void 
+	dlg_ACTV_MAIN_Operations
+	(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// prep: dialog
+
+		////////////////////////////////
+		Dialog d2 = Methods_dlg.dlg_Template_Cancel_SecondDialog(
+				actv, d1,
+				R.layout.dlg_tmpl_cancel_lv_with_btn, 
+				R.string.dlg_db_admin_item_operations, 
+				
+				R.id.dlg_tmpl_cancel_lv_with_btn_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+
+		////////////////////////////////
+
+		// list
+
+		////////////////////////////////
+		ListView lv = _dlg_Admin_Ops__Setup_List(actv, d2);
+		
+		////////////////////////////////
+		
+		// setup: layout
+
+		////////////////////////////////
+		_dlg_Admin_Ops__Setup_Layout(actv, d2);
+
+		////////////////////////////////
+
+		// listener
+
+		////////////////////////////////
+		_dlg_Admin_Ops__Setup_Listener(actv, d1, d2, lv);
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		d2.show();
+		
+	}//dlg_ACTV_MAIN_Operations
+
+	private static void 
+	_dlg_Admin_Ops__Setup_Listener
+	(Activity actv, Dialog d1, Dialog d2, ListView lv) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// Set listener to list
+
+		////////////////////////////////
+		lv.setTag(Tags.DialogItemTags.ACTV_MAIN_ADMIN_LV_OPS);
+		
+		lv.setOnItemClickListener(new DOI_CL(actv, d1, d2));
+
+		////////////////////////////////
+
+		// button: all dismiss
+
+		////////////////////////////////
+		ImageButton ib_AllClear = 
+				(ImageButton) d2.findViewById(R.id.dlg_tmpl_cancel_lv_with_btn_ib);
+//		ImageButton ib_AllClear = (ImageButton) findViewById(R.id.dlg_tmpl_cancel_lv_wi);
+		
+		ib_AllClear.setTag(Tags.DialogTags.GENERIC_SECOND_DIALOG_CLEAR_ALL);
+		
+		ib_AllClear.setOnTouchListener(new DB_OTL(actv, d1, d2));
+		
+		ib_AllClear.setOnClickListener(new DB_OCL(actv, d1, d2));
+		
+		
+	}//_dlg_Admin_Ops__Setup_Listener
+
+	private static void 
+	_dlg_Admin_Ops__Setup_Layout
+	(Activity actv, Dialog d2) {
+		// TODO Auto-generated method stub
+	
+		////////////////////////////////
+
+		// layout: button
+
+		////////////////////////////////
+		LinearLayout llButton =
+					(LinearLayout) d2.findViewById(
+							R.id.dlg_tmpl_cancel_lv_with_btn_ll_filepath);
+//		(LinearLayout) dlg1.findViewById(R.id.actv_imp_ll_filepath);
+		
+		LinearLayout.LayoutParams params =
+				new LinearLayout.LayoutParams(
+								LayoutParams.WRAP_CONTENT,
+								LayoutParams.WRAP_CONTENT);
+		
+		params.gravity = Gravity.CENTER_HORIZONTAL;
+		
+		llButton.setLayoutParams(params);
+
+		////////////////////////////////
+
+		// get: screen size
+
+		////////////////////////////////
+		//REF size http://stackoverflow.com/questions/19155559/how-to-get-android-device-screen-size answered Oct 3 '13 at 10:00
+		DisplayMetrics displayMetrics = actv.getResources()
+                			.getDisplayMetrics();
+		
+		int w = displayMetrics.widthPixels;
+		
+		// Log
+		String msg_Log = "w => " + w;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		int dialog_Width = w * CONS.Admin.ratio_Dialog_to_Screen_W / 100;
+		
+		// Log
+		msg_Log = "dialog_Width => " + dialog_Width;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// linear layot: main
+
+		////////////////////////////////
+		LinearLayout ll_Main = (LinearLayout) d2.findViewById(
+						R.id.dlg_tmpl_cancel_lv_with_btn_ll_main);
+		
+		// Log
+		msg_Log = "ll_Main => created";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		FrameLayout.LayoutParams params2 =
+				new FrameLayout.LayoutParams(
+						dialog_Width,
+						LayoutParams.WRAP_CONTENT);
+		
+		ll_Main.setLayoutParams(params2);
+		
+		////////////////////////////////
+
+		// ListView: height
+
+		////////////////////////////////
+//		// Log
+//		msg_Log = "ll_Main.getHeight() => " + ll_Main.getHeight();
+//		Log.d("Methods_dlg.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		ListView lv = (ListView) d2.findViewById(R.id.dlg_tmpl_cancel_lv_with_btn_lv);
+//		
+//		// Log
+//		msg_Log = "lv.getHeight() => " + lv.getHeight();
+//		Log.d("Methods_dlg.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+	}//_dlg_Admin_Ops__Setup_Layout
+
+	private static ListView 
+	_dlg_Admin_Ops__Setup_List
+	(Activity actv, Dialog d2) {
+		// TODO Auto-generated method stub
+		
+		List<ListItem> list = new ArrayList<ListItem>();
+		
+		list.add(new ListItem.Builder()
+						.setText(actv.getString(
+								R.string.dlg_db_ops_item_drop_create_tbl_patterns))
+								.setIconID(R.drawable.menu_icon_admin_32x32_blue)
+								.setTextColor_ID(R.color.blue1)
+								.build());
+		
+		list.add(new ListItem.Builder()
+						.setText(actv.getString(
+									R.string.dlg_db_ops_item_import_patterns_from_previous))
+						.setIconID(R.drawable.menu_icon_admin_32x32_brown)
+						.setTextColor_ID(R.color.black)
+						.build());
+		
+		////////////////////////////////
+
+		// Adapter
+
+		////////////////////////////////
+		Adp_ListItems adapter = new Adp_ListItems(
+							actv,
+							//R.layout.dlg_db_admin,
+							R.layout.list_row_simple_iv_1,
+							//android.R.layout.simple_list_item_1,
+							list
+		);
+		
+		////////////////////////////////
+
+		// Set adapter
+
+		////////////////////////////////
+		ListView lv = (ListView) d2.findViewById(R.id.dlg_tmpl_cancel_lv_with_btn_lv);
+		
+		lv.setAdapter(adapter);
+
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return lv;
+		
+	}//_dlg_Admin_Ops__Setup_List
 
 }//public class Methods_dialog

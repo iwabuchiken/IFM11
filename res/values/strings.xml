@@ -70,6 +70,16 @@
    		<string name="dlg_db_admin_exec_sql_add_col">
    		    							Add column</string>
    		
+   		<string name="dlg_db_admin_item_operations">
+   		    							Operations</string>
+   		    							
+    <!-- db_admin: operations -->
+   		<string name="dlg_db_ops_item_drop_create_tbl_patterns">
+   		    							Drop/Create table: memo_patterns</string>
+   		    							
+   		<string name="dlg_db_ops_item_import_patterns_from_previous">
+   		    							Import patterns from previous</string>
+   		
     <!-- thumb_actv_menu.xml -->
 	    <string name="thumb_actv_menu_move_mode">移動モード</string>
 	    <string name="thumb_actv_menu_move_files">移動</string>

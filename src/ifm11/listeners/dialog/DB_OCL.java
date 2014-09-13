@@ -203,6 +203,13 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 
+		case GENERIC_SECOND_DIALOG_CLEAR_ALL://------------------------------------------------
+			
+			d2.dismiss();
+			d1.dismiss();
+			
+			break;
+			
 		case DROP_TABLE_OK://------------------------------------------------
 			
 			case_DROP_TABLE_OK();

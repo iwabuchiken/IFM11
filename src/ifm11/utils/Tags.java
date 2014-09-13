@@ -100,7 +100,7 @@ public class Tags {
 		UPLOAD_REMOTE_OK,
 		
 		// dlg: conf upload => db file
-		UPLOAD_DB_FILE_OK, UPLOAD_REMOTE_MULTIPLE_IMAGES_OK,
+		UPLOAD_DB_FILE_OK, UPLOAD_REMOTE_MULTIPLE_IMAGES_OK, GENERIC_SECOND_DIALOG_CLEAR_ALL,
 		
 	}//public static enum DialogTags
 	
@@ -137,7 +137,7 @@ public class Tags {
 		DLG_ACTV_TN_LONG_CLICK,
 		
 		// dlg: upload image
-		DLG_ACTV_TN_LIST_UPLOAD, ACTV_MAIN_OPTMENU_OTHERS,
+		DLG_ACTV_TN_LIST_UPLOAD, ACTV_MAIN_OPTMENU_OTHERS, ACTV_MAIN_ADMIN_LV_OPS,
 		
 		
 	}//public static enum DialogItemTags
