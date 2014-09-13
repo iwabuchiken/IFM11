@@ -7766,6 +7766,207 @@ public class Methods {
 		
 	}//update_List_TNActv_Main
 
+	/******************************
+		@return
+			null => 1. Table doesn't exist; create one => failed<br>
+					2. query => null<br>
+					3. entry => < 1<br>
+	 ******************************/
+	public static List<WordPattern> 
+	get_WPList
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		////////////////////////////////
+
+		// Table exists?
+
+		////////////////////////////////
+		String tableName = CONS.DB.tname_MemoPatterns;
+		
+		boolean res = dbu.tableExists(rdb, tableName);
+		
+		if (res == true) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table exists: " + tableName);
+			
+			rdb.close();
+			
+//			return;
+			
+		} else {//if (res == false)
+			////////////////////////////////
+
+			// no table => creating one
+
+			////////////////////////////////
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exist: " + tableName);
+			
+			rdb.close();
+			
+			SQLiteDatabase wdb = dbu.getWritableDatabase();
+			
+			res = dbu.createTable(
+							wdb, 
+							tableName, 
+							CONS.DB.col_names_MemoPatterns, 
+							CONS.DB.col_types_MemoPatterns);
+			
+			if (res == true) {
+				// Log
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", "Table created: " + tableName);
+				
+				wdb.close();
+				
+			} else {//if (res == true)
+				// Log
+//				Log.d("Methods.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", "Create table failed: " + tableName);
+				
+				String msg = "Create table failed: " + tableName;
+//				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				// Log
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg);
+				
+				wdb.close();
+				
+				rdb.close();
+				
+				return null;
+				
+			}//if (res == true)
+
+			
+		}//if (res == false)
+		
+		
+		////////////////////////////////
+
+		// Get cursor
+
+		////////////////////////////////
+		rdb = dbu.getReadableDatabase();
+		
+		// "word"
+		String orderBy = CONS.DB.col_names_MemoPatterns_full[3] + " ASC"; 
+		
+		Cursor c = rdb.query(
+						CONS.DB.tname_MemoPatterns,
+						CONS.DB.col_names_MemoPatterns_full,
+		//				CONS.DB.col_types_refresh_log_full,
+						null, null,		// selection, args 
+						null, 			// group by
+						null, 		// having
+						orderBy);
+
+		actv.startManagingCursor(c);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+	
+			// Log
+			String msg_Log = "query => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			rdb.close();
+			
+			return null;
+			
+		}
+		
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+	
+			// Log
+			String msg_Log = "entry => < 1";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+
+		////////////////////////////////
+
+		// cursor: move to first
+
+		////////////////////////////////
+		c.moveToFirst();
+		
+		////////////////////////////////
+
+		// Get list
+
+		////////////////////////////////
+		List<WordPattern> patternList = new ArrayList<WordPattern>();
+		
+		WordPattern wp = null;
+		
+		if (c.getCount() > 0) {
+			
+			for (int i = 0; i < c.getCount(); i++) {
+				
+//				CONS.IMageActv.patternList.add(c.getString(3));	// 3 => "word"
+//				patternList.add(c.getString(3));	// 3 => "word"
+//				patternList.add(c.getString(1));
+		
+				wp = new WordPattern.Builder()
+								.setDb_Id(c.getLong(0))
+								.setCreated_at(c.getString(1))
+								.setModified_at(c.getString(2))
+								.setWord(c.getString(3))
+								.build();
+	
+				patternList.add(wp);
+
+				c.moveToNext();
+				
+			}//for (int i = 0; i < patternList.size(); i++)
+			
+		} else {//if (c.getCount() > 0)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "!c.getCount() > 0");
+			
+		}//if (c.getCount() > 0)
+		
+		
+//		Collections.sort(CONS.IMageActv.patternList);
+//		Collections.sort(patternList);
+		
+		return patternList;
+		
+	}//get_WPList
+
 }//public class Methods
 
 /*
