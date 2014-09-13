@@ -3488,4 +3488,81 @@ public class Methods_dlg {
 		
 	}//_dlg_Admin_Ops__Setup_List
 
+	
+	public static void 
+	conf_DropCreate_TablePatterns
+	(Activity actv, Dialog d1, Dialog d2) {
+		// TODO Auto-generated method stub
+		
+		Dialog d3 = new Dialog(actv);
+		
+		//
+		d3.setContentView(R.layout.dlg_tmpl_confirm_simple);
+		
+		// Title
+		d3.setTitle(R.string.generic_tv_confirm);
+		
+		////////////////////////////////
+
+		// set: message
+
+		////////////////////////////////
+		TextView tv_Message = (TextView) d3.findViewById(
+								R.id.dlg_tmpl_confirm_simple_tv_message);
+		
+		tv_Message.setText(actv.getString(
+					R.string.commons_lbl_drop_create_table) + " ?");
+
+		////////////////////////////////
+		
+		// set: item name
+		
+		////////////////////////////////
+		TextView tv_ItemName = (TextView) d3.findViewById(
+				R.id.dlg_tmpl_confirm_simple_tv_item_name);
+		
+		tv_ItemName.setText(CONS.DB.tname_MemoPatterns);
+		
+		////////////////////////////////
+
+		// button: cancel
+
+		////////////////////////////////
+		Button btn_Cancel = (Button) d3.findViewById(
+						R.id.dlg_tmpl_confirm_simple_btn_cancel);
+		
+		//
+//		btn_Cancel.setTag(Tags.DialogTags.dlg_generic_dismiss_second_dialog);
+		btn_Cancel.setTag(Tags.DialogTags.GENERIC_DISMISS_THIRD_DIALOG);
+		
+		//
+		btn_Cancel.setOnTouchListener(new DB_OTL(actv, d1, d2, d3));
+		
+		btn_Cancel.setOnClickListener(new DB_OCL(actv, d1, d2, d3));
+		
+		////////////////////////////////
+		
+		// button: ok
+		
+		////////////////////////////////
+		Button btn_Ok = (Button) d3.findViewById(
+				R.id.dlg_tmpl_confirm_simple_btn_ok);
+		
+		//
+		btn_Ok.setTag(Tags.DialogTags.DROP_CREATE_TABLE_PATTERNS_OK);
+		
+		//
+		btn_Ok.setOnTouchListener(new DB_OTL(actv, d1, d2, d3));
+		
+		btn_Ok.setOnClickListener(new DB_OCL(actv, d1, d2, d3));
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		d3.show();		
+		
+	}//conf_DropCreate_TablePatterns
+
 }//public class Methods_dialog

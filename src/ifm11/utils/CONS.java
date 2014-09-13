@@ -246,7 +246,8 @@ public class CONS {
 		public static String[] col_names_MemoPatterns = {
 			
 			"word",							// 0
-			"table_name"					// 1
+			"used",							// 1
+//			"table_name"					// 1
 					
 		};
 		
@@ -255,14 +256,16 @@ public class CONS {
 			android.provider.BaseColumns._ID,		// 0
 			"created_at", "modified_at",			// 1,2
 			"word",									// 3
-			"table_name"							// 4
+			"used",									// 4
+//			"table_name"							// 4
 			
 		};
 		
 		public static String[] col_types_MemoPatterns = {
 			
 			"TEXT", 			// 0
-			"TEXT"				// 1
+			"INTEGER",			// 1
+//			"TEXT"				// 1
 					
 		};
 		
@@ -270,7 +273,7 @@ public class CONS {
 			
 			"INTEGER", "TEXT", "TEXT",	// 0,1,2
 			"TEXT", 					// 3
-			"TEXT"						// 4
+			"INTEGER"					// 4
 			
 		};
 		

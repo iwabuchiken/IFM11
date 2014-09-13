@@ -14,7 +14,10 @@
 	    <string name="generic_tv_upload">Upload</string>
 	    <string name="generic_tv_quit_app">Quit app?</string>
     	<string name="generic_notice">Notice</string>
-    	
+
+    <!-- commons -->
+    	<string name="commons_lbl_drop_create_table">Drop/create table</string>
+    		
     <string name="v1_tv_dir_path">Directory path</string>
 
 	<!-- main_menu.xml -->

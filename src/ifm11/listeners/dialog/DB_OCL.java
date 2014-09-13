@@ -5,6 +5,7 @@ import ifm11.items.WordPattern;
 import ifm11.main.R;
 import ifm11.tasks.Task_FTP;
 import ifm11.utils.CONS;
+import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
@@ -28,7 +29,7 @@ public class DB_OCL implements OnClickListener {
 	Activity actv;
 	Dialog d1;
 	Dialog d2;		//=> Used in dlg_input_empty_btn_XXX
-	Dialog dlg3;
+	Dialog d3;
 
 	//
 	Vibrator vib;
@@ -69,7 +70,7 @@ public class DB_OCL implements OnClickListener {
 		this.actv = actv;
 		this.d1 = dlg1;
 		this.d2 = dlg2;
-		this.dlg3 = dlg3;
+		this.d3 = dlg3;
 		
 		//
 //		vib = (Vibrator) actv.getSystemService(actv.VIBRATOR_SERVICE);
@@ -146,7 +147,7 @@ public class DB_OCL implements OnClickListener {
 		
 		this.d1	= dlg1;
 		this.d2	= dlg2;
-		this.dlg3	= dlg3;
+		this.d3	= dlg3;
 		
 		this.wp		= wp;
 		
@@ -163,7 +164,7 @@ public class DB_OCL implements OnClickListener {
 		
 		this.d1	= dlg1;
 		this.d2	= dlg2;
-		this.dlg3	= d3;
+		this.d3	= d3;
 
 		this.ti		= ti;
 		
@@ -199,7 +200,7 @@ public class DB_OCL implements OnClickListener {
 
 		case GENERIC_DISMISS_THIRD_DIALOG://------------------------------------------------
 			
-			dlg3.dismiss();
+			d3.dismiss();
 			
 			break;
 
@@ -306,10 +307,140 @@ public class DB_OCL implements OnClickListener {
 			
 			break;
 			
+		case DROP_CREATE_TABLE_PATTERNS_OK://------------------------------------------------
+			
+			case_DROP_CREATE_TABLE_PATTERNS_OK();
+			
+			break;
+			
 		default: // ----------------------------------------------------
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void 
+	case_DROP_CREATE_TABLE_PATTERNS_OK() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// drop table
+
+		////////////////////////////////
+		int res = DBUtils.dropTable_2(actv, CONS.DB.tname_MemoPatterns);
+		
+//		-1 Table doesn't exist
+//		-2 SQLException
+//		1 Table dropped
+
+		if (res == -2) {
+			
+			String msg = "Table can't be dropped (SQLException)";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+
+		// create table
+
+		////////////////////////////////
+		res = DBUtils.createTable_static(
+						actv, 
+						CONS.DB.tname_MemoPatterns, 
+						CONS.DB.col_names_MemoPatterns, 
+						CONS.DB.col_types_MemoPatterns);
+		
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		String msg = null;
+		int colorID = 0;
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		switch(res) {
+		
+//		-1 Table exists
+//		-2 SQLException
+//		1 Table created
+		
+		case 1:
+			
+			msg = "Table created: " + CONS.DB.tname_MemoPatterns
+						;
+			colorID = R.color.green4;
+			
+			////////////////////////////////
+
+			// dismiss
+
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			if(d2 != null) d2.dismiss();
+			if(d1 != null) d1.dismiss();
+			
+			break;
+
+		case -1:
+			
+			msg = "Table exists: " + CONS.DB.tname_MemoPatterns;
+			colorID = R.color.gold2;
+			
+//			if(d2 != null) d2.dismiss();
+			////////////////////////////////
+			
+			// dismiss
+			
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+
+			break;
+			
+		case -2:
+			
+			msg = "SQLException: " + CONS.DB.tname_MemoPatterns;
+			colorID = R.color.red;
+			
+//			if(d2 != null) d2.dismiss();
+			////////////////////////////////
+			
+			// dismiss
+			
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			
+			break;
+			
+		default:
+			
+			msg = "Unknown result in creating a table => " + res;
+			colorID = R.color.gold2;
+
+			////////////////////////////////
+			
+			// dismiss
+			
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+
+			break;
+			
+		}
+		
+		Methods_dlg.dlg_ShowMessage(
+						actv, 
+						msg,
+						colorID);
+
+		
+	}//case_DROP_CREATE_TABLE_PATTERNS_OK
 
 	private void 
 	case_UPLOAD_REMOTE_MULTIPLE_IMAGES_OK() {
@@ -462,11 +593,11 @@ public class DB_OCL implements OnClickListener {
 		// get view: checkbox
 
 		////////////////////////////////
-		CheckBox cb = (CheckBox) dlg3.findViewById(
+		CheckBox cb = (CheckBox) d3.findViewById(
 							R.id.dlg_tmpl_confirm_simple_cb_delete_file);
 		
 		Task_FTP task = new Task_FTP(
-							actv, d1, d2, dlg3,
+							actv, d1, d2, d3,
 							CONS.Remote.FtpType.IMAGE.toString(),
 							ti, cb.isChecked());
 		
@@ -503,7 +634,7 @@ public class DB_OCL implements OnClickListener {
 	case_DLG_DELETE_PATTERN_CONF_OK() {
 		// TODO Auto-generated method stub
 		
-		Methods.del_Pattern(actv, d1, d2, dlg3, wp);
+		Methods.del_Pattern(actv, d1, d2, d3, wp);
 		
 	}
 
@@ -544,7 +675,7 @@ public class DB_OCL implements OnClickListener {
 	dlg_DLG_CONF_MOVE_FILES_FOLDER_OK() {
 		// TODO Auto-generated method stub
 
-		Methods.move_Files(actv, d1, d2, dlg3);
+		Methods.move_Files(actv, d1, d2, d3);
 		
 		
 	}//dlg_DLG_CONF_MOVE_FILES_FOLDER_OK

@@ -235,8 +235,19 @@ public class DOI_CL implements OnItemClickListener {
 	(ListItem li) {
 		// TODO Auto-generated method stub
 		
-		
-		
+		if (li.getText().equals(actv.getString(
+				R.string.dlg_db_ops_item_drop_create_tbl_patterns))) {
+
+			Methods_dlg.conf_DropCreate_TablePatterns(actv, d1, d2);
+			
+		} else {
+			
+			String msg = "Unknow item => " + li.getText();
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			return;
+			
+		}
 		
 	}//case_ACTV_MAIN_ADMIN_LV_OPS
 
