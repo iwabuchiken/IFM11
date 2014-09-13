@@ -7235,8 +7235,8 @@ public class Methods {
 						fpath_Log.getParent(), 
 						CONS.DB.fname_Log_Trunk
 						+ "_"
-						+ Methods.get_TimeLabel(Methods.getMillSeconds_now())
-//						+ Methods.get_TimeLabel(fpath_Log.lastModified())
+//						+ Methods.get_TimeLabel(Methods.getMillSeconds_now())
+						+ Methods.get_TimeLabel(fpath_Log.lastModified())
 						+ CONS.DB.fname_Log_ext
 						));
 			
