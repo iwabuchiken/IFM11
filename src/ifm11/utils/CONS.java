@@ -247,6 +247,7 @@ public class CONS {
 			
 			"word",							// 0
 			"used",							// 1
+			"used_at",							// 1
 //			"table_name"					// 1
 					
 		};
@@ -257,6 +258,7 @@ public class CONS {
 			"created_at", "modified_at",			// 1,2
 			"word",									// 3
 			"used",									// 4
+			"used_at",									// 4
 //			"table_name"							// 4
 			
 		};
@@ -265,6 +267,7 @@ public class CONS {
 			
 			"TEXT", 			// 0
 			"INTEGER",			// 1
+			"TEXT",				// 2
 //			"TEXT"				// 1
 					
 		};
@@ -273,7 +276,8 @@ public class CONS {
 			
 			"INTEGER", "TEXT", "TEXT",	// 0,1,2
 			"TEXT", 					// 3
-			"INTEGER"					// 4
+			"INTEGER",					// 4
+			"TEXT", 					// 5
 			
 		};
 		
