@@ -240,6 +240,11 @@ public class DOI_CL implements OnItemClickListener {
 
 			Methods_dlg.conf_DropCreate_TablePatterns(actv, d1, d2);
 			
+		} else if (li.getText().equals(actv.getString(
+				R.string.dlg_db_ops_item_import_patterns_from_previous))) {
+			
+			Methods.import_Patterns_Previous(actv, d1, d2);
+			
 		} else {
 			
 			String msg = "Unknow item => " + li.getText();

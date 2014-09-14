@@ -104,6 +104,7 @@ public class CONS {
 		////////////////////////////////
 		public final static String dbName = "ifm11.db";
 		public final static String dbName_IFM10 = "ifm10.db";
+		public final static String dbName_Previous = "ifm11_previous.db";
 		
 		public static String dPath_dbFile;
 		

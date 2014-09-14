@@ -321,12 +321,36 @@ public class DB_OCL implements OnClickListener {
 	private void 
 	case_DROP_CREATE_TABLE_PATTERNS_OK() {
 		// TODO Auto-generated method stub
+		int res;
+		boolean res_b;
+		
+		////////////////////////////////
+
+		// import db => previous
+
+		////////////////////////////////
+		String fpath_DB = Methods.get_DB_path(actv);
+		
+		res_b = Methods.import_DB(actv, fpath_DB);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (res_b == false) {
+			
+			String msg = "Can't copy a previous db";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+			
+		}
+		
 		////////////////////////////////
 
 		// drop table
 
 		////////////////////////////////
-		int res = DBUtils.dropTable_2(actv, CONS.DB.tname_MemoPatterns);
+		res = DBUtils.dropTable_2(actv, CONS.DB.tname_MemoPatterns);
 		
 //		-1 Table doesn't exist
 //		-2 SQLException

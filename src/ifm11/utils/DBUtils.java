@@ -2397,22 +2397,12 @@ public class DBUtils extends SQLiteOpenHelper{
 	
 				} else {
 					
-//					// Log
-//					String msg_Log = "insertion => done";
-//					Log.d("DBUtils.java"
-//							+ "["
-//							+ Thread.currentThread().getStackTrace()[2]
-//									.getLineNumber() + "]", msg_Log);
-					
 					counter += 1;
 					
 					// Set as successful
 					wdb.setTransactionSuccessful();
 					
 				}
-				
-	//			// Set as successful
-	//			wdb.setTransactionSuccessful();
 				
 				// End transaction
 				wdb.endTransaction();
@@ -2431,75 +2421,6 @@ public class DBUtils extends SQLiteOpenHelper{
 			}//try
 			
 		}//for (String pattern : patterns_List)
-//		
-//		try {
-//			// Start transaction
-//			wdb.beginTransaction();
-//			
-////			// ContentValues
-////			ContentValues val = new ContentValues();
-////			
-////			// Put values
-////			for (int i = 0; i < columnNames.length; i++) {
-////				val.put(columnNames[i], values[i]);
-////			}//for (int i = 0; i < columnNames.length; i++)
-//			
-//			// Insert data
-//			long res = wdb.insert(CONS.DB.tname_IFM11, null, val);
-////			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
-//			
-//			if (res == -1) {
-//				
-//				// Log
-//				String msg_Log = "insertion => failed";
-//				Log.e("DBUtils.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", msg_Log);
-//				
-//				wdb.endTransaction();
-//				wdb.close();
-//				
-//				return false;
-//				
-//			} else {
-//				
-//				// Log
-//				String msg_Log = "insertion => done";
-//				Log.d("DBUtils.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", msg_Log);
-//				
-//			}
-//			
-//			// Set as successful
-//			wdb.setTransactionSuccessful();
-//			
-//			// End transaction
-//			wdb.endTransaction();
-//			
-////			// Log
-////			Log.d("DBUtils.java" + "["
-////					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-////					+ "]", "Data inserted => " + "(" + columnNames[0] + " => " + values[0] + "), and others");
-//			
-//			wdb.close();
-//			
-//			return true;
-//			
-//		} catch (Exception e) {
-//			
-//			// Log
-//			Log.e("DBUtils.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Exception! => " + e.toString());
-//			
-//			wdb.close();
-//			
-//			return false;
-//			
-//		}//try
 
 		////////////////////////////////
 

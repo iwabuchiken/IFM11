@@ -1887,6 +1887,82 @@ public class Methods {
 		
 	}//import_DB
 
+	/******************************
+		@return
+			false => 1. No db file<br>
+	 ******************************/
+	public static boolean 
+	import_DB
+	(Activity actv, String fpath_DB) {
+		
+		////////////////////////////////
+		
+		// Restore file
+		
+		////////////////////////////////
+		String src = fpath_DB;
+		
+		String dst = actv.getDatabasePath(CONS.DB.dbName).getPath();
+		
+		// Log
+		String msg_Log = "db path => " 
+				+ actv.getDatabasePath(CONS.DB.dbName).getPath();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// build: db file path (dst)
+		
+		////////////////////////////////
+		String tmp_str = Methods.get_Dirname(actv, dst);
+		
+		String dst_New = StringUtils.join(
+				new String[]{
+						
+						tmp_str,
+						CONS.DB.dbName_Previous
+						
+				}, 
+				File.separator);
+		
+		// Log
+		msg_Log = String.format(Locale.JAPAN,
+				"src = %s // dst = %s", 
+				src, dst_New);
+		
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// import (using restoration-related method)
+		
+		////////////////////////////////
+//		boolean res = true;
+		boolean res = Methods.restore_DB(
+				actv, 
+				CONS.DB.dbName, 
+				src, dst_New);
+		
+		// Log
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "res=" + res);
+		
+		////////////////////////////////
+		
+		// return
+		
+		////////////////////////////////
+		return res;
+		
+//		return false;
+		
+	}//import_DB
+	
 	public static String 
 	get_Dirname
 	(Activity actv, String target) {
@@ -2013,6 +2089,112 @@ public class Methods {
 		
 	}//import_Patterns
 
+	public static void 
+	import_Patterns_Previous
+	(Activity actv, Dialog d1, Dialog d2) {
+		
+		
+		////////////////////////////////
+		
+		// get: patterns list
+		
+		////////////////////////////////
+		List<String> patterns_List = _import_Patterns__Get_PatternsList(
+							actv,
+							CONS.DB.dbName_Previous,
+							CONS.DB.tname_MemoPatterns,
+							CONS.DB.col_names_MemoPatterns_full
+							);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		// Log
+		if (patterns_List == null) {
+			
+			// Log
+			String msg_Log = "patterns_List => null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+			
+			return;
+			
+		}
+		
+		String msg_Log = "patterns_List => " + patterns_List.size();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// insert patterns
+		
+		////////////////////////////////
+		int res = Methods._import_Patterns__SavePatterns(actv, patterns_List);
+		
+		// Log
+		msg_Log = "save pattern: res => " + res;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		String msg = null;
+		int colorId = 0;
+		
+//		-1 Table doesn't exist
+//		0< num of patterns inserted
+		
+
+		switch(res) {
+		
+		case -1:
+			
+			d2.dismiss();
+			
+			msg = "Table doesn't exist";
+			colorId = R.color.red;
+			
+			break;
+
+		case 0:
+			
+			d2.dismiss();
+			
+			msg = "No patterns saved";
+			colorId = R.color.red;
+			
+			break;
+			
+		default:
+			
+			d2.dismiss();
+			d1.dismiss();
+			
+			msg = "Patterns saved => " + res;
+			colorId = R.color.green4;
+			
+			break;
+			
+		}
+			
+		Methods_dlg.dlg_ShowMessage(actv, msg, colorId);
+		
+	}//import_Patterns
+	
+	/******************************
+		@return
+			-1 Table doesn't exist<br>
+			0< num of patterns inserted<br>
+	 ******************************/
 	private static int 
 	_import_Patterns__SavePatterns
 	(Activity actv, List<String> patterns_List) {
@@ -2024,7 +2206,8 @@ public class Methods {
 
 		////////////////////////////////
 		int counter = DBUtils.insert_Data_Patterns(actv, patterns_List);
-			
+//		-1 => Table doesn't exist	
+		
 		return counter;
 		
 	}//_import_Patterns__SavePatterns
@@ -2174,6 +2357,152 @@ public class Methods {
 		
 	}//_import_Patterns__Get_PatternsList
 
+	/******************************
+		@return null => 1. No such table<br>
+						2. Cursor => null<br>
+						3. Cursor < 1 <br>
+	 ******************************/
+	private static List<String> 
+	_import_Patterns__Get_PatternsList
+	(Activity actv, 
+		String dbName, String tname, String[] cols) {
+		
+		////////////////////////////////
+		
+		// db
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		////////////////////////////////
+		
+		// Table exists?
+		
+		////////////////////////////////
+		String tableName = tname;
+		
+		boolean res = dbu.tableExists(rdb, tableName);
+		
+		if (res == true) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table exists: " + tableName);
+			
+		} else {//if (res == false)
+			////////////////////////////////
+			
+			// no table => return
+			
+			////////////////////////////////
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Table doesn't exist: " + tableName);
+			
+			String msg = "Table doesn't exist: " + tableName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (res == false)
+		
+		
+		////////////////////////////////
+		
+		// Get cursor
+		
+		////////////////////////////////
+		// "_id"
+		String orderBy = CONS.DB.col_names_MemoPatterns[0] + " ASC"; 
+		
+		Cursor c = rdb.query(
+				tableName,
+				cols,
+				//				CONS.DB.col_types_refresh_log_full,
+				null, null,		// selection, args 
+				null, 			// group by
+				null, 		// having
+				orderBy);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+			
+			String msg = "query => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+		
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+			
+			String msg = "entry => < 1";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// cursor: move to first
+		
+		////////////////////////////////
+		c.moveToFirst();
+		
+		////////////////////////////////
+		
+		// Get list
+		
+		////////////////////////////////
+		List<String> patternList = new ArrayList<String>();
+		
+		if (c.getCount() > 0) {
+			
+			for (int i = 0; i < c.getCount(); i++) {
+				
+				patternList.add(c.getString(0));	// 0 => "word"
+				
+				c.moveToNext();
+				
+			}//for (int i = 0; i < patternList.size(); i++)
+			
+		} else {//if (c.getCount() > 0)
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "!c.getCount() > 0");
+			
+		}//if (c.getCount() > 0)
+		
+		
+		Collections.sort(patternList);
+		
+		////////////////////////////////
+		
+		// return
+		
+		////////////////////////////////
+		return patternList;
+		
+	}//_import_Patterns__Get_PatternsList
+	
 	public static void 
 	add_Memo
 	(Activity actv, Dialog dlg1, long db_Id) {
@@ -7966,6 +8295,63 @@ public class Methods {
 		return patternList;
 		
 	}//get_WPList
+
+	public static String 
+	get_DB_path
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// Get the absolute path of the latest backup file
+
+		////////////////////////////////
+		// Get the most recently-created db file
+		String src_dir = CONS.DB.dPath_dbFile_backup;
+		
+		File f_dir = new File(src_dir);
+		
+		File[] src_dir_files = f_dir.listFiles();
+		
+		// If no files in the src dir, quit the method
+		if (src_dir_files.length < 1) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread()
+						.getStackTrace()[2].getLineNumber()
+					+ "]", "No files in the dir: " + src_dir);
+			
+			return null;
+			
+		}//if (src_dir_files.length == condition)
+		
+		// Latest file
+		File f_src_latest = src_dir_files[0];
+		
+		
+		for (File file : src_dir_files) {
+			
+			if (f_src_latest.lastModified() < file.lastModified()) {
+						
+				f_src_latest = file;
+				
+			}//if (variable == condition)
+			
+		}//for (File file : src_dir_files)
+		
+		// Show the path of the latest file
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "f_src_latest=" + f_src_latest.getAbsolutePath());
+		
+		/*********************************
+		 * Restore file
+		 *********************************/
+		return f_src_latest.getAbsolutePath();
+				
+	}//get_DB_path
 
 }//public class Methods
 
