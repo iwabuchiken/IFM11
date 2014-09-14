@@ -446,7 +446,8 @@ public class CONS {
 		
 	}
 	
-	public static class IMageActv {
+	public static class 
+	IMageActv {
 		
 		public static ArrayAdapter<String> adp_ImageActv_GridView = null;
 		
@@ -458,7 +459,25 @@ public class CONS {
 		
 		public static TI ti;
 		
-	}
+		////////////////////////////////
+
+		// listview-related
+
+		////////////////////////////////
+		public static List<WordPattern> list_WP_1;
+		
+		public static List<WordPattern> list_WP_2;
+		
+		public static List<WordPattern> list_WP_3;
+		
+		public static Adp_WordPatterns adp_WPList_1 = null;
+		
+		public static Adp_WordPatterns adp_WPList_2 = null;
+		
+		public static Adp_WordPatterns adp_WPList_3 = null;
+
+		
+	}//IMageActv
 	
 	public static class Admin {
 		
@@ -608,14 +627,16 @@ public class CONS {
 		
 		public static enum SortType {
 			
-			FileName, POSITION, CREATED_AT,
+			FileName, POSITION, CREATED_AT, WORD, USED,
 			
 		}
 
 		// Sort order
 		public static enum SortOrder {
 			
-				ASC, DEC,
+				ASC, 
+//				DEC, 
+				DESC,
 				
 		};
 

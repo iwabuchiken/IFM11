@@ -71,7 +71,7 @@ public class Comp_TI implements Comparator<TI> {
 			
 			break;
 			
-		case DEC:
+		case DESC:
 			
 //				res = (int) -(a1.getCreated_at() - a2.getCreated_at());
 			res = t2.getFile_name().compareTo(t1.getFile_name());
@@ -105,7 +105,7 @@ public class Comp_TI implements Comparator<TI> {
 			
 			break;
 			
-		case DEC:
+		case DESC:
 
 			res = (time1 > time2) ? 1 : 0;
 			

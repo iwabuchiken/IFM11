@@ -2,6 +2,7 @@ package ifm11.utils;
 
 import ifm11.adapters.Adp_ListItems;
 import ifm11.adapters.Adp_WordPatterns;
+import ifm11.comps.Comp_WP;
 import ifm11.items.ListItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
@@ -606,6 +607,13 @@ public class Methods_dlg {
 	dlg_AddMemo
 	(Activity actv, long db_Id) {
 		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		int res_i;
+		String msg_Log;
 		
 		////////////////////////////////
 
@@ -627,7 +635,7 @@ public class Methods_dlg {
 		}
 		
 		// Log
-		String msg_Log = "dlg => obtained";
+		msg_Log = "dlg => obtained";
 		Log.d("Methods_dlg.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
@@ -643,7 +651,34 @@ public class Methods_dlg {
 		// listviews
 
 		////////////////////////////////
-		dlg = _dlg_AddMemo_Set_Listviews(actv, dlg);
+		res_i = _dlg_AddMemo_Set_LV_1(actv, dlg);
+		
+		// Log
+		msg_Log = "res_i => " + res_i;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		dlg = _dlg_AddMemo_Set_Listviews(actv, dlg);
+
+		// LV 2
+		res_i = _dlg_AddMemo_Set_LV_2(actv, dlg);
+		
+		// Log
+		msg_Log = "res_i => " + res_i;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		dlg = _dlg_AddMemo_Set_Listviews(actv, dlg);
+		
+		// LV 3
+		res_i = _dlg_AddMemo_Set_LV_3(actv, dlg);
+		
+		// Log
+		msg_Log = "res_i => " + res_i;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		dlg = _dlg_AddMemo_Set_Listviews(actv, dlg);
 		
 		////////////////////////////////
 
@@ -654,26 +689,372 @@ public class Methods_dlg {
 		
 	}//dlg_addMemo
 	
-	private static Dialog 
-	_dlg_AddMemo_Set_Listviews
+	/******************************
+		@return
+			-1 build list => null<br>
+			-2 adapter 1 => null<br>
+			1 list => set<br>
+	 ******************************/
+	private static int
+	_dlg_AddMemo_Set_LV_1
 	(Activity actv, Dialog d) {
 		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		String msg_Log;
 		
 		////////////////////////////////
 
 		// lv 1
 
 		////////////////////////////////
-		ListView lv = (ListView) d.findViewById(R.id.dlg_add_memos_lv1);
+		////////////////////////////////
+
+		// build list
+
+		////////////////////////////////
+		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP(actv);
+//		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
 		
-		List<WordPattern> list_WP = Methods.get_WPList(actv);
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.IMageActv.list_WP_1 == null) {
+			
+			return -1;
+			
+		}
+		
+		// Log
+		msg_Log = "CONS.IMageActv.list_WP_1.size() => " 
+						+ CONS.IMageActv.list_WP_1.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// sort
+
+		////////////////////////////////
+		Collections.sort(
+						CONS.IMageActv.list_WP_1, 
+						new Comp_WP(
+								
+								CONS.Enums.SortType.WORD,
+								CONS.Enums.SortOrder.ASC
+						));
+
+		Collections.sort(
+				CONS.IMageActv.list_WP_1, 
+				new Comp_WP(
+						CONS.Enums.SortType.USED,
+						CONS.Enums.SortOrder.DESC
+						));
+
+		////////////////////////////////
+
+		// adapter
+
+		////////////////////////////////
+		// Log
+		msg_Log = "Constructing an adapter...";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.IMageActv.adp_WPList_1 = new Adp_WordPatterns(
+//				CONS.MemoActv.adp_WPList_1 = new ArrayAdapter<WordPattern>(
+				actv,
+				R.layout.list_row_gv,
+				CONS.IMageActv.list_WP_1
+				);
+
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.IMageActv.adp_WPList_1 == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.adp_WPList_1 => null";
+			Log.e("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "adapter 1 => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+
+		// set adapter
+
+		////////////////////////////////
+		ListView lv_1 = (ListView) d.findViewById(R.id.dlg_add_memos_lv1);
+		
+		// Log
+		msg_Log = "setting the adapter to the listview";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		lv_1.setAdapter(CONS.IMageActv.adp_WPList_1);
 		
 		
-		
-		return d;
+		return 1;
 		
 	}//_dlg_AddMemo_Set_Listviews
 
+	/******************************
+		@return
+			-1 build list => null<br>
+			-2 adapter 1 => null<br>
+			1 list => set<br>
+	 ******************************/
+	private static int
+	_dlg_AddMemo_Set_LV_2
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// vars
+		
+		////////////////////////////////
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// lv 2
+		
+		////////////////////////////////
+		////////////////////////////////
+		
+		// build list
+		
+		////////////////////////////////
+		CONS.IMageActv.list_WP_2 = DBUtils.find_All_WP(actv);
+//		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.IMageActv.list_WP_2 == null) {
+			
+			return -1;
+			
+		}
+		
+		// Log
+		msg_Log = "CONS.IMageActv.list_WP_2.size() => " 
+				+ CONS.IMageActv.list_WP_2.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// sort
+		
+		////////////////////////////////
+		Collections.sort(
+				CONS.IMageActv.list_WP_2, 
+				new Comp_WP(
+						
+						CONS.Enums.SortType.WORD,
+						CONS.Enums.SortOrder.ASC
+						));
+		
+		Collections.sort(
+				CONS.IMageActv.list_WP_2, 
+				new Comp_WP(
+						CONS.Enums.SortType.USED,
+						CONS.Enums.SortOrder.DESC
+						));
+		
+		////////////////////////////////
+		
+		// adapter
+		
+		////////////////////////////////
+		// Log
+		msg_Log = "Constructing an adapter...";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.IMageActv.adp_WPList_2 = new Adp_WordPatterns(
+//				CONS.MemoActv.adp_WPList_1 = new ArrayAdapter<WordPattern>(
+				actv,
+				R.layout.list_row_gv,
+				CONS.IMageActv.list_WP_2
+				);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.IMageActv.adp_WPList_2 == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.adp_WPList_2 => null";
+			Log.e("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "adapter 2 => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+		
+		// set adapter
+		
+		////////////////////////////////
+		ListView lv_2 = (ListView) d.findViewById(R.id.dlg_add_memos_lv2);
+		
+		// Log
+		msg_Log = "setting the adapter to the listview";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		lv_2.setAdapter(CONS.IMageActv.adp_WPList_2);
+		
+		
+		return 1;
+		
+	}//_dlg_AddMemo_Set_Listviews
+	
+	/******************************
+		@return
+			-1 build list => null<br>
+			-2 adapter 1 => null<br>
+			1 list => set<br>
+	 ******************************/
+	private static int
+	_dlg_AddMemo_Set_LV_3
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// vars
+		
+		////////////////////////////////
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// lv 3
+		
+		////////////////////////////////
+		////////////////////////////////
+		
+		// build list
+		
+		////////////////////////////////
+		CONS.IMageActv.list_WP_3 = DBUtils.find_All_WP(actv);
+//		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.IMageActv.list_WP_3 == null) {
+			
+			return -1;
+			
+		}
+		
+		// Log
+		msg_Log = "CONS.IMageActv.list_WP_3.size() => " 
+				+ CONS.IMageActv.list_WP_3.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// sort
+		
+		////////////////////////////////
+		Collections.sort(
+				CONS.IMageActv.list_WP_3, 
+				new Comp_WP(
+						
+						CONS.Enums.SortType.WORD,
+						CONS.Enums.SortOrder.ASC
+						));
+		
+		Collections.sort(
+				CONS.IMageActv.list_WP_3, 
+				new Comp_WP(
+						CONS.Enums.SortType.USED,
+						CONS.Enums.SortOrder.DESC
+						));
+		
+		////////////////////////////////
+		
+		// adapter
+		
+		////////////////////////////////
+		// Log
+		msg_Log = "Constructing an adapter...";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.IMageActv.adp_WPList_3 = new Adp_WordPatterns(
+//				CONS.MemoActv.adp_WPList_1 = new ArrayAdapter<WordPattern>(
+				actv,
+				R.layout.list_row_gv,
+				CONS.IMageActv.list_WP_3
+				);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.IMageActv.adp_WPList_3 == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.adp_WPList_3 => null";
+			Log.e("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "adapter 3 => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+		
+		// set adapter
+		
+		////////////////////////////////
+		ListView lv_3 = (ListView) d.findViewById(R.id.dlg_add_memos_lv3);
+		
+		// Log
+		msg_Log = "setting the adapter to the listview";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		lv_3.setAdapter(CONS.IMageActv.adp_WPList_3);
+		
+		
+		return 1;
+		
+	}//_dlg_AddMemo_Set_Listviews
+	
 	public static Dialog 
 	_dlg_AddMemo_GetDialog
 	(Activity actv, long db_Id) {

@@ -4155,5 +4155,181 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//update_TIs__Memo
 
+	/******************************
+		@return
+		null =>
+				1. No DB file<br>
+				2. No such table<br>
+				3. Query exception<br>
+				4. Query returned null<br>
+				5. No entry in the table<br>
+	 ******************************/
+	public static List<WordPattern> 
+	find_All_WP
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+	
+		// validate: DB file exists?
+	
+		////////////////////////////////
+		File dpath_DBFile = actv.getDatabasePath(CONS.DB.dbName);
+	
+		if (!dpath_DBFile.exists()) {
+			
+			String msg = "No DB file: " + CONS.DB.dbName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+	
+		// DB
+	
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists?
+		
+		////////////////////////////////
+		String tname = CONS.DB.tname_MemoPatterns;
+		
+		boolean res = dbu.tableExists(rdb, tname);
+	//	boolean res = dbu.tableExists(rdb, tableName);
+	
+		if (res == false) {
+			
+			String msg = "No such table: " + tname;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+	
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		Cursor c = null;
+		
+	//	String where = CONS.DB.col_names_IFM11[8] + " = ?";
+	//	String[] args = new String[]{
+	//			
+	//						tableName
+	//					};
+		
+		try {
+			
+			c = rdb.query(
+					
+					tname,			// 1
+					CONS.DB.col_names_MemoPatterns_full,	// 2
+					null, null,		// 3,4
+	//				where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+	
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			String msg = "Query exception";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			String msg = "Query failed";
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", msg);
+	
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			String msg = "No entry in the table";
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", msg);
+	
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+		
+		/***************************************
+		 * Build list
+		 ***************************************/
+	//	android.provider.BaseColumns._ID,		// 0
+	//	"created_at", "modified_at",			// 1,2
+	//	"word",									// 3
+		
+		List<WordPattern> list_WP = new ArrayList<WordPattern>();
+		
+		while(c.moveToNext()) {
+			
+			WordPattern wp = new WordPattern.Builder()
+	
+					.setDb_Id(c.getLong(0))
+					.setCreated_at(c.getString(1))
+					.setModified_at(c.getString(2))
+					
+					.setWord(c.getString(3))
+					.setUsed(c.getInt(4))
+					.setUsed_at(c.getString(5))
+					
+					.build();
+			
+			list_WP.add(wp);
+			
+		}
+	
+		rdb.close();
+		
+		return list_WP;
+		
+	}//find_All_WP
+
 }//public class DBUtils
 
