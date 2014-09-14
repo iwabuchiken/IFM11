@@ -9,6 +9,9 @@ import ifm11.main.R;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -4307,6 +4310,12 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		List<WordPattern> list_WP = new ArrayList<WordPattern>();
 		
+		// Log
+		String msg_Log = "building WP list...";
+		Log.d("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		while(c.moveToNext()) {
 			
 			WordPattern wp = new WordPattern.Builder()
@@ -4322,6 +4331,16 @@ public class DBUtils extends SQLiteOpenHelper{
 					.build();
 			
 			list_WP.add(wp);
+			
+			// Log
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"(%d) %s (used = %d)", 
+					wp.getDb_Id(), wp.getWord(), wp.getUsed());
+			
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
 			
 		}
 	
@@ -4366,6 +4385,16 @@ public class DBUtils extends SQLiteOpenHelper{
 		int used_Current = wp.getUsed();
 		int used_Updated = used_Current + 1;
 
+		// Log
+		String msg_Log = "used_Current => " + used_Current;
+		Log.d("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		msg_Log = "used_Updated => " + used_Updated;
+		Log.d("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		String used_at = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
 		
 		////////////////////////////////
@@ -4388,7 +4417,8 @@ public class DBUtils extends SQLiteOpenHelper{
 				" SET " + 
 				
 				CONS.DB.col_names_MemoPatterns_full[4] + 
-				" = " + used_Updated + " " +
+//				" = " + used_Updated + " " +
+				" = '" + String.valueOf(used_Updated) + "' " +
 //				" = '" + used_Updated + "' " +
 				", " +
 				CONS.DB.col_names_MemoPatterns_full[2] +
@@ -4602,6 +4632,209 @@ public class DBUtils extends SQLiteOpenHelper{
 		return wp;
 		
 	}//find_Memo_From_Id
+
+	/******************************
+		@return
+		
+	 ******************************/
+	public static List<WordPattern> 
+	find_All_WP_symbols
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+	
+		// get all WP
+	
+		////////////////////////////////
+		List<WordPattern> list_WP = DBUtils.find_All_WP(actv);
+	
+		////////////////////////////////
+		
+		// prep: filter
+		
+		////////////////////////////////
+		//REF http://stackoverflow.com/questions/1047342/how-to-run-a-query-with-regexp-in-android answered Jun 26 '09 at 5:25
+		//REF http://ocpsoft.org/opensource/guide-to-regular-expressions-in-java-part-1/ "2.4. Extracting/Capturing"
+		String regex = "[a-zA-Z]";
+		
+		Pattern p = Pattern.compile(regex);
+		
+		Matcher m = null;
+		
+		////////////////////////////////
+	
+		// filter
+	
+		////////////////////////////////
+		List<WordPattern> list_WP_filtered = 
+								new ArrayList<WordPattern>();
+		
+		// If the word DOES NOT contain [a-zA-Z]
+		//		=> then, put it into the new list
+		for (WordPattern wp : list_WP) {
+			
+			m = p.matcher(wp.getWord());
+			
+			if (m.find()) {
+				
+				continue;
+				
+			}
+			
+			list_WP_filtered.add(wp);
+			
+		}
+		
+		
+		return list_WP_filtered;
+		
+	}//find_All_WP_symbols
+	
+	/******************************
+		@return
+		
+	 ******************************/
+	public static List<WordPattern> 
+	find_All_WP_tags
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// get all WP
+		
+		////////////////////////////////
+		List<WordPattern> list_WP = DBUtils.find_All_WP(actv);
+		
+		////////////////////////////////
+		
+		// prep: filter
+		
+		////////////////////////////////
+		//REF http://stackoverflow.com/questions/1047342/how-to-run-a-query-with-regexp-in-android answered Jun 26 '09 at 5:25
+		//REF http://ocpsoft.org/opensource/guide-to-regular-expressions-in-java-part-1/ "2.4. Extracting/Capturing"
+	//	String regex = "^[:#]";
+	//	String regex = "^(:|\\#)";
+	//	String regex = "^(:|#)";
+	//	String regex = "^(:|#)[a-zA-Z]";
+		String regex = "^[:#][a-zA-Z]";
+		
+		Pattern p = Pattern.compile(regex);
+		
+		Matcher m = null;
+		
+		////////////////////////////////
+		
+		// filter
+		
+		////////////////////////////////
+		List<WordPattern> list_WP_filtered = 
+				new ArrayList<WordPattern>();
+		
+		// If the word DOES NOT contain [a-zA-Z]
+		//		=> then, put it into the new list
+		for (WordPattern wp : list_WP) {
+			
+			m = p.matcher(wp.getWord());
+			
+			if (m.find()) {
+				
+				list_WP_filtered.add(wp);
+	//			continue;
+				
+			}
+			
+	//		// Log
+	//		String msg_Log = String.format("match => %s", wp.getWord());
+	//		Log.d("DBUtils.java" + "["
+	//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+	//				+ "]", msg_Log);
+			
+	//		list_WP_filtered.add(wp);
+			
+		}
+		
+		
+		return list_WP_filtered;
+		
+	}//find_All_WP_tags
+	
+	/******************************
+		@return
+		
+	 ******************************/
+	public static List<WordPattern> 
+	find_All_WP_literals
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// get all WP
+		
+		////////////////////////////////
+		List<WordPattern> list_WP = DBUtils.find_All_WP(actv);
+		
+		////////////////////////////////
+		
+		// prep: filter
+		
+		////////////////////////////////
+		//REF http://stackoverflow.com/questions/1047342/how-to-run-a-query-with-regexp-in-android answered Jun 26 '09 at 5:25
+		//REF http://ocpsoft.org/opensource/guide-to-regular-expressions-in-java-part-1/ "2.4. Extracting/Capturing"
+	//	String regex = "^[:#]";
+	//	String regex = "^(:|\\#)";
+	//	String regex = "^(:|#)";
+	//	String regex = "^(:|#)[a-zA-Z]";
+	//	String regex = "^[:#][a-zA-Z]";
+		String reg1 = "^[:#][a-zA-Z]";
+		String reg2 = "^[^\\w]+$";
+		
+		Pattern p1_tags = Pattern.compile(reg1);
+		Pattern p2_symbols = Pattern.compile(reg2);
+		
+		Matcher m1_tags = null;
+		Matcher m2_symbols = null;
+		
+		////////////////////////////////
+		
+		// filter
+		
+		////////////////////////////////
+		List<WordPattern> list_WP_filtered = 
+				new ArrayList<WordPattern>();
+		
+		// If the word DOES NOT contain [a-zA-Z]
+		//		=> then, put it into the new list
+		for (WordPattern wp : list_WP) {
+			
+			m1_tags = p1_tags.matcher(wp.getWord());
+			m2_symbols = p2_symbols.matcher(wp.getWord());
+			
+			// Neither tag, nor symbol
+			if (!m1_tags.find() && !m2_symbols.find()) {
+				
+				list_WP_filtered.add(wp);
+	//			continue;
+				
+			}
+			
+	//		// Log
+	//		String msg_Log = String.format("match => %s", wp.getWord());
+	//		Log.d("DBUtils.java" + "["
+	//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+	//				+ "]", msg_Log);
+			
+	//		list_WP_filtered.add(wp);
+			
+		}
+		
+		
+		return list_WP_filtered;
+		
+	}//find_All_WP_literals
+	
 
 }//public class DBUtils
 

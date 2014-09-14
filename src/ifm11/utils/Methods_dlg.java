@@ -24,6 +24,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -772,7 +773,7 @@ public class Methods_dlg {
 		// build list
 
 		////////////////////////////////
-		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP(actv);
+		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
 //		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
 		
 		/******************************
@@ -790,6 +791,20 @@ public class Methods_dlg {
 		Log.d("Methods_dlg.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+		
+		//debug
+		for (WordPattern wp : CONS.IMageActv.list_WP_1) {
+			
+			// Log
+			msg_Log = String.format(
+							Locale.JAPAN,
+							"(%d) %s (used = %d)", 
+							wp.getDb_Id(), wp.getWord(), wp.getUsed());
+			
+			Log.d("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}
 		
 		////////////////////////////////
 
@@ -894,7 +909,7 @@ public class Methods_dlg {
 		// build list
 		
 		////////////////////////////////
-		CONS.IMageActv.list_WP_2 = DBUtils.find_All_WP(actv);
+		CONS.IMageActv.list_WP_2 = DBUtils.find_All_WP_tags(actv);
 //		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
 		
 		/******************************
@@ -1016,7 +1031,7 @@ public class Methods_dlg {
 		// build list
 		
 		////////////////////////////////
-		CONS.IMageActv.list_WP_3 = DBUtils.find_All_WP(actv);
+		CONS.IMageActv.list_WP_3 = DBUtils.find_All_WP_literals(actv);
 //		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
 		
 		/******************************

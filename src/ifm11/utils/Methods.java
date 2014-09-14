@@ -8427,7 +8427,7 @@ public class Methods {
 	 ******************************/
 	public static int 
 	add_WP_to_Memo
-	(Activity actv, Dialog d1, WordPattern item) {
+	(Activity actv, Dialog d1, WordPattern wp) {
 		// TODO Auto-generated method stub
 		
 		////////////////////////////////
@@ -8449,7 +8449,7 @@ public class Methods {
 		
 		tmp = tmp.substring(0, pos_Current) +
 				" " + 
-				item.getWord() + 
+				wp.getWord() + 
 				" "
 				+ tmp.substring(pos_Current);
 //		+ tmp.substring(pos_Current + item.getWord().length());
@@ -8463,7 +8463,7 @@ public class Methods {
 		et.setText(tmp);
 		
 		// + 1 => space length
-		et.setSelection(pos_Current + item.getWord().length() + 2);
+		et.setSelection(pos_Current + wp.getWord().length() + 2);
 //		et.setSelection(tmp.length());
 		
 		////////////////////////////////
@@ -8471,7 +8471,18 @@ public class Methods {
 		// update: used
 		
 		////////////////////////////////
-		int res = Methods.update_Pattern_Used(actv, item.getDb_Id());
+		int res = Methods.update_Pattern_Used(actv, wp.getDb_Id());
+		
+		////////////////////////////////
+
+		// update: adapter
+
+		////////////////////////////////
+		wp.setUsed(wp.getUsed() + 1);
+		
+		CONS.IMageActv.adp_WPList_1.notifyDataSetChanged();
+		CONS.IMageActv.adp_WPList_2.notifyDataSetChanged();
+		CONS.IMageActv.adp_WPList_3.notifyDataSetChanged();
 		
 		return res;
 		
