@@ -13,6 +13,10 @@ public class WordPattern {
 	
 	String table_name;
 
+	int used;
+	
+	String used_at;
+	
 	public WordPattern
 	(Builder builder) {
 		// TODO Auto-generated constructor stub
@@ -24,9 +28,37 @@ public class WordPattern {
 		this.modified_at	= builder.modified_at;
 
 		this.word	= builder.word;
+	
+		this.used	= builder.used;
 		
-		this.table_name	= builder.table_name;
+		this.used_at	= builder.used_at;
 		
+//		this.table_name	= builder.table_name;
+		
+	}
+
+
+
+	public int getUsed() {
+		return used;
+	}
+
+
+
+	public String getUsed_at() {
+		return used_at;
+	}
+
+
+
+	public void setUsed(int used) {
+		this.used = used;
+	}
+
+
+
+	public void setUsed_at(String used_at) {
+		this.used_at = used_at;
 	}
 
 
@@ -104,10 +136,22 @@ public class WordPattern {
 		
 		String table_name;
 
+		int used;
+		
+		String used_at;
+
 		public WordPattern build() {
 			
 			return new WordPattern(this);
 			
+		}
+
+		public Builder setUsed(int used) {
+			this.used = used; return this;
+		}
+
+		public Builder setUsed_at(String used_at) {
+			this.used_at = used_at; return this;
 		}
 
 		public Builder setDb_Id(long db_Id) {

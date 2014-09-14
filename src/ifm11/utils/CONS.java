@@ -104,6 +104,7 @@ public class CONS {
 		////////////////////////////////
 		public final static String dbName = "ifm11.db";
 		public final static String dbName_IFM10 = "ifm10.db";
+		public final static String dbName_Previous = "ifm11_previous.db";
 		
 		public static String dPath_dbFile;
 		
@@ -246,7 +247,9 @@ public class CONS {
 		public static String[] col_names_MemoPatterns = {
 			
 			"word",							// 0
-			"table_name"					// 1
+			"used",							// 1
+			"used_at",							// 1
+//			"table_name"					// 1
 					
 		};
 		
@@ -255,14 +258,18 @@ public class CONS {
 			android.provider.BaseColumns._ID,		// 0
 			"created_at", "modified_at",			// 1,2
 			"word",									// 3
-			"table_name"							// 4
+			"used",									// 4
+			"used_at",								// 5
+//			"table_name"							// 4
 			
 		};
 		
 		public static String[] col_types_MemoPatterns = {
 			
 			"TEXT", 			// 0
-			"TEXT"				// 1
+			"INTEGER",			// 1
+			"TEXT",				// 2
+//			"TEXT"				// 1
 					
 		};
 		
@@ -270,7 +277,8 @@ public class CONS {
 			
 			"INTEGER", "TEXT", "TEXT",	// 0,1,2
 			"TEXT", 					// 3
-			"TEXT"						// 4
+			"INTEGER",					// 4
+			"TEXT", 					// 5
 			
 		};
 		
@@ -438,7 +446,8 @@ public class CONS {
 		
 	}
 	
-	public static class IMageActv {
+	public static class 
+	IMageActv {
 		
 		public static ArrayAdapter<String> adp_ImageActv_GridView = null;
 		
@@ -450,7 +459,25 @@ public class CONS {
 		
 		public static TI ti;
 		
-	}
+		////////////////////////////////
+
+		// listview-related
+
+		////////////////////////////////
+		public static List<WordPattern> list_WP_1;
+		
+		public static List<WordPattern> list_WP_2;
+		
+		public static List<WordPattern> list_WP_3;
+		
+		public static Adp_WordPatterns adp_WPList_1 = null;
+		
+		public static Adp_WordPatterns adp_WPList_2 = null;
+		
+		public static Adp_WordPatterns adp_WPList_3 = null;
+
+		
+	}//IMageActv
 	
 	public static class Admin {
 		
@@ -479,6 +506,13 @@ public class CONS {
 		// is running
 		public static boolean isRunning_TNActv = true;
 		public static String actvName_TNActv = "ifm11.main.TNActv";
+		
+		public static String[] special_Chars = new String[]{
+			
+			"()", "[]",
+			"（）", "「」", "『』", "〈〉", "【】", "｛｝",
+			
+		};
 		
 		////////////////////////////////
 
@@ -600,14 +634,16 @@ public class CONS {
 		
 		public static enum SortType {
 			
-			FileName, POSITION, CREATED_AT,
+			FileName, POSITION, CREATED_AT, WORD, USED,
 			
 		}
 
 		// Sort order
 		public static enum SortOrder {
 			
-				ASC, DEC,
+				ASC, 
+//				DEC, 
+				DESC,
 				
 		};
 

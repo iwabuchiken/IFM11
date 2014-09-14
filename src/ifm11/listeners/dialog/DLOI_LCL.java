@@ -1,4 +1,4 @@
-package ifm11.listeners;
+package ifm11.listeners.dialog;
 
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;

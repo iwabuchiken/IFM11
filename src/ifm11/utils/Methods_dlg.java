@@ -2,13 +2,14 @@ package ifm11.utils;
 
 import ifm11.adapters.Adp_ListItems;
 import ifm11.adapters.Adp_WordPatterns;
+import ifm11.comps.Comp_WP;
 import ifm11.items.ListItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
-import ifm11.listeners.DLOI_LCL;
 import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.dialog.DB_OCL;
 import ifm11.listeners.dialog.DB_OTL;
+import ifm11.listeners.dialog.DLOI_LCL;
 import ifm11.listeners.dialog.DOI_CL;
 import ifm11.main.R;
 import ifm11.utils.Tags.DialogTags;
@@ -23,6 +24,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -613,6 +615,13 @@ public class Methods_dlg {
 	dlg_AddMemo
 	(Activity actv, long db_Id) {
 		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		int res_i;
+		String msg_Log;
 		
 		////////////////////////////////
 
@@ -634,32 +643,57 @@ public class Methods_dlg {
 		}
 		
 		// Log
-		String msg_Log = "dlg => obtained";
+		msg_Log = "dlg => obtained";
 		Log.d("Methods_dlg.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+//		////////////////////////////////
+//
+//		// gridview
+//
+//		////////////////////////////////
+//		dlg = _dlg_AddMemo_Set_Gridview(actv, dlg);
+
 		////////////////////////////////
 
-		// gridview
+		// listviews
 
 		////////////////////////////////
-		dlg = _dlg_AddMemo_Set_Gridview(actv, dlg);
-
-		//test
-		GridView gv = (GridView) dlg.findViewById(R.id.dlg_add_memos_gv);
+		res_i = _dlg_AddMemo_Set_LV_1(actv, dlg);
 		
-//		// Log
-//		msg_Log = "gv.getChildCount() => " + gv.getChildCount();
-//		Log.d("Methods_dlg.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-
 		// Log
-//		msg_Log = "CONS.IMageActv.patternList.size() => "
-//							+ CONS.IMageActv.patternList.size();
-//		Log.d("Methods_dlg.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
+		msg_Log = "res_i => " + res_i;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		dlg = _dlg_AddMemo_Set_Listviews(actv, dlg);
+
+		// LV 2
+		res_i = _dlg_AddMemo_Set_LV_2(actv, dlg);
+		
+		// Log
+		msg_Log = "res_i => " + res_i;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		dlg = _dlg_AddMemo_Set_Listviews(actv, dlg);
+		
+		// LV 3
+		res_i = _dlg_AddMemo_Set_LV_3(actv, dlg);
+		
+		// Log
+		msg_Log = "res_i => " + res_i;
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		dlg = _dlg_AddMemo_Set_Listviews(actv, dlg);
+		
+		////////////////////////////////
+
+		// set: listeners
+
+		////////////////////////////////
+		res_i = _dlg_AddMemo_Set_Listeners(actv, dlg);
 		
 		////////////////////////////////
 
@@ -669,6 +703,435 @@ public class Methods_dlg {
 		dlg.show();
 		
 	}//dlg_addMemo
+	
+	private static int 
+	_dlg_AddMemo_Set_Listeners
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// lv 1
+
+		////////////////////////////////
+		ListView lv_1 = (ListView) d.findViewById(R.id.dlg_add_memos_lv1);
+		
+		lv_1.setTag(Tags.DialogItemTags.ACTV_IMAGE_ADD_MEMO_LV_1);
+		
+		lv_1.setOnItemClickListener(new DOI_CL(actv, d));
+		
+		lv_1.setOnItemLongClickListener(new DLOI_LCL(actv));
+
+		////////////////////////////////
+		
+		// lv 2
+		
+		////////////////////////////////
+		ListView lv_2 = (ListView) d.findViewById(R.id.dlg_add_memos_lv2);
+		
+		lv_2.setTag(Tags.DialogItemTags.ACTV_IMAGE_ADD_MEMO_LV_2);
+		
+		lv_2.setOnItemClickListener(new DOI_CL(actv, d));
+		
+		lv_2.setOnItemLongClickListener(new DLOI_LCL(actv));
+		
+		////////////////////////////////
+		
+		// lv 3
+		
+		////////////////////////////////
+		ListView lv_3 = (ListView) d.findViewById(R.id.dlg_add_memos_lv3);
+		
+		lv_3.setTag(Tags.DialogItemTags.ACTV_IMAGE_ADD_MEMO_LV_3);
+		
+		lv_3.setOnItemClickListener(new DOI_CL(actv, d));
+		
+		lv_3.setOnItemLongClickListener(new DLOI_LCL(actv));
+		
+		
+		return 0;
+		
+	}//_dlg_AddMemo_Set_Listeners
+
+	/******************************
+		@return
+			-1 build list => null<br>
+			-2 adapter 1 => null<br>
+			1 list => set<br>
+	 ******************************/
+	private static int
+	_dlg_AddMemo_Set_LV_1
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		String msg_Log;
+		
+		////////////////////////////////
+
+		// lv 1
+
+		////////////////////////////////
+		////////////////////////////////
+
+		// build list
+
+		////////////////////////////////
+		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
+//		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.IMageActv.list_WP_1 == null) {
+			
+			return -1;
+			
+		}
+		
+		// Log
+		msg_Log = "CONS.IMageActv.list_WP_1.size() => " 
+						+ CONS.IMageActv.list_WP_1.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		//debug
+		for (WordPattern wp : CONS.IMageActv.list_WP_1) {
+			
+			// Log
+			msg_Log = String.format(
+							Locale.JAPAN,
+							"(%d) %s (used = %d)", 
+							wp.getDb_Id(), wp.getWord(), wp.getUsed());
+			
+			Log.d("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}
+		
+		////////////////////////////////
+
+		// sort
+
+		////////////////////////////////
+		Collections.sort(
+						CONS.IMageActv.list_WP_1, 
+						new Comp_WP(
+								
+								CONS.Enums.SortType.WORD,
+								CONS.Enums.SortOrder.ASC
+						));
+
+		Collections.sort(
+				CONS.IMageActv.list_WP_1, 
+				new Comp_WP(
+						CONS.Enums.SortType.USED,
+						CONS.Enums.SortOrder.DESC
+						));
+
+		////////////////////////////////
+
+		// adapter
+
+		////////////////////////////////
+		// Log
+		msg_Log = "Constructing an adapter...";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.IMageActv.adp_WPList_1 = new Adp_WordPatterns(
+//				CONS.MemoActv.adp_WPList_1 = new ArrayAdapter<WordPattern>(
+				actv,
+				R.layout.list_row_gv,
+				CONS.IMageActv.list_WP_1
+				);
+
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.IMageActv.adp_WPList_1 == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.adp_WPList_1 => null";
+			Log.e("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "adapter 1 => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+
+		// set adapter
+
+		////////////////////////////////
+		ListView lv_1 = (ListView) d.findViewById(R.id.dlg_add_memos_lv1);
+		
+		// Log
+		msg_Log = "setting the adapter to the listview";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		lv_1.setAdapter(CONS.IMageActv.adp_WPList_1);
+		
+		
+		return 1;
+		
+	}//_dlg_AddMemo_Set_Listviews
+
+	/******************************
+		@return
+			-1 build list => null<br>
+			-2 adapter 1 => null<br>
+			1 list => set<br>
+	 ******************************/
+	private static int
+	_dlg_AddMemo_Set_LV_2
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// vars
+		
+		////////////////////////////////
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// lv 2
+		
+		////////////////////////////////
+		////////////////////////////////
+		
+		// build list
+		
+		////////////////////////////////
+		CONS.IMageActv.list_WP_2 = DBUtils.find_All_WP_tags(actv);
+//		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.IMageActv.list_WP_2 == null) {
+			
+			return -1;
+			
+		}
+		
+		// Log
+		msg_Log = "CONS.IMageActv.list_WP_2.size() => " 
+				+ CONS.IMageActv.list_WP_2.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// sort
+		
+		////////////////////////////////
+		Collections.sort(
+				CONS.IMageActv.list_WP_2, 
+				new Comp_WP(
+						
+						CONS.Enums.SortType.WORD,
+						CONS.Enums.SortOrder.ASC
+						));
+		
+		Collections.sort(
+				CONS.IMageActv.list_WP_2, 
+				new Comp_WP(
+						CONS.Enums.SortType.USED,
+						CONS.Enums.SortOrder.DESC
+						));
+		
+		////////////////////////////////
+		
+		// adapter
+		
+		////////////////////////////////
+		// Log
+		msg_Log = "Constructing an adapter...";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.IMageActv.adp_WPList_2 = new Adp_WordPatterns(
+//				CONS.MemoActv.adp_WPList_1 = new ArrayAdapter<WordPattern>(
+				actv,
+				R.layout.list_row_gv,
+				CONS.IMageActv.list_WP_2
+				);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.IMageActv.adp_WPList_2 == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.adp_WPList_2 => null";
+			Log.e("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "adapter 2 => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+		
+		// set adapter
+		
+		////////////////////////////////
+		ListView lv_2 = (ListView) d.findViewById(R.id.dlg_add_memos_lv2);
+		
+		// Log
+		msg_Log = "setting the adapter to the listview";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		lv_2.setAdapter(CONS.IMageActv.adp_WPList_2);
+		
+		
+		return 1;
+		
+	}//_dlg_AddMemo_Set_Listviews
+	
+	/******************************
+		@return
+			-1 build list => null<br>
+			-2 adapter 1 => null<br>
+			1 list => set<br>
+	 ******************************/
+	private static int
+	_dlg_AddMemo_Set_LV_3
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// vars
+		
+		////////////////////////////////
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// lv 3
+		
+		////////////////////////////////
+		////////////////////////////////
+		
+		// build list
+		
+		////////////////////////////////
+		CONS.IMageActv.list_WP_3 = DBUtils.find_All_WP_literals(actv);
+//		CONS.IMageActv.list_WP_1 = DBUtils.find_All_WP_symbols(actv);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (CONS.IMageActv.list_WP_3 == null) {
+			
+			return -1;
+			
+		}
+		
+		// Log
+		msg_Log = "CONS.IMageActv.list_WP_3.size() => " 
+				+ CONS.IMageActv.list_WP_3.size();
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// sort
+		
+		////////////////////////////////
+		Collections.sort(
+				CONS.IMageActv.list_WP_3, 
+				new Comp_WP(
+						
+						CONS.Enums.SortType.WORD,
+						CONS.Enums.SortOrder.ASC
+						));
+		
+		Collections.sort(
+				CONS.IMageActv.list_WP_3, 
+				new Comp_WP(
+						CONS.Enums.SortType.USED,
+						CONS.Enums.SortOrder.DESC
+						));
+		
+		////////////////////////////////
+		
+		// adapter
+		
+		////////////////////////////////
+		// Log
+		msg_Log = "Constructing an adapter...";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		CONS.IMageActv.adp_WPList_3 = new Adp_WordPatterns(
+//				CONS.MemoActv.adp_WPList_1 = new ArrayAdapter<WordPattern>(
+				actv,
+				R.layout.list_row_gv,
+				CONS.IMageActv.list_WP_3
+				);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.IMageActv.adp_WPList_3 == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.adp_WPList_3 => null";
+			Log.e("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "adapter 3 => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+		
+		// set adapter
+		
+		////////////////////////////////
+		ListView lv_3 = (ListView) d.findViewById(R.id.dlg_add_memos_lv3);
+		
+		// Log
+		msg_Log = "setting the adapter to the listview";
+		Log.d("Methods_dlg.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		lv_3.setAdapter(CONS.IMageActv.adp_WPList_3);
+		
+		
+		return 1;
+		
+	}//_dlg_AddMemo_Set_Listviews
 	
 	public static Dialog 
 	_dlg_AddMemo_GetDialog
@@ -718,7 +1181,7 @@ public class Methods_dlg {
 		Button btn_add = (Button) dlg.findViewById(R.id.dlg_add_memos_bt_add);
 		Button btn_cancel = (Button) dlg.findViewById(R.id.dlg_add_memos_cancel);
 		
-		Button btn_patterns = (Button) dlg.findViewById(R.id.dlg_add_memos_bt_patterns);
+//		Button btn_patterns = (Button) dlg.findViewById(R.id.dlg_add_memos_bt_patterns);
 		
 		// Tags
 //		btn_add.setTag(DialogTags.dlg_add_memos_bt_add);
@@ -727,13 +1190,13 @@ public class Methods_dlg {
 //		btn_cancel.setTag(DialogTags.dlg_generic_dismiss);
 		
 //		btn_patterns.setTag(DialogTags.dlg_add_memos_bt_patterns);
-		btn_patterns.setTag(DialogTags.DLG_ADD_MEMOS_BT_PATTERNS);
+//		btn_patterns.setTag(DialogTags.DLG_ADD_MEMOS_BT_PATTERNS);
 		
 		//
 		btn_add.setOnTouchListener(new DB_OTL(actv, dlg));
 		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg));
 		
-		btn_patterns.setOnTouchListener(new DB_OTL(actv, dlg));
+//		btn_patterns.setOnTouchListener(new DB_OTL(actv, dlg));
 		
 		////////////////////////////////
 
@@ -743,306 +1206,306 @@ public class Methods_dlg {
 		btn_add.setOnClickListener(new DB_OCL(actv, dlg, db_Id));
 		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg));
 		
-		btn_patterns.setOnClickListener(new DB_OCL(actv, dlg));
+//		btn_patterns.setOnClickListener(new DB_OCL(actv, dlg));
 
 		
 		return dlg;
 		
 	}//public static Dialog dlg_addMemo(Activity actv, long file_id, String tableName)
 
-	/******************************
-		@return 
-		1. Cursor returned null => parameter dlg<br>
-		2. Cursor has no entry => parameter dlg<br>
-		
-	 ******************************/
-	public static Dialog 
-	_dlg_AddMemo_Set_Gridview
-	(Activity actv, Dialog dlg) {
-		////////////////////////////////
-
-		// setup: db, view
-
-		////////////////////////////////
-		GridView gv = (GridView) dlg.findViewById(R.id.dlg_add_memos_gv);
-		
-		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
-		
-		SQLiteDatabase rdb = dbu.getReadableDatabase();
-
-		////////////////////////////////
-
-		// Table exists?
-
-		////////////////////////////////
-		String tableName = CONS.DB.tname_MemoPatterns;
-		
-		boolean res = dbu.tableExists(rdb, tableName);
-		
-		if (res == true) {
-			
-			// Log
-			Log.d("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", "Table exists: " + tableName);
-			
-			rdb.close();
-			
-//			return;
-			
-		} else {//if (res == false)
-			////////////////////////////////
-
-			// no table => creating one
-
-			////////////////////////////////
-			// Log
-			Log.d("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", "Table doesn't exist: " + tableName);
-			
-			rdb.close();
-			
-			SQLiteDatabase wdb = dbu.getWritableDatabase();
-			
-			res = dbu.createTable(
-							wdb, 
-							tableName, 
-							CONS.DB.col_names_MemoPatterns, 
-							CONS.DB.col_types_MemoPatterns);
-			
-			if (res == true) {
-				// Log
-				Log.d("Methods.java"
-						+ "["
-						+ Thread.currentThread().getStackTrace()[2]
-								.getLineNumber() + "]", "Table created: " + tableName);
-				
-				wdb.close();
-				
-			} else {//if (res == true)
-				// Log
+//	/******************************
+//		@return 
+//		1. Cursor returned null => parameter dlg<br>
+//		2. Cursor has no entry => parameter dlg<br>
+//		
+//	 ******************************/
+//	public static Dialog 
+//	_dlg_AddMemo_Set_Gridview
+//	(Activity actv, Dialog dlg) {
+//		////////////////////////////////
+//
+//		// setup: db, view
+//
+//		////////////////////////////////
+//		GridView gv = (GridView) dlg.findViewById(R.id.dlg_add_memos_gv);
+//		
+//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		
+//		SQLiteDatabase rdb = dbu.getReadableDatabase();
+//
+//		////////////////////////////////
+//
+//		// Table exists?
+//
+//		////////////////////////////////
+//		String tableName = CONS.DB.tname_MemoPatterns;
+//		
+//		boolean res = dbu.tableExists(rdb, tableName);
+//		
+//		if (res == true) {
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Table exists: " + tableName);
+//			
+//			rdb.close();
+//			
+////			return;
+//			
+//		} else {//if (res == false)
+//			////////////////////////////////
+//
+//			// no table => creating one
+//
+//			////////////////////////////////
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Table doesn't exist: " + tableName);
+//			
+//			rdb.close();
+//			
+//			SQLiteDatabase wdb = dbu.getWritableDatabase();
+//			
+//			res = dbu.createTable(
+//							wdb, 
+//							tableName, 
+//							CONS.DB.col_names_MemoPatterns, 
+//							CONS.DB.col_types_MemoPatterns);
+//			
+//			if (res == true) {
+//				// Log
 //				Log.d("Methods.java"
 //						+ "["
 //						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", "Create table failed: " + tableName);
-				
-				String msg = "Create table failed: " + tableName;
-				Methods_dlg.dlg_ShowMessage(actv, msg);
-				
-				
-				wdb.close();
-				
-				return dlg;
-				
-			}//if (res == true)
-
-			
-		}//if (res == false)
-		
-		
-		////////////////////////////////
-
-		// Get cursor
-
-		////////////////////////////////
-		rdb = dbu.getReadableDatabase();
-		
-//		String sql = "SELECT * FROM " + tableName + " ORDER BY word ASC";
+//								.getLineNumber() + "]", "Table created: " + tableName);
+//				
+//				wdb.close();
+//				
+//			} else {//if (res == true)
+//				// Log
+////				Log.d("Methods.java"
+////						+ "["
+////						+ Thread.currentThread().getStackTrace()[2]
+////								.getLineNumber() + "]", "Create table failed: " + tableName);
+//				
+//				String msg = "Create table failed: " + tableName;
+//				Methods_dlg.dlg_ShowMessage(actv, msg);
+//				
+//				
+//				wdb.close();
+//				
+//				return dlg;
+//				
+//			}//if (res == true)
+//
+//			
+//		}//if (res == false)
 //		
-//		Cursor c = rdb.rawQuery(sql, null);
 //		
+//		////////////////////////////////
+//
+//		// Get cursor
+//
+//		////////////////////////////////
+//		rdb = dbu.getReadableDatabase();
+//		
+////		String sql = "SELECT * FROM " + tableName + " ORDER BY word ASC";
+////		
+////		Cursor c = rdb.rawQuery(sql, null);
+////		
+////		actv.startManagingCursor(c);
+//		
+//		// "word"
+//		String orderBy = CONS.DB.col_names_MemoPatterns_full[3] + " ASC"; 
+//		
+//		Cursor c = rdb.query(
+//						CONS.DB.tname_MemoPatterns,
+//						CONS.DB.col_names_MemoPatterns_full,
+//		//				CONS.DB.col_types_refresh_log_full,
+//						null, null,		// selection, args 
+//						null, 			// group by
+//						null, 		// having
+//						orderBy);
+//
 //		actv.startManagingCursor(c);
-		
-		// "word"
-		String orderBy = CONS.DB.col_names_MemoPatterns_full[3] + " ASC"; 
-		
-		Cursor c = rdb.query(
-						CONS.DB.tname_MemoPatterns,
-						CONS.DB.col_names_MemoPatterns_full,
-		//				CONS.DB.col_types_refresh_log_full,
-						null, null,		// selection, args 
-						null, 			// group by
-						null, 		// having
-						orderBy);
-
-		actv.startManagingCursor(c);
-		
-		/******************************
-			validate: null
-		 ******************************/
-		if (c == null) {
-	
-			// Log
-			String msg_Log = "query => null";
-			Log.e("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-
-			rdb.close();
-			
-			return dlg;
-			
-		}
-		
-		/******************************
-			validate: any entry?
-		 ******************************/
-		if (c.getCount() < 1) {
-	
-			// Log
-			String msg_Log = "entry => < 1";
-			Log.e("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-			rdb.close();
-			
-			return dlg;
-			
-		}
-
-		////////////////////////////////
-
-		// cursor: move to first
-
-		////////////////////////////////
-		c.moveToFirst();
-		
-		////////////////////////////////
-
-		// Get list
-
-		////////////////////////////////
-//		CONS.IMageActv.patternList = new ArrayList<String>();
-//		List<String> patternList = new ArrayList<String>();
-
-		List<WordPattern> patternList = new ArrayList<WordPattern>();
-		
-		WordPattern wp = null;
-		
-		if (c.getCount() > 0) {
-			
-			for (int i = 0; i < c.getCount(); i++) {
-				
-//				CONS.IMageActv.patternList.add(c.getString(3));	// 3 => "word"
-//				patternList.add(c.getString(3));	// 3 => "word"
-//				patternList.add(c.getString(1));
-		
-				wp = new WordPattern.Builder()
-				.setDb_Id(c.getLong(0))
-				.setCreated_at(c.getString(1))
-				.setModified_at(c.getString(2))
-				.setWord(c.getString(3))
-				.build();
-	
-				patternList.add(wp);
-
-				c.moveToNext();
-				
-			}//for (int i = 0; i < patternList.size(); i++)
-			
-		} else {//if (c.getCount() > 0)
-			
-			// Log
-			Log.d("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", "!c.getCount() > 0");
-			
-		}//if (c.getCount() > 0)
-		
-		
-//		Collections.sort(CONS.IMageActv.patternList);
-////		Collections.sort(patternList);
+//		
+//		/******************************
+//			validate: null
+//		 ******************************/
+//		if (c == null) {
+//	
+//			// Log
+//			String msg_Log = "query => null";
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//
+//			rdb.close();
+//			
+//			return dlg;
+//			
+//		}
+//		
+//		/******************************
+//			validate: any entry?
+//		 ******************************/
+//		if (c.getCount() < 1) {
+//	
+//			// Log
+//			String msg_Log = "entry => < 1";
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			rdb.close();
+//			
+//			return dlg;
+//			
+//		}
+//
+//		////////////////////////////////
+//
+//		// cursor: move to first
+//
+//		////////////////////////////////
+//		c.moveToFirst();
+//		
+//		////////////////////////////////
+//
+//		// Get list
+//
+//		////////////////////////////////
+////		CONS.IMageActv.patternList = new ArrayList<String>();
+////		List<String> patternList = new ArrayList<String>();
+//
+//		List<WordPattern> patternList = new ArrayList<WordPattern>();
+//		
+//		WordPattern wp = null;
+//		
+//		if (c.getCount() > 0) {
+//			
+//			for (int i = 0; i < c.getCount(); i++) {
+//				
+////				CONS.IMageActv.patternList.add(c.getString(3));	// 3 => "word"
+////				patternList.add(c.getString(3));	// 3 => "word"
+////				patternList.add(c.getString(1));
+//		
+//				wp = new WordPattern.Builder()
+//				.setDb_Id(c.getLong(0))
+//				.setCreated_at(c.getString(1))
+//				.setModified_at(c.getString(2))
+//				.setWord(c.getString(3))
+//				.build();
+//	
+//				patternList.add(wp);
+//
+//				c.moveToNext();
+//				
+//			}//for (int i = 0; i < patternList.size(); i++)
+//			
+//		} else {//if (c.getCount() > 0)
+//			
+//			// Log
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "!c.getCount() > 0");
+//			
+//		}//if (c.getCount() > 0)
+//		
+//		
+////		Collections.sort(CONS.IMageActv.patternList);
+//////		Collections.sort(patternList);
+////
+////		// Log
+////		String msg_Log = "CONS.IMageActv.patternList.size() => " 
+////						+ CONS.IMageActv.patternList.size();
+//////		String msg_Log = "patternList => " + patternList.size();
+////		Log.d("Methods_dlg.java" + "["
+////				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+////				+ "]", msg_Log);
+//
+//		////////////////////////////////
+//
+//		// Adapter
+//
+//		////////////////////////////////
+////		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+////		CONS.IMageActv.adp_ImageActv_GridView = new ArrayAdapter<String>(
+////										actv,
+////										R.layout.add_memo_grid_view,
+////										CONS.IMageActv.patternList
+//////										patternList
+////										);
+//		
+//		Adp_WordPatterns adapter = new Adp_WordPatterns(
+//				actv,
+//				R.layout.add_memo_grid_view,
+//				patternList
+//				);
+//
+//		
+////		gv.setAdapter(CONS.IMageActv.adp_ImageActv_GridView);
+//		gv.setAdapter(adapter);
+//
+////		// Log
+////		String msg_Log = "adapter.getCount() => " 
+////					+ CONS.IMageActv.adp_ImageActv_GridView.getCount();
+////		Log.d("Methods_dlg.java" + "["
+////				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+////				+ "]", msg_Log);
+//		
+//		////////////////////////////////
+//
+//		// Set listener
+//
+//		////////////////////////////////
+//////		gv.setTag(DialogTags.dlg_add_memos_gv);
+//		gv.setTag(Tags.DialogItemTags.DLG_ADD_MEMOS_GV);
+////		
+//		gv.setOnItemClickListener(new DOI_CL(actv, dlg));
+////		gv.setOnItemClickListener(new DialogOnItemClickListener(actv, dlg));
+////		
+////		
+////		// Log
+////		Log.d("Methods.java" + "["
+////				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+////				+ "]", "GridView setup => Done");
+//		
+//		/*----------------------------
+//		 * 8. Close db
+//			----------------------------*/
+//		rdb.close();
+//		
+//
+//		////////////////////////////////
+//
+//		// return
+//
+//		////////////////////////////////
+//		// Log
+//		String msg_Log = "gridview => set";
+//		Log.d("Methods_dlg.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+////		// Log
+////		msg_Log = "patternList => " + CONS.IMageActv.patternList.size();
+//////		msg_Log = "patternList => " + patternList.size();
+////		Log.d("Methods_dlg.java" + "["
+////				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+////				+ "]", msg_Log);
 //
 //		// Log
-//		String msg_Log = "CONS.IMageActv.patternList.size() => " 
-//						+ CONS.IMageActv.patternList.size();
-////		String msg_Log = "patternList => " + patternList.size();
+//		msg_Log = "gv.getChildCount() => " + gv.getChildCount();
 //		Log.d("Methods_dlg.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", msg_Log);
-
-		////////////////////////////////
-
-		// Adapter
-
-		////////////////////////////////
-//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-//		CONS.IMageActv.adp_ImageActv_GridView = new ArrayAdapter<String>(
-//										actv,
-//										R.layout.add_memo_grid_view,
-//										CONS.IMageActv.patternList
-////										patternList
-//										);
-		
-		Adp_WordPatterns adapter = new Adp_WordPatterns(
-				actv,
-				R.layout.add_memo_grid_view,
-				patternList
-				);
-
-		
-//		gv.setAdapter(CONS.IMageActv.adp_ImageActv_GridView);
-		gv.setAdapter(adapter);
-
-//		// Log
-//		String msg_Log = "adapter.getCount() => " 
-//					+ CONS.IMageActv.adp_ImageActv_GridView.getCount();
-//		Log.d("Methods_dlg.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-		
-		////////////////////////////////
-
-		// Set listener
-
-		////////////////////////////////
-////		gv.setTag(DialogTags.dlg_add_memos_gv);
-		gv.setTag(Tags.DialogItemTags.DLG_ADD_MEMOS_GV);
 //		
-		gv.setOnItemClickListener(new DOI_CL(actv, dlg));
-//		gv.setOnItemClickListener(new DialogOnItemClickListener(actv, dlg));
+//		return dlg;
 //		
-//		
-//		// Log
-//		Log.d("Methods.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "GridView setup => Done");
-		
-		/*----------------------------
-		 * 8. Close db
-			----------------------------*/
-		rdb.close();
-		
-
-		////////////////////////////////
-
-		// return
-
-		////////////////////////////////
-		// Log
-		String msg_Log = "gridview => set";
-		Log.d("Methods_dlg.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-		
-//		// Log
-//		msg_Log = "patternList => " + CONS.IMageActv.patternList.size();
-////		msg_Log = "patternList => " + patternList.size();
-//		Log.d("Methods_dlg.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-
-		// Log
-		msg_Log = "gv.getChildCount() => " + gv.getChildCount();
-		Log.d("Methods_dlg.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-		
-		return dlg;
-		
-	}//public static Dialog dlg_addMemo(Activity actv, long file_id, String tableName)
+//	}//public static Dialog dlg_addMemo(Activity actv, long file_id, String tableName)
 
 	public static void 
 	dlg_Create_Dir
@@ -3483,5 +3946,82 @@ public class Methods_dlg {
 		return lv;
 		
 	}//_dlg_Admin_Ops__Setup_List
+
+	
+	public static void 
+	conf_DropCreate_TablePatterns
+	(Activity actv, Dialog d1, Dialog d2) {
+		// TODO Auto-generated method stub
+		
+		Dialog d3 = new Dialog(actv);
+		
+		//
+		d3.setContentView(R.layout.dlg_tmpl_confirm_simple);
+		
+		// Title
+		d3.setTitle(R.string.generic_tv_confirm);
+		
+		////////////////////////////////
+
+		// set: message
+
+		////////////////////////////////
+		TextView tv_Message = (TextView) d3.findViewById(
+								R.id.dlg_tmpl_confirm_simple_tv_message);
+		
+		tv_Message.setText(actv.getString(
+					R.string.commons_lbl_drop_create_table) + " ?");
+
+		////////////////////////////////
+		
+		// set: item name
+		
+		////////////////////////////////
+		TextView tv_ItemName = (TextView) d3.findViewById(
+				R.id.dlg_tmpl_confirm_simple_tv_item_name);
+		
+		tv_ItemName.setText(CONS.DB.tname_MemoPatterns);
+		
+		////////////////////////////////
+
+		// button: cancel
+
+		////////////////////////////////
+		Button btn_Cancel = (Button) d3.findViewById(
+						R.id.dlg_tmpl_confirm_simple_btn_cancel);
+		
+		//
+//		btn_Cancel.setTag(Tags.DialogTags.dlg_generic_dismiss_second_dialog);
+		btn_Cancel.setTag(Tags.DialogTags.GENERIC_DISMISS_THIRD_DIALOG);
+		
+		//
+		btn_Cancel.setOnTouchListener(new DB_OTL(actv, d1, d2, d3));
+		
+		btn_Cancel.setOnClickListener(new DB_OCL(actv, d1, d2, d3));
+		
+		////////////////////////////////
+		
+		// button: ok
+		
+		////////////////////////////////
+		Button btn_Ok = (Button) d3.findViewById(
+				R.id.dlg_tmpl_confirm_simple_btn_ok);
+		
+		//
+		btn_Ok.setTag(Tags.DialogTags.DROP_CREATE_TABLE_PATTERNS_OK);
+		
+		//
+		btn_Ok.setOnTouchListener(new DB_OTL(actv, d1, d2, d3));
+		
+		btn_Ok.setOnClickListener(new DB_OCL(actv, d1, d2, d3));
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		d3.show();		
+		
+	}//conf_DropCreate_TablePatterns
 
 }//public class Methods_dialog
