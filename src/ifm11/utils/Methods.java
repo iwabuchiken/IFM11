@@ -4,6 +4,7 @@ package ifm11.utils;
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_TI;
+import ifm11.comps.Comp_WP;
 import ifm11.items.LogItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
@@ -8475,15 +8476,71 @@ public class Methods {
 		
 		////////////////////////////////
 
-		// update: adapter
+		// update listview
+		//	=> optional. Not to update the listviews this time: 14/09/2014 16:15:30
 
 		////////////////////////////////
-		wp.setUsed(wp.getUsed() + 1);
 		
-		CONS.IMageActv.adp_WPList_1.notifyDataSetChanged();
-		CONS.IMageActv.adp_WPList_2.notifyDataSetChanged();
-		CONS.IMageActv.adp_WPList_3.notifyDataSetChanged();
-		
+//		////////////////////////////////
+//
+//		// update: adapter
+//
+//		////////////////////////////////
+//		wp.setUsed(wp.getUsed() + 1);
+//		
+//		// sort
+//		Collections.sort(
+//				CONS.IMageActv.list_WP_1, 
+//				new Comp_WP(
+//						
+//						CONS.Enums.SortType.WORD,
+//						CONS.Enums.SortOrder.ASC
+//				));
+//
+//		Collections.sort(
+//				CONS.IMageActv.list_WP_1, 
+//				new Comp_WP(
+//						CONS.Enums.SortType.USED,
+//						CONS.Enums.SortOrder.DESC
+//						));
+//
+//		// sort
+//		Collections.sort(
+//				CONS.IMageActv.list_WP_2, 
+//				new Comp_WP(
+//						
+//						CONS.Enums.SortType.WORD,
+//						CONS.Enums.SortOrder.ASC
+//						));
+//		
+//		Collections.sort(
+//				CONS.IMageActv.list_WP_2, 
+//				new Comp_WP(
+//						CONS.Enums.SortType.USED,
+//						CONS.Enums.SortOrder.DESC
+//						));
+//		
+//		// sort
+//		Collections.sort(
+//				CONS.IMageActv.list_WP_3, 
+//				new Comp_WP(
+//						
+//						CONS.Enums.SortType.WORD,
+//						CONS.Enums.SortOrder.ASC
+//						));
+//		
+//		Collections.sort(
+//				CONS.IMageActv.list_WP_3, 
+//				new Comp_WP(
+//						CONS.Enums.SortType.USED,
+//						CONS.Enums.SortOrder.DESC
+//						));
+//		
+//		
+//		CONS.IMageActv.adp_WPList_1.notifyDataSetChanged();
+//		CONS.IMageActv.adp_WPList_2.notifyDataSetChanged();
+//		CONS.IMageActv.adp_WPList_3.notifyDataSetChanged();
+//		
 		return res;
 		
 	}//add_WP_to_Memo
@@ -8503,7 +8560,8 @@ public class Methods {
 		// update
 
 		////////////////////////////////
-		int res = DBUtils.update_Pattern_Used(actv, db_Id);
+		int res = DBUtils.update_Pattern_Used_2(actv, db_Id);
+//		int res = DBUtils.update_Pattern_Used(actv, db_Id);
 
 		////////////////////////////////
 

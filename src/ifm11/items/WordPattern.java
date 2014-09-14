@@ -28,8 +28,12 @@ public class WordPattern {
 		this.modified_at	= builder.modified_at;
 
 		this.word	= builder.word;
+	
+		this.used	= builder.used;
 		
-		this.table_name	= builder.table_name;
+		this.used_at	= builder.used_at;
+		
+//		this.table_name	= builder.table_name;
 		
 	}
 

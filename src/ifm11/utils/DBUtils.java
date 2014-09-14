@@ -4332,6 +4332,27 @@ public class DBUtils extends SQLiteOpenHelper{
 			
 			list_WP.add(wp);
 			
+			//debug
+			if (c.isNull(4)) {
+				
+				// Log
+				msg_Log = "cursor(4) => null";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+
+				// Log
+				msg_Log = "cursor(4) => not null";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+
+			}
+			
 			// Log
 			msg_Log = String.format(
 					Locale.JAPAN,
@@ -4463,6 +4484,150 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//update_Pattern_Used
 
+	/******************************
+		@return
+			-1 find pattern => failed<br>
+			<!-- -2 SQLException<br> -->
+			1 update => executed<br>
+	 ******************************/
+	public static int 
+	update_Pattern_Used_2
+	(Activity actv, long db_Id) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// prep: vars
+		
+		////////////////////////////////
+		WordPattern wp = DBUtils.find_Pattern_From_Id(actv, db_Id);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (wp == null) {
+			
+			// Log
+			String msg_Log = "find pattern => failed: " + db_Id;
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+		int used_Current = wp.getUsed();
+		int used_Updated = used_Current + 1;
+		
+		// Log
+		String msg_Log = "used_Current => " + used_Current;
+		Log.d("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		msg_Log = "used_Updated => " + used_Updated;
+		Log.d("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		String used_at = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		
+		////////////////////////////////
+		
+		// setup: db
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		//
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"word",									// 3
+//		"used",									// 4
+//		"used_at",								// 5
+		
+		ContentValues cv = new ContentValues();
+		
+		cv.put(CONS.DB.col_names_MemoPatterns_full[4], String.valueOf(used_Updated));
+		
+		cv.put(
+				CONS.DB.col_names_MemoPatterns_full[2], 
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+		
+		cv.put(CONS.DB.col_names_MemoPatterns_full[5], used_at);
+
+		String where = android.provider.BaseColumns._ID + " = ?";
+		String[] args = new String[]{String.valueOf(db_Id)};
+	
+		// update
+		int res = wdb.update(CONS.DB.tname_MemoPatterns, cv, where, args);
+		
+		// Log
+		msg_Log = "res => " + res;
+		Log.d("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// close
+
+		////////////////////////////////
+		wdb.close();
+		
+		return res;
+		
+//		String sql = "UPDATE " + CONS.DB.tname_MemoPatterns + 
+//				" SET " + 
+//				
+//				CONS.DB.col_names_MemoPatterns_full[4] + 
+////				" = " + used_Updated + " " +
+//				" = '" + String.valueOf(used_Updated) + "' " +
+////				" = '" + used_Updated + "' " +
+//					", " +
+//					CONS.DB.col_names_MemoPatterns_full[2] +
+//					" = '" + 
+//					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()) + 
+//					"' " +
+//					", " +
+//					CONS.DB.col_names_MemoPatterns_full[5] +
+//					" = '" + 
+//					used_at +
+//					"' " +
+//
+//				" WHERE " + android.provider.BaseColumns._ID + " = '" + 
+//				db_Id + "'";
+		
+//		try {
+//			
+//			wdb.execSQL(sql);
+//			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "sql => Done: " + sql);
+//			
+//			//Methods.toastAndLog(actv, "Data updated", 2000);
+//			
+//			wdb.close();
+//			
+//			return 1;
+//			
+//			
+//		} catch (SQLException e) {
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception => " + e.toString() + " / " + "sql: " + sql);
+//			
+//			wdb.close();
+//			
+//			return -2;
+//		}
+//		
+	}//update_Pattern_Used
+	
 	/******************************
 		@return
 			null => 
