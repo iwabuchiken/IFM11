@@ -2099,11 +2099,19 @@ public class Methods {
 		// get: patterns list
 		
 		////////////////////////////////
+		String[] cols = new String[]{
+				
+				CONS.DB.col_names_MemoPatterns_full[3]
+						
+		};
+		
 		List<String> patterns_List = _import_Patterns__Get_PatternsList(
 							actv,
 							CONS.DB.dbName_Previous,
 							CONS.DB.tname_MemoPatterns,
-							CONS.DB.col_names_MemoPatterns_full
+							cols,
+							cols[0]
+//							CONS.DB.col_names_MemoPatterns_full
 							);
 		
 		/******************************
@@ -2205,7 +2213,7 @@ public class Methods {
 		// insert
 
 		////////////////////////////////
-		int counter = DBUtils.insert_Data_Patterns(actv, patterns_List);
+		int counter = DBUtils.insert_Data_Patterns_New(actv, patterns_List);
 //		-1 => Table doesn't exist	
 		
 		return counter;
@@ -2365,7 +2373,7 @@ public class Methods {
 	private static List<String> 
 	_import_Patterns__Get_PatternsList
 	(Activity actv, 
-		String dbName, String tname, String[] cols) {
+		String dbName, String tname, String[] cols, String orderBy) {
 		
 		////////////////////////////////
 		
@@ -2419,7 +2427,7 @@ public class Methods {
 		
 		////////////////////////////////
 		// "_id"
-		String orderBy = CONS.DB.col_names_MemoPatterns[0] + " ASC"; 
+//		String orderBy = CONS.DB.col_names_MemoPatterns[0] + " ASC"; 
 		
 		Cursor c = rdb.query(
 				tableName,

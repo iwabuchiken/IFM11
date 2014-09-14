@@ -2439,6 +2439,115 @@ public class DBUtils extends SQLiteOpenHelper{
 	}//insert_Data_Patterns
 
 	/******************************
+		@return -1 => Table doesn't exist<br>
+	 ******************************/
+	public static int 
+	insert_Data_Patterns_New
+	(Activity actv, List<String> patterns_List) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists
+		
+		////////////////////////////////
+		if (!DBUtils.tableExists(
+				actv, CONS.DB.dbName, CONS.DB.tname_MemoPatterns)) {
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exist => " + CONS.DB.tname_MemoPatterns);
+			
+			String msg = "Table doesn't exist => " + CONS.DB.tname_MemoPatterns;
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return -1;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+		
+		////////////////////////////////
+		
+		// Iteration
+		
+		////////////////////////////////
+		int counter = 0;
+		
+		ContentValues val = null;
+//		
+		for (String pattern : patterns_List) {
+			
+			////////////////////////////////
+			
+			// prep: content values
+			
+			////////////////////////////////
+			val = _insert_Data_Patterns__ContentValues_New(pattern);
+			
+			try {
+				// Start transaction
+				wdb.beginTransaction();
+				
+				// Insert data
+				long res = wdb.insert(CONS.DB.tname_MemoPatterns, null, val);
+				//			long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+				
+				if (res == -1) {
+					
+					// Log
+					String msg_Log = "insertion => failed: " + pattern;
+					Log.e("DBUtils.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+				} else {
+					
+					counter += 1;
+					
+					// Set as successful
+					wdb.setTransactionSuccessful();
+					
+				}
+				
+				// End transaction
+				wdb.endTransaction();
+				
+			} catch (Exception e) {
+				
+				// Log
+				// Log
+				String msg_Log = String.format(
+						"Exception(%s) => %s", 
+						pattern, e.toString());
+				Log.e("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+			}//try
+			
+		}//for (String pattern : patterns_List)
+		
+		////////////////////////////////
+		
+		// close
+		
+		////////////////////////////////
+		wdb.close();
+		
+		////////////////////////////////
+		
+		// return
+		
+		////////////////////////////////
+		return counter;
+		
+	}//insert_Data_Patterns_Previous
+	
+	/******************************
 		@return -1	=> Table doesn't exist<br>
 				-2	=> Insertion failed<br>
 				-3	=> Exception<br>
@@ -2569,6 +2678,35 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//_insert_Data_Patterns__ContentValues
 
+	private static ContentValues 
+	_insert_Data_Patterns__ContentValues_New
+	(String pattern) {
+		// TODO Auto-generated method stub
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"word",									// 3
+//		"table_name"							// 4
+		
+		val.put(
+				"created_at", 
+				Methods.conv_MillSec_to_TimeLabel(
+						Methods.getMillSeconds_now()));
+		
+		val.put(
+				"modified_at", 
+				Methods.conv_MillSec_to_TimeLabel(
+						Methods.getMillSeconds_now()));
+		
+		val.put("word", pattern);
+		
+//		val.put("table_name", CONS.DB.tname_IFM11);
+		
+		return val;
+		
+	}//_insert_Data_Patterns__ContentValues
+	
 	
 	public static boolean 
 	update_TI__Memo
