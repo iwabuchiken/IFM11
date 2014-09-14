@@ -4806,7 +4806,7 @@ public class Methods {
 
 			// Log
 			Log.e("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Error: " + e.toString());
 			
 			return -2;
@@ -8361,6 +8361,214 @@ public class Methods {
 				
 	}//get_DB_path
 
+	/******************************
+		@return
+			-1 find pattern => failed<br>
+			-2 SQLException<br>
+			1 update => executed<br>
+	 ******************************/
+	public static int 
+	add_WP_to_Memo_SpecialChars
+	(Activity actv, Dialog d1, WordPattern item) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// EditText
+
+		////////////////////////////////
+		EditText et = (EditText) d1.findViewById(R.id.dlg_add_memos_et_content);
+		
+		////////////////////////////////
+
+		// build: text
+
+		////////////////////////////////
+		//REF http://stackoverflow.com/questions/3609174/android-insert-text-into-edittext-at-current-position answered Aug 31 '10 at 15:32
+		int pos_Current = et.getSelectionStart();
+		
+		String tmp = et.getText().toString();
+		
+		tmp = tmp.substring(0, pos_Current) +
+				" " + 
+				item.getWord() + 
+				" "
+				+ tmp.substring(pos_Current);
+//		+ tmp.substring(pos_Current + item.getWord().length());
+//		tmp = tmp + item.getWord() + " ";
+		
+		////////////////////////////////
+
+		// set
+
+		////////////////////////////////
+		et.setText(tmp);
+		
+		// + 1 => space length
+		et.setSelection(pos_Current + 2);
+//		et.setSelection(tmp.length());
+		
+		////////////////////////////////
+
+		// update: used
+
+		////////////////////////////////
+		int res = Methods.update_Pattern_Used(actv, item.getDb_Id());
+
+		return res;
+		
+	}//add_WP_to_Memo_SpecialChars
+
+	/******************************
+		@return
+			-1 find pattern => failed<br>
+			-2 SQLException<br>
+			1 update => executed<br>
+	 ******************************/
+	public static int 
+	add_WP_to_Memo
+	(Activity actv, Dialog d1, WordPattern item) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// EditText
+		
+		////////////////////////////////
+		EditText et = (EditText) d1.findViewById(R.id.dlg_add_memos_et_content);
+		
+		////////////////////////////////
+		
+		// build: text
+		
+		////////////////////////////////
+		//REF http://stackoverflow.com/questions/3609174/android-insert-text-into-edittext-at-current-position answered Aug 31 '10 at 15:32
+		int pos_Current = et.getSelectionStart();
+		
+		String tmp = et.getText().toString();
+		
+		tmp = tmp.substring(0, pos_Current) +
+				" " + 
+				item.getWord() + 
+				" "
+				+ tmp.substring(pos_Current);
+//		+ tmp.substring(pos_Current + item.getWord().length());
+//		tmp = tmp + item.getWord() + " ";
+		
+		////////////////////////////////
+		
+		// set
+		
+		////////////////////////////////
+		et.setText(tmp);
+		
+		// + 1 => space length
+		et.setSelection(pos_Current + item.getWord().length() + 2);
+//		et.setSelection(tmp.length());
+		
+		////////////////////////////////
+		
+		// update: used
+		
+		////////////////////////////////
+		int res = Methods.update_Pattern_Used(actv, item.getDb_Id());
+		
+		return res;
+		
+	}//add_WP_to_Memo
+	
+	/******************************
+		@return
+			-1 find pattern => failed<br>
+			-2 SQLException<br>
+			1 update => executed<br>
+	 ******************************/
+	public static int 
+	update_Pattern_Used
+	(Activity actv, long db_Id) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// update
+
+		////////////////////////////////
+		int res = DBUtils.update_Pattern_Used(actv, db_Id);
+
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		String msg = null;
+		int colorID = 0;
+		
+		switch(res) {
+
+//		-1 find pattern => failed
+//		-2 SQLException
+//		1 update => executed
+
+		case -1: 
+			
+			msg = "find pattern => failed: " + db_Id;
+			colorID = R.color.red;
+			
+			break;
+		
+		case -2: 
+			
+			msg = "SQLException: " + db_Id;
+			colorID = R.color.red;
+			
+			break;
+			
+		case 1: 
+			
+			msg = "update => executed: " + db_Id;
+			colorID = R.color.green4;
+			
+			break;
+			
+		}
+
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg);
+		
+		return res;
+		
+	}//update_Pattern_Used
+
+	public static boolean 
+	is_SpecialChars
+	(Activity actv, String w) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// build: list
+
+		////////////////////////////////
+		List<String> list_Specials = new ArrayList<String>();
+
+		for (String chr : CONS.Admin.special_Chars) {
+			
+			list_Specials.add(chr);
+			
+		}
+		
+		////////////////////////////////
+
+		// judge
+
+		////////////////////////////////
+		return list_Specials.contains(w) ? true : false;
+		
+//		return false;
+		
+	}//if(Methods.is_SpecialChars(actv, w))
+
+	
 }//public class Methods
 
 /*

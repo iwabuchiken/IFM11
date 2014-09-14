@@ -100,6 +100,11 @@ public class DOI_CL implements OnItemClickListener {
 		
 	}
 
+	public DOI_CL
+	(Activity actv) {
+		// TODO Auto-generated constructor stub
+	}
+
 	//	@Override
 	public void 
 	onItemClick
@@ -224,12 +229,91 @@ public class DOI_CL implements OnItemClickListener {
 			
 			break;// case dlg_add_memos_gv
 			
+		case ACTV_IMAGE_ADD_MEMO_LV_1://----------------------------------------------
+			
+			wp = (WordPattern) parent.getItemAtPosition(position);
+			
+			case_ACTV_IMAGE_ADD_MEMO_LV_1(wp);
+//			case_Admin_LV(li);
+			
+			break;// case dlg_add_memos_gv
+			
+		case ACTV_IMAGE_ADD_MEMO_LV_2://----------------------------------------------
+		case ACTV_IMAGE_ADD_MEMO_LV_3://----------------------------------------------
+			
+			wp = (WordPattern) parent.getItemAtPosition(position);
+			
+			case_ACTV_IMAGE_ADD_MEMO_LV_2(wp);
+//			case_Admin_LV(li);
+			
+			break;// case dlg_add_memos_gv
+			
 		default:
 			break;
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 
+	private void 
+	case_ACTV_IMAGE_ADD_MEMO_LV_2
+	(WordPattern wp) {
+		// TODO Auto-generated method stub
+		
+		int res = Methods.add_WP_to_Memo(actv, d1, wp);
+		
+//		-1 find pattern => failed
+//				-2 SQLException
+//				1 update => executed
+
+		
+	}//case_ACTV_IMAGE_ADD_MEMO_LV_1
+
+	/******************************
+		symbols => contain such symbols as "[]", "「」"<br>
+		=> cursor needs to be placed between the symbols<br>
+	 ******************************/
+	private void 
+	case_ACTV_IMAGE_ADD_MEMO_LV_1
+	(WordPattern wp) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		int res;
+		
+		////////////////////////////////
+
+		// get: word
+
+		////////////////////////////////
+		String w = wp.getWord();
+		
+		////////////////////////////////
+
+		// dispatch
+
+		////////////////////////////////
+		if (Methods.is_SpecialChars(actv, w)) {
+			
+			res = Methods.add_WP_to_Memo_SpecialChars(actv, d1, wp);
+			
+		} else {
+			
+			res = Methods.add_WP_to_Memo(actv, d1, wp);
+			
+		}//if(Methods.is_SpecialChars(actv, w))
+		
+		
+		
+//		-1 find pattern => failed
+//				-2 SQLException
+//				1 update => executed
+		
+		
+	}//case_ACTV_IMAGE_ADD_MEMO_LV_1
+	
 	private void 
 	case_ACTV_MAIN_ADMIN_LV_OPS
 	(ListItem li) {

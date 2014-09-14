@@ -6,10 +6,10 @@ import ifm11.comps.Comp_WP;
 import ifm11.items.ListItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
-import ifm11.listeners.DLOI_LCL;
 import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.dialog.DB_OCL;
 import ifm11.listeners.dialog.DB_OTL;
+import ifm11.listeners.dialog.DLOI_LCL;
 import ifm11.listeners.dialog.DOI_CL;
 import ifm11.main.R;
 import ifm11.utils.Tags.DialogTags;
@@ -682,6 +682,13 @@ public class Methods_dlg {
 		
 		////////////////////////////////
 
+		// set: listeners
+
+		////////////////////////////////
+		res_i = _dlg_AddMemo_Set_Listeners(actv, dlg);
+		
+		////////////////////////////////
+
 		// show
 
 		////////////////////////////////
@@ -689,6 +696,55 @@ public class Methods_dlg {
 		
 	}//dlg_addMemo
 	
+	private static int 
+	_dlg_AddMemo_Set_Listeners
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// lv 1
+
+		////////////////////////////////
+		ListView lv_1 = (ListView) d.findViewById(R.id.dlg_add_memos_lv1);
+		
+		lv_1.setTag(Tags.DialogItemTags.ACTV_IMAGE_ADD_MEMO_LV_1);
+		
+		lv_1.setOnItemClickListener(new DOI_CL(actv, d));
+		
+		lv_1.setOnItemLongClickListener(new DLOI_LCL(actv));
+
+		////////////////////////////////
+		
+		// lv 2
+		
+		////////////////////////////////
+		ListView lv_2 = (ListView) d.findViewById(R.id.dlg_add_memos_lv2);
+		
+		lv_2.setTag(Tags.DialogItemTags.ACTV_IMAGE_ADD_MEMO_LV_2);
+		
+		lv_2.setOnItemClickListener(new DOI_CL(actv, d));
+		
+		lv_2.setOnItemLongClickListener(new DLOI_LCL(actv));
+		
+		////////////////////////////////
+		
+		// lv 3
+		
+		////////////////////////////////
+		ListView lv_3 = (ListView) d.findViewById(R.id.dlg_add_memos_lv3);
+		
+		lv_3.setTag(Tags.DialogItemTags.ACTV_IMAGE_ADD_MEMO_LV_3);
+		
+		lv_3.setOnItemClickListener(new DOI_CL(actv, d));
+		
+		lv_3.setOnItemLongClickListener(new DLOI_LCL(actv));
+		
+		
+		return 0;
+		
+	}//_dlg_AddMemo_Set_Listeners
+
 	/******************************
 		@return
 			-1 build list => null<br>

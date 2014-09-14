@@ -2672,7 +2672,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		val.put("word", pattern);
 		
-		val.put("table_name", CONS.DB.tname_IFM11);
+//		val.put("table_name", CONS.DB.tname_IFM11);
 
 		return val;
 		
@@ -4330,6 +4330,278 @@ public class DBUtils extends SQLiteOpenHelper{
 		return list_WP;
 		
 	}//find_All_WP
+
+	/******************************
+		@return
+			-1 find pattern => failed<br>
+			-2 SQLException<br>
+			1 update => executed<br>
+	 ******************************/
+	public static int 
+	update_Pattern_Used
+	(Activity actv, long db_Id) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+	
+		// prep: vars
+	
+		////////////////////////////////
+		WordPattern wp = DBUtils.find_Pattern_From_Id(actv, db_Id);
+	
+		/******************************
+			validate
+		 ******************************/
+		if (wp == null) {
+			
+			// Log
+			String msg_Log = "find pattern => failed: " + db_Id;
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+		int used_Current = wp.getUsed();
+		int used_Updated = used_Current + 1;
+
+		String used_at = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		
+		////////////////////////////////
+	
+		// setup: db
+	
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		//
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"word",									// 3
+//		"used",									// 4
+//		"used_at",								// 5
+		
+		String sql = "UPDATE " + CONS.DB.tname_MemoPatterns + 
+				" SET " + 
+				
+				CONS.DB.col_names_MemoPatterns_full[4] + 
+				" = " + used_Updated + " " +
+//				" = '" + used_Updated + "' " +
+				", " +
+				CONS.DB.col_names_MemoPatterns_full[2] +
+				" = '" + 
+				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()) + 
+				"' " +
+				", " +
+				CONS.DB.col_names_MemoPatterns_full[5] +
+				" = '" + 
+				used_at +
+				"' " +
+				
+				" WHERE " + android.provider.BaseColumns._ID + " = '" + 
+				db_Id + "'";
+		
+		try {
+			
+			wdb.execSQL(sql);
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "sql => Done: " + sql);
+			
+			//Methods.toastAndLog(actv, "Data updated", 2000);
+			
+			wdb.close();
+			
+			return 1;
+			
+			
+		} catch (SQLException e) {
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception => " + e.toString() + " / " + "sql: " + sql);
+			
+			wdb.close();
+			
+			return -2;
+		}
+		
+	}//update_Pattern_Used
+
+	/******************************
+		@return
+			null => 
+				1. No DB file<br>
+				2. No such file<br>
+				3. Query exception<br>
+				4. Query failed<br>
+				5. No entry in the table<br>
+	 ******************************/
+	public static WordPattern 
+	find_Pattern_From_Id
+	(Activity actv, long db_Id) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// validate: DB file exists?
+		
+		////////////////////////////////
+		File dpath_DBFile = actv.getDatabasePath(CONS.DB.dbName);
+		
+		if (!dpath_DBFile.exists()) {
+			
+			String msg = "No DB file: " + CONS.DB.dbName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// DB
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists?
+		
+		////////////////////////////////
+		String tname = CONS.DB.tname_MemoPatterns;
+		
+		boolean res = dbu.tableExists(rdb, tname);
+	//	boolean res = dbu.tableExists(rdb, tableName);
+		
+		if (res == false) {
+			
+			String msg = "No such table: " + tname;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		Cursor c = null;
+		
+		String where = CONS.DB.col_names_MemoPatterns_full[0] + " = ?";
+		
+		String[] args = new String[]{
+				
+				String.valueOf(db_Id)
+				
+		};
+		
+		try {
+			
+			c = rdb.query(
+					
+					tname,			// 1
+					CONS.DB.col_names_MemoPatterns_full,	// 2
+	//				null, null,		// 3,4
+					where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			String msg = "Query exception";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			String msg = "Query failed";
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", msg);
+			
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			String msg = "No entry in the table";
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", msg);
+			
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+		
+		/***************************************
+		 * Build list
+		 ***************************************/
+	//	android.provider.BaseColumns._ID,		// 0
+	//	"created_at", "modified_at",			// 1,2
+	//	"word",									// 3		
+		c.moveToFirst();
+		
+		WordPattern wp = new WordPattern.Builder()
+					.setDb_Id(c.getLong(0))
+					.setCreated_at(c.getString(1))
+					.setModified_at(c.getString(2))
+					
+					.setWord(c.getString(3))
+					.setUsed(c.getInt(4))
+					.setUsed_at(c.getString(5))
+					
+					.build();
+		
+		rdb.close();
+		
+		return wp;
+		
+	}//find_Memo_From_Id
 
 }//public class DBUtils
 

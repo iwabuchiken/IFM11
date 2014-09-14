@@ -259,7 +259,7 @@ public class CONS {
 			"created_at", "modified_at",			// 1,2
 			"word",									// 3
 			"used",									// 4
-			"used_at",									// 4
+			"used_at",								// 5
 //			"table_name"							// 4
 			
 		};
@@ -506,6 +506,13 @@ public class CONS {
 		// is running
 		public static boolean isRunning_TNActv = true;
 		public static String actvName_TNActv = "ifm11.main.TNActv";
+		
+		public static String[] special_Chars = new String[]{
+			
+			"()", "[]",
+			"（）", "「」", "『』", "〈〉", "【】", "｛｝",
+			
+		};
 		
 		////////////////////////////////
 
