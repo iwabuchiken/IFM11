@@ -487,6 +487,12 @@ public class MainActv extends ListActivity {
 			
 			break;
 			
+		case R.id.main_opt_menu_history://------------------
+			
+			Methods.start_Activity_HistActv(this);
+			
+			break;
+			
 		default://------------------------
 			break;
 
@@ -990,6 +996,9 @@ public class MainActv extends ListActivity {
 
 	private void 
 	_Setup_SetListeners() {
+		
+		String msg_Log;
+		
 		////////////////////////////////
 
 		// listview => long click
@@ -1011,7 +1020,32 @@ public class MainActv extends ListActivity {
 		
 		bt_Up.setTag(Tags.ButtonTags.ib_up);
 		bt_Up.setOnClickListener(new BO_CL(this));
+
+		String currentPath = Methods.get_Pref_String(
+				this, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
 		
+		// Log
+		msg_Log = "currentPath => " + currentPath;
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		if (currentPath == null
+				|| Methods.conv_CurrentPath_to_TableName(currentPath).equals(CONS.DB.tname_IFM11)) {
+			
+			// Log
+			msg_Log = "current path => at the top";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			bt_Up.setEnabled(false);
+			
+		}
+
 	}
 
 }//public class MainActv extends Activity

@@ -446,6 +446,41 @@ public class CONS {
 		
 	}
 	
+	public static class HistActv {
+		
+		public static List<TI> list_HistActv_Main = null;
+		
+		public static Adp_TIList adp_HistActv_Main;
+		
+		public static Adp_TIList_Move adp_HistActv_Main_Move;
+		
+		public static int list_Pos_Current = -1;
+		public static int list_Pos_Prev = -1;
+		
+		public static boolean moveMode;
+		
+		public static Menu menu;
+		
+		public static List<Integer> checkedPositions = new ArrayList<Integer>();
+		
+		// HistActv, long click, move files
+		public static ArrayAdapter<String> adp_DirList;
+		
+		// HistActv, long click, move files
+		public static List<String> dir_List;
+		
+		// MainActv: option "Search"
+		public static List<Long> searchedItems;
+		
+		// HistActv refers to this var; if true, _Setup_SetList()
+		//		builds other TI list using the var "searchedItems"
+		public static boolean searchDone	= false;
+		
+		// Used => Deleting TI in TNActv list view
+		public static int inList_Pos;
+		
+	}
+	
 	public static class 
 	IMageActv {
 		

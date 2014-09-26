@@ -9,6 +9,7 @@ import ifm11.items.LogItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
+import ifm11.main.HistActv;
 import ifm11.main.LogActv;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
@@ -1608,7 +1609,32 @@ public class Methods {
 		
 		int len = head.length();
 		
-		String target = full.substring(len + 1);
+		// Log
+		String msg_Log = "full => " + full;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		String target = null;
+		
+		try {
+			
+			target = full.substring(len + 1);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			// Log
+			msg_Log = "Exception. Returning the base table name => "
+					+ CONS.DB.tname_IFM11;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			e.printStackTrace();
+			
+			return CONS.DB.tname_IFM11;
+			
+		}
 
 //		// Log
 //		String msg_log = "full = " + full
@@ -1714,6 +1740,20 @@ public class Methods {
 		
 	}//start_Activity_ImpActv
 
+	public static void 
+	start_Activity_HistActv
+	(Activity actv) {
+		
+		Intent i = new Intent();
+		
+		i.setClass(actv, HistActv.class);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+		
+	}//start_Activity_HistActv
+	
 	public static void
 	sort_List_TI
 	(List<TI> ti_List, 
@@ -3545,7 +3585,36 @@ public class Methods {
 		
 		int len = head.length();
 		
-		return path.substring(len + 1);
+		// Log
+		String msg_Log = "head => " + head;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		String target = null;
+		
+		try {
+			
+			return head.substring(len + 1);
+//			target = head.substring(len + 1);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			// Log
+			msg_Log = "Exception. Returning the base table name => "
+					+ CONS.DB.tname_IFM11;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			e.printStackTrace();
+			
+			return CONS.DB.tname_IFM11;
+			
+		}
+
+		
+//		return path.substring(len + 1);
 		
 	}
 
