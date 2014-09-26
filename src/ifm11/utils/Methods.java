@@ -4993,44 +4993,17 @@ public class Methods {
 		
 		int reply_code;
 		
-//		String server_name = CONS.Remote.server_Name;
-////		String server_name = "ftp.benfranklin.chips.jp";
-//		
-//		String uname = "chips.jp-benfranklin";
-//		
-//		String passwd = "9x9jh4";
-		
 		String fpath_Src = StringUtils.join(
 				new String[]{
 						ti.getFile_path(),
 						ti.getFile_name()
 				}, File.separator);
-//		
-//		String fpath_audio = StringUtils.join(
-//				new String[]{
-//						MainActv.dirName_ExternalStorage,
-//						"Audios",
-//						"Fiddle_music",
-//						"Gaelic Folk Song.mp3"
-//				}, File.separator);
 		
-//		String fpath_remote = "./" + MainActv.fileName_db;
-		
-//		String fpath_remote = "./cake_apps/images"
 		String fpath_remote = StringUtils.join(
 					new String[]{
 							CONS.Remote.remote_Root_Image,
-//							"./cake_apps/images",
 							ti.getFile_name()
-//							+ "_"
-//							+ Methods.get_TimeLabel(
-//									Methods.getMillSeconds_now())
 					}, File.separator);
-//				"./cake_apps/images"
-//							+ ti.getFile_name()
-//							+ "_"
-//							+ Methods.get_TimeLabel(Methods.getMillSeconds_now());
-//		String fpath_remote = "./" + "Gaelic Folk Song.mp3.v2";
 		
 		/*********************************
 		 * Connect
@@ -5044,7 +5017,6 @@ public class Methods {
 					+ "]", msg_Log);
 			
 			fp.connect(CONS.Remote.server_Name);
-//			fp.connect(server_name);
 			
 			reply_code = fp.getReplyCode();
 			
@@ -5104,6 +5076,11 @@ public class Methods {
 				Log.d("Methods.java" + "["
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", "Log in => Succeeded");
+				
+				String log_msg = "Log in => Succeeded: " + ti.getFile_name();
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
 				
 			}
 
@@ -5197,6 +5174,10 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
+			Methods.write_Log(actv, msg_Log, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
 //			fp.storeFile("./" + MainActv.fileName_db, is);// �T�[�o�[��
 			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
 			
@@ -5208,6 +5189,11 @@ public class Methods {
 				Log.d("Methods.java" + "["
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", "File => Stored");
+				
+				String log_msg = "File => Stored: " + ti.getFile_name();
+				Methods.write_Log(actv, log_msg, Thread.currentThread()
+						.getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
 				
 			} else {//if (res == true)
 
@@ -5289,6 +5275,11 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "fp => Disconnected");
 			
+			String log_msg = "fp => Disconnected: " + ti.getFile_name();
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
 			return reply_code;
 			
 		} catch (IOException e) {
@@ -5301,121 +5292,6 @@ public class Methods {
 			return -3;
 			
 		}
-		
-		
-//		return 0;
-		
-//		/*********************************
-//		 * Log in
-//		 *********************************/
-//		boolean res;
-//		
-//		try {
-//			
-//			res = fp.login(uname, passwd);
-//			
-//			if(res == false) {
-//				
-//				reply_code = fp.getReplyCode();
-//				
-//				// Log
-//				Log.e("Methods.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", "Log in failed => " + reply_code);
-//				
-//				fp.disconnect();
-//				
-//				return -2;
-//				
-//			} else {
-//				
-//				// Log
-//				Log.d("Methods.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", "Log in => Succeeded");
-//				
-//			}
-//
-//		} catch (IOException e1) {
-//			
-//			e1.printStackTrace();
-//		}
-//		
-//		/*********************************
-//		 * FTP files
-//		 *********************************/
-//		// �t�@�C�����M
-//		FileInputStream is;
-//		
-//		try {
-//			
-//			is = new FileInputStream(fpath);
-////			is = new FileInputStream(fpath_audio);
-//			
-////			fp.storeFile("./" + MainActv.fileName_db, is);// �T�[�o�[��
-//			res = fp.storeFile(fpath_remote, is);// �T�[�o�[��
-//			
-////			fp.makeDirectory("./ABC");
-//			
-//			if (res == true) {
-//				
-//				// Log
-//				Log.d("Methods.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", "File => Stored");
-//				
-//			} else {//if (res == true)
-//
-//				// Log
-//				Log.d("Methods.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", "Store file => Failed");
-//
-//			}//if (res == true)
-//			
-//			is.close();
-//
-//		} catch (FileNotFoundException e) {
-//
-//			// Log
-//			Log.e("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Exception: " + e.toString());
-//			
-//		} catch (IOException e) {
-//			
-//			// Log
-//			Log.e("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Exception: " + e.toString());
-//
-//		}
-//						
-//		/*********************************
-//		 * Disconnect
-//		 *********************************/
-//		try {
-//			
-//			fp.disconnect();
-//			
-//			// Log
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "fp => Disconnected");
-//
-//			return reply_code;
-//			
-//		} catch (IOException e) {
-//			
-//			// Log
-//			Log.e("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "Error: " + e.toString());
-//			
-//			return -1;
-//			
-//		}
 		
 	}//ftp_connect_disconnect
 
@@ -6568,7 +6444,6 @@ public class Methods {
 		////////////////////////////////
 		String url = CONS.Remote.Http.url_Post_ImageData;
 		
-//		String param = _post_ImageData_to_Remote__GetParam(actv, ti);
 		HttpEntity param = _post_ImageData_to_Remote__GetParam(actv, ti);
 		
 		/******************************
@@ -6577,10 +6452,7 @@ public class Methods {
 		if (param == null) {
 			
 			// Log
-//			String msg_Log = "Building param => JSONException";
 			String msg_Log = "Building param => UnsupportedEncodingException";
-	//		msg_Log = "Building param => UnsupportedEncodingException";
-	//		String msg_Log = "Building param => UnsupportedEncodingException";
 			Log.e("Methods.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
@@ -6588,39 +6460,6 @@ public class Methods {
 			return -20;
 			
 		}
-		
-//		////////////////////////////////
-//
-//		// conv: HttpEntity => StringEntity
-//
-//		////////////////////////////////
-//		
-//		// Log
-//		String tmp = null;
-//		
-//		try {
-//			
-//			tmp = EntityUtils.toString( param, HTTP.UTF_8 );
-//			
-//			String msg_Log = "param => " + tmp ;
-//			
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		} catch (org.apache.http.ParseException e2) {
-//			
-//			e2.printStackTrace();
-//			
-//			return -24;
-//			
-//		} catch (IOException e2) {
-//			
-//			e2.printStackTrace();
-//			
-//			return -25;
-//			
-//		}
 		
 		////////////////////////////////
 
@@ -6631,28 +6470,10 @@ public class Methods {
 		
 		//REF content-type http://d.hatena.ne.jp/hogem/20091023/1256304878
 		httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
-//		httpPost.setHeader("Content-type", "text/html");
-		
-//		httpPost.setHeader("Accept", "application/json");
-//	    httpPost.setHeader("Content-type", "application/json");
-		
-//		try {
-//			
-//			httpPost.setEntity(new StringEntity(param, HTTP.UTF_8));
-////			httpPost.setEntity(new StringEntity(tmp, HTTP.UTF_8));
-//			
-//		} catch (UnsupportedEncodingException e2) {
-//			
-//			e2.printStackTrace();
-//			
-//			return -26;
-//			
-//		}
 		
 		httpPost.setEntity(param);
 		
 		// Log
-//		msg_Log;
 		String msg_Log;
 		
 		try {
@@ -6674,9 +6495,17 @@ public class Methods {
 		
 		try {
 			
-//			hr = dhc.execute(postRequest);
-//			hr = dhc.execute(httpGet);
+			String log_msg = "posting image data... : " + ti.getFile_name();
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+			
 			hr = dhc.execute(httpPost);
+			
+			log_msg = "posting image data => done: " + ti.getFile_name();
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
 			
 		} catch (ClientProtocolException e) {
 			
@@ -6705,15 +6534,11 @@ public class Methods {
 		////////////////////////////////
 		if (hr == null) {
 			
-//			// debug
-//			Toast.makeText(actv, "hr == null", 2000).show();
-			
 			// Log
 			Log.d("TaskHTTP.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "hr == null");
 			
-//			return CONS.Task_GetTexts.EXECUTE_POST_NULL;
 			return -23;
 			
 		} else {//if (hr == null)
@@ -6725,9 +6550,6 @@ public class Methods {
 					+ Thread.currentThread().getStackTrace()[2].getMethodName()
 					+ "]", "Http response => Obtained");
 
-			
-//			return null;
-			
 		}//if (hr == null)
 
 		////////////////////////////////
@@ -6737,8 +6559,6 @@ public class Methods {
 		////////////////////////////////
 		int status = hr.getStatusLine().getStatusCode();
 		
-//		if (status == CONS.HTTP_Response.CREATED
-//				|| status == CONS.HTTP_Response.OK) {
 		if (status == CONS.Remote.status_Created
 				|| status == CONS.Remote.status_OK) {
 
@@ -6748,9 +6568,12 @@ public class Methods {
 					+ ":"
 					+ Thread.currentThread().getStackTrace()[2].getMethodName()
 					+ "]", "status=" + status);
-
-//			return CONS.HTTP_Response.CREATED;
 			
+			String log_msg = "status=" + status + "/" + ti.getFile_name();
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread.currentThread()
+					.getStackTrace()[2].getLineNumber());
+
 		} else {//if (status == CONS.HTTP_Response.CREATED)
 			
 			// Log
@@ -6763,7 +6586,6 @@ public class Methods {
 			return CONS.Remote.status_NOT_CREATED;
 			
 		}//if (status == CONS.HTTP_Response.CREATED)
-
 		
 		return status;
 		

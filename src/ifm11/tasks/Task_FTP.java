@@ -249,6 +249,10 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 					actv, msg, 
 					CONS.Admin.dflt_MessageDialog_Length);
 		
+		Methods.write_Log(actv, msg,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
+		
 	}
 	
 
@@ -541,6 +545,10 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 							+ Thread.currentThread().getStackTrace()[2]
 									.getLineNumber() + "]", msg_Log);
 					
+					Methods.write_Log(actv, msg_Log, Thread.currentThread()
+							.getStackTrace()[2].getFileName(), Thread
+							.currentThread().getStackTrace()[2].getLineNumber());
+					
 				}//if (this.delete == true)
 				
 				
@@ -708,6 +716,10 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		Log.d("Task_FTP.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg);
+		
+		Methods.write_Log(actv, msg,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
 		
 	}//_onPostExecute__Upload_Image
 
