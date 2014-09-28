@@ -137,6 +137,9 @@ public class CONS {
 		
 		public static final long logFile_MaxSize = 40000;
 		
+		// admin items
+		public static final String admin_LastBackup = "last_backup";
+		
 //		public static String dname_TapeATalk_Sdcard = "tapeatalk_records";
 		
 		////////////////////////////////
@@ -279,6 +282,44 @@ public class CONS {
 			"TEXT", 					// 3
 			"INTEGER",					// 4
 			"TEXT", 					// 5
+			
+		};
+		
+		////////////////////////////////
+		
+		// table: admin
+		
+		////////////////////////////////
+		public static String tname_Admin = "admin";
+		
+		public static String[] col_names_Admin = {
+			
+			"name",							// 0
+			"val",							// 0
+			
+		};
+		
+		public static String[] col_names_Admin_full = {
+			
+			android.provider.BaseColumns._ID,		// 0
+			"created_at", "modified_at",			// 1,2
+			"name",									// 3
+			"val",									// 3
+			
+		};
+		
+		public static String[] col_types_Admin = {
+			
+			"TEXT", 			// 0
+			"TEXT", 			// 0
+			
+		};
+		
+		public static String[] col_types_Admin_full = {
+			
+			"INTEGER", "TEXT", "TEXT",	// 0,1,2
+			"TEXT", 					// 3
+			"TEXT", 					// 3
 			
 		};
 		

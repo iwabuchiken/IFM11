@@ -6,7 +6,8 @@ public class Tags {
 		// Generics
 		GENERIC_DISMISS, GENERIC_DISMISS_SECOND_DIALOG,
 		GENERIC_DISMISS_THIRD_DIALOG,
-		
+
+		GENERIC_SECOND_DIALOG_CLEAR_ALL, 
 		
 		// dlg_create_folder.xml
 		dlg_create_folder_ok, dlg_create_folder_cancel,
@@ -100,7 +101,11 @@ public class Tags {
 		UPLOAD_REMOTE_OK,
 		
 		// dlg: conf upload => db file
-		UPLOAD_DB_FILE_OK, UPLOAD_REMOTE_MULTIPLE_IMAGES_OK, GENERIC_SECOND_DIALOG_CLEAR_ALL, DROP_CREATE_TABLE_PATTERNS_OK,
+		UPLOAD_DB_FILE_OK, 
+		UPLOAD_REMOTE_MULTIPLE_IMAGES_OK, 
+		
+		DROP_CREATE_TABLE_PATTERNS_OK, 
+		DROP_CREATE_DROP_TABLE_ADMIN_OK,
 		
 	}//public static enum DialogTags
 	

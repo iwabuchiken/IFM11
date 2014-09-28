@@ -83,6 +83,9 @@
    		<string name="dlg_db_ops_item_import_patterns_from_previous">
    		    							Import patterns from previous</string>
    		
+   		<string name="dlg_db_ops_item_drop_create_tbl_admin">
+   		    							Drop/Create table: admin</string>
+   		
     <!-- thumb_actv_menu.xml -->
 	    <string name="thumb_actv_menu_move_mode">移動モード</string>
 	    <string name="thumb_actv_menu_move_files">移動</string>

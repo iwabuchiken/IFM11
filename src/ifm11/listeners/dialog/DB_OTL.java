@@ -109,6 +109,8 @@ public class DB_OTL implements OnTouchListener {
 				case UPLOAD_REMOTE_MULTIPLE_IMAGES_OK:
 				case DROP_CREATE_TABLE_PATTERNS_OK:
 					
+				case DROP_CREATE_DROP_TABLE_ADMIN_OK:
+					
 					v.setBackgroundColor(Color.GRAY);
 					
 					break;
@@ -166,6 +168,8 @@ public class DB_OTL implements OnTouchListener {
 			case UPLOAD_DB_FILE_OK:
 			case UPLOAD_REMOTE_MULTIPLE_IMAGES_OK:
 			case DROP_CREATE_TABLE_PATTERNS_OK:
+				
+			case DROP_CREATE_DROP_TABLE_ADMIN_OK:
 				
 					v.setBackgroundColor(Color.WHITE);
 					
