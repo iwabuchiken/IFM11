@@ -639,7 +639,11 @@ public class MainActv extends ListActivity {
 	private void 
 	_Setup_AutoBK() {
 		// TODO Auto-generated method stub
-		
+		////////////////////////////////
+
+		// get: pref
+
+		////////////////////////////////
 		String auto = Methods.get_Pref_String(
 						this, 
 						CONS.Pref.pname_MainActv, 
@@ -666,6 +670,93 @@ public class MainActv extends ListActivity {
 		Log.d("MainActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+
+		////////////////////////////////
+
+		// get: last bk-ed
+
+		////////////////////////////////
+		String last_bk = DBUtils.find_LastBK(this);
+		
+//		// Log
+//		msg_Log = "last_bk => " + last_bk;
+//		Log.d("MainActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// now + auto
+
+		////////////////////////////////
+//		String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		
+		String schedule = Methods.conv_MillSec_to_TimeLabel(
+								Methods.conv_TimeLabel_to_MillSec(last_bk)
+								+ (1 * 60 * 60 * 24 * auto_days * 1000));
+
+		// Log
+		msg_Log = String.format(
+							"last = %s ** sch = %s", 
+							last_bk, schedule);
+		
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		////////////////////////////////
+
+		// comp
+
+		////////////////////////////////
+		int res = schedule.compareToIgnoreCase(last_bk);
+		
+		if (res <= 0) {
+//			if (res > 0) {
+			
+			Methods.backup_DB(this);
+			
+			// Log
+			msg_Log = "auto bk => done";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {
+			
+			// Log
+			msg_Log = "auto bk => not yet";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		
+//		String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		
+//		// Log
+//		msg_Log = String.format(
+//							"now = %s ** last = %s ** sch = %s", 
+//							now, last_bk, schedule);
+//		
+//		Log.d("MainActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		// Log
+//		msg_Log = "now.compareToIgnoreCase(last_bk) => " 
+//					+ (now.compareToIgnoreCase(last_bk));
+//		Log.d("MainActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		msg_Log = "last_bk.compareToIgnoreCase(now) => " 
+//				+ (last_bk.compareToIgnoreCase(now));
+//		Log.d("MainActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
 		
 	}//_Setup_AutoBK
 

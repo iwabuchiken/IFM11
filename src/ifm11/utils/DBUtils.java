@@ -5921,6 +5921,160 @@ public class DBUtils extends SQLiteOpenHelper{
 		return count;
 		
 	}//count_Entry
+
+	
+	/******************************
+		@return
+			null<br>
+			1. No DB file<br>
+			2. No such table<br>
+			3. query => Exception<br>
+			4. cursor => returned null<br>
+			5. cursor => no entry<br>
+	 ******************************/
+	public static String 
+	find_LastBK
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// validate: DB file exists?
+
+		////////////////////////////////
+		File dpath_DBFile = actv.getDatabasePath(CONS.DB.dbName);
+
+		if (!dpath_DBFile.exists()) {
+			
+			String msg = "No DB file: " + CONS.DB.dbName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+
+		// DB
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists?
+		
+		////////////////////////////////
+		String tname = CONS.DB.tname_Admin;
+		
+		boolean res = dbu.tableExists(rdb, tname);
+
+		if (res == false) {
+			
+			String msg = "No such table: " + tname;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		Cursor c = null;
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"name",									// 3
+//		"val",									// 4
+		
+		String where = CONS.DB.col_names_Admin_full[3] + " = ?";
+		String[] args = new String[]{
+				
+							CONS.DB.admin_LastBackup
+						};
+		
+		String orderBy = CONS.DB.col_names_Admin_full[0] + " ASC";
+		
+		try {
+			
+			c = rdb.query(
+					
+					tname,			// 1
+					CONS.DB.col_names_Admin_full,	// 2
+					where, args,		// 3,4
+					null, null,		// 5,6
+					orderBy,			// 7
+					null);
+			
+		} catch (Exception e) {
+
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+
+		////////////////////////////////
+
+		// value
+
+		////////////////////////////////
+		c.moveToFirst();
+		
+		String val = c.getString(4);
+
+		rdb.close();
+		
+		return val;
+		
+	}//find_LastBK
 	
 
 }//public class DBUtils
