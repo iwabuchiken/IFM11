@@ -119,8 +119,9 @@ public class Methods {
 		
 	}//public static void confirm_quit(Activity actv, int keyCode)
 
-	public static boolean backup_DB(Activity actv)
-	{
+	public static boolean 
+	backup_DB
+	(Activity actv) {
 		/****************************
 		 * 1. Prep => File names
 		 * 2. Prep => Files
@@ -129,15 +130,22 @@ public class Methods {
 		 * 2-3. Dst folder => Files within the limit?
 		 * 3. Copy
 			****************************/
+		boolean res;
+		
+		////////////////////////////////
+
+		// prep: paths
+
+		////////////////////////////////
 		String time_label = Methods.get_TimeLabel(Methods.getMillSeconds_now());
 		
-		String db_Src = StringUtils.join(
+		String fpath_Src = StringUtils.join(
 					new String[]{
 							actv.getDatabasePath(CONS.DB.dbName).getPath()},
 //							CONS.fname_db},
 					File.separator);
 		
-		String db_Dst_Folder = StringUtils.join(
+		String dpath_Dst = StringUtils.join(
 					new String[]{
 							CONS.DB.dPath_dbFile_backup,
 							CONS.DB.fname_DB_Backup_Trunk},
@@ -145,7 +153,7 @@ public class Methods {
 //							CONS.fname_db_backup_trunk},
 					File.separator);
 		
-		String db_Dst = db_Dst_Folder + "_"
+		String fpath_Dst = dpath_Dst + "_"
 				+ time_label
 //				+ MainActv.fileName_db_backup_ext;
 				+ CONS.DB.fname_DB_Backup_ext;
@@ -153,9 +161,9 @@ public class Methods {
 //				+ MainActv.fname_db_backup_trunk;
 
 		// Log
-		String msg_log = "db_Src = " + db_Src
+		String msg_log = "db_Src = " + fpath_Src
 						+ " / "
-						+ "db_Dst = " + db_Dst;
+						+ "db_Dst = " + fpath_Dst;
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_log);
@@ -163,8 +171,8 @@ public class Methods {
 		/****************************
 		 * 2. Prep => Files
 			****************************/
-		File src = new File(db_Src);
-		File dst = new File(db_Dst);
+		File f_Src = new File(fpath_Src);
+		File f_Dst = new File(fpath_Dst);
 		
 		/****************************
 		 * 2-2. Folder exists?
@@ -176,7 +184,7 @@ public class Methods {
 			
 			try {
 				
-				boolean res = db_Backup.mkdirs();
+				res = db_Backup.mkdirs();
 //				boolean res = db_Backup.mkdir();
 				
 				if (res == true) {
@@ -237,8 +245,8 @@ public class Methods {
 		 * 3. Copy
 			****************************/
 		try {
-			FileChannel iChannel = new FileInputStream(src).getChannel();
-			FileChannel oChannel = new FileOutputStream(dst).getChannel();
+			FileChannel iChannel = new FileInputStream(f_Src).getChannel();
+			FileChannel oChannel = new FileOutputStream(f_Dst).getChannel();
 			iChannel.transferTo(0, iChannel.size(), oChannel);
 			iChannel.close();
 			oChannel.close();
@@ -271,9 +279,27 @@ public class Methods {
 			
 		}//try
 
+		////////////////////////////////
+
+		// save date
+
+		////////////////////////////////
+		res = DBUtils._backup_DB_SaveDate(actv);
+		
+		// Log
+		String msg_Log = "save date => " + res;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
 		return true;
 		
-	}//public static boolean db_backup(Activity actv)
+	}//backup_DB
 
 	/****************************************
 	 *	getMillSeconds_now()

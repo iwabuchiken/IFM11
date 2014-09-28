@@ -295,7 +295,7 @@ public class CONS {
 		public static String[] col_names_Admin = {
 			
 			"name",							// 0
-			"val",							// 0
+			"val",							// 1
 			
 		};
 		
@@ -304,7 +304,7 @@ public class CONS {
 			android.provider.BaseColumns._ID,		// 0
 			"created_at", "modified_at",			// 1,2
 			"name",									// 3
-			"val",									// 3
+			"val",									// 4
 			
 		};
 		

@@ -952,6 +952,84 @@ public class DBUtils extends SQLiteOpenHelper{
 						2. Exception
 	 ******************************/
 	public static boolean 
+	insert_Data_generic
+	(Activity actv, String tname, ContentValues val) {
+		/*----------------------------
+		 * 1. Insert data
+		----------------------------*/
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+
+		////////////////////////////////
+
+		// insert
+
+		////////////////////////////////
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.insert(tname, null, val);
+			
+			if (res == -1) {
+				
+				// Log
+				String msg_Log = "insertion => failed";
+				Log.e("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				wdb.endTransaction();
+		
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done";
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try
+		
+	}//insertData_RefreshDate
+	
+	/******************************
+		@return false => 1. Insertion failed<br>
+						2. Exception
+	 ******************************/
+	public static boolean 
 	insert_Data_RefreshDate
 	(Activity actv, String lastRefresh, int numOfData) {
 		/*----------------------------
@@ -1007,7 +1085,7 @@ public class DBUtils extends SQLiteOpenHelper{
 								.getLineNumber() + "]", msg_Log);
 				
 				wdb.endTransaction();
-		
+				
 				wdb.close();
 				
 				return false;
@@ -1568,10 +1646,32 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//public void updateData_aiLength
 
+	/******************************
+		@return
+			false<br>
+			1. table doesn't exist<br>
+			2. SQLException<br>
+	 ******************************/
 	public boolean
 	updateData_generic
-	(Activity actv, String tableName, long dbId, String colName, String colValue) {
+	(Activity actv, String tableName, 
+		long dbId, String colName, String colValue) {
 
+		////////////////////////////////
+
+		// validate: table exists
+
+		////////////////////////////////
+		if (!DBUtils.tableExists(actv, CONS.DB.dbName, tableName)) {
+			// Log
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exists => " + tableName);
+			
+			return false;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+		
 		/***************************************
 		 * Setup: DB
 		 ***************************************/
@@ -1617,6 +1717,425 @@ public class DBUtils extends SQLiteOpenHelper{
 
 	}//updateData_generic()
 
+	/******************************
+		@return
+			false<br>
+			1. table doesn't exist<br>
+			2. SQLException<br>
+	 ******************************/
+	public static boolean
+	updateData_generic_static
+	(Activity actv, String tableName, 
+			long dbId, String colName, String colValue) {
+		
+		////////////////////////////////
+		
+		// validate: table exists
+		
+		////////////////////////////////
+		if (!DBUtils.tableExists(actv, CONS.DB.dbName, tableName)) {
+			// Log
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exists => " + tableName);
+			
+			return false;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+		
+		/***************************************
+		 * Setup: DB
+		 ***************************************/
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		ContentValues val = new ContentValues();
+		
+		val.put(colName, colValue);
+		
+		String where = android.provider.BaseColumns._ID
+						+ " = ?";
+		
+		String[] args = new String[]{String.valueOf(dbId)};
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.update(tableName, val, where, args);
+			
+			if (res < 1) {
+				// Log
+				String msg_Log = String.format(
+									"insertion => failed (result = %d): table = %s"
+									, res, tableName);
+
+//				Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+				
+				wdb.endTransaction();
+		
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done: " + tableName;
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try		
+
+		
+		
+//		/***************************************
+//		 * Build SQL
+//		 ***************************************/
+//		String sql = "UPDATE " + tableName + " SET "
+//			//				+ colName + "='" + colValue + "', "
+//			+ colName + "='" + colValue + "'"
+//			+ " WHERE " + android.provider.BaseColumns._ID + " = '" + dbId + "'";
+//		
+//		/***************************************
+//		 * Exec: Query
+//		 ***************************************/
+//		try {
+//			
+//			wdb.execSQL(sql);
+//			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "sql => Done: " + sql);
+//			
+//			//	Methods.toastAndLog(actv, "Data updated", 2000);
+//			
+//			wdb.close();
+//			
+//			return true;
+//			
+//			
+//		} catch (SQLException e) {
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception => " + e.toString() + " / " + "sql: " + sql);
+//			
+//			wdb.close();
+//			
+//			return false;
+//		}
+		
+	}//updateData_generic()
+	
+	/******************************
+		@return
+			false<br>
+			1. table doesn't exist<br>
+			2. SQLException<br>
+	 ******************************/
+	public static boolean
+	updateData_generic_static
+	(Activity actv, String tableName, 
+		String colName, String colValue,
+		String where, String[] args) {
+		
+		////////////////////////////////
+		
+		// validate: table exists
+		
+		////////////////////////////////
+		if (!DBUtils.tableExists(actv, CONS.DB.dbName, tableName)) {
+			// Log
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exists => " + tableName);
+			
+			return false;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+		
+		/***************************************
+		 * Setup: DB
+		 ***************************************/
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		ContentValues val = new ContentValues();
+		
+		val.put(colName, colValue);
+		
+//		String where = android.provider.BaseColumns._ID
+//				+ " = ?";
+//		
+//		String[] args = new String[]{String.valueOf(dbId)};
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.update(tableName, val, where, args);
+			
+			if (res < 1) {
+				// Log
+				String msg_Log = String.format(
+						"insertion => failed (result = %d): table = %s"
+						, res, tableName);
+				
+//				Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+				
+				wdb.endTransaction();
+				
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done: " + tableName;
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try		
+		
+		
+		
+//		/***************************************
+//		 * Build SQL
+//		 ***************************************/
+//		String sql = "UPDATE " + tableName + " SET "
+//			//				+ colName + "='" + colValue + "', "
+//			+ colName + "='" + colValue + "'"
+//			+ " WHERE " + android.provider.BaseColumns._ID + " = '" + dbId + "'";
+//		
+//		/***************************************
+//		 * Exec: Query
+//		 ***************************************/
+//		try {
+//			
+//			wdb.execSQL(sql);
+//			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "sql => Done: " + sql);
+//			
+//			//	Methods.toastAndLog(actv, "Data updated", 2000);
+//			
+//			wdb.close();
+//			
+//			return true;
+//			
+//			
+//		} catch (SQLException e) {
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception => " + e.toString() + " / " + "sql: " + sql);
+//			
+//			wdb.close();
+//			
+//			return false;
+//		}
+		
+	}//updateData_generic()
+	
+	/******************************
+		@return
+			false<br>
+			1. table doesn't exist<br>
+			2. SQLException<br>
+	 ******************************/
+	public static boolean
+	updateData_generic_static
+	(Activity actv, String tableName, 
+			ContentValues val,
+			String where, String[] args) {
+		
+		////////////////////////////////
+		
+		// validate: table exists
+		
+		////////////////////////////////
+		if (!DBUtils.tableExists(actv, CONS.DB.dbName, tableName)) {
+			// Log
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exists => " + tableName);
+			
+			return false;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+		
+		/***************************************
+		 * Setup: DB
+		 ***************************************/
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+//		ContentValues val = new ContentValues();
+//		
+//		val.put(colName, colValue);
+		
+//		String where = android.provider.BaseColumns._ID
+//				+ " = ?";
+//		
+//		String[] args = new String[]{String.valueOf(dbId)};
+		
+		try {
+			// Start transaction
+			wdb.beginTransaction();
+			
+			// Insert data
+			long res = wdb.update(tableName, val, where, args);
+			
+			if (res < 1) {
+				// Log
+				String msg_Log = String.format(
+						"insertion => failed (result = %d): table = %s"
+						, res, tableName);
+				
+//				Methods_dlg.dlg_ShowMessage(actv, msg_Log, R.color.red);
+				
+				wdb.endTransaction();
+				
+				wdb.close();
+				
+				return false;
+				
+			} else {
+				
+				// Log
+				String msg_Log = "insertion => done: " + tableName;
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			wdb.setTransactionSuccessful();
+			
+			// End transaction
+			wdb.endTransaction();
+			
+			wdb.close();
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			wdb.close();
+			
+			return false;
+			
+		}//try		
+		
+		
+		
+//		/***************************************
+//		 * Build SQL
+//		 ***************************************/
+//		String sql = "UPDATE " + tableName + " SET "
+//			//				+ colName + "='" + colValue + "', "
+//			+ colName + "='" + colValue + "'"
+//			+ " WHERE " + android.provider.BaseColumns._ID + " = '" + dbId + "'";
+//		
+//		/***************************************
+//		 * Exec: Query
+//		 ***************************************/
+//		try {
+//			
+//			wdb.execSQL(sql);
+//			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "sql => Done: " + sql);
+//			
+//			//	Methods.toastAndLog(actv, "Data updated", 2000);
+//			
+//			wdb.close();
+//			
+//			return true;
+//			
+//			
+//		} catch (SQLException e) {
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "Exception => " + e.toString() + " / " + "sql: " + sql);
+//			
+//			wdb.close();
+//			
+//			return false;
+//		}
+		
+	}//updateData_generic()
+	
 	public int
 	getNumOfEntries(Activity actv, String table_name) {
 		/*********************************
@@ -5189,6 +5708,219 @@ public class DBUtils extends SQLiteOpenHelper{
 		return list_WP_filtered;
 		
 	}//find_All_WP_literals
+
+	public static boolean 
+	_backup_DB_SaveDate
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// validate: any entry
+
+		////////////////////////////////
+		int count = DBUtils.count_Entry(
+								actv, 
+								CONS.DB.tname_Admin, 
+								CONS.DB.col_names_Admin);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (count < 0 && count != -4) {
+			
+			// Log
+			String msg_Log = String.format("table => not ready: %s (count = %d)",
+									CONS.DB.tname_Admin,
+									count);
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return false;
+			
+		}
+		
+		////////////////////////////////
+
+		// save date
+
+		////////////////////////////////
+		boolean res;
+		
+		if (count >= 1) {
+
+//			android.provider.BaseColumns._ID,		// 0
+//			"created_at", "modified_at",			// 1,2
+//			"name",									// 3
+//			"val",									// 4			
+			
+			String where = CONS.DB.col_names_Admin_full[3] + " = ?";
+			
+			String[] args = new String[]{
+					
+						CONS.DB.admin_LastBackup
+						
+			};
+
+			String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+			
+			ContentValues val = new ContentValues();
+			
+			val.put(
+					CONS.DB.col_names_Admin_full[2],
+					now);
+
+			val.put(
+					CONS.DB.col_names_Admin_full[4],
+					now);
+
+			res = DBUtils.updateData_generic_static(
+							actv, CONS.DB.tname_Admin, 
+							
+							val, where, args);
+			
+		} else {
+
+			ContentValues val = new ContentValues();
+			
+			val.put(
+					CONS.DB.col_names_Admin_full[1],
+					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+			
+			val.put(
+					CONS.DB.col_names_Admin_full[2],
+					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+			
+			val.put(
+					CONS.DB.col_names_Admin_full[3],
+					CONS.DB.admin_LastBackup);
+			
+			val.put(
+					CONS.DB.col_names_Admin_full[4],
+					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+			
+			res = DBUtils.insert_Data_generic(actv, CONS.DB.tname_Admin, val);
+			
+		}
+		
+		return res;
+		
+	}//backup_DB_SaveDate
+
+	/******************************
+		@return
+			-1	table doesn't exist<br>
+			-2	query exception<br>
+			-3	query => returned null<br>
+			-4	entry => less than 1<br>
+	 ******************************/
+	private static int 
+	count_Entry
+	(Activity actv, String tname, String[] cols) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// validate: table exists
+		
+		////////////////////////////////
+		if (!DBUtils.tableExists(actv, CONS.DB.dbName, tname)) {
+			// Log
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table doesn't exists => " + tname);
+			
+			return -1;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+
+		////////////////////////////////
+
+		// prep: db
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		Cursor c = null;
+		
+		try {
+			
+			c = rdb.query(
+					
+					tname,			// 1
+					cols,	// 2
+					null, null,		// 3,4
+//					where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			rdb.close();
+			
+			return -2;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+			rdb.close();
+			
+			return -3;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+			rdb.close();
+			
+			return -4;
+			
+		}//if (c == null)
+
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		int count = c.getCount();
+		
+		rdb.close();
+		
+		return count;
+		
+	}//count_Entry
 	
 
 }//public class DBUtils
