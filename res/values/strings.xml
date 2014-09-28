@@ -96,6 +96,13 @@
     	<string name="prefs_tnactv_db_refresh_summary">Every time when starting app</string>
     	<string name="prefs_tnactv_db_refresh_titile">DB refresh automatic</string>
 
+    	<string name="prefs_tnactv_db_auto_backup_key">
+    	    									prefs_tnactv_db_auto_backup_key</string>
+    	<string name="prefs_tnactv_db_auto_backup_summary">
+    	    									Every X days</string>
+    	<string name="prefs_tnactv_db_auto_backup_title">
+    	    									DB auto backup</string>
+
     <!-- image_actv_menu.xml -->
 	    <string name="image_actv_menu_add_memo">Memo</string>
 	    <string name="image_actv_menu_add_patterns">定型句登録</string>

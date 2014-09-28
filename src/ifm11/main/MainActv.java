@@ -627,7 +627,47 @@ public class MainActv extends ListActivity {
 		////////////////////////////////
 		_Setup_SetListeners();
 		
+		////////////////////////////////
+
+		// auto backup
+
+		////////////////////////////////
+		_Setup_AutoBK();
+		
 	}//protected void onStart()
+
+	private void 
+	_Setup_AutoBK() {
+		// TODO Auto-generated method stub
+		
+		String auto = Methods.get_Pref_String(
+						this, 
+						CONS.Pref.pname_MainActv, 
+						"prefs_tnactv_db_auto_backup_key", 
+						null);
+		
+		if (auto == null) {
+			
+			// Log
+			String msg_Log = "auto bk => null";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}
+		
+		//
+		int auto_days = Integer.parseInt(auto);
+		
+		// Log
+		String msg_Log = "auto_days => " + auto_days;
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+	}//_Setup_AutoBK
 
 	private void 
 	_Setup_InitVars() {

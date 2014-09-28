@@ -74,13 +74,9 @@ public class PrefActv extends PreferenceActivity
 	protected void onStart() {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		
-		_Setup_FontSize();
-//		EditTextPreference prefEditText = 
-//				(EditTextPreference) findPreference(
-//						this.getString(R.string.prefs_tnactv_list_font_size_key));
-////		this.getString(R.string.prefs_history_size_key));
-//		
-//		prefEditText.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+		_Setup_Pref_FontSize();
+		
+		this._Setup_Pref_AutoBk();
 		
 		_Setup_Listeners();
 		
@@ -97,11 +93,11 @@ public class PrefActv extends PreferenceActivity
 	}
 
 
-	private void _Setup_FontSize() {
+	private void _Setup_Pref_FontSize() {
 		// TODO Auto-generated method stub
 		////////////////////////////////
 
-		// Input type
+		// pref: font size
 
 		////////////////////////////////
 		EditTextPreference prefEditText = 
@@ -122,6 +118,67 @@ public class PrefActv extends PreferenceActivity
 		
 	}
 
+	private void _Setup_Pref_AutoBk() {
+		// TODO Auto-generated method stub
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// pref: auto backup
+		
+		////////////////////////////////
+		EditTextPreference pref_AutoBk = 
+				(EditTextPreference) findPreference(
+						this.getString(R.string.prefs_tnactv_db_auto_backup_key));
+//		this.getString(R.string.prefs_history_size_key));
+		
+		pref_AutoBk.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+		
+		////////////////////////////////
+		
+		// show: current
+		
+		////////////////////////////////
+		String current = pref_AutoBk.getText();
+		
+//		// Log
+//		msg_Log = "current => " + current;
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+		String summary = pref_AutoBk.getSummary().toString();
+//		
+//		// Log
+//		msg_Log = "summary(current) => " + summary;
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		
+		if (current == null) {
+//			if (summary == null || current == null) {
+			
+			summary = this.getString(R.string.prefs_tnactv_db_auto_backup_summary);
+			
+		} else {
+
+			summary = summary.replaceAll("[\\d+?X]", current);
+//			summary = summary.replaceAll("X", current);
+			
+		}
+		
+//		// Log
+//		msg_Log = "summary(new) => " + summary;
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		pref_AutoBk.setSummary(summary);
+//		pref_AutoBk.setSummary("Current = " + current);
+		
+	}
+	
 
 	@Override
 	protected void onStop() {
@@ -137,10 +194,35 @@ public class PrefActv extends PreferenceActivity
 
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
+	public void onSharedPreferenceChanged(SharedPreferences pref, String key) {
 		// TODO Auto-generated method stub
+//		String msg_Log;
 		
-		_Setup_FontSize();
+//		// Log
+//		msg_Log = "onSharedPreferenceChanged";
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		// Log
+//		msg_Log = "pref => " + pref.getClass().toString();
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		// Log
+//		msg_Log = "arg1 => " + key;
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		////////////////////////////////
+
+		// update
+
+		////////////////////////////////
+		_Setup_Pref_FontSize();
+		
+		this._Setup_Pref_AutoBk();
 		
 	}
 	
