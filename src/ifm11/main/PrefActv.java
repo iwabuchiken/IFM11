@@ -163,7 +163,9 @@ public class PrefActv extends PreferenceActivity
 			
 		} else {
 
-			summary = summary.replaceAll("[\\d+?X]", current);
+			//REF http://stackoverflow.com/questions/12377838/android-replace-with-regex answered Sep 11 '12 at 21:01
+			summary = summary.replaceAll("\\d{1,}", current);
+//			summary = summary.replaceAll("[\\d+?X]", current);
 //			summary = summary.replaceAll("X", current);
 			
 		}
@@ -196,25 +198,6 @@ public class PrefActv extends PreferenceActivity
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences pref, String key) {
 		// TODO Auto-generated method stub
-//		String msg_Log;
-		
-//		// Log
-//		msg_Log = "onSharedPreferenceChanged";
-//		Log.d("PrefActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		// Log
-//		msg_Log = "pref => " + pref.getClass().toString();
-//		Log.d("PrefActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		// Log
-//		msg_Log = "arg1 => " + key;
-//		Log.d("PrefActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
 		////////////////////////////////
 
 		// update

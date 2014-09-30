@@ -102,7 +102,7 @@
     	<string name="prefs_tnactv_db_auto_backup_key">
     	    									prefs_tnactv_db_auto_backup_key</string>
     	<string name="prefs_tnactv_db_auto_backup_summary">
-    	    									Every X days</string>
+    	    									Every 0 days</string>
     	<string name="prefs_tnactv_db_auto_backup_title">
     	    									DB auto backup</string>
 

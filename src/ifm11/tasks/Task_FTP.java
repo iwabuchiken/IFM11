@@ -397,11 +397,15 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		Log.d("Task_FTP.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
-		Methods_dlg.dlg_ShowMessage_Duration(
-						actv, 
-						msg,
-						colorID,
-						CONS.Admin.dflt_MessageDialog_Length);
+//		Methods_dlg.dlg_ShowMessage_Duration(
+//						actv, 
+//						msg,
+//						colorID,
+//						CONS.Admin.dflt_MessageDialog_Length);
+
+		Methods.write_Log(actv, msg,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+						.currentThread().getStackTrace()[2].getLineNumber());
 		
 		// Log
 		Log.d("Task_FTP.java" + "["
@@ -706,16 +710,16 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			}
 		}//if (res_i >= 200 && res_i <= 220)
 		
-		Methods_dlg.dlg_ShowMessage_Duration(
-						actv, 
-						msg,
-						colorID,
-						CONS.Admin.dflt_MessageDialog_Length);
-		
-		// Log
-		Log.d("Task_FTP.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg);
+//		Methods_dlg.dlg_ShowMessage_Duration(
+//						actv, 
+//						msg,
+//						colorID,
+//						CONS.Admin.dflt_MessageDialog_Length);
+//		
+//		// Log
+//		Log.d("Task_FTP.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg);
 		
 		Methods.write_Log(actv, msg,
 				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
