@@ -6075,7 +6075,79 @@ public class DBUtils extends SQLiteOpenHelper{
 		return val;
 		
 	}//find_LastBK
-	
+
+//	public static Cursor 
+//	get_Cursor_IFM11() {
+//		// TODO Auto-generated method stub
+//		
+//		////////////////////////////////
+//
+//		// DB
+//
+//		////////////////////////////////
+//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		
+//		SQLiteDatabase rdb = dbu.getReadableDatabase();
+//		
+//		////////////////////////////////
+//		
+//		// validate: table exists?
+//		
+//		////////////////////////////////
+//		String tname = CONS.DB.tname_IFM11;
+//		
+//		boolean res = dbu.tableExists(rdb, tname);
+////		boolean res = dbu.tableExists(rdb, tableName);
+//
+//		if (res == false) {
+//			
+//			String msg = "No such table: " + tname;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}
+//		
+//		Cursor c = null;
+//		
+////		String where = CONS.DB.col_names_IFM11[8] + " = ?";
+////		String[] args = new String[]{
+////				
+////							tableName
+////						};
+//		
+//		try {
+//			
+//			c = rdb.query(
+//					
+//					tname,			// 1
+//					CONS.DB.col_names_IFM11_full,	// 2
+//					null, null,		// 3,4
+////					where, args,		// 3,4
+//					null, null,		// 5,6
+//					null,			// 7
+//					null);
+//			
+//			return c;
+//			
+//		} catch (Exception e) {
+//
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", e.toString());
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}//try
+//
+//	}//get_Cursor_IFM11
 
 }//public class DBUtils
 

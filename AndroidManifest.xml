@@ -33,6 +33,11 @@
         <activity android:name=".ShowLogActv" android:screenOrientation="portrait"></activity>
         <activity android:name=".HistActv" android:screenOrientation="portrait"></activity>
         
+        <provider
+            android:name=".CV"
+            android:authorities="ifm11.provider.db">
+        </provider>
+        
     </application>
 
 </manifest>
