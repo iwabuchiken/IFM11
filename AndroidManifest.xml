@@ -34,8 +34,8 @@
         <activity android:name=".HistActv" android:screenOrientation="portrait"></activity>
         
         <provider
-            android:name=".CV"
-            android:authorities="ifm11.provider.db">
+            android:name="ifm11.main.CV"
+            android:authorities="ifm11.main.CV">
         </provider>
         
     </application>

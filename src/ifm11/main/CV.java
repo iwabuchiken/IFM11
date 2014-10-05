@@ -19,8 +19,10 @@ public class CV extends ContentProvider {
 	Activity actv;
 	Context con;
 
-	public static final String AUTHORITY = "ifm11.provider.db";
+	public static final String AUTHORITY = "ifm11.main.CV";
+//	public static final String AUTHORITY = "ifm11.provider.db";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/");
+//	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/");
 	
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
@@ -90,8 +92,8 @@ public class CV extends ContentProvider {
 		// DB
 
 		////////////////////////////////
-		DBUtils dbu = new DBUtils(this.con, CONS.DB.dbName);
-//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		DBUtils dbu = new DBUtils(this.con, CONS.DB.dbName);
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
 		
 		SQLiteDatabase rdb = dbu.getReadableDatabase();
 		
