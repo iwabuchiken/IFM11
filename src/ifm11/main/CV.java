@@ -11,6 +11,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
@@ -18,6 +20,8 @@ public class CV extends ContentProvider {
 
 	Activity actv;
 	Context con;
+	
+	private SQLiteDatabase db;
 
 	public static final String AUTHORITY = "ifm11.main.CV";
 //	public static final String AUTHORITY = "ifm11.provider.db";
@@ -52,9 +56,15 @@ public class CV extends ContentProvider {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		this.actv = new MainActv();
-//		this.actv = (Activity) this.getContext();
-		this.con	= this.getContext();
+		Context context = getContext();
+	    DatabaseHelper dbHelper = new DatabaseHelper(context, CONS.DB.dbName);
+//	    DatabaseHelper dbHelper = new DatabaseHelper(context);
+		
+	    db = dbHelper.getWritableDatabase();
+	    
+//		this.actv = new MainActv();
+////		this.actv = (Activity) this.getContext();
+//		this.con	= this.getContext();
 		
 		return true;
 		
@@ -92,68 +102,86 @@ public class CV extends ContentProvider {
 		// DB
 
 		////////////////////////////////
-//		DBUtils dbu = new DBUtils(this.con, CONS.DB.dbName);
-		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		
-		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		qb.setTables(CONS.DB.tname_IFM11);
 		
-		////////////////////////////////
+		Cursor c = qb.query(
+					this.db, 
+					CONS.DB.col_names_IFM11_full, 
+					null, null, 
+					null, null, null);
 		
-		// validate: table exists?
+		// Log
+		msg_Log = "returning query...";
+		Log.d("CV.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
-		////////////////////////////////
-		String tname = CONS.DB.tname_IFM11;
+		return c;
 		
-		boolean res = dbu.tableExists(rdb, tname);
-//		boolean res = dbu.tableExists(rdb, tableName);
-
-		if (res == false) {
-			
-			String msg = "No such table: " + tname;
-			Methods_dlg.dlg_ShowMessage(actv, msg);
-			
-			rdb.close();
-			
-			return null;
-			
-		}
-		
-		Cursor c = null;
-		
-//		String where = CONS.DB.col_names_IFM11[8] + " = ?";
-//		String[] args = new String[]{
-//				
-//							tableName
-//						};
-		
-		try {
-			
-			c = rdb.query(
-					
-					tname,			// 1
-					CONS.DB.col_names_IFM11_full,	// 2
-					null, null,		// 3,4
-//					where, args,		// 3,4
-					null, null,		// 5,6
-					null,			// 7
-					null);
-			
-			return c;
-			
-		} catch (Exception e) {
-
-			// Log
-			Log.e("DBUtils.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ ":"
-					+ Thread.currentThread().getStackTrace()[2].getMethodName()
-					+ "]", e.toString());
-			
-			rdb.close();
-			
-			return null;
-			
-		}//try
+////		DBUtils dbu = new DBUtils(this.con, CONS.DB.dbName);
+//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		
+//		SQLiteDatabase rdb = dbu.getReadableDatabase();
+//		
+//		////////////////////////////////
+//		
+//		// validate: table exists?
+//		
+//		////////////////////////////////
+//		String tname = CONS.DB.tname_IFM11;
+//		
+//		boolean res = dbu.tableExists(rdb, tname);
+////		boolean res = dbu.tableExists(rdb, tableName);
+//
+//		if (res == false) {
+//			
+//			String msg = "No such table: " + tname;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}
+//		
+//		Cursor c = null;
+//		
+////		String where = CONS.DB.col_names_IFM11[8] + " = ?";
+////		String[] args = new String[]{
+////				
+////							tableName
+////						};
+//		
+//		try {
+//			
+//			c = rdb.query(
+//					
+//					tname,			// 1
+//					CONS.DB.col_names_IFM11_full,	// 2
+//					null, null,		// 3,4
+////					where, args,		// 3,4
+//					null, null,		// 5,6
+//					null,			// 7
+//					null);
+//			
+//			return c;
+//			
+//		} catch (Exception e) {
+//
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", e.toString());
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}//try
 
 		
 	}//query
@@ -164,4 +192,24 @@ public class CV extends ContentProvider {
 		return 0;
 	}
 
+	private static class DatabaseHelper extends SQLiteOpenHelper {
+		
+	       DatabaseHelper(Context context, String dbName){
+	          super(context, dbName, null, 1);
+//	          super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	       }
+
+	       @Override
+	       public void onCreate(SQLiteDatabase db)
+	       {
+//	          db.execSQL(CREATE_DB_TABLE);
+	       }
+	       
+	       @Override
+	       public void onUpgrade(SQLiteDatabase db, int oldVersion, 
+	                             int newVersion) {
+//	          db.execSQL("DROP TABLE IF EXISTS " +  STUDENTS_TABLE_NAME);
+//	          onCreate(db);
+	       }
+	   }
 }
