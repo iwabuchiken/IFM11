@@ -106,11 +106,18 @@ public class CV extends ContentProvider {
 		
 		qb.setTables(CONS.DB.tname_IFM11);
 		
+		////////////////////////////////
+
+		// query
+
+		////////////////////////////////
+		
 		Cursor c = qb.query(
 					this.db, 
 					CONS.DB.col_names_IFM11_full, 
-					null, null, 
-					null, null, null);
+					selection, args, 
+//					null, null, 
+					null, null, order);
 		
 		// Log
 		msg_Log = "returning query...";

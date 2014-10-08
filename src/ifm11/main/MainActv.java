@@ -253,7 +253,7 @@ public class MainActv extends ListActivity {
 				+ "]", "onListItemClick()");
 		//
 		CONS.Admin.vib.vibrate(CONS.Admin.vibLength_click);
-//		
+//		aa
 		String itemName = (String) lv.getItemAtPosition(position);
 		
 		/******************************
