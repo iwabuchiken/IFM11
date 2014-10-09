@@ -106,6 +106,13 @@ public class BO_TL implements OnTouchListener {
 				
 				break;// case image_activity_next
 
+			case image_activity_back://----------------------------------------------------
+				
+				ib = (ImageButton) v;
+				ib.setImageResource(R.drawable.ifm8_image_actv_back_70x70_touched);
+				
+				break;// case image_activity_next
+				
 			}//switch (tag)
 			
 			break;//case MotionEvent.ACTION_DOWN:
@@ -174,7 +181,15 @@ public class BO_TL implements OnTouchListener {
 				ib.setImageResource(R.drawable.ifm8_thumb_up_50x50);
 				
 				break;// case image_activity_next
+
+			case image_activity_back://----------------------------------------------------
 				
+				ib = (ImageButton) v;
+				ib.setImageResource(R.drawable.ifm8_image_actv_back_70x70);
+				
+				break;// case image_activity_next
+				
+
 			}//switch (tag)
 			
 			break;//case MotionEvent.ACTION_UP:

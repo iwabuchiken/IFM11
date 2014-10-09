@@ -442,7 +442,16 @@ public class TNActv extends ListActivity {
 		if (CONS.TNActv.list_Pos_Current
 				> CONS.TNActv.list_Pos_Prev) {
 			
-			target_Position = CONS.TNActv.list_Pos_Current - 5;
+			int diff = CONS.TNActv.list_Pos_Current - 4;
+			
+			if (diff < 0) {
+				
+				diff = 0;
+				
+			}
+			
+			target_Position = diff;
+//			target_Position = CONS.TNActv.list_Pos_Current - 5;
 			
 		} else {
 			
