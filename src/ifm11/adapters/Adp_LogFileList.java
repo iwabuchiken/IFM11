@@ -105,7 +105,7 @@ public class Adp_LogFileList extends ArrayAdapter<String> implements OnTouchList
     	
 //    	// Log
 //		String msg_log = "item => " + item;
-//		Log.d("Adp_MainList.java" + "["
+//		Log.d("Adp_LogFileList.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", msg_log);
 //    	
@@ -176,7 +176,7 @@ public class Adp_LogFileList extends ArrayAdapter<String> implements OnTouchList
 //				+ " / "
 //				+ "position = " + position
 //				;
-//		Log.d("Adp_MainList.java" + "["
+//		Log.d("Adp_LogFileList.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", msg_log);
 		////////////////////////////////
@@ -204,7 +204,7 @@ public class Adp_LogFileList extends ArrayAdapter<String> implements OnTouchList
         	
         	// Log
 			String msg_log = "Down";
-			Log.d("Adp_MainList.java" + "["
+			Log.d("Adp_LogFileList.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_log);
 //            mLastX = currentX;
@@ -215,7 +215,7 @@ public class Adp_LogFileList extends ArrayAdapter<String> implements OnTouchList
         	
         	// Log
 			msg_log = "Outside";
-			Log.d("Adp_MainList.java" + "["
+			Log.d("Adp_LogFileList.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_log);
         	
@@ -225,7 +225,7 @@ public class Adp_LogFileList extends ArrayAdapter<String> implements OnTouchList
         	
         	// Log
 			msg_log = "Cancel";
-			Log.d("Adp_MainList.java" + "["
+			Log.d("Adp_LogFileList.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_log);
 //        case MotionEvent.ACTION_MOVE:
@@ -236,7 +236,7 @@ public class Adp_LogFileList extends ArrayAdapter<String> implements OnTouchList
         	
         	// Log
 			msg_log = "Up";
-			Log.d("Adp_MainList.java" + "["
+			Log.d("Adp_LogFileList.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_log);
 //            if (currentX > mLastX + v.getWidth() / 6) {
@@ -267,7 +267,7 @@ public class Adp_LogFileList extends ArrayAdapter<String> implements OnTouchList
 		
 		// Log
 		String msg_Log = "cur_TableName => updated to: " + cur_TableName;
-		Log.d("Adp_MainList.java" + "["
+		Log.d("Adp_LogFileList.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 

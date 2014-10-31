@@ -709,7 +709,10 @@ public class MainActv extends ListActivity {
 		// comp
 
 		////////////////////////////////
-		int res = schedule.compareToIgnoreCase(last_bk);
+		String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		int res = schedule.compareToIgnoreCase(now);
+		
+//		int res = schedule.compareToIgnoreCase(last_bk);
 		
 		if (res <= 0) {
 //			if (res > 0) {

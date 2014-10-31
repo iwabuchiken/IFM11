@@ -4,6 +4,7 @@ import ifm11.adapters.Adp_LogFileList;
 import ifm11.adapters.Adp_MainList;
 import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.button.BO_CL;
+import ifm11.listeners.button.BO_TL;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
@@ -296,7 +297,32 @@ public class LogActv extends ListActivity {
 		////////////////////////////////
 		_Setup_Adapter();
 		
+		////////////////////////////////
+
+		// listener
+
+		////////////////////////////////
+		this._Setup_Set_Listener();
+		
 	}//protected void onStart()
+
+	private void _Setup_Set_Listener() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// Back
+		
+		////////////////////////////////
+		ImageButton ib_Back = (ImageButton) findViewById(R.id.actv_log_ib_back);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+		ib_Back.setTag(Tags.ButtonTags.ACTV_SHOWLOG_IB_BACK);
+		
+		ib_Back.setOnTouchListener(new BO_TL(this));
+		ib_Back.setOnClickListener(new BO_CL(this));
+
+	}
 
 	private boolean
 	_Setup_Adapter() {
