@@ -79,56 +79,56 @@ public class ShowLogActv extends ListActivity {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onListItemClick()");
 		//
-		CONS.Admin.vib.vibrate(CONS.Admin.vibLength_click);
+//		CONS.Admin.vib.vibrate(CONS.Admin.vibLength_click);
+////		
+//		////////////////////////////////
+//
+//		// get: item name
+//
+//		////////////////////////////////
+//		String itemName = (String) lv.getItemAtPosition(position);
 //		
-		////////////////////////////////
-
-		// get: item name
-
-		////////////////////////////////
-		String itemName = (String) lv.getItemAtPosition(position);
-		
-		/******************************
-			validate: null
-		 ******************************/
-		if (itemName != null) {
-			
-			// Log
-			Log.d("MainActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", "itemName=" + itemName);
-			
-		} else {//if (item_)
-			
-			String msg = "itemName => null";
-			Methods_dlg.dlg_ShowMessage(this, msg);
-			
-			return;
-
-		}//if (item_)
-
-		////////////////////////////////
-
-		// validate: file exists
-
-		////////////////////////////////
-		File fpath_Log = new File(CONS.DB.dPath_Log, itemName);
-		
-		if (!fpath_Log.exists()) {
-			
-			String msg = "File doesn't exist";
-			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
-			
-			return;
-			
-		}
-		
-		////////////////////////////////
-
-		// start activity
-
-		////////////////////////////////
-		Methods.start_Activity_ShowLogActv(this, itemName);
+//		/******************************
+//			validate: null
+//		 ******************************/
+//		if (itemName != null) {
+//			
+//			// Log
+//			Log.d("MainActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "itemName=" + itemName);
+//			
+//		} else {//if (item_)
+//			
+//			String msg = "itemName => null";
+//			Methods_dlg.dlg_ShowMessage(this, msg);
+//			
+//			return;
+//
+//		}//if (item_)
+//
+//		////////////////////////////////
+//
+//		// validate: file exists
+//
+//		////////////////////////////////
+//		File fpath_Log = new File(CONS.DB.dPath_Log, itemName);
+//		
+//		if (!fpath_Log.exists()) {
+//			
+//			String msg = "File doesn't exist";
+//			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+//			
+//			return;
+//			
+//		}
+//		
+//		////////////////////////////////
+//
+//		// start activity
+//
+//		////////////////////////////////
+//		Methods.start_Activity_ShowLogActv(this, itemName);
 		
 	}//protected void onListItemClick(ListView l, View v, int position, long id)
 

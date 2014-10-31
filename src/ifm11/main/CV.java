@@ -102,9 +102,9 @@ public class CV extends ContentProvider {
 		// DB
 
 		////////////////////////////////
-		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-		
-		qb.setTables(CONS.DB.tname_IFM11);
+//		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+//		
+//		qb.setTables(CONS.DB.tname_IFM11);
 		
 		////////////////////////////////
 
@@ -112,8 +112,10 @@ public class CV extends ContentProvider {
 
 		////////////////////////////////
 		
-		Cursor c = qb.query(
-					this.db, 
+		Cursor c = this.db.query(
+//				Cursor c = qb.query(
+//					this.db, 
+					CONS.DB.tname_IFM11,
 					CONS.DB.col_names_IFM11_full, 
 					selection, args, 
 //					null, null, 
@@ -194,10 +196,94 @@ public class CV extends ContentProvider {
 	}//query
 
 	@Override
-	public int update(Uri arg0, ContentValues arg1, String arg2, String[] arg3) {
+	public int 
+	update
+	(Uri uri, ContentValues cv, String where, String[] args) {
 		// TODO Auto-generated method stub
-		return 0;
-	}
+
+		////////////////////////////////
+
+		// db
+
+		////////////////////////////////
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		
+		qb.setTables(CONS.DB.tname_IFM11);
+
+		// Log
+		String msg_Log = "uri.getAuthority() => " + uri.getAuthority();
+		Log.d("CV.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		////////////////////////////////
+
+		// update
+
+		////////////////////////////////
+		String tname = CONS.DB.tname_IFM11;
+		
+		try {
+			
+			// Start transaction
+			this.db.beginTransaction();
+//			wdb.beginTransaction();
+			
+			// Insert data
+			long res = this.db.update(tname, cv, where, args);
+			
+			if (res < 1) {
+				// Log
+				msg_Log = String.format(
+						"update => failed (result = %d): table = %s"
+						, res, tname);
+				
+				this.db.endTransaction();
+				
+				this.db.close();
+				
+				return (int)res;
+				
+			} else {
+				
+				// Log
+				msg_Log = "update => done: " + tname;
+				Log.d("DBUtils.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}
+			
+			// Set as successful
+			this.db.setTransactionSuccessful();
+			
+			// End transaction
+			this.db.endTransaction();
+			
+			this.db.close();
+			
+			return (int)res;
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Exception! => " + e.toString());
+			
+			this.db.close();
+			
+			return -1;
+			
+		}//try		
+		
+//
+//		
+//		return 2;
+////		return 0;
+		
+	}//update
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		
