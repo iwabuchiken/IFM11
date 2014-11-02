@@ -915,11 +915,25 @@ public class Methods {
 		////////////////////////////////
 		wdb.close();
 		
+//		////////////////////////////////
+//
+//		// test
+		/*
+		 * - SDCard => reinserted to the device
+		 * - seems: last update of each file => reset to the current date
+		 * - hence, need a work to fix the TI table
+		 */
+//
+//		////////////////////////////////
+//		List<TI> list_New = Methods
+//						._refresh_MainDB__RecoveryFrom_SDCard_Reset(actv, list_TI);
+		
 		////////////////////////////////
 
 		// Insert data into db
 
 		////////////////////////////////
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
 		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
 //		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
 		
@@ -928,7 +942,7 @@ public class Methods {
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
-//			
+			
 		////////////////////////////////
 
 		// Insert: refresh date
@@ -936,17 +950,94 @@ public class Methods {
 
 		////////////////////////////////
 		res = Methods._refresh_MainDB__InsertData_RefreshDate(
+//										actv, numOfItemsAdded, list_New);
 										actv, numOfItemsAdded, list_TI);
-		
+
 		// Log
 		msg_Log = "insert refresh date => " + res;
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
+//		return 0;
 		return numOfItemsAdded;
 		
 	}//public static int refreshMainDB(Activity actv)
+
+	private static List<TI> 
+	_refresh_MainDB__RecoveryFrom_SDCard_Reset
+	(Activity actv, List<TI> list_TI) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// steps
+		/*
+		 * 	1. build TI list (all files => number is: 4501 or something)
+		 * 	2. filter the list => only those starting with "2014-11"
+		 * 							(currently, 12 of them)
+		 * 	3. Insert those filtered ones
+		 */
+
+		////////////////////////////////
+		
+		////////////////////////////////
+
+		// setup
+
+		////////////////////////////////
+		List<TI> list_New = new ArrayList<TI>();
+		
+		int size = list_TI.size();
+		
+		// Log
+		String msg_Log = "list_TI.size() => " + size;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		////////////////////////////////
+
+		// filter list
+
+		////////////////////////////////
+		for (int i = 0; i < size; i++) {
+			
+			if (list_TI.get(i).getFile_name().startsWith("2014-11")) {
+				
+				list_New.add(list_TI.get(i));
+				
+			}
+		}
+		
+		// Log
+		msg_Log = "list_New.size() => " + list_New.size();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		int limit = 30;
+		
+		for (int i = 0; i < list_New.size(); i++) {
+//			for (int i = size - limit; i < size; i++) {
+			
+			// Log
+			msg_Log = "ti(new) => " + list_New.get(i).getFile_name();
+//			msg_Log = "ti => " + list_TI.get(i).getFile_name();
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}
+		
+		////////////////////////////////
+
+		// return
+
+		////////////////////////////////
+		return list_New;
+
+	}//_refresh_MainDB__RecoveryFrom_SDCard_Reset
+	
 
 	private static boolean 
 	_refresh_MainDB__InsertData_RefreshDate
