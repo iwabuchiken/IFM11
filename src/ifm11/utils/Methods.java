@@ -1785,13 +1785,64 @@ public class Methods {
 	(List<TI> ti_List, 
 		final CONS.Enums.SortType sortType, 
 		final CONS.Enums.SortOrder sortOrder) {
+
+		// Log
+		String msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		Comp_TI aiComp = new Comp_TI(ti_List, sortType, sortOrder);
+		
+		Collections.sort(ti_List, aiComp);
+		
+		// Log
+		msg_Log = "sort => done";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// Log
+		msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+
+	}//sort_List_ai_List
+
+	public static List<TI>
+	sort_List_TI_V2
+	(List<TI> ti_List, 
+			final CONS.Enums.SortType sortType, 
+			final CONS.Enums.SortOrder sortOrder) {
+		
+		// Log
+		String msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 		Comp_TI aiComp = new Comp_TI(ti_List, sortType, sortOrder);
 		
 		Collections.sort(ti_List, aiComp);
+		
+		// Log
+		msg_Log = "sort => done";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 
+		// Log
+		msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		return ti_List;
+		
 	}//sort_List_ai_List
-
+	
 	public static void 
 	start_Activity_PrefActv
 	(Activity actv) {

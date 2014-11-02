@@ -1,6 +1,7 @@
 package ifm11.main;
 
 import ifm11.adapters.Adp_MainList;
+import ifm11.items.TI;
 import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.button.BO_CL;
 import ifm11.utils.CONS;
@@ -19,7 +20,9 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -86,14 +89,233 @@ public class MainActv extends ListActivity {
     }//public void onCreate(Bundle savedInstanceState)
 
     private void do_debug() {
-		
-    	_do_debug__Show_DBList();
+    	
+    	_do_debug__Create_ImageFileList();
+//    	_do_debug__Show_DBList();
 //    	_do_debug__MillSec_to_TimeLabel();
 //    	_do_debug__Add_LastRefreshed();
 //    	_do_debug__Processing();
 
     	
 	}//private void do_debug()
+
+	private void 
+	_do_debug__Create_ImageFileList() {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+
+		// get: TI names list
+
+		////////////////////////////////
+		String order = CONS.DB.col_names_IFM11_full[1] + " DESC";
+		
+		List<TI> tis_List = DBUtils.find_All_TI(this, CONS.DB.tname_IFM11, order);
+//		List<TI> tis_List = DBUtils.find_All_TI(this, CONS.DB.tname_IFM11);
+		
+		List<String> tiNames_List = new ArrayList<String>();
+
+		for (TI ti : tis_List) {
+			/******************************
+				validate
+			 ******************************/
+			if (ti == null) {
+				
+				continue;
+				
+			} else if (ti.getFile_name() == null || ti.getFile_name().equals("")) {
+				
+				continue;
+				
+			}
+			
+			////////////////////////////////
+
+			// add name
+
+			////////////////////////////////
+			tiNames_List.add(ti.getFile_name());
+			
+		}//for (TI ti : tis_List)
+
+		//REF http://stackoverflow.com/questions/1694751/java-array-sort-descending answered Nov 7 '09 at 23:12
+		Collections.sort(tiNames_List, Collections.reverseOrder());
+		
+		// Log
+		String msg_Log = "tiNames_List.size() => " + tiNames_List.size();
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		////////////////////////////////
+//
+//		// get: file names list in SDCard
+//
+//		////////////////////////////////
+//		File f = new File(CONS.DB.dPath_Data_SDCard_Camera);
+//		
+//		/******************************
+//			validate
+//		 ******************************/
+//		if (!f.exists()) {
+//			
+//			// Log
+//			msg_Log = "Camera dir => doesn't exist";
+//			Log.e("MainActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//		}
+//		
+//		String[] fnames = f.list();
+//		
+//		Arrays.sort(fnames, Collections.reverseOrder());
+//		
+//		// Log
+//		msg_Log = "fnames.length => " + fnames.length;
+//		Log.d("MainActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+////		for (int i = 0; i < 10; i++) {
+////			
+////			// Log
+////			msg_Log = "name => " + fnames[i];
+////			Log.d("MainActv.java" + "["
+////					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+////					+ "]", msg_Log);
+////		}
+//		
+//		////////////////////////////////
+//
+//		// write: sdcard file names
+//
+//		////////////////////////////////
+//		String fname_SDCardFiles_List = "SDCardFiles_List.txt";
+//		
+//		f = new File(CONS.DB.dPath_Data_Root, fname_SDCardFiles_List);
+//		
+//		try {
+//			
+//			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+//
+//			for (int i = 0; i < fnames.length; i++) {
+//				
+//				bw.write(fnames[i]);
+//				bw.write("\n");
+//				
+//			}
+//			
+//			bw.close();
+//			
+//			// Log
+//			msg_Log = "Dir file names => written";
+//			Log.d("MainActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+		////////////////////////////////
+
+		// sort
+
+		////////////////////////////////
+		// Log
+		msg_Log = "tis_List.get(0) => "
+					+ tis_List.get(0).getFile_name();
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		List<TI> tmp_TIs_List = new ArrayList<TI>();
+//		
+//		tmp_TIs_List.addAll(
+//				Methods.sort_List_TI_V2(
+//						tis_List, 
+//						CONS.Enums.SortType.CREATED_AT, 
+////						CONS.Enums.SortOrder.ASC);
+//				CONS.Enums.SortOrder.DESC)
+//		);
+//		
+//		// Log
+//		msg_Log = "tmp_TIs_List.get(0) => " + tmp_TIs_List.get(0).getFile_name();
+//		Log.d("MainActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+//		List<TI> tmp_TIs_List = new ArrayList<TI>();
+//		
+//		tmp_TIs_List.addAll(tis_List.subList(0, 10));
+//		
+//		Methods.sort_List_TI(
+////				tmp_TIs_List, 
+//				tis_List, 
+//				CONS.Enums.SortType.CREATED_AT, 
+////				CONS.Enums.SortOrder.ASC);
+//				CONS.Enums.SortOrder.DESC);
+//
+//		// Log
+//		msg_Log = "[sorted]tmp_TIs_List.get(0) => "
+////				msg_Log = "[sorted]tis_List.get(0) => "
+//					+ tmp_TIs_List.get(0).getFile_name();
+////		+ tis_List.get(0).getFile_name();
+//		Log.d("MainActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+
+		////////////////////////////////
+		
+		// write: TI names
+		
+		////////////////////////////////
+		
+		
+		String fname_TIs_List = "TIs_List"
+						+ "_"
+						+ Methods.get_TimeLabel(Methods.getMillSeconds_now())
+						+ ".txt";
+		
+		File f = new File(CONS.DB.dPath_Data_Root, fname_TIs_List);
+//		f = new File(CONS.DB.dPath_Data_Root, fname_TIs_List);
+		
+		try {
+			
+			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+
+			String text;
+			
+			for (int i = 0; i < tis_List.size(); i++) {
+//				for (int i = 0; i < tiNames_List.size(); i++) {
+			
+				text = String.format(
+							Locale.JAPAN,
+							"%s|%s", 
+							tis_List.get(i).getFile_name(),
+							tis_List.get(i).getCreated_at()
+							);
+				
+				bw.write(text);
+//				bw.write(tiNames_List.get(i));
+				bw.write("\n");
+				
+			}
+			
+			bw.close();
+			
+			// Log
+			msg_Log = "TIs_List => written";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}//_do_debug__Create_ImageFileList
 
 	private void 
 	_do_debug__Show_DBList() {

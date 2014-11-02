@@ -111,6 +111,11 @@ public class CONS {
 		// Do not hardcode "/data/"; use Context.getFilesDir().getPath()
 //		public static String dPath_dbFile = "/data/data/cm7.main/databases";
 
+		public final static String dPath_Data_SDCard_Ext = "/mnt/sdcard-ext";
+		
+		public final static String dPath_Data_SDCard_Camera = 
+						dPath_Data_SDCard_Ext + "/dcim/Camera";
+		
 		public final static String dPath_Data_Root = "/mnt/sdcard-ext/ifm11_data";
 		
 		public final static String dPath_dbFile_backup = dPath_Data_Root + "/backup";
