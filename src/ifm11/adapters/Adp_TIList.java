@@ -6,6 +6,9 @@ import ifm11.utils.CONS;
 import ifm11.utils.Methods;
 import ifm11.utils.Tags;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,15 +45,17 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 
 	//
 	CONS.Enums.MoveMode moveMode = null;
-//	Methods.MoveMode moveMode = Methods.MoveMode.OFF;
 
-//	public static ArrayList<Integer> checkedPositions;
-	
+	FileInputStream fis = null;
+	Bitmap imageBitmap = null;
+	File	fname_Image;
 	/*--------------------------------------------------------
 	 * Constructor
 		--------------------------------------------------------*/
 	//
-	public Adp_TIList(Context con, int resourceId, List<TI> items) {
+	public 
+	Adp_TIList
+	(Context con, int resourceId, List<TI> items) {
 		// Super
 		super(con, resourceId, items);
 
@@ -60,8 +65,13 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 		// Inflater
 		inflater = (LayoutInflater) con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
+		////////////////////////////////
 
-	}//public TIListAdapter(Context con, int resourceId, List<TI> items)
+		// test: D-23-3
+
+		////////////////////////////////
+
+	}//Adp_TIList
 
 
 	public Adp_TIList(Context con, int resourceId, List<TI> items, 
@@ -345,14 +355,56 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			----------------------------*/
     	// ContentResolver
     	ContentResolver cr = con.getContentResolver();
+
+//    	this.fname_Image = new File(ti.getFile_path(), ti.getFile_name());
     	
-    	// Bitmap
-    	Bitmap bmp = 
-				MediaStore.Images.Thumbnails.getThumbnail(
-							cr, 
-							ti.getFileId(), 
-							MediaStore.Images.Thumbnails.MICRO_KIND, 
-							null);
+    	Bitmap bmp = null;
+    	
+//    	if (this.fname_Image == null) {
+			
+        	// Bitmap
+        	bmp = 
+    				MediaStore.Images.Thumbnails.getThumbnail(
+    							cr, 
+    							ti.getFileId(), 
+    							MediaStore.Images.Thumbnails.MICRO_KIND, 
+    							null);
+    		
+//		} else {
+//
+//			try {
+//				
+//				//REF http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail answered May 9 '11 at 9:31
+//				this.fis = new FileInputStream(this.fname_Image);
+//				
+//				bmp = BitmapFactory.decodeStream(fis);
+//				
+//				bmp = Bitmap.createScaledBitmap(
+//							bmp, 50, 50, false);
+//				
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				// Log
+//				String msg_Log = "Exception => " + e.toString();
+//				Log.e("Adp_TIList.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", msg_Log);
+//				
+//				e.printStackTrace();
+//				
+//				bmp = 
+//	    				MediaStore.Images.Thumbnails.getThumbnail(
+//	    							cr, 
+//	    							ti.getFileId(), 
+//	    							MediaStore.Images.Thumbnails.MICRO_KIND, 
+//	    							null);
+//				
+//			}//try
+//			
+////			Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
+//			
+//		}//if (this.fname_Image == null)
     	
     	// Set bitmap
     	iv.setImageBitmap(bmp);
