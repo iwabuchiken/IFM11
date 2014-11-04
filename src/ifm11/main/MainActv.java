@@ -90,7 +90,7 @@ public class MainActv extends ListActivity {
 
     private void do_debug() {
     	
-    	_do_debug__Create_ImageFileList();
+//    	_do_debug__Create_ImageFileList();
 //    	_do_debug__Show_DBList();
 //    	_do_debug__MillSec_to_TimeLabel();
 //    	_do_debug__Add_LastRefreshed();

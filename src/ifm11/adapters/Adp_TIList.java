@@ -357,10 +357,12 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	ContentResolver cr = con.getContentResolver();
 
 //    	this.fname_Image = new File(ti.getFile_path(), ti.getFile_name());
+    	this.fname_Image = new File(CONS.DB.dPath_TNs, ti.getFile_name());
     	
     	Bitmap bmp = null;
     	
-//    	if (this.fname_Image == null) {
+    	if (this.fname_Image == null || !this.fname_Image.exists()) {
+//    		if (this.fname_Image == null) {
 			
         	// Bitmap
         	bmp = 
@@ -370,41 +372,50 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     							MediaStore.Images.Thumbnails.MICRO_KIND, 
     							null);
     		
-//		} else {
-//
-//			try {
-//				
-//				//REF http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail answered May 9 '11 at 9:31
-//				this.fis = new FileInputStream(this.fname_Image);
-//				
-//				bmp = BitmapFactory.decodeStream(fis);
-//				
+		} else {
+
+			try {
+				
+				//REF http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail answered May 9 '11 at 9:31
+				this.fis = new FileInputStream(this.fname_Image);
+				
+				bmp = BitmapFactory.decodeStream(fis);
+				
 //				bmp = Bitmap.createScaledBitmap(
 //							bmp, 50, 50, false);
-//				
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
+				
 //				// Log
-//				String msg_Log = "Exception => " + e.toString();
-//				Log.e("Adp_TIList.java"
+//				String msg_Log = "bmp => created from file: " 
+//							+ this.fname_Image.getAbsolutePath();
+//				
+//				Log.d("Adp_TIList.java"
 //						+ "["
 //						+ Thread.currentThread().getStackTrace()[2]
 //								.getLineNumber() + "]", msg_Log);
-//				
-//				e.printStackTrace();
-//				
-//				bmp = 
-//	    				MediaStore.Images.Thumbnails.getThumbnail(
-//	    							cr, 
-//	    							ti.getFileId(), 
-//	    							MediaStore.Images.Thumbnails.MICRO_KIND, 
-//	    							null);
-//				
-//			}//try
-//			
-////			Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
-//			
-//		}//if (this.fname_Image == null)
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				// Log
+				String msg_Log = "Exception => " + e.toString();
+				Log.e("Adp_TIList.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				e.printStackTrace();
+				
+				bmp = 
+	    				MediaStore.Images.Thumbnails.getThumbnail(
+	    							cr, 
+	    							ti.getFileId(), 
+	    							MediaStore.Images.Thumbnails.MICRO_KIND, 
+	    							null);
+				
+			}//try
+			
+//			Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
+			
+		}//if (this.fname_Image == null)
     	
     	// Set bitmap
     	iv.setImageBitmap(bmp);

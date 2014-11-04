@@ -7,6 +7,8 @@ import ifm11.items.TI;
 import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.button.BO_CL;
 import ifm11.listeners.button.BO_TL;
+import ifm11.tasks.Task_CreateTN;
+import ifm11.tasks.Task_FTP;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
@@ -14,6 +16,10 @@ import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +34,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -200,12 +208,12 @@ public class TNActv extends ListActivity {
 			
 		}
 
-		////////////////////////////////
-
-		// debug
-
-		////////////////////////////////
-		do_debug();
+//		////////////////////////////////
+//
+//		// debug
+//
+//		////////////////////////////////
+//		do_debug();
 		
 		////////////////////////////////
 
@@ -260,6 +268,13 @@ public class TNActv extends ListActivity {
 //			----------------------------*/
 //		checkedPositions = new ArrayList<Integer>();
 
+		////////////////////////////////
+
+		// test
+
+		////////////////////////////////
+		this.do_debug();
+		
 	}//protected void onStart()
 
 	private void 
@@ -482,11 +497,147 @@ public class TNActv extends ListActivity {
 	}//_Setup_SetSelection()
 
 
-	private void do_debug() {
+	private void 
+	do_debug() {
 		// TODO Auto-generated method stub
+		
+		_test_D_23_3_V_1_1__SaveThumbnail();
+		
 //		_do_debug__Pref_FontSize();
 		
-	}
+	}//do_debug
+
+
+	private void 
+	_test_D_23_3_V_1_1__SaveThumbnail() {
+		// TODO Auto-generated method stub
+		
+		Task_CreateTN task = new Task_CreateTN(this);
+
+		task.execute("start");
+		
+//		////////////////////////////////
+//
+//		// valicate: tns dir => exists
+//
+//		////////////////////////////////
+//		File dir_TNs = new File(CONS.DB.dPath_TNs);
+//		
+//		if (!dir_TNs.exists()) {
+//			
+//			boolean res = dir_TNs.mkdir();
+//			
+//			if (res == true) {
+//				
+//				// Log
+//				String msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
+//				Log.d("TNActv.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", msg_Log);
+//				
+//			} else {
+//
+//				String msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
+//				
+//				Log.d("TNActv.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", msg_Log);
+//				
+//				return;
+//				
+//			}
+//			
+//		} else {//if (!dir_TNs.exists())
+//			
+//			// Log
+//			String msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
+//			Log.d("TNActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}//if (!dir_TNs.exists())
+//		
+//		////////////////////////////////
+//
+//		// get: TI
+//
+//		////////////////////////////////
+//		int range = 10;
+//		TI ti = null;
+//		File f_in = null;
+//		File f_out = null;
+//		
+//		FileInputStream fis = null;
+//		FileOutputStream fos = null;
+//		Bitmap bmp = null;
+//		
+//		for (int i = 0; i < CONS.TNActv.list_TNActv_Main.size(); i++) {
+////			for (int i = 0; i < range; i++) {
+//			
+//			ti = CONS.TNActv.list_TNActv_Main.get(i);
+//			
+//			f_in = new File(ti.getFile_path(), ti.getFile_name());
+//			f_out = new File(CONS.DB.dPath_TNs, ti.getFile_name());
+//
+//			if (!f_out.exists()) {
+//				
+//				try {
+//					
+//					fis = new FileInputStream(f_in);
+//					
+//					bmp = BitmapFactory.decodeStream(fis);
+//					
+//					bmp = Bitmap.createScaledBitmap(
+//								bmp, 50, 50, false);
+//					
+//					fos = new FileOutputStream(f_out);
+//				
+//					bmp.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+//					
+//					if (fos != null) {
+//						
+//						fos.flush();
+//						fos.close();
+//						
+//					}
+//					
+//				} catch (FileNotFoundException e) {
+//					// TODO Auto-generated catch block
+//					// Log
+//					String msg_Log = "Exception: " + e.toString()
+//									+ " (" + f_in.getAbsolutePath() + ")";
+//					
+//					Log.d("TNActv.java"
+//							+ "["
+//							+ Thread.currentThread().getStackTrace()[2]
+//									.getLineNumber() + "]", msg_Log);
+//					
+//					e.printStackTrace();
+//					
+//					continue;
+//					
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//	
+//					// Log
+//					String msg_Log = "Exception: " + e.toString()
+//									+ " (" + f_in.getAbsolutePath() + ")";
+//					
+//					Log.d("TNActv.java"
+//							+ "["
+//							+ Thread.currentThread().getStackTrace()[2]
+//									.getLineNumber() + "]", msg_Log);
+//	
+//					e.printStackTrace();
+//				}//try
+//				
+//			}//if (!f_out.exists())
+//			
+//		}//for (int i = 0; i < range; i++)
+		
+	}//_test_D_23_3_V_1_1__SaveThumbnail
 
 
 	private void _do_debug__Pref_FontSize() {
@@ -565,29 +716,6 @@ public class TNActv extends ListActivity {
 	private boolean 
 	_Setup_SetList() {
 		// TODO Auto-generated method stub
-		
-//		////////////////////////////////
-//
-//		// dispatch: Search done?
-//
-//		////////////////////////////////
-//		if (CONS.TNActv.searchDone == true) {
-//			
-//			// Log
-//			String msg_Log = "searchDone => true";
-//			Log.d("TNActv.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		} else {
-//			
-//			// Log
-//			String msg_Log = "searchDone => false";
-//			Log.d("TNActv.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		}
 		
 		////////////////////////////////
 

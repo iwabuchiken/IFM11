@@ -57,6 +57,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -8695,6 +8697,237 @@ public class Methods {
 //		return false;
 		
 	}//if(Methods.is_SpecialChars(actv, w))
+
+	/******************************
+		@return
+			-1	=> can't create tns dir
+	 ******************************/
+	public static Integer 
+	create_TNs
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		String msg_Log;
+		
+		////////////////////////////////
+
+		// valicate: tns dir => exists
+
+		////////////////////////////////
+		File dir_TNs = new File(CONS.DB.dPath_TNs);
+		
+		if (!dir_TNs.exists()) {
+			
+			boolean res = dir_TNs.mkdir();
+			
+			if (res == true) {
+				
+				// Log
+				msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
+				Log.d("TNActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+
+				msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
+				
+				Log.d("TNActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				return -1;
+				
+			}
+			
+		} else {//if (!dir_TNs.exists())
+			
+			// Log
+			msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//if (!dir_TNs.exists())
+		
+		////////////////////////////////
+
+		// get: TI
+
+		////////////////////////////////
+		
+		int count = 0;
+		
+		int range = 10;
+		TI ti = null;
+		File f_in = null;
+		File f_out = null;
+		
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		Bitmap bmp = null;
+		
+		int bmp_W_orig;
+		int bmp_H_orig;
+		
+		int bmp_W_new;
+		int bmp_H_new;
+		
+		for (int i = 0; i < CONS.TNActv.list_TNActv_Main.size(); i++) {
+//			for (int i = 0; i < range; i++) {
+			
+			ti = CONS.TNActv.list_TNActv_Main.get(i);
+			
+			f_in = new File(ti.getFile_path(), ti.getFile_name());
+			f_out = new File(CONS.DB.dPath_TNs, ti.getFile_name());
+
+			if (!f_out.exists()) {
+				
+				try {
+					
+					fis = new FileInputStream(f_in);
+					
+					bmp = BitmapFactory.decodeStream(fis);
+					
+					bmp_W_orig = bmp.getWidth();
+					bmp_H_orig = bmp.getHeight();
+					
+//					// Log
+//					String msg_Log = String.format(
+//								Locale.JAPAN,
+//								"bmp_W_orig = %d, bmp_H_orig = %d", 
+//								bmp_W_orig, bmp_H_orig);
+					
+//					Log.d("Methods.java"
+//							+ "["
+//							+ Thread.currentThread().getStackTrace()[2]
+//									.getLineNumber() + "]", msg_Log);
+					
+					if (bmp_W_orig > 0 && bmp_H_orig > 0) {
+						
+						if (bmp_W_orig > bmp_H_orig) {
+							
+							bmp_W_new = 100;
+							
+							bmp_H_new = (int) ((((float)100 / bmp_W_orig)) * bmp_H_orig);
+//							bmp_H_new = (int) (((float)(100 / bmp_W_orig)) * bmp_H_orig);
+							
+//							// Log
+//							msg_Log = String.format(
+//										Locale.JAPAN,
+//										"bmp_W_new = %d, bmp_H_new = %d", 
+//										bmp_W_new, bmp_H_new);
+//							
+//							Log.d("Methods.java"
+//									+ "["
+//									+ Thread.currentThread().getStackTrace()[2]
+//											.getLineNumber() + "]", msg_Log);
+							
+						} else if (bmp_W_orig < bmp_H_orig) {
+							
+							bmp_W_new = (int)(((float)100 / bmp_H_orig) * bmp_W_orig);
+//							bmp_W_new = (int)((float)(100 / bmp_H_orig) * bmp_W_orig);
+							
+							bmp_H_new = 100;
+
+//							// Log
+//							msg_Log = String.format(
+//										Locale.JAPAN,
+//										"bmp_W_new = %d, bmp_H_new = %d", 
+//										bmp_W_new, bmp_H_new);
+//							
+//							Log.d("Methods.java"
+//									+ "["
+//									+ Thread.currentThread().getStackTrace()[2]
+//											.getLineNumber() + "]", msg_Log);
+
+						} else {
+	
+							bmp_W_new = 100;
+							
+							bmp_H_new = 100;
+							
+						}
+					
+					} else {
+					
+//						// Log
+//						msg_Log = "bmp_W_new => < 0";
+//						Log.d("Methods.java"
+//								+ "["
+//								+ Thread.currentThread().getStackTrace()[2]
+//										.getLineNumber() + "]", msg_Log);
+						
+						bmp_W_new = 100;
+						
+						bmp_H_new = 100;
+						
+					}
+					
+					bmp = Bitmap.createScaledBitmap(
+								bmp, bmp_W_new, bmp_H_new, false);
+//					bmp, 50, 50, false);
+					
+					fos = new FileOutputStream(f_out);
+				
+					bmp.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+					
+					if (fos != null) {
+						
+						fos.flush();
+						fos.close();
+						
+						// Log
+						msg_Log = "tn => saved: " + f_out.getAbsolutePath();
+						Log.d("Methods.java"
+								+ "["
+								+ Thread.currentThread().getStackTrace()[2]
+										.getLineNumber() + "]", msg_Log);
+						
+						count += 1;
+						
+					}
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					// Log
+					msg_Log = "Exception: " + e.toString()
+									+ " (" + f_in.getAbsolutePath() + ")";
+					
+					Log.d("TNActv.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					e.printStackTrace();
+					
+					continue;
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+	
+					// Log
+					msg_Log = "Exception: " + e.toString()
+									+ " (" + f_in.getAbsolutePath() + ")";
+					
+					Log.d("TNActv.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+	
+					e.printStackTrace();
+				}//try
+				
+			}//if (!f_out.exists())
+			
+		}//for (int i = 0; i < range; i++)
+
+		
+		return count;
+		
+	}//create_TNs
 
 	
 }//public class Methods

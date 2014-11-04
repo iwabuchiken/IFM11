@@ -145,6 +145,9 @@ public class CONS {
 		// admin items
 		public static final String admin_LastBackup = "last_backup";
 		
+		// thumbnails
+		public final static String dPath_TNs = dPath_Data_Root + "/tns";
+		
 //		public static String dname_TapeATalk_Sdcard = "tapeatalk_records";
 		
 		////////////////////////////////
