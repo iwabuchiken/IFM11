@@ -8111,7 +8111,7 @@ public class Methods {
 		
 //		// Log
 //		msg_Log = "tname => " + tname;
-//		Log.d("TNActv.java" + "["
+//		Log.d("Methods.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", msg_Log);
 		
@@ -8701,6 +8701,7 @@ public class Methods {
 	/******************************
 		@return
 			-1	=> can't create tns dir
+			-2	=> TIs list ==> returned null
 	 ******************************/
 	public static Integer 
 	create_TNs
@@ -8724,7 +8725,7 @@ public class Methods {
 				
 				// Log
 				msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
-				Log.d("TNActv.java"
+				Log.d("Methods.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", msg_Log);
@@ -8733,7 +8734,7 @@ public class Methods {
 
 				msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
 				
-				Log.d("TNActv.java"
+				Log.d("Methods.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", msg_Log);
@@ -8746,7 +8747,7 @@ public class Methods {
 			
 			// Log
 			msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
-			Log.d("TNActv.java" + "["
+			Log.d("Methods.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -8757,7 +8758,32 @@ public class Methods {
 		// get: TI
 
 		////////////////////////////////
+		List<TI> list_TIs = DBUtils.find_All_TI(actv);
+//		List<TI> list_TIs = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
 		
+		// Log
+		if (list_TIs != null) {
+			
+			msg_Log = "list_TIs.size() => " + list_TIs.size();
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {
+
+			msg_Log = "list_TIs.size() => null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -2;
+			
+		}
+		////////////////////////////////
+
+		// create: thumbnails
+
+		////////////////////////////////
 		int count = 0;
 		
 		int range = 10;
@@ -8775,10 +8801,12 @@ public class Methods {
 		int bmp_W_new;
 		int bmp_H_new;
 		
-		for (int i = 0; i < CONS.TNActv.list_TNActv_Main.size(); i++) {
+		for (int i = 0; i < list_TIs.size(); i++) {
+//			for (int i = 0; i < CONS.TNActv.list_TNActv_Main.size(); i++) {
 //			for (int i = 0; i < range; i++) {
 			
-			ti = CONS.TNActv.list_TNActv_Main.get(i);
+			ti = list_TIs.get(i);
+//			ti = CONS.TNActv.list_TNActv_Main.get(i);
 			
 			f_in = new File(ti.getFile_path(), ti.getFile_name());
 			f_out = new File(CONS.DB.dPath_TNs, ti.getFile_name());
@@ -8896,7 +8924,7 @@ public class Methods {
 					msg_Log = "Exception: " + e.toString()
 									+ " (" + f_in.getAbsolutePath() + ")";
 					
-					Log.d("TNActv.java"
+					Log.d("Methods.java"
 							+ "["
 							+ Thread.currentThread().getStackTrace()[2]
 									.getLineNumber() + "]", msg_Log);
@@ -8912,7 +8940,7 @@ public class Methods {
 					msg_Log = "Exception: " + e.toString()
 									+ " (" + f_in.getAbsolutePath() + ")";
 					
-					Log.d("TNActv.java"
+					Log.d("Methods.java"
 							+ "["
 							+ Thread.currentThread().getStackTrace()[2]
 									.getLineNumber() + "]", msg_Log);
@@ -8923,7 +8951,6 @@ public class Methods {
 			}//if (!f_out.exists())
 			
 		}//for (int i = 0; i < range; i++)
-
 		
 		return count;
 		

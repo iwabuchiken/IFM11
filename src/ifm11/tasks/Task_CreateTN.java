@@ -52,24 +52,29 @@ public class Task_CreateTN extends AsyncTask<String, Integer, Integer> {
 			
 			break;
 			
+		case -2://----------------------------------
+			
+			msg = "TIs list ==> returned null";
+			
+			break;
+			
 		default:
 			
 			msg = "Create tns => done: " + val;
-			
-//			String log_msg = "Refresh => done: " + val;
-			Methods.write_Log(actv, msg, Thread.currentThread()
-					.getStackTrace()[2].getFileName(), Thread.currentThread()
-					.getStackTrace()[2].getLineNumber());
-			
-			// Log
-			Log.d("Task_CreateTN.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg);
 			
 			break;
 				
 		}//switch(val)
 		
+		Methods.write_Log(actv, msg, Thread.currentThread()
+				.getStackTrace()[2].getFileName(), Thread.currentThread()
+				.getStackTrace()[2].getLineNumber());
+		
+		// Log
+		Log.d("Task_CreateTN.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg);
+
 //		Methods_dlg.dlg_ShowMessage(actv, msg);
 		
 	}//onPostExecute

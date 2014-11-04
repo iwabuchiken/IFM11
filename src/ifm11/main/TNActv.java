@@ -501,11 +501,99 @@ public class TNActv extends ListActivity {
 	do_debug() {
 		// TODO Auto-generated method stub
 		
-		_test_D_23_3_V_1_1__SaveThumbnail();
+//		_test_D_23_3_V_1_1__GetTNfileNumbers();
+//		_test_D_23_3_V_1_1__SaveThumbnail();
 		
 //		_do_debug__Pref_FontSize();
 		
 	}//do_debug
+
+
+	private void 
+	_test_D_23_3_V_1_1__GetTNfileNumbers() {
+		// TODO Auto-generated method stub
+		
+		String msg_Log;
+		
+		File dir_TNs = new File(CONS.DB.dPath_TNs);
+		
+		if (!dir_TNs.exists()) {
+			
+			boolean res = dir_TNs.mkdir();
+			
+			if (res == true) {
+				
+				// Log
+				msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
+				Log.d("TNActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+
+				msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
+				
+				Log.d("TNActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				return;
+				
+			}
+			
+		} else {//if (!dir_TNs.exists())
+			
+			// Log
+			msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//if (!dir_TNs.exists())
+
+		////////////////////////////////
+
+		// get: numbers
+
+		////////////////////////////////
+		String[] names = dir_TNs.list();
+		
+		if (names == null) {
+			
+			// Log
+			msg_Log = "names => null";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		} else if (names.length == 0) {
+			
+			// Log
+			msg_Log = "names => 0";
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		} else {
+
+			// Log
+			msg_Log = "names.length => " + names.length;
+			Log.d("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+
+		}
+		
+	}//_test_D_23_3_V_1_1__GetTNfileNumbers
+	
 
 
 	private void 
@@ -515,127 +603,6 @@ public class TNActv extends ListActivity {
 		Task_CreateTN task = new Task_CreateTN(this);
 
 		task.execute("start");
-		
-//		////////////////////////////////
-//
-//		// valicate: tns dir => exists
-//
-//		////////////////////////////////
-//		File dir_TNs = new File(CONS.DB.dPath_TNs);
-//		
-//		if (!dir_TNs.exists()) {
-//			
-//			boolean res = dir_TNs.mkdir();
-//			
-//			if (res == true) {
-//				
-//				// Log
-//				String msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
-//				Log.d("TNActv.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", msg_Log);
-//				
-//			} else {
-//
-//				String msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
-//				
-//				Log.d("TNActv.java"
-//						+ "["
-//						+ Thread.currentThread().getStackTrace()[2]
-//								.getLineNumber() + "]", msg_Log);
-//				
-//				return;
-//				
-//			}
-//			
-//		} else {//if (!dir_TNs.exists())
-//			
-//			// Log
-//			String msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
-//			Log.d("TNActv.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		}//if (!dir_TNs.exists())
-//		
-//		////////////////////////////////
-//
-//		// get: TI
-//
-//		////////////////////////////////
-//		int range = 10;
-//		TI ti = null;
-//		File f_in = null;
-//		File f_out = null;
-//		
-//		FileInputStream fis = null;
-//		FileOutputStream fos = null;
-//		Bitmap bmp = null;
-//		
-//		for (int i = 0; i < CONS.TNActv.list_TNActv_Main.size(); i++) {
-////			for (int i = 0; i < range; i++) {
-//			
-//			ti = CONS.TNActv.list_TNActv_Main.get(i);
-//			
-//			f_in = new File(ti.getFile_path(), ti.getFile_name());
-//			f_out = new File(CONS.DB.dPath_TNs, ti.getFile_name());
-//
-//			if (!f_out.exists()) {
-//				
-//				try {
-//					
-//					fis = new FileInputStream(f_in);
-//					
-//					bmp = BitmapFactory.decodeStream(fis);
-//					
-//					bmp = Bitmap.createScaledBitmap(
-//								bmp, 50, 50, false);
-//					
-//					fos = new FileOutputStream(f_out);
-//				
-//					bmp.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-//					
-//					if (fos != null) {
-//						
-//						fos.flush();
-//						fos.close();
-//						
-//					}
-//					
-//				} catch (FileNotFoundException e) {
-//					// TODO Auto-generated catch block
-//					// Log
-//					String msg_Log = "Exception: " + e.toString()
-//									+ " (" + f_in.getAbsolutePath() + ")";
-//					
-//					Log.d("TNActv.java"
-//							+ "["
-//							+ Thread.currentThread().getStackTrace()[2]
-//									.getLineNumber() + "]", msg_Log);
-//					
-//					e.printStackTrace();
-//					
-//					continue;
-//					
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//	
-//					// Log
-//					String msg_Log = "Exception: " + e.toString()
-//									+ " (" + f_in.getAbsolutePath() + ")";
-//					
-//					Log.d("TNActv.java"
-//							+ "["
-//							+ Thread.currentThread().getStackTrace()[2]
-//									.getLineNumber() + "]", msg_Log);
-//	
-//					e.printStackTrace();
-//				}//try
-//				
-//			}//if (!f_out.exists())
-//			
-//		}//for (int i = 0; i < range; i++)
 		
 	}//_test_D_23_3_V_1_1__SaveThumbnail
 
