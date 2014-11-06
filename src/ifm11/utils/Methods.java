@@ -8965,8 +8965,6 @@ public class Methods {
 		
 		Bitmap bm = ImageActv.bm_modified;
 		
-		int[] pixels;
-		
 		////////////////////////////////
 
 		// width, height
@@ -8990,8 +8988,23 @@ public class Methods {
 		// pixels
 
 		////////////////////////////////
+		int[] pixels = new int[bmp_W * bmp_H];
+				
+		bm.getPixels(pixels, 0, bmp_W, 0, 0, bmp_W, bmp_H);
 		
+		for (int i = 0; i < 10; i++) {
+			
+			// Log
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"pixel[%d] => %d",
+					i, pixels[i]);
 		
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		
+		}
 		
 	}//change_RGB
 
