@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -560,6 +561,12 @@ public class CONS {
 		
 		public static Adp_WordPatterns adp_WPList_3 = null;
 
+		////////////////////////////////
+
+		// bitmap
+
+		////////////////////////////////
+		public static Bitmap bm_Modified = null;
 		
 	}//IMageActv
 	

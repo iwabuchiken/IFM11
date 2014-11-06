@@ -10,6 +10,7 @@ import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
 import ifm11.main.HistActv;
+import ifm11.main.ImageActv;
 import ifm11.main.LogActv;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
@@ -17,6 +18,7 @@ import ifm11.main.ShowLogActv;
 import ifm11.main.TNActv;
 import ifm11.tasks.Task_HTTP;
 import ifm11.tasks.Task_Search;
+import ifm11.utils.CONS.IMageActv;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8955,6 +8957,43 @@ public class Methods {
 		return count;
 		
 	}//create_TNs
+
+	public static void 
+	change_RGB
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		Bitmap bm = ImageActv.bm_modified;
+		
+		int[] pixels;
+		
+		////////////////////////////////
+
+		// width, height
+
+		////////////////////////////////
+		int bmp_W = bm.getWidth();
+		int bmp_H = bm.getHeight();
+		
+		// Log
+		String msg_Log = String.format(
+					Locale.JAPAN,
+					"w = %d, h = %d",
+					bmp_W, bmp_H);
+		
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		////////////////////////////////
+
+		// pixels
+
+		////////////////////////////////
+		
+		
+		
+	}//change_RGB
 
 	
 }//public class Methods

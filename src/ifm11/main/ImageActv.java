@@ -41,6 +41,7 @@ public class ImageActv extends Activity {
 	
 	//
 	public static Bitmap bm;
+	public static Bitmap bm_modified;
 
 	/*********************************
 	 * Views
@@ -144,7 +145,8 @@ public class ImageActv extends Activity {
 		bm = BitmapFactory.decodeFile(file_path);
 		
 		
-		Bitmap bm_modified = set_image_1_modify_bitmap(bm);
+		bm_modified = set_image_1_modify_bitmap(bm);
+//		Bitmap bm_modified = set_image_1_modify_bitmap(bm);
 		
 		/*----------------------------
 		 * 3. Set image to the view
@@ -278,6 +280,15 @@ public class ImageActv extends Activity {
 			Methods_dlg.dlg_patterns(this);
 			
 			break;
+			
+		case R.id.image_actv_menu_LABS://------------------------------------
+			
+//			Methods.dlg_register_patterns(this);
+			
+			Methods_dlg.dlg_LABS_main(this);
+			
+			break;
+			
 		}//switch (item.getItemId())
 		
 		return super.onOptionsItemSelected(item);

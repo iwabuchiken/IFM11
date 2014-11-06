@@ -16,4 +16,12 @@
         
     </item>
     
+    <item 
+        android:id="@+id/image_actv_menu_LABS" 
+        android:title="@string/opt_Menu_LABS_title" 
+        android:icon="@drawable/menu_icon_admin_32x32_brown"
+        >
+        
+    </item>
+    
 </menu>

@@ -176,6 +176,7 @@ public final class R {
         public static final int image_activity_ib_next=0x7f090064;
         public static final int image_activity_ib_prev=0x7f090062;
         public static final int image_activity_tv_message=0x7f090061;
+        public static final int image_actv_menu_LABS=0x7f090081;
         public static final int image_actv_menu_add_memo=0x7f09007f;
         public static final int image_actv_menu_add_patterns=0x7f090080;
         public static final int iv_thumbnail=0x7f090066;
@@ -199,14 +200,14 @@ public final class R {
         public static final int main_bt_back=0x7f090009;
         public static final int main_bt_forward=0x7f09000b;
         public static final int main_bt_up=0x7f09000a;
-        public static final int main_opt_menu_create_folder=0x7f090081;
-        public static final int main_opt_menu_history=0x7f090085;
-        public static final int main_opt_menu_others=0x7f090086;
-        public static final int main_opt_menu_preferences=0x7f090084;
-        public static final int main_opt_menu_search=0x7f090083;
+        public static final int main_opt_menu_create_folder=0x7f090082;
+        public static final int main_opt_menu_history=0x7f090086;
+        public static final int main_opt_menu_others=0x7f090087;
+        public static final int main_opt_menu_preferences=0x7f090085;
+        public static final int main_opt_menu_search=0x7f090084;
         public static final int main_sv_dir_path=0x7f090006;
         public static final int main_tv_dir_path=0x7f090007;
-        public static final int opt_menu_main_db=0x7f090082;
+        public static final int opt_menu_main_db=0x7f090083;
         public static final int tableRow1=0x7f090021;
         public static final int tableRow2=0x7f090024;
         public static final int tableRow3=0x7f090027;
@@ -219,8 +220,8 @@ public final class R {
         public static final int thumb_activity_ib_prev_page=0x7f09007b;
         public static final int thumb_activity_ib_toBottom=0x7f09007e;
         public static final int thumb_activity_ib_toTop=0x7f09007a;
-        public static final int thumb_actv_menu_move_files=0x7f090088;
-        public static final int thumb_actv_menu_move_mode=0x7f090087;
+        public static final int thumb_actv_menu_move_files=0x7f090089;
+        public static final int thumb_actv_menu_move_mode=0x7f090088;
     }
     public static final class layout {
         public static final int actv_log=0x7f030000;
@@ -389,6 +390,11 @@ public final class R {
         public static final int main_opt_menu_preferences=0x7f060011;
         public static final int main_opt_menu_refresh_db=0x7f06000e;
         public static final int main_opt_menu_search=0x7f060010;
+        public static final int opt_Menu_LABS__Binary_Image=0x7f060063;
+        public static final int opt_Menu_LABS__Change_RGB=0x7f060062;
+        /**  labs 
+         */
+        public static final int opt_Menu_LABS_title=0x7f060061;
         public static final int prefs_tnactv_db_auto_backup_key=0x7f060032;
         public static final int prefs_tnactv_db_auto_backup_summary=0x7f060033;
         public static final int prefs_tnactv_db_auto_backup_title=0x7f060034;

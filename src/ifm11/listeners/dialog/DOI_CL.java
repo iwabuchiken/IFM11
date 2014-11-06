@@ -131,6 +131,14 @@ public class DOI_CL implements OnItemClickListener {
 			----------------------------*/
 		switch (tag) {
 		
+		case ACTV_IMAGE_OPTMENU_LABS://----------------------------------------------
+			
+			li = (ListItem) parent.getItemAtPosition(position);
+			
+			case_ACTV_IMAGE_OPTMENU_LABS(li);
+			
+			break;// case dlg_add_memos_gv
+			
 //		case dlg_db_admin_lv://----------------------------------------------
 		case DLG_DB_ADMIN_LV://----------------------------------------------
 			
@@ -253,6 +261,17 @@ public class DOI_CL implements OnItemClickListener {
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_ACTV_IMAGE_OPTMENU_LABS
+	(ListItem li) {
+		// TODO Auto-generated method stub
+		
+		Methods.change_RGB(actv);
+		
+//		d1.dismiss();
+		
+	}//case_ACTV_IMAGE_OPTMENU_LABS
 
 	private void 
 	case_ACTV_IMAGE_ADD_MEMO_LV_2

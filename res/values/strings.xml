@@ -194,5 +194,11 @@
 
     <!-- dlg: MainActv: Others -->
     	<string name="dlg_actv_main_other_see_log">See log</string>    	
-    		
+
+    <!-- labs -->
+    	<string name="opt_Menu_LABS_title">LABs</string>
+    	<string name="opt_Menu_LABS__Change_RGB">Change RGB</string>
+    	<string name="opt_Menu_LABS__Binary_Image">Binary image</string>
+    
+    
 </resources>
