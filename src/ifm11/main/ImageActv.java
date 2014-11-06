@@ -118,7 +118,7 @@ public class ImageActv extends Activity {
 		/*----------------------------
 		 * 5. Set listeners
 			----------------------------*/
-		set_listeners();
+		_Setup_Set_Listeners();
 		
 		////////////////////////////////
 
@@ -208,7 +208,8 @@ public class ImageActv extends Activity {
 		
 	}//private Bitmap set_image_1_modify_bitmap(Bitmap bm)
 
-	private void set_listeners() {
+	private void 
+	_Setup_Set_Listeners() {
 		/*----------------------------
 		 * Steps
 		 * 1. "Back" button
@@ -249,7 +250,7 @@ public class ImageActv extends Activity {
 		ib_next.setOnTouchListener(new BO_TL(this));
 		ib_next.setOnClickListener(new BO_CL(this));
 		
-	}//private void set_listeners()
+	}//_Setup_Set_Listeners
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -347,7 +348,8 @@ public class ImageActv extends Activity {
 	}
 
 	@Override
-	protected void onStart() {
+	protected void 
+	onStart() {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		super.onStart();
 		
@@ -366,7 +368,7 @@ public class ImageActv extends Activity {
 		////////////////////////////////
 		_Setup_Update_LastViewed();
 		
-	}
+	}//onStart
 
 	private void 
 	_Setup_Update_LastViewed() {
