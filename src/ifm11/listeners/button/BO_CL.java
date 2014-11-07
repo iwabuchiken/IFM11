@@ -174,11 +174,11 @@ public class BO_CL implements OnClickListener {
 			
 			break;// case image_activity_prev
 			
-//		case image_activity_next://----------------------------------------------------
-//
-//			image_activity_next();
-//			
-//			break;// case image_activity_next
+		case image_activity_next://----------------------------------------------------
+
+			image_activity_next();
+			
+			break;// case image_activity_next
 			
 		default:
 			break;
@@ -186,7 +186,199 @@ public class BO_CL implements OnClickListener {
 		
 	}//public void onClick(View v)
 
-	private void image_activity_prev() {
+	private void 
+	image_activity_next() {
+		/*********************************
+		 * 1. Get prefs => current position
+		 * 2. No more prev?
+		 * 
+		 * 3. Get the previous item in the ti list
+		 * 4. New image file path
+		 * 
+		 * 5. Show the previous image
+		 * 
+		 * 6. Set new pref value
+		 * 
+		 * 7. Update the file name label
+		 * 
+		 * 8. Save history
+		 * 
+		 *********************************/
+		int savedPosition = Methods.get_Pref_Int(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPosition_TNActv, 
+				CONS.Pref.dflt_IntExtra_value);
+		
+		// Log
+		Log.d("BO_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "savedPosition=" + savedPosition);
+		
+		/*********************************
+		 * 2. No more prev?
+		 *********************************/
+//		if (savedPosition == 0) {
+		if (savedPosition >= CONS.TNActv.list_TNActv_Main.size() - 1) {
+			
+//			// debug
+//			Toast.makeText(actv, "No next images", Toast.LENGTH_SHORT).show();
+			
+			String msg = "No next images";
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return;
+			
+		}//if (savedPosition == 0)
+
+		/*********************************
+		 * 3. Get the previous item in the ti list
+		 *********************************/
+		TI ti_prev = CONS.TNActv.list_TNActv_Main.get(savedPosition + 1);
+//		
+		/*********************************
+		 * 4. New image file path
+		 *********************************/
+		String image_file_path_new = StringUtils.join(
+				
+				new String[]{
+						ti_prev.getFile_path(),
+						ti_prev.getFile_name()
+				},
+				File.separator
+		);
+	
+		// Log
+		Log.d("BO_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "image_file_path_new=" + image_file_path_new);
+		
+		////////////////////////////////
+
+		// validate: file exists
+
+		////////////////////////////////
+		File f = new File(image_file_path_new);
+		
+		if (!f.exists()) {
+			
+			String msg = "No such file => " + f.getAbsolutePath();
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return;
+			
+		}
+		
+//		
+		/*********************************
+		 * 5. Show the next image
+		 *********************************/
+//		ImageActv.bm = null;
+		ImageActv.bm.recycle();
+		
+		ImageActv.bm = BitmapFactory.decodeFile(image_file_path_new);
+		
+		ImageActv.LL.removeView(ImageActv.v);
+		
+		ImageActv.v.setImageBitmap(ImageActv.bm);
+		
+		ImageActv.LL.addView(ImageActv.v);
+//		
+		// Log
+		Log.d("BO_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "New image added");
+//		
+		/*********************************
+		 * 6. Set new pref value
+		 *********************************/
+		boolean res = Methods.set_Pref_Int(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPosition_TNActv, 
+				savedPosition + 1);
+
+		// Log
+		if (res == true) {
+			
+			Log.d("BO_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Current position updated => " + (savedPosition + 1));
+			
+		} else {
+			
+			Log.d("BO_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Current position can't be updated => " + (savedPosition + 1));
+
+		}
+
+		// Log
+		Log.d("BO_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "Prefs set: " + (savedPosition + 1));
+
+		/*********************************
+		 * 7. Update the file name label
+		 *********************************/
+		ImageActv.tv_file_name.setText(ti_prev.getFile_name());
+
+		/*********************************
+		 * 8. Save history
+		 *********************************/
+		////////////////////////////////
+
+		// update: last viewed at
+
+		////////////////////////////////
+		int res_i = DBUtils.update_TI(
+				actv, 
+				ti_prev, 
+				CONS.DB.col_names_IFM11_full[10],
+				Methods.conv_MillSec_to_TimeLabel(
+						Methods.getMillSeconds_now())
+				);
+		
+		String msg = null;
+		
+		switch(res_i) {
+//			-1 => Insertion failed
+//			-2 => Exception
+//			1 => Insertion done
+		case -1:
+			
+			msg = "last_viewed_at => not inserted";
+			
+			break;
+			
+		case -2:
+			
+			msg = "last_viewed_at => Exception";
+			
+			break;
+			
+		case 1:
+			
+			msg = "Insertion done";
+			
+			break;
+			
+		default:
+			msg = "Unknown result => " + res;
+			
+			break;
+			
+		}
+		
+		// Log
+		Log.d("BO_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg);
+		
+	}//private void image_activity_next()
+
+	private void 
+	image_activity_prev() {
 		/*********************************
 		 * 1. Get prefs => current position
 		 * 2. No more prev?
@@ -262,10 +454,28 @@ public class BO_CL implements OnClickListener {
 		Log.d("BO_CL.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "image_file_path_new=" + image_file_path_new);
+
+		////////////////////////////////
+
+		// validate: file exists
+
+		////////////////////////////////
+		File f = new File(image_file_path_new);
 		
+		if (!f.exists()) {
+			
+			String msg = "No such file => " + f.getAbsolutePath();
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return;
+			
+		}
+
 		/*********************************
 		 * 5. Show the previous image
 		 *********************************/
+		ImageActv.bm.recycle();
+		
 		ImageActv.bm = BitmapFactory.decodeFile(image_file_path_new);
 		
 		ImageActv.LL.removeView(ImageActv.v);
