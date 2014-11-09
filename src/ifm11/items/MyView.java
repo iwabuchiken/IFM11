@@ -55,7 +55,7 @@ public class MyView extends ImageView {
 		@Override
 		public boolean onScaleBegin(ScaleGestureDetector detector) {
 			// TODO Auto-generated method stub
-			Log.v("touch", "onScaleBegin");
+//			Log.v("touch", "onScaleBegin");
 			baseMatrix.set(imgMatrix);
 			touchMode = TOUCH_MULTI;
 			return super.onScaleBegin(detector);
@@ -64,7 +64,7 @@ public class MyView extends ImageView {
 		@Override
 			public void onScaleEnd(ScaleGestureDetector detector) {
 			// TODO Auto-generated method stub
-			Log.v("touch", "onScaleEnd");
+//			Log.v("touch", "onScaleEnd");
 			touchMode = TOUCH_NONE;
 			super.onScaleEnd(detector);
 			} 
@@ -88,7 +88,7 @@ public class MyView extends ImageView {
 //				this.setBackgroundColor(Color.YELLOW);
 				
 				if(touchMode == TOUCH_NONE && count == 1) {
-					Log.v("touch", "DOWN");
+//					Log.v("touch", "DOWN");
 					po0.set(event.getX(), event.getY());
 					baseMatrix.set(imgMatrix);
 					touchMode = TOUCH_SINGLE;
@@ -98,7 +98,7 @@ public class MyView extends ImageView {
 			
 			case MotionEvent.ACTION_MOVE:
 				if(touchMode == TOUCH_SINGLE) {
-					Log.v("touch", "MOVE");
+//					Log.v("touch", "MOVE");
 					// �ړ�����
 					imgMatrix.set(baseMatrix);
 					imgMatrix.postTranslate(event.getX() - po0.x, event.getY() - po0.y);
@@ -109,7 +109,7 @@ public class MyView extends ImageView {
 //				this.setBackgroundColor(Color.BLUE);
 				
 				if(touchMode == TOUCH_SINGLE) {
-					Log.v("touch", "UP");
+//					Log.v("touch", "UP");
 					touchMode = TOUCH_NONE;
 				}
 				

@@ -8941,7 +8941,15 @@ public class Methods {
 	(Activity actv) {
 		// TODO Auto-generated method stub
 		
-		Bitmap bm = ImageActv.bm_modified;
+		int bmp_Orig_W = CONS.IMageActv.bm_Modified.getWidth();
+		int bmp_Orig_H = CONS.IMageActv.bm_Modified.getHeight();
+		
+//		Bitmap bm = CONS.IMageActv.bm_Modified;
+//		Bitmap bm = ImageActv.bm_modified;
+		Bitmap bm = Bitmap.createBitmap(
+						CONS.IMageActv.bm_Modified, 
+						0, 0, 
+						bmp_Orig_W, bmp_Orig_H);
 		
 		////////////////////////////////
 
@@ -8970,19 +8978,68 @@ public class Methods {
 				
 		bm.getPixels(pixels, 0, bmp_W, 0, 0, bmp_W, bmp_H);
 		
-		for (int i = 0; i < 10; i++) {
-			
-			// Log
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"pixel[%d] => %d, red => %d(hex = %x)",
-					i, pixels[i], Color.red(pixels[i]), Color.red(pixels[i]));
-		
-			Log.d("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-		
+		for (int y = 0; y < bmp_H; y++) {
+		    for (int x = 0; x < bmp_W; x++) {
+		        int pixel = pixels[x + y * bmp_W];
+
+		        pixels[x + y * bmp_W] = Color.argb(
+		                Color.alpha(pixel),
+		                0xFF - Color.red(pixel),
+		                0xFF - Color.green(pixel),
+		                0xFF - Color.blue(pixel));
+		    }
 		}
+		
+		bm.setPixels(pixels, 0, bmp_W, 0, 0, bmp_W, bmp_H);
+		
+		////////////////////////////////
+
+		// reset image
+
+		////////////////////////////////
+		CONS.IMageActv.bm_Modified.recycle();
+		
+		CONS.IMageActv.bm_Modified = null;
+		
+		CONS.IMageActv.bm_Modified = 
+//				CONS.IMageActv.bm_Modified = 
+					Bitmap.createBitmap(bm, 0, 0, bmp_W, bmp_H);
+//		Bitmap.createBitmap(bm, 0, 0, h, w, mat, true);
+		
+		// Log
+		msg_Log = String.format(Locale.JAPAN,
+				"new bm_Modified: w = %d, h = %d",
+				CONS.IMageActv.bm_Modified.getWidth(),
+				CONS.IMageActv.bm_Modified.getHeight()
+				);
+
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// recycle
+		bm.recycle();
+		
+		////////////////////////////////
+
+		// set: new bmp
+
+		////////////////////////////////
+		CONS.IMageActv.v.setImageBitmap(CONS.IMageActv.bm_Modified);
+		
+//		for (int i = 0; i < 10; i++) {
+//			
+//			// Log
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"pixel[%d] => %d, red => %d(hex = %x)",
+//					i, pixels[i], Color.red(pixels[i]), Color.red(pixels[i]));
+//		
+//			Log.d("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//		
+//		}
 		
 	}//change_RGB
 
