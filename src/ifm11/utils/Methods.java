@@ -61,6 +61,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -2767,8 +2769,13 @@ public class Methods {
 		////////////////////////////////
 		if (res == true) {
 			
-			String msg = "Update => done";
-			Methods_dlg.dlg_ShowMessage(actv, msg);
+			String msg = "Update => done: " + ti.getMemo();
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg);
 			
 			dlg1.dismiss();
 			
@@ -4682,14 +4689,8 @@ public class Methods {
 		ti.setFile_name(etFileName.getText().toString());
 		ti.setFile_path(etFilePath.getText().toString());
 		ti.setMemo(new_Memo);
-//		ti.setMemo(etMemos.getText().toString());
-
-		
-//		
-//		DBUtils dbu = new DBUtils(actv, MainActv.dbName);
 		
 		int res = DBUtils.update_TI__All(actv, ti);
-//		boolean res = dbu.updateData_TI(actv, ti);
 
 		////////////////////////////////
 
@@ -4710,15 +4711,6 @@ public class Methods {
 				
 				
 			}
-			
-//			// Log
-//			String msg_Log = String.format(
-//								"cur = %s // new = %s // diff = %s", 
-//								cur_Memo, new_Memo, diff);
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-			
 			
 		}
 		
@@ -4788,26 +4780,12 @@ public class Methods {
 					+ "]", msg_Log);
 		}
 		
-		Methods_dlg.dlg_ShowMessage(actv, msg, colorID);
+//		Methods_dlg.dlg_ShowMessage(actv, msg, colorID);
 		
-		
-//		/***************************************
-//		 * Close dialogues
-//		 ***************************************/
-//		if (res == true) {
-//			
-//			// debug
-//			Toast.makeText(actv, "Data updated", Toast.LENGTH_LONG).show();
-//			
-//			dlg2.dismiss();
-//			dlg1.dismiss();
-//			
-//		} else {//if (res == true)
-//			
-//			// debug
-//			Toast.makeText(actv, "Update data => Failed", Toast.LENGTH_LONG).show();
-//			
-//		}//if (res == true)
+		// Log
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg);
 		
 	}//edit_TI
 
@@ -8997,8 +8975,8 @@ public class Methods {
 			// Log
 			msg_Log = String.format(
 					Locale.JAPAN,
-					"pixel[%d] => %d",
-					i, pixels[i]);
+					"pixel[%d] => %d, red => %d(hex = %x)",
+					i, pixels[i], Color.red(pixels[i]), Color.red(pixels[i]));
 		
 			Log.d("Methods.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
@@ -9007,6 +8985,79 @@ public class Methods {
 		}
 		
 	}//change_RGB
+
+	public static void 
+	roate_Image
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		int w = CONS.IMageActv.bm_Modified.getWidth();
+		int h = CONS.IMageActv.bm_Modified.getHeight();
+		
+		// Log
+		String msg_Log = String.format(Locale.JAPAN,
+				"w = %d, h = %d", 
+				w, h);
+
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		Bitmap bm = Bitmap.createBitmap(CONS.IMageActv.bm_Modified, 0, 0, w, h);
+//		Bitmap bm = CONS.IMageActv.bm_Modified;
+		
+		CONS.IMageActv.bm_Modified.recycle();
+		
+//		// Log
+//		msg_Log = "bm.h => " + bm.getHeight();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// matrix
+
+		////////////////////////////////
+		Matrix mat = new Matrix();  
+		mat.postRotate(90); 
+		
+		CONS.IMageActv.bm_Modified = null;
+		
+		CONS.IMageActv.bm_Modified = 
+//				CONS.IMageActv.bm_Modified = 
+					Bitmap.createBitmap(bm, 0, 0, w, h, mat, true);
+//		Bitmap.createBitmap(bm, 0, 0, h, w, mat, true);
+		
+		// Log
+		msg_Log = String.format(Locale.JAPAN,
+				"new bm_Modified: w = %d, h = %d",
+				CONS.IMageActv.bm_Modified.getWidth(),
+				CONS.IMageActv.bm_Modified.getHeight()
+				);
+
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// recycle
+		bm.recycle();
+		
+		////////////////////////////////
+
+		// set: new bmp
+
+		////////////////////////////////
+		CONS.IMageActv.v.setImageBitmap(CONS.IMageActv.bm_Modified);
+		
+		////////////////////////////////
+
+		// dismiss
+
+		////////////////////////////////
+		
+		
+	}//roate_Image
 
 	
 }//public class Methods

@@ -145,7 +145,8 @@ public class ImageActv extends Activity {
 		bm = BitmapFactory.decodeFile(file_path);
 		
 		
-		bm_modified = set_image_1_modify_bitmap(bm);
+		CONS.IMageActv.bm_Modified = set_image_1_modify_bitmap(bm);
+//		bm_modified = set_image_1_modify_bitmap(bm);
 //		Bitmap bm_modified = set_image_1_modify_bitmap(bm);
 		
 		/*----------------------------
@@ -153,17 +154,18 @@ public class ImageActv extends Activity {
 			----------------------------*/
 		// MyView
 //		MyView v = new MyView(this);
-		v = new MyView(this);
+		CONS.IMageActv.v = new MyView(this);
+//		v = new MyView(this);
 		
 		// Set image
 //		v.setImageBitmap(bm);
-		v.setImageBitmap(bm_modified);
+		CONS.IMageActv.v.setImageBitmap(CONS.IMageActv.bm_Modified);
 		
 		//
 //		LinearLayout LL = (LinearLayout) findViewById(R.id.image_activity_LL_image);
 		LL = (LinearLayout) findViewById(R.id.image_activity_LL_image);
 		
-		LL.addView(v);
+		LL.addView(CONS.IMageActv.v);
 		
 	}//private void set_image()
 	

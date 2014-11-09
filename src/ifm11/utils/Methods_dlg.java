@@ -4218,6 +4218,13 @@ public class Methods_dlg {
 						.setTextColor_ID(R.color.blue1)
 						.build());
 		
+		list.add(new ListItem.Builder()
+					.setText(actv.getString(
+							R.string.opt_Menu_LABS__Rotate_Image))
+							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
+							.setTextColor_ID(R.color.black)
+							.build());
+		
 		/****************************
 		* 3. Adapter
 		****************************/

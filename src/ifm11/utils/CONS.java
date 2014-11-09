@@ -7,6 +7,7 @@ import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.adapters.Adp_WordPatterns;
 import ifm11.items.LogItem;
+import ifm11.items.MyView;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 
@@ -563,10 +564,12 @@ public class CONS {
 
 		////////////////////////////////
 
-		// bitmap
+		// bitmap-related
 
 		////////////////////////////////
 		public static Bitmap bm_Modified = null;
+		
+		public static MyView v = null;
 		
 	}//IMageActv
 	

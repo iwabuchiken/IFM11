@@ -266,8 +266,21 @@ public class DOI_CL implements OnItemClickListener {
 	case_ACTV_IMAGE_OPTMENU_LABS
 	(ListItem li) {
 		// TODO Auto-generated method stub
-		
-		Methods.change_RGB(actv);
+		if (li.getText().equals(actv.getString(
+				R.string.opt_Menu_LABS__Change_RGB))) {
+
+			Methods.change_RGB(actv);
+			
+		} else if (li.getText().equals(actv.getString(
+				R.string.opt_Menu_LABS__Rotate_Image))) {
+			
+			Methods.roate_Image(actv);
+			
+			d1.dismiss();
+			
+		}
+			
+
 		
 //		d1.dismiss();
 		

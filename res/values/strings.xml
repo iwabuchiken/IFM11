@@ -199,6 +199,7 @@
     	<string name="opt_Menu_LABS_title">LABs</string>
     	<string name="opt_Menu_LABS__Change_RGB">Change RGB</string>
     	<string name="opt_Menu_LABS__Binary_Image">Binary image</string>
+    	<string name="opt_Menu_LABS__Rotate_Image">Rotate image</string>
     
     
 </resources>
