@@ -3781,7 +3781,6 @@ public class Methods {
 		
 	}//public static List<String> get_file_list(File dpath)
 
-//<<<<<<< HEAD
 	public static void 
 	move_Files
 	(Activity actv, 
@@ -9516,7 +9515,7 @@ public class Methods {
 		}//for (int y = 0; y < bmp_H; y++)
 		
 	}//proc_Pixels
-
+	
 	public static void 
 	importData_From_IFM10
 	(Activity actv, Dialog d1) {
@@ -9639,7 +9638,6 @@ public class Methods {
 		}
 		
 	}//importData_From_IFM10
-	
 	
 }//public class Methods
 
