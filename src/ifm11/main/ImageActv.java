@@ -101,7 +101,7 @@ public class ImageActv extends Activity {
 		// get: TI
 
 		////////////////////////////////
-		CONS.IMageActv.ti = DBUtils.get_TI_From_DbId(this, db_Id);
+		CONS.IMageActv.ti = DBUtils.find_TI_From_DbId(this, db_Id);
 		
 		/*----------------------------
 		 * 2. Prepare image

@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -973,7 +974,6 @@ public class Methods {
 	private static List<TI> 
 	_refresh_MainDB__RecoveryFrom_SDCard_Reset
 	(Activity actv, List<TI> list_TI) {
-		// TODO Auto-generated method stub
 
 		////////////////////////////////
 
@@ -1022,7 +1022,7 @@ public class Methods {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		int limit = 30;
+//		int limit = 30;
 		
 		for (int i = 0; i < list_New.size(); i++) {
 //			for (int i = size - limit; i < size; i++) {
@@ -1427,6 +1427,180 @@ public class Methods {
         
 	}//_refresh_MainDB__ExecQuery
 
+	/******************************
+		@return null => 1. Can't prepare the table 'refresh log'<br>
+						2. Cursor => null<br>
+						3. Cursor => count < 1<br>
+	 ******************************/
+	private static Cursor 
+	_refresh_MainDB__ExecQuery__Period
+	(Activity actv,
+		SQLiteDatabase wdb, DBUtils dbu, long start, long end) {
+		
+		Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		
+		String[] proj = CONS.DB.proj;
+		
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// setup: table: refresh log
+		
+		////////////////////////////////
+		boolean res = Methods._refresh_MainDB__Setup_RefreshLog(actv, wdb, dbu);
+		
+		if (res == false) {
+			
+			// Log
+			msg_Log = "Setup can't be done => refresh_log  table";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+		} else {
+			
+			// Log
+			msg_Log = "setup done => rehresh log";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		long last_Refreshed = end;
+		
+		////////////////////////////////
+		
+		// Execute query
+		
+		////////////////////////////////
+		
+		// Log
+		msg_Log = String.format(
+					Locale.JAPAN,
+					"start => %d(%s), end => %d(%s)", 
+					start,
+					Methods.conv_MillSec_to_TimeLabel(start),
+					end,
+					Methods.conv_MillSec_to_TimeLabel(end));
+		
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// REF=> http://blog.csdn.net/uoyevoli/article/details/4970860
+		Cursor c = actv.managedQuery(
+				uri, 
+				proj,
+				MediaStore.Images.Media.DATE_ADDED + " > ?",
+//					+ " AND "
+//					+ MediaStore.Images.Media.DATE_ADDED + " < ?",
+				new String[] {
+						
+//						String.valueOf(start / 1000),
+						String.valueOf(end / 1000),
+						
+				},
+//						new String[] {String.valueOf(lastRefreshedDate)},
+				null);
+		
+		/******************************
+			debug
+		 ******************************/
+		String lastRefreshedDate = 
+				Methods._refresh_MainDB__Get_LastRefreshed(actv, wdb, dbu);
+
+		last_Refreshed = Methods.conv_TimeLabel_to_MillSec(lastRefreshedDate);
+		
+		// Log
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"start => %d(%s), end => %d(%s), last_Refreshed => %d(%s)", 
+				start,
+				Methods.conv_MillSec_to_TimeLabel(start),
+				end,
+				Methods.conv_MillSec_to_TimeLabel(end),
+				last_Refreshed,
+				Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
+				
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		c = actv.managedQuery(
+				uri, 
+				proj,
+				MediaStore.Images.Media.DATE_ADDED + " > ?",
+//					+ " AND "
+//					+ MediaStore.Images.Media.DATE_ADDED + " < ?",
+				new String[] {
+						
+//						String.valueOf(start / 1000),
+						String.valueOf(last_Refreshed / 1000),
+						
+				},
+//						new String[] {String.valueOf(lastRefreshedDate)},
+				null);
+		
+		////////////////////////////////
+		
+		// validate
+		
+		////////////////////////////////
+		/******************************
+			null
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			msg_Log = "cursor => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+			/******************************
+		no entry
+			 ******************************/
+		} else if (c.getCount() < 1) {
+			
+			// Log
+			msg_Log = "EXTERNAL_CONTENT_URI => no entry";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+		}
+		
+		// Log
+		msg_Log = "cursor: count => " + c.getCount();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+//		// Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "Last refreshed (in sec): " + String.valueOf(lastRefreshedDate / 1000));
+//
+//        actv.startManagingCursor(c);
+//        
+//        // Log
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "c.getCount() => " + c.getCount());
+//
+//		return c;
+		
+		return c;
+		
+	}//_refresh_MainDB__ExecQuery__Period
+	
 	/******************************
 	 * Data is stored in TEXT type. The method returns a String<br>
 	 * 
@@ -2736,7 +2910,7 @@ public class Methods {
 		// get: TI
 
 		////////////////////////////////
-		TI ti = DBUtils.get_TI_From_DbId(actv, db_Id);
+		TI ti = DBUtils.find_TI_From_DbId(actv, db_Id);
 		
 		////////////////////////////////
 
@@ -9342,6 +9516,129 @@ public class Methods {
 		}//for (int y = 0; y < bmp_H; y++)
 		
 	}//proc_Pixels
+
+	public static void 
+	importData_From_IFM10
+	(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get: oldest TI
+
+		////////////////////////////////
+		// "date_added", "date_modified",			// 6,7
+		TI ti = DBUtils.find_TI_first(
+					actv, 
+					CONS.DB.col_names_IFM11_full[6], 
+					CONS.Enums.SortOrder.ASC);
+		
+		////////////////////////////////
+
+		// validate
+
+		////////////////////////////////
+		
+		long oldest_Date;
+		
+		if (ti == null) {
+			
+			String msg = "thumnail => null";
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+			
+			return;
+			
+		} else {
+
+			oldest_Date = Methods.conv_TimeLabel_to_MillSec(ti.getDate_added());
+			
+//			// Log
+//			String msg_Log = "ti.getFile_name() => " + ti.getFile_name();
+//			
+//			msg_Log += " / ti.getDate_added() => " + ti.getDate_added();
+//			
+//			msg_Log += " / millsec => " 
+//						+ Methods.conv_TimeLabel_to_MillSec(ti.getDate_added());
+//			
+//			Log.i("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+			
+		}
+
+		////////////////////////////////
+
+		// prep: time
+
+		////////////////////////////////
+		GregorianCalendar gc = new GregorianCalendar(2014, 0, 1, 0, 0);
+
+		long target_Date = gc.getTimeInMillis();
+		
+//		// Log
+//		String msg_Log = "gc.getTimeInMillis() => " + gc.getTimeInMillis();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//
+//		long diff = Methods.conv_TimeLabel_to_MillSec(ti.getDate_added()) 
+//						- gc.getTimeInMillis();
+//		
+//		msg_Log += " / diff => " + diff;
+//		
+//		msg_Log += " / time label of diff => " 
+//						+ Methods.conv_MillSec_to_TimeLabel(diff);
+//		
+//		Log.i("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// query
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		Cursor c = Methods._refresh_MainDB__ExecQuery__Period(
+						actv, 
+						rdb, 
+						dbu, 
+						target_Date, oldest_Date);
+		
+		/******************************
+			validate
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			String msg_Log = "cursor => null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			rdb.close();
+			
+			return;
+			
+		} else {
+
+			// Log
+			String msg_Log = "c.getCount() => " + c.getCount();
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			rdb.close();
+			
+			return;
+			
+		}
+		
+	}//importData_From_IFM10
 	
 	
 }//public class Methods

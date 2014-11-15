@@ -1150,7 +1150,7 @@ public class Methods_dlg {
 		/*----------------------------
 		 * 1-2. Set text to edit text
 			----------------------------*/
-		TI ti = DBUtils.get_TI_From_DbId(actv, db_Id);
+		TI ti = DBUtils.find_TI_From_DbId(actv, db_Id);
 //		TI ti = DBUtils.get_TI_From_FileId(actv, db_Id);
 		
 		// Log
@@ -3542,6 +3542,13 @@ public class Methods_dlg {
 						.setIconID(R.drawable.menu_icon_admin_32x32_blue)
 						.setTextColor_ID(R.color.blue1)
 						.build());
+		
+		list.add(new ListItem.Builder()
+					.setText(actv.getString(
+							R.string.dlg_actv_main_other_Import_From10))
+							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
+							.setTextColor_ID(R.color.black)
+							.build());
 		
 		/****************************
 		* 3. Adapter

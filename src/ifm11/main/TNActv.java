@@ -804,8 +804,10 @@ public class TNActv extends ListActivity {
 		////////////////////////////////
 		Methods.sort_List_TI(
 				CONS.TNActv.list_TNActv_Main, 
-				CONS.Enums.SortType.CREATED_AT, 
-				CONS.Enums.SortOrder.ASC);
+				CONS.Enums.SortType.FileName, 
+				CONS.Enums.SortOrder.DESC);
+//		CONS.Enums.SortType.CREATED_AT, 
+//		CONS.Enums.SortOrder.ASC);
 		
 		return true;
 		
