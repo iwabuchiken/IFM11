@@ -391,7 +391,10 @@ public final class R {
         public static final int main_opt_menu_refresh_db=0x7f06000e;
         public static final int main_opt_menu_search=0x7f060010;
         public static final int opt_Menu_LABS__Binary_Image=0x7f060063;
+        public static final int opt_Menu_LABS__BlueColor_zero=0x7f060066;
         public static final int opt_Menu_LABS__Change_RGB=0x7f060062;
+        public static final int opt_Menu_LABS__GreenColor_zero=0x7f060067;
+        public static final int opt_Menu_LABS__RedColor_zero=0x7f060065;
         public static final int opt_Menu_LABS__Rotate_Image=0x7f060064;
         /**  labs 
          */

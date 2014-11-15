@@ -271,10 +271,36 @@ public class DOI_CL implements OnItemClickListener {
 
 			Methods.change_RGB(actv);
 			
+			d1.dismiss();
+			
 		} else if (li.getText().equals(actv.getString(
 				R.string.opt_Menu_LABS__Rotate_Image))) {
 			
 			Methods.roate_Image(actv);
+			
+			d1.dismiss();
+			
+		} else if (li.getText().equals(actv.getString(
+				R.string.opt_Menu_LABS__RedColor_zero))) {
+
+			Methods.RGB_Zero(actv, 
+						actv.getString(R.string.opt_Menu_LABS__RedColor_zero));
+			
+			d1.dismiss();
+			
+		} else if (li.getText().equals(actv.getString(
+				R.string.opt_Menu_LABS__BlueColor_zero))) {
+			
+			Methods.RGB_Zero(actv, 
+					actv.getString(R.string.opt_Menu_LABS__BlueColor_zero));
+			
+			d1.dismiss();
+			
+		} else if (li.getText().equals(actv.getString(
+				R.string.opt_Menu_LABS__GreenColor_zero))) {
+			
+			Methods.RGB_Zero(actv, 
+					actv.getString(R.string.opt_Menu_LABS__GreenColor_zero));
 			
 			d1.dismiss();
 			

@@ -200,6 +200,9 @@
     	<string name="opt_Menu_LABS__Change_RGB">Change RGB</string>
     	<string name="opt_Menu_LABS__Binary_Image">Binary image</string>
     	<string name="opt_Menu_LABS__Rotate_Image">Rotate image</string>
+    	<string name="opt_Menu_LABS__RedColor_zero">Red color => 0</string>
+    	<string name="opt_Menu_LABS__BlueColor_zero">Blue color => 0</string>
+    	<string name="opt_Menu_LABS__GreenColor_zero">Green color => 0</string>
     
     
 </resources>

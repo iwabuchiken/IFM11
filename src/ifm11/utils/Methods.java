@@ -9116,6 +9116,233 @@ public class Methods {
 		
 	}//roate_Image
 
+	public static void 
+	RGB_Zero
+	(Activity actv, String colorName) {
+		// TODO Auto-generated method stub
+		
+		int bmp_Orig_W = CONS.IMageActv.bm_Modified.getWidth();
+		int bmp_Orig_H = CONS.IMageActv.bm_Modified.getHeight();
+		
+//		Bitmap bm = CONS.IMageActv.bm_Modified;
+//		Bitmap bm = ImageActv.bm_modified;
+		Bitmap bm = Bitmap.createBitmap(
+						CONS.IMageActv.bm_Modified, 
+						0, 0, 
+						bmp_Orig_W, bmp_Orig_H);
+		
+		////////////////////////////////
+
+		// width, height
+
+		////////////////////////////////
+		int bmp_W = bm.getWidth();
+		int bmp_H = bm.getHeight();
+		
+		// Log
+		String msg_Log = String.format(
+					Locale.JAPAN,
+					"w = %d, h = %d",
+					bmp_W, bmp_H);
+		
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		////////////////////////////////
+
+		// pixels
+
+		////////////////////////////////
+		int[] pixels = new int[bmp_W * bmp_H];
+				
+		bm.getPixels(pixels, 0, bmp_W, 0, 0, bmp_W, bmp_H);
+
+		Methods.proc_Pixels(actv, pixels, bmp_W, bmp_H, colorName);
+		
+//		for (int y = 0; y < bmp_H; y++) {
+//		    for (int x = 0; x < bmp_W; x++) {
+//		        int pixel = pixels[x + y * bmp_W];
+//
+//		        pixels[x + y * bmp_W] = Color.argb(
+//		                Color.alpha(pixel),
+//		                0xFF - Color.red(pixel),
+//		                0xFF - Color.green(pixel),
+//		                0xFF - Color.blue(pixel));
+//		    }
+//		}
+		
+		bm.setPixels(pixels, 0, bmp_W, 0, 0, bmp_W, bmp_H);
+		
+		////////////////////////////////
+
+		// reset image
+
+		////////////////////////////////
+		CONS.IMageActv.bm_Modified.recycle();
+		
+		CONS.IMageActv.bm_Modified = null;
+		
+		CONS.IMageActv.bm_Modified = 
+//				CONS.IMageActv.bm_Modified = 
+					Bitmap.createBitmap(bm, 0, 0, bmp_W, bmp_H);
+//		Bitmap.createBitmap(bm, 0, 0, h, w, mat, true);
+		
+		// Log
+		msg_Log = String.format(Locale.JAPAN,
+				"new bm_Modified: w = %d, h = %d",
+				CONS.IMageActv.bm_Modified.getWidth(),
+				CONS.IMageActv.bm_Modified.getHeight()
+				);
+
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// recycle
+		bm.recycle();
+		
+		////////////////////////////////
+
+		// set: new bmp
+
+		////////////////////////////////
+		CONS.IMageActv.v.setImageBitmap(CONS.IMageActv.bm_Modified);
+		
+	}//RGB_Zero
+
+	private static void 
+	proc_Pixels
+	(Activity actv, 
+		int[] pixels, int bmp_W, int bmp_H, String colorName) {
+		// TODO Auto-generated method stub
+		
+        if (colorName.equals(actv.getString(
+				R.string.opt_Menu_LABS__RedColor_zero))) {
+
+        	Methods.proc_Pixels__Red(actv, pixels, bmp_W, bmp_H);
+        	
+		} else if (colorName.equals(actv.getString(
+				R.string.opt_Menu_LABS__BlueColor_zero))) {
+		
+			Methods.proc_Pixels__Blue(actv, pixels, bmp_W, bmp_H);
+			
+		} else if (colorName.equals(actv.getString(
+				R.string.opt_Menu_LABS__GreenColor_zero))) {
+			
+			Methods.proc_Pixels__Green(actv, pixels, bmp_W, bmp_H);
+			
+		}
+
+//		for (int y = 0; y < bmp_H; y++) {
+//			
+//		    for (int x = 0; x < bmp_W; x++) {
+//		    	
+//		        int pixel = pixels[x + y * bmp_W];
+//
+//		        if (colorName.equals(actv.getString(
+//		        		R.string.opt_Menu_LABS__RedColor_zero))) {
+//					
+//		        	pixels[x + y * bmp_W] = Color.argb(
+//		        			Color.alpha(pixel),
+//		        			0,
+//		        			Color.green(pixel),
+//		        			Color.blue(pixel));
+//		        	
+//				} else if (colorName.equals(actv.getString(
+//		        		R.string.opt_Menu_LABS__BlueColor_zero))) {
+//
+//					pixels[x + y * bmp_W] = Color.argb(
+//							Color.alpha(pixel),
+//							0,
+//							Color.green(pixel),
+//							Color.blue(pixel));
+//					
+//				}
+//		        
+//		        
+//		    }
+		    
+//		}//for (int y = 0; y < bmp_H; y++)
+		
+	}//proc_Pixels
+
+	private static void
+	proc_Pixels__Red
+	(Activity actv, 
+			int[] pixels, int bmp_W, int bmp_H) {
+		// TODO Auto-generated method stub
+		
+		for (int y = 0; y < bmp_H; y++) {
+			
+			for (int x = 0; x < bmp_W; x++) {
+				
+				int pixel = pixels[x + y * bmp_W];
+				
+				pixels[x + y * bmp_W] = Color.argb(
+						Color.alpha(pixel),
+						0,
+						Color.green(pixel),
+						Color.blue(pixel));
+				
+			}
+			
+		}//for (int y = 0; y < bmp_H; y++)
+			
+	}//proc_Pixels
+	
+	private static void
+	proc_Pixels__Blue
+	(Activity actv, 
+			int[] pixels, int bmp_W, int bmp_H) {
+		// TODO Auto-generated method stub
+		
+		for (int y = 0; y < bmp_H; y++) {
+			
+			for (int x = 0; x < bmp_W; x++) {
+				
+				int pixel = pixels[x + y * bmp_W];
+				
+				pixels[x + y * bmp_W] = Color.argb(
+						Color.alpha(pixel),
+						
+						Color.red(pixel),
+						Color.green(pixel),
+						0
+				);
+				
+			}
+			
+		}//for (int y = 0; y < bmp_H; y++)
+		
+	}//proc_Pixels
+	
+	private static void
+	proc_Pixels__Green
+	(Activity actv, 
+			int[] pixels, int bmp_W, int bmp_H) {
+		// TODO Auto-generated method stub
+		
+		for (int y = 0; y < bmp_H; y++) {
+			
+			for (int x = 0; x < bmp_W; x++) {
+				
+				int pixel = pixels[x + y * bmp_W];
+				
+				pixels[x + y * bmp_W] = Color.argb(
+						Color.alpha(pixel),
+						
+						Color.red(pixel),
+						Color.blue(pixel),
+						0
+						);
+				
+			}
+			
+		}//for (int y = 0; y < bmp_H; y++)
+		
+	}//proc_Pixels
+	
 	
 }//public class Methods
 

@@ -274,15 +274,33 @@ public class BO_CL implements OnClickListener {
 		 * 5. Show the next image
 		 *********************************/
 //		ImageActv.bm = null;
-		ImageActv.bm.recycle();
+		CONS.IMageActv.bm_Modified.recycle();
 		
-		ImageActv.bm = BitmapFactory.decodeFile(image_file_path_new);
+//		CONS.IMageActv.bm_Modified = null;	//=> n/c --> "11985408-byte external allocation too large for this process."
+
+		CONS.IMageActv.bm_Modified = BitmapFactory.decodeFile(image_file_path_new);
 		
-		ImageActv.LL.removeView(ImageActv.v);
+		ImageActv.LL.removeView(CONS.IMageActv.v);
 		
-		ImageActv.v.setImageBitmap(ImageActv.bm);
+		CONS.IMageActv.v.setImageBitmap(CONS.IMageActv.bm_Modified);
 		
-		ImageActv.LL.addView(ImageActv.v);
+		ImageActv.LL.addView(CONS.IMageActv.v);
+		
+		
+//		ImageActv.LL.removeView(ImageActv.v);
+//		
+//		ImageActv.v.setImageBitmap(ImageActv.bm);
+		
+//		ImageActv.LL.addView(ImageActv.v);
+//		ImageActv.bm.recycle();
+//		
+//		ImageActv.bm = BitmapFactory.decodeFile(image_file_path_new);
+//		
+//		ImageActv.LL.removeView(ImageActv.v);
+//		
+//		ImageActv.v.setImageBitmap(ImageActv.bm);
+//		
+////		ImageActv.LL.addView(ImageActv.v);
 //		
 		// Log
 		Log.d("BO_CL.java" + "["
@@ -474,20 +492,31 @@ public class BO_CL implements OnClickListener {
 		/*********************************
 		 * 5. Show the previous image
 		 *********************************/
-		ImageActv.bm.recycle();
+		CONS.IMageActv.bm_Modified.recycle();
 		
-		ImageActv.bm = BitmapFactory.decodeFile(image_file_path_new);
+		CONS.IMageActv.bm_Modified = BitmapFactory.decodeFile(image_file_path_new);
 		
-		ImageActv.LL.removeView(ImageActv.v);
+		ImageActv.LL.removeView(CONS.IMageActv.v);
 		
-		ImageActv.v.setImageBitmap(ImageActv.bm);
+		CONS.IMageActv.v.setImageBitmap(CONS.IMageActv.bm_Modified);
 		
-		ImageActv.LL.addView(ImageActv.v);
+		ImageActv.LL.addView(CONS.IMageActv.v);
+
 		
-		// Log
-		Log.d("BO_CL.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", "New image added");
+//		ImageActv.bm.recycle();
+//		
+//		ImageActv.bm = BitmapFactory.decodeFile(image_file_path_new);
+//		
+//		ImageActv.LL.removeView(ImageActv.v);
+//		
+//		ImageActv.v.setImageBitmap(ImageActv.bm);
+//		
+//		ImageActv.LL.addView(ImageActv.v);
+//		
+//		// Log
+//		Log.d("BO_CL.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", "New image added");
 		
 		/*********************************
 		 * 6. Set new pref value
