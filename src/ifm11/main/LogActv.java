@@ -442,6 +442,19 @@ public class LogActv extends ListActivity {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
+		////////////////////////////////
+
+		// modify list
+
+		////////////////////////////////
+		if (CONS.LogActv.list_LogFiles.contains(CONS.DB.fname_Log)) {
+			
+			CONS.LogActv.list_LogFiles.remove(CONS.DB.fname_Log);
+			
+			CONS.LogActv.list_LogFiles.add(0, CONS.DB.fname_Log);
+			
+		}
+		
 		return true;
 		
 	}//_Setup_List
