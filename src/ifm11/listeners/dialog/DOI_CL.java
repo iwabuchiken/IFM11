@@ -304,6 +304,13 @@ public class DOI_CL implements OnItemClickListener {
 			
 			d1.dismiss();
 			
+		} else if (li.getText().equals(actv.getString(
+				R.string.opt_Menu_LABS__Canvas))) {
+			
+			Methods.start_Activity_CanvasActv(actv);
+			
+			d1.dismiss();
+			
 		}
 			
 

@@ -37,6 +37,7 @@
             android:name="ifm11.main.CV"
             android:authorities="ifm11.main.CV">
         </provider>
+        <activity android:name=".CanvasActv" android:screenOrientation="portrait"></activity>
         
     </application>
 

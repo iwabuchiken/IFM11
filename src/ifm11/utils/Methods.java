@@ -9,6 +9,7 @@ import ifm11.items.LogItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
+import ifm11.main.CanvasActv;
 import ifm11.main.HistActv;
 import ifm11.main.ImageActv;
 import ifm11.main.LogActv;
@@ -2044,6 +2045,20 @@ public class Methods {
 		Intent i = new Intent();
 		
 		i.setClass(actv, HistActv.class);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+		
+	}//start_Activity_HistActv
+	
+	public static void 
+	start_Activity_CanvasActv
+	(Activity actv) {
+		
+		Intent i = new Intent();
+		
+		i.setClass(actv, CanvasActv.class);
 		
 		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		

@@ -4228,31 +4228,38 @@ public class Methods_dlg {
 						.build());
 		
 		list.add(new ListItem.Builder()
-		.setText(actv.getString(
-				R.string.opt_Menu_LABS__RedColor_zero))
-				.setIconID(R.drawable.menu_icon_admin_32x32_brown)
-				.setTextColor_ID(R.color.black)
-				.build());
+					.setText(actv.getString(
+							R.string.opt_Menu_LABS__RedColor_zero))
+							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
+							.setTextColor_ID(R.color.black)
+							.build());
 		
 		list.add(new ListItem.Builder()
-		.setText(actv.getString(
-				R.string.opt_Menu_LABS__BlueColor_zero))
-				.setIconID(R.drawable.menu_icon_admin_32x32_purple)
-				.setTextColor_ID(R.color.purple4)
-				.build());
+					.setText(actv.getString(
+							R.string.opt_Menu_LABS__BlueColor_zero))
+							.setIconID(R.drawable.menu_icon_admin_32x32_purple)
+							.setTextColor_ID(R.color.purple4)
+							.build());
 		
 		list.add(new ListItem.Builder()
-		.setText(actv.getString(
-				R.string.opt_Menu_LABS__GreenColor_zero))
-				.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
-				.setTextColor_ID(R.color.yellow_dark)
-				.build());
+					.setText(actv.getString(
+							R.string.opt_Menu_LABS__GreenColor_zero))
+							.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
+							.setTextColor_ID(R.color.yellow_dark)
+							.build());
 		
 		list.add(new ListItem.Builder()
 					.setText(actv.getString(
 							R.string.opt_Menu_LABS__Rotate_Image))
 							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
 							.setTextColor_ID(R.color.black)
+							.build());
+		
+		list.add(new ListItem.Builder()
+					.setText(actv.getString(
+							R.string.opt_Menu_LABS__Canvas))
+							.setIconID(R.drawable.menu_icon_admin_32x32_blue)
+							.setTextColor_ID(R.color.blue1)
 							.build());
 		
 		/****************************

@@ -14,7 +14,10 @@
 	    <string name="generic_tv_upload">Upload</string>
 	    <string name="generic_tv_quit_app">Quit app?</string>
     	<string name="generic_notice">Notice</string>
-
+    	
+    	<string name="generic_Clear">Clear</string>
+    	<string name="generic_Go">Go</string>
+    	
     <!-- commons -->
     	<string name="commons_lbl_drop_create_table">Drop/create table</string>
    		<string name="commons_lbl_rb_and">AND</string>
@@ -207,6 +210,7 @@
     	<string name="opt_Menu_LABS__RedColor_zero">Red color => 0</string>
     	<string name="opt_Menu_LABS__BlueColor_zero">Blue color => 0</string>
     	<string name="opt_Menu_LABS__GreenColor_zero">Green color => 0</string>
+    	<string name="opt_Menu_LABS__Canvas">Canvas</string>
     
     <!-- Menu: showlist -->
     	<string name="menu_showlist_filter">Filter</string>
