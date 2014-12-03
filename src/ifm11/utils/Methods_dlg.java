@@ -30,6 +30,7 @@ import java.util.TimerTask;
 
 import org.apache.commons.lang.StringUtils;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -4351,5 +4352,158 @@ public class Methods_dlg {
 		d1.show();
 
 	}//dlg_LABS_main
+
+	public static void 
+	dlg_filter_ShowLogList
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		boolean res;
+		
+		////////////////////////////////
+
+		// get dialog
+
+		////////////////////////////////
+		Dialog d = _filter_ShowList__GetDialog(actv);
+
+		////////////////////////////////
+
+		// gridview
+
+		////////////////////////////////
+//		res = _filter_ShowList__GridView(actv, d);
+
+		////////////////////////////////
+
+		// set previous string
+
+		////////////////////////////////
+		res = _filter_ShowList__SetString(actv, d);
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		d.show();
+		
+	}//filter_ShowList
+
+	/******************************
+		@return
+			false => pref val is null<br>
+	 ******************************/
+	private static boolean 
+	_filter_ShowList__SetString
+	(Activity actv, Dialog d) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// get pref
+
+		////////////////////////////////
+		String pref_FilterString = Methods.get_Pref_String(
+						actv, 
+						CONS.Pref.pname_MainActv, 
+						CONS.Pref.pkey_ShowListActv_Filter_String, 
+						null);
+		
+		if (pref_FilterString == null) {
+			
+			// Log
+			String msg_Log = "pref_FilterString => null";
+			Log.d("Methods_dlg.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return false;
+			
+		}
+		
+		////////////////////////////////
+
+		// set: text
+
+		////////////////////////////////
+		EditText et = (EditText) d.findViewById(R.id.dlg_filter_showlist_et_content);
+		
+		et.setText(pref_FilterString);
+		
+		////////////////////////////////
+
+		// selection
+
+		////////////////////////////////
+		et.setSelection(pref_FilterString.length());
+		
+		return true;
+		
+	}//_filter_ShowList__SetString
+
+	private static Dialog 
+	_filter_ShowList__GetDialog
+	(Activity actv) {
+		// TODO Auto-generated method stub
+
+		////////////////////////////////
+
+		// setup dialog
+
+		////////////////////////////////
+		Dialog dlg = new Dialog(actv);
+		
+		//
+		dlg.setContentView(R.layout.dlg_filter_showlog);
+		
+		// Title
+		dlg.setTitle(actv.getString(R.string.menu_showlist_filter));
+		
+		////////////////////////////////
+
+		// Buttons
+
+		////////////////////////////////
+		ImageButton bt_OK	= (ImageButton) dlg.findViewById(R.id.dlg_filter_showlist_bt_ok);
+//		Button bt_OK	= (Button) dlg.findViewById(R.id.dlg_filter_showlist_bt_ok);
+		ImageButton bt_Cancel =
+				(ImageButton) dlg.findViewById(R.id.dlg_filter_showlist_bt_cancel);
+//		Button bt_Cancel =
+//				(Button) dlg.findViewById(R.id.dlg_filter_showlist_bt_cancel);
+		ImageButton bt_Clear	=
+				(ImageButton) dlg.findViewById(R.id.dlg_filter_showlist_bt_clear);
+		ImageButton bt_Reset =
+				(ImageButton) dlg.findViewById(R.id.dlg_filter_showlist_bt_reset);
+		
+		
+		////////////////////////////////
+
+		// Listeners
+
+		////////////////////////////////
+//		bt_OK.setTag(Tags.DialogTags.dlg_Filter_Timeline_OK);
+		bt_OK.setTag(Tags.DialogTags.DLG_FILTER_SHOWLIST_OK);
+		bt_Clear.setTag(Tags.DialogTags.DLG_FILTER_SHOWLIST_CLEAR);
+		bt_Reset.setTag(Tags.DialogTags.DLG_FILTER_SHOWLIST_RESET);
+		
+		bt_Cancel.setTag(Tags.DialogTags.GENERIC_DISMISS);
+		
+		// On touch
+		bt_OK.setOnTouchListener(new DB_OTL(actv));
+		bt_Clear.setOnTouchListener(new DB_OTL(actv));
+		bt_Reset.setOnTouchListener(new DB_OTL(actv));
+		
+		bt_Cancel.setOnTouchListener(new DB_OTL(actv));
+		
+		// On click
+		bt_OK.setOnClickListener(new DB_OCL(actv, dlg));
+		bt_Clear.setOnClickListener(new DB_OCL(actv, dlg));
+		bt_Reset.setOnClickListener(new DB_OCL(actv, dlg));
+		
+		bt_Cancel.setOnClickListener(new DB_OCL(actv, dlg));
+		
+		return dlg;
+		
+	}//_filter_ShowList__GetDialog
 
 }//public class Methods_dialog

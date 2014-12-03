@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/dlg_filter_showlist_et_content"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:gravity="top|left"
+        android:textSize="20sp" />
+
+    <!-- REF Spacing http://stackoverflow.com/questions/12047369/how-to-set-border-of-gridview-on-android -->
+
+    <GridView
+        android:id="@+id/dlg_filter_showlist_gv"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:background="@color/blue1"
+        android:gravity="center_vertical"
+        android:horizontalSpacing="5dp"
+        android:numColumns="4"
+        android:padding="5dp"
+        android:verticalSpacing="5dp" >
+    </GridView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal" >
+
+        <RadioGroup
+            android:id="@+id/dlg_filter_showlist_rg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" >
+
+            <!-- REF textcolor http://stackoverflow.com/questions/6819700/android-radio-button-not-showing-its-text answered Jul 25 '11 at 17:10 -->
+            <RadioButton
+                android:id="@+id/dlg_filter_showlist_rb_and"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/commons_lbl_rb_and"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/dlg_filter_showlist_rb_or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="@string/commons_lbl_rb_or"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/dlg_filter_showlist_rb_not"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/commons_lbl_rb_not"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:background="@color/darkgreen"
+        android:gravity="center_vertical|center_horizontal" >
+
+        <ImageButton
+            android:id="@+id/dlg_filter_showlist_bt_ok"
+            style="@style/ib_basic_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/green4"
+            android:src="@drawable/general_ib_ok_green_64x64" />
+
+        <ImageButton
+            android:id="@+id/dlg_filter_showlist_bt_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:src="@drawable/general_ib_ball_red_48x48" />
+
+        <ImageButton
+            android:id="@+id/dlg_filter_showlist_bt_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/green4"
+            android:src="@drawable/general_ib_cancel_red_64x64" />
+
+        <ImageButton
+            android:id="@+id/dlg_filter_showlist_bt_clear"
+            style="@style/ib_basic_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/green4"
+            android:src="@drawable/general_ib_clear_yellow_64x64" />
+    </LinearLayout>
+
+</LinearLayout>

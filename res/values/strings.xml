@@ -17,7 +17,10 @@
 
     <!-- commons -->
     	<string name="commons_lbl_drop_create_table">Drop/create table</string>
-    		
+   		<string name="commons_lbl_rb_and">AND</string>
+    	<string name="commons_lbl_rb_or">OR</string>
+    	<string name="commons_lbl_rb_not">NOT</string>
+    			
     <string name="v1_tv_dir_path">Directory path</string>
 
 	<!-- main_menu.xml -->
@@ -205,5 +208,8 @@
     	<string name="opt_Menu_LABS__BlueColor_zero">Blue color => 0</string>
     	<string name="opt_Menu_LABS__GreenColor_zero">Green color => 0</string>
     
-    
+    <!-- Menu: showlist -->
+    	<string name="menu_showlist_filter">Filter</string>
+    	<string name="menu_showlist_filter_history">Filter history</string>
+    	
 </resources>

@@ -157,7 +157,7 @@ public class ShowLogActv extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// 
 		MenuInflater mi = getMenuInflater();
-		mi.inflate(R.menu.menu_main, menu);
+		mi.inflate(R.menu.menu_actv_showlog, menu);
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -166,36 +166,17 @@ public class ShowLogActv extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		
-		case R.id.opt_menu_main_db://------------------------
+		case R.id.menu_showlog_filter://------------------------
 			
-			Methods_dlg.dlg_Db_Actv(this);
+			case_OPT_Filter();
 			
 			break;
 		
-		case R.id.main_opt_menu_preferences://------------------
+		case R.id.menu_showlog_filter_history://------------------------
 			
-//			Methods_dlg.dlg_Db_Actv(this);
-			Methods.start_Activity_PrefActv(this);
 			
 			break;
 			
-		case R.id.main_opt_menu_create_folder://------------------
-
-			Methods_dlg.dlg_Create_Dir(this);
-			
-			break;
-			
-		case R.id.main_opt_menu_search://------------------
-			
-			Methods_dlg.dlg_SeratchItem(this);
-			
-			break;
-			
-		case R.id.main_opt_menu_others://------------------
-			
-			Methods_dlg.dlg_OptMenu_MainActv_Others(this);
-			
-			break;
 			
 		default://------------------------
 			break;
@@ -205,6 +186,14 @@ public class ShowLogActv extends ListActivity {
 		return super.onOptionsItemSelected(item);
 		
 	}//public boolean onOptionsItemSelected(MenuItem item)
+
+	private void 
+	case_OPT_Filter() {
+		// TODO Auto-generated method stub
+		
+		Methods_dlg.dlg_filter_ShowLogList(this);
+		
+	}
 
 	@Override
 	protected void onPause() {

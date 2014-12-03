@@ -426,6 +426,22 @@ public class CONS {
 		public static String pkey_CurrentPosition_LogActv = 
 									"pkey_CurrentPosition_LogActv";
 		
+		////////////////////////////////
+
+		// ShowListActv
+
+		////////////////////////////////
+		public static String pname_ShowListActv = "pname_ShowListActv"; 
+		
+		
+		public static final String 
+		pkey_ShowListActv_Filter_String = 
+							"pkey_ShowListActv_Filter_String";
+
+		public static final String 
+		pkey_ShowListActv_Current_Position = 
+							"pkey_ShowListActv_Current_Position";
+
 	}//Pref
 
 	public static class MainActv {
