@@ -31,6 +31,7 @@ import java.util.TimerTask;
 import org.apache.commons.lang.StringUtils;
 
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -4506,4 +4507,29 @@ public class Methods_dlg {
 		
 	}//_filter_ShowList__GetDialog
 
+	public static void
+	dlg_ShowMessage_SecondDialog
+	(Activity actv, String message, Dialog dlg1, int colorID) {
+		
+		Dialog d2 = Methods_dlg.dlg_Template_Cancel_SecondDialog(
+				actv, dlg1,
+				R.layout.dlg_tmpl_toast_ok, 
+				R.string.generic_tv_confirm, 
+				
+				R.id.dlg_tmpl_toast_ok_bt_cancel, 
+				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
+		
+		TextView tv_Message = 
+				(TextView) d2.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+		
+		tv_Message.setText(message);
+		
+		tv_Message.setBackgroundColor(actv.getResources().getColor(colorID));
+		
+		tv_Message.setTextColor(Color.WHITE);
+		
+		d2.show();
+		
+	}
+	
 }//public class Methods_dialog
