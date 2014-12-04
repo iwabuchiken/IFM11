@@ -304,9 +304,76 @@ public class LogActv extends ListActivity {
 		////////////////////////////////
 		this._Setup_Set_Listener();
 		
+		this._Setup_SetListeners_Navigation();
+		
 	}//protected void onStart()
 
-	private void _Setup_Set_Listener() {
+	private boolean
+	_Setup_SetListeners_Navigation() {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// Top
+		
+		////////////////////////////////
+		ImageButton ib_TOP = (ImageButton) findViewById(R.id.actv_log_ib_toTop);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_TOP.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_TOP.setTag(Tags.ButtonTags.ACTV_LOG_IB_TOP);
+		
+		ib_TOP.setOnTouchListener(new BO_TL(this));
+		ib_TOP.setOnClickListener(new BO_CL(this));
+		
+		////////////////////////////////
+		
+		// Bottom
+		
+		////////////////////////////////
+		ImageButton ib_Bottom = (ImageButton) findViewById(R.id.actv_log_ib_toBottom);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_Bottom.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_Bottom.setTag(Tags.ButtonTags.ACTV_LOG_IB_BOTTOM);
+		
+		ib_Bottom.setOnTouchListener(new BO_TL(this));
+		ib_Bottom.setOnClickListener(new BO_CL(this));
+		
+		////////////////////////////////
+		
+		// Down
+		
+		////////////////////////////////
+		ImageButton ib_Down = (ImageButton) findViewById(R.id.actv_log_ib_next_page);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_Down.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_Down.setTag(Tags.ButtonTags.ACTV_LOG_IB_DOWN);
+		
+		ib_Down.setOnTouchListener(new BO_TL(this));
+		ib_Down.setOnClickListener(new BO_CL(this));
+		
+		////////////////////////////////
+		
+		// Up
+		
+		////////////////////////////////
+		ImageButton ib_Up = (ImageButton) findViewById(R.id.actv_log_ib_prev_page);
+		
+//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
+//		ib_Up.setTag(Tags.ButtonTags.thumb_activity_ib_top);
+		ib_Up.setTag(Tags.ButtonTags.ACTV_LOG_IB_UP);
+		
+		ib_Up.setOnTouchListener(new BO_TL(this));
+		ib_Up.setOnClickListener(new BO_CL(this));
+		
+		return true;
+		
+	}//_Setup_SetListeners_Navigations
+
+	private void 
+	_Setup_Set_Listener() {
 		// TODO Auto-generated method stub
 		
 		////////////////////////////////
@@ -481,4 +548,4 @@ public class LogActv extends ListActivity {
 	}//public void onBackPressed()
 
 
-}
+}//public class LogActv extends ListActivity

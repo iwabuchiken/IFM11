@@ -191,7 +191,22 @@ public class Tags {
 		actv_hist_ib_back, actv_hist_ib_bottom, actv_hist_ib_top, 
 		
 		// TNActv, move mode = true
-		TILIST_CB, ACTV_SHOWLOG_IB_BACK, ACTV_SHOWLOG_IB_TOP, ACTV_SHOWLOG_IB_BOTTOM, ACTV_SHOWLOG_IB_DOWN, ACTV_SHOWLOG_IB_UP, ACTV_MAIN_BT_GO, ACTV_MAIN_BT_CLEAR,
+		TILIST_CB, 
+		
+		ACTV_SHOWLOG_IB_BACK, 
+		ACTV_SHOWLOG_IB_TOP, 
+		ACTV_SHOWLOG_IB_BOTTOM, 
+		ACTV_SHOWLOG_IB_DOWN, 
+		ACTV_SHOWLOG_IB_UP, 
+		
+		ACTV_LOG_IB_BACK, 
+		ACTV_LOG_IB_TOP, 
+		ACTV_LOG_IB_BOTTOM, 
+		ACTV_LOG_IB_DOWN, 
+		ACTV_LOG_IB_UP, 
+		
+		ACTV_MAIN_BT_GO, 
+		ACTV_MAIN_BT_CLEAR,
 
 	}//public static enum ButtonTags
 	

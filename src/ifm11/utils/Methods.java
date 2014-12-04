@@ -9653,6 +9653,107 @@ public class Methods {
 		}
 		
 	}//importData_From_IFM10
+
+	public static List<String> 
+	get_LogFileNames_List
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		File dir_Log = new File(CONS.DB.dPath_Log);
+		
+		/******************************
+			validate: exists
+		 ******************************/
+		if (!dir_Log.exists()) {
+
+			boolean res = dir_Log.mkdirs();
+			
+			if (res == true) {
+				
+				// Log
+				String msg_Log = "Log dir => created: " + dir_Log.getAbsolutePath();
+				Log.d("LogActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+
+				// Log
+				String msg_Log = "Log dir => not created: " + dir_Log.getAbsolutePath();
+				Log.e("LogActv.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				String msg = "Log dir doesn't exist\nCan't be created";
+				
+				// Log
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg);
+//				Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+				
+				return null;
+				
+			}
+			
+		}
+		
+		////////////////////////////////
+
+		// get: files list
+
+		////////////////////////////////
+		String[] list_LogFiles = dir_Log.list();
+		
+		/******************************
+			validate: any log files
+		 ******************************/
+		if (list_LogFiles == null || list_LogFiles.length < 1) {
+			
+			String msg = "Log files => doesn't exist";
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg);
+
+			return null;
+			
+		}
+		
+		////////////////////////////////
+
+		// build: list
+
+		////////////////////////////////
+		List<String> list = new ArrayList<String>();
+		
+		for (String name : list_LogFiles) {
+			
+			list.add(name);
+			
+		}
+		
+		////////////////////////////////
+
+		// modify list
+
+		////////////////////////////////
+		if (list.contains(CONS.DB.fname_Log)) {
+			
+			list.remove(CONS.DB.fname_Log);
+			
+			list.add(0, CONS.DB.fname_Log);
+			
+		}
+		
+		
+		return list;
+		
+	}//get_LogFileNames_List
 	
 }//public class Methods
 
