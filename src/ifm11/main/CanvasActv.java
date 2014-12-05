@@ -178,7 +178,36 @@ public class CanvasActv extends Activity {
 		
 		_Setup__SetListener();
 
+		////////////////////////////////
+
+		// draw
+
+		////////////////////////////////
+		_Setup_Draw();
+		
 	}//protected void onStart()
+
+	private void 
+	_Setup_Draw() {
+		// TODO Auto-generated method stub
+		
+		ifm11.views.CV cv = (ifm11.views.CV) findViewById(R.id.actv_main_cv_canvas);
+		
+		////////////////////////////////
+		
+		// paint
+		
+		////////////////////////////////
+		Paint paint = new Paint();
+		paint.setColor(Color.BLUE);
+//		paint.setColor(0xFF4444FF);
+//		paint.setStyle(Paint.Style.FILL);
+		paint.setStrokeWidth(10);
+
+		cv.drawLine(0, 0, 100, 100, paint);
+//		cv.drawLine(10, 10, 100, 100, paint);
+		
+	}
 
 	private void 
 	_Setup__SetListener() {

@@ -32,6 +32,13 @@ public class CV extends View {
 	float x1, y1, x2, y2;
 
 	public static Canvas can;
+
+	////////////////////////////////
+
+	// flags
+
+	////////////////////////////////
+	private boolean draw_Line = false;
 	
 	////////////////////////////////
 	
@@ -87,6 +94,17 @@ public class CV extends View {
 		if (CV.can == null) {
 			
 			CV.can = canvas;
+			
+		}
+		
+		////////////////////////////////
+
+		// draw: lines
+
+		////////////////////////////////
+		if (this.draw_Line == true) {
+			
+			canvas.drawLine(this.x1, this.y1, this.x2, this.y2, this.paint);
 			
 		}
 		
@@ -146,6 +164,18 @@ public class CV extends View {
 		
 //		this.drawLine(10, 10, 100, 100, p);
 
+		////////////////////////////////
+
+		// flag: on
+
+		////////////////////////////////
+		this.draw_Line = true;
+		
+		////////////////////////////////
+
+		// prep: vals
+
+		////////////////////////////////
 		this.paint	= p;
 
 		this.x1		= x1;
