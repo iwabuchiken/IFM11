@@ -9653,6 +9653,149 @@ public class Methods {
 		}
 		
 	}//importData_From_IFM10
+
+	public static void 
+	show_RGB
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		String msg_Log;
+		
+		////////////////////////////////
+
+		// get: image
+
+		////////////////////////////////
+		if (CONS.IMageActv.ti == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.ti => null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}
+		
+		if (CONS.IMageActv.bm_Modified == null) {
+			
+			// Log
+			msg_Log = "CONS.IMageActv.bm_Modified => null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}
+		
+		// Log
+		msg_Log = "createing a new Bitmap instance...";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		Bitmap bm = CONS.IMageActv.bm_Modified;
+		
+		int bmp_W = bm.getWidth();
+		int bmp_H = bm.getHeight();
+
+		// Log
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"bmp_W => %d, bmp_H => %d", bmp_W, bmp_H);
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// pixels
+
+		////////////////////////////////
+		int[] pixels = new int[bmp_W * bmp_H];
+				
+		bm.getPixels(pixels, 0, bmp_W, 0, 0, bmp_W, bmp_H);
+
+		// Log
+		msg_Log = "pixels => obtained";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+
+		////////////////////////////////
+
+		// get: RGB
+
+		////////////////////////////////
+		int[] col_R = new int[256];
+		int[] col_G = new int[256];
+		int[] col_B = new int[256];
+		
+//		int[] col_R = new int[300];
+//		int[] col_G = new int[300];
+//		int[] col_B = new int[300];
+//		
+		int count = 0;
+		
+		for (int y = 0; y < bmp_H; y++) {
+			
+			for (int x = 0; x < bmp_W; x++) {
+				
+				int pixel = pixels[x + y * bmp_W];
+				
+				if (count > 50 && count < 80) {
+					
+					// Log
+					msg_Log = "Color.red(pixel) => " + Color.red(pixel);
+					Log.d("Methods.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+				}
+				
+				count ++;
+				
+				col_R[Color.red(pixel)] ++;
+				col_G[Color.green(pixel)] ++;
+				col_B[Color.blue(pixel)] ++;
+				
+//				pixels[x + y * bmp_W] = Color.argb(
+//						Color.alpha(pixel),
+//						0,
+//						Color.green(pixel),
+//						Color.blue(pixel));
+				
+			}
+			
+		}//for (int y = 0; y < bmp_H; y++)
+
+		////////////////////////////////
+
+		// debug
+
+		////////////////////////////////
+		for (int i = 0; i < col_R.length; i++) {
+			
+			// Log
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"col_R[%d] => %d", i, col_R[i]);
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}
+		
+//		bm.recycle();
+//		
+//		// Log
+//		msg_Log = "bitmap => recycled";
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+	}//show_RGB
 	
 }//public class Methods
 

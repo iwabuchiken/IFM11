@@ -131,6 +131,14 @@ public class DOI_CL implements OnItemClickListener {
 			----------------------------*/
 		switch (tag) {
 		
+		case ACTV_CANVAS_OPS://----------------------------------------------
+			
+			li = (ListItem) parent.getItemAtPosition(position);
+			
+			case_ACTV_CANVAS_OPS(li);
+			
+			break;// case dlg_add_memos_gv
+			
 		case ACTV_IMAGE_OPTMENU_LABS://----------------------------------------------
 			
 			li = (ListItem) parent.getItemAtPosition(position);
@@ -261,6 +269,32 @@ public class DOI_CL implements OnItemClickListener {
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_ACTV_CANVAS_OPS
+	(ListItem li) {
+		// TODO Auto-generated method stub
+
+		if (li.getText().equals(actv.getString(
+				R.string.menu_actv_canvas_Ops__GetRGB))) {
+
+			Methods.show_RGB(actv);
+			
+			d1.dismiss();
+			
+//		} else if (li.getText().equals(actv.getString(
+//				R.string.opt_Menu_LABS__Rotate_Image))) {
+			
+//			Methods.roate_Image(actv);
+//			
+//			d1.dismiss();
+			
+		} else {
+			
+		}
+
+	}//case_ACTV_CANVAS_OPS
+	
 
 	private void 
 	case_ACTV_IMAGE_OPTMENU_LABS
