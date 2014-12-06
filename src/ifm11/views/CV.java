@@ -39,6 +39,8 @@ public class CV extends View {
 
 	////////////////////////////////
 	private boolean draw_Line = false;
+
+	private boolean f_RGB_Lines;
 	
 	////////////////////////////////
 	
@@ -87,7 +89,9 @@ public class CV extends View {
 
 	// onDraw���\�b�h(�`�揈��)
 	@Override
-	protected void onDraw(Canvas canvas) {
+	protected void 
+	onDraw
+	(Canvas canvas) {
 		
 		String msg_Log;
 		
@@ -108,8 +112,51 @@ public class CV extends View {
 			
 		}
 		
+		////////////////////////////////
+
+		// draw: RGB lines
+
+		////////////////////////////////
+		if (CONS.Canvas.f_RGB_Lines == true) {
+			
+			_Draw_RGB_Lines(canvas);
+			
+			CONS.Canvas.f_RGB_Lines = false;
+			
+		}
 		
-	}
+	}//onDraw
+
+	private void 
+	_Draw_RGB_Lines
+	(Canvas canvas) {
+		// TODO Auto-generated method stub
+		
+		// Log
+		String msg_Log = "_Draw_RGB_Lines";
+		Log.d("CV.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// Log
+		if (CONS.Canvas.col_R_adj == null) {
+			
+			// Log
+			msg_Log = "CONS.Canvas.col_R_adj => null";
+			Log.d("CV.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {
+
+			msg_Log = "CONS.Canvas.col_R_adj => " + CONS.Canvas.col_R_adj.length;
+			Log.d("CV.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		
+		}
+		
+	}//_Draw_RGB_Lines
 
 	public void _go() {
 		

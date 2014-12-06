@@ -9734,11 +9734,7 @@ public class Methods {
 		int[] col_G = new int[256];
 		int[] col_B = new int[256];
 		
-//		int[] col_R = new int[300];
-//		int[] col_G = new int[300];
-//		int[] col_B = new int[300];
-//		
-		int count = 0;
+//		int count = 0;
 		
 		for (int y = 0; y < bmp_H; y++) {
 			
@@ -9746,56 +9742,110 @@ public class Methods {
 				
 				int pixel = pixels[x + y * bmp_W];
 				
-				if (count > 50 && count < 80) {
-					
-					// Log
-					msg_Log = "Color.red(pixel) => " + Color.red(pixel);
-					Log.d("Methods.java"
-							+ "["
-							+ Thread.currentThread().getStackTrace()[2]
-									.getLineNumber() + "]", msg_Log);
-				}
-				
-				count ++;
-				
 				col_R[Color.red(pixel)] ++;
 				col_G[Color.green(pixel)] ++;
 				col_B[Color.blue(pixel)] ++;
-				
-//				pixels[x + y * bmp_W] = Color.argb(
-//						Color.alpha(pixel),
-//						0,
-//						Color.green(pixel),
-//						Color.blue(pixel));
 				
 			}
 			
 		}//for (int y = 0; y < bmp_H; y++)
 
+		
 		////////////////////////////////
 
-		// debug
+		// get: max values
 
 		////////////////////////////////
+		int max_R = Methods.get_Max(col_R);
+		
+		// Log
+		msg_Log = "max_R => " + max_R;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// adjust: values
+
+		////////////////////////////////
+		int range = 256;
+		
+		int[] col_R_adj = Methods.adj_Pixel_Values(actv, col_R, max_R, range);
+		
+		max_R = Methods.get_Max(col_R_adj);
+		
+		// Log
+		msg_Log = "max_R(adj) => " + max_R;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// input
+
+		////////////////////////////////
+		CONS.Canvas.col_R_adj = col_R_adj;
+		
+		ifm11.views.CV cv = (ifm11.views.CV) actv.findViewById(R.id.actv_main_cv_canvas);
+		
+		////////////////////////////////
+
+		// draw
+
+		////////////////////////////////
+		CONS.Canvas.f_RGB_Lines = true;
+		
+		cv.invalidate();
+		
+		// Log
+		msg_Log = "cv => invalidated";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+	}//show_RGB
+
+	private static int[] 
+	adj_Pixel_Values
+	(Activity actv, int[] col_R, int max, int range) {
+		// TODO Auto-generated method stub
+		
+		int len = col_R.length;
+		
+		int[] adj = new int[len];
+		
 		for (int i = 0; i < col_R.length; i++) {
 			
-			// Log
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"col_R[%d] => %d", i, col_R[i]);
-			Log.d("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
+			adj[i] = (int)(((float)col_R[i] / max) * range);
+			
 		}
 		
-//		bm.recycle();
-//		
-//		// Log
-//		msg_Log = "bitmap => recycled";
-//		Log.d("Methods.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-	}//show_RGB
+		return adj;
+		
+	}//adj_Pixel_Values
+	
+
+	private static int 
+	get_Max
+	(int[] col_R) {
+		// TODO Auto-generated method stub
+		
+		int max = -1;
+		
+		for (int i : col_R) {
+			
+			if (i > max) {
+				
+				max = i;
+				
+			}
+		}
+		
+		return max;
+		
+	}//get_Max
 	
 }//public class Methods
 
