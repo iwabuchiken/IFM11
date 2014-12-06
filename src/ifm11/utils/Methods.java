@@ -9734,7 +9734,7 @@ public class Methods {
 		int[] col_G = new int[256];
 		int[] col_B = new int[256];
 		
-//		int count = 0;
+		int count = 0;
 		
 		for (int y = 0; y < bmp_H; y++) {
 			
@@ -9742,14 +9742,36 @@ public class Methods {
 				
 				int pixel = pixels[x + y * bmp_W];
 				
+				if (count > 50 && count < 100) {
+					
+					// Log
+					msg_Log = "Color.red(pixel) => " + Color.red(pixel);
+					Log.d("Methods.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+				}
+				
 				col_R[Color.red(pixel)] ++;
 				col_G[Color.green(pixel)] ++;
 				col_B[Color.blue(pixel)] ++;
+				
+				count ++;
 				
 			}
 			
 		}//for (int y = 0; y < bmp_H; y++)
 
+		
+		for (int i = 100; i < 150; i++) {
+			
+			// Log
+			msg_Log = "col_R[" + i + "] => " + col_R[i];
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
 		
 		////////////////////////////////
 

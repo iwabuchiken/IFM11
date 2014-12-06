@@ -156,6 +156,29 @@ public class CV extends View {
 		
 		}
 		
+		////////////////////////////////
+
+		// Red
+
+		////////////////////////////////
+		Paint paint = new Paint();
+		paint.setColor(Color.RED);
+//		paint.setColor(0xFF4444FF);
+//		paint.setStyle(Paint.Style.FILL);
+		paint.setStrokeWidth(5);
+
+		int offset_X = 10;
+		
+		for (int i = 0; i < CONS.Canvas.col_R_adj.length; i++) {
+			
+			canvas.drawLine(
+					offset_X, i, 
+					CONS.Canvas.col_R_adj[i] + offset_X, i, 
+					paint);
+//			canvas.drawLine(10, i, CONS.Canvas.col_R_adj[i], i, paint);
+			
+		}
+		
 	}//_Draw_RGB_Lines
 
 	public void _go() {
