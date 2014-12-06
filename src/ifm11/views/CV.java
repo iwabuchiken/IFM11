@@ -169,11 +169,71 @@ public class CV extends View {
 
 		int offset_X = 10;
 		
-		for (int i = 0; i < CONS.Canvas.col_R_adj.length; i++) {
+		int i = 0;
+		
+		for (i = 0; i < CONS.Canvas.col_R_adj.length; i++) {
 			
 			canvas.drawLine(
 					offset_X, i, 
 					CONS.Canvas.col_R_adj[i] + offset_X, i, 
+					paint);
+//			canvas.drawLine(10, i, CONS.Canvas.col_R_adj[i], i, paint);
+			
+		}
+		
+		// Log
+		msg_Log = "red => drawn";
+		Log.d("CV.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// blue
+		
+		////////////////////////////////
+		paint.setColor(Color.BLUE);
+//		paint.setColor(0xFF4444FF);
+//		paint.setStyle(Paint.Style.FILL);
+		paint.setStrokeWidth(5);
+		
+		offset_X = 10;
+		
+		i += 10;
+		
+		int offset_Y = i;
+		
+		for (i = 0; i < CONS.Canvas.col_B_adj.length; i++) {
+			
+			canvas.drawLine(
+					offset_X, offset_Y + i, 
+					CONS.Canvas.col_B_adj[i] + offset_X, offset_Y + i, 
+					paint);
+//			canvas.drawLine(10, i, CONS.Canvas.col_R_adj[i], i, paint);
+			
+		}
+		
+		////////////////////////////////
+		
+		// green
+		
+		////////////////////////////////
+		paint.setColor(Color.GREEN);
+//		paint.setColor(0xFF4444FF);
+//		paint.setStyle(Paint.Style.FILL);
+		paint.setStrokeWidth(5);
+		
+		offset_X = 10;
+		
+		i += 10;
+		
+		offset_Y += i;
+		
+		for (i = 0; i < CONS.Canvas.col_G_adj.length; i++) {
+			
+			canvas.drawLine(
+					offset_X, offset_Y + i, 
+					CONS.Canvas.col_G_adj[i] + offset_X, offset_Y + i, 
 					paint);
 //			canvas.drawLine(10, i, CONS.Canvas.col_R_adj[i], i, paint);
 			

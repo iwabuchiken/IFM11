@@ -9779,6 +9779,8 @@ public class Methods {
 
 		////////////////////////////////
 		int max_R = Methods.get_Max(col_R);
+		int max_G = Methods.get_Max(col_G);
+		int max_B = Methods.get_Max(col_B);
 		
 		// Log
 		msg_Log = "max_R => " + max_R;
@@ -9794,6 +9796,8 @@ public class Methods {
 		int range = 256;
 		
 		int[] col_R_adj = Methods.adj_Pixel_Values(actv, col_R, max_R, range);
+		int[] col_G_adj = Methods.adj_Pixel_Values(actv, col_G, max_G, range);
+		int[] col_B_adj = Methods.adj_Pixel_Values(actv, col_B, max_B, range);
 		
 		max_R = Methods.get_Max(col_R_adj);
 		
@@ -9809,6 +9813,8 @@ public class Methods {
 
 		////////////////////////////////
 		CONS.Canvas.col_R_adj = col_R_adj;
+		CONS.Canvas.col_G_adj = col_G_adj;
+		CONS.Canvas.col_B_adj = col_B_adj;
 		
 		ifm11.views.CV cv = (ifm11.views.CV) actv.findViewById(R.id.actv_main_cv_canvas);
 		

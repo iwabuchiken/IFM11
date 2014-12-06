@@ -796,6 +796,8 @@ public class CONS {
 
 		////////////////////////////////
 		public static int[] col_R_adj;
+		public static int[] col_G_adj;
+		public static int[] col_B_adj;
 		
 		////////////////////////////////
 
