@@ -10,6 +10,8 @@ import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.RGB;
+import ifm11.utils.STD;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.app.Dialog;
@@ -278,7 +280,7 @@ public class DOI_CL implements OnItemClickListener {
 		if (li.getText().equals(actv.getString(
 				R.string.menu_actv_canvas_Ops__GetRGB))) {
 
-			Methods.show_RGB(actv);
+			RGB.show_RGB(actv);
 			
 			d1.dismiss();
 			
@@ -790,7 +792,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (li.getText().equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_restore_db))) {
 			
-			Methods.restore_DB(actv);
+			STD.restore_DB(actv);
 			
 		////////////////////////////////
 		
@@ -800,7 +802,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (li.getText().equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_import_db_file))) {
 			
-			Methods.import_DB(actv, d1);
+			STD.import_DB(actv, d1);
 			
 			return;
 			

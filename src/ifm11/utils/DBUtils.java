@@ -5,6 +5,7 @@ package ifm11.utils;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.main.R;
+import ifm11.utils.STD;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -875,11 +876,11 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		// Put values
 		val.put("created_at",
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		val.put("modified_at",
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		val.put("last_refreshed",
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		val.put("num_of_items_added", numOfData);
 		
 		try {
@@ -1053,9 +1054,9 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		// Put values
 		val.put("created_at",
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		val.put("modified_at",
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		
 		val.put("last_refreshed",lastRefresh);
 		val.put("num_of_items_added", numOfData);
@@ -1159,11 +1160,11 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		// Put values
 //		val.put("created_at",
-//				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+//				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 //		val.put("modified_at",
-//				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+//				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 //		val.put("last_refreshed",
-//				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+//				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 //		val.put("num_of_items_added", numOfData);
 		
 		try {
@@ -1252,9 +1253,9 @@ public class DBUtils extends SQLiteOpenHelper{
 //		"table_name"							// 11
 		
 		val.put("created_at",
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		val.put("modified_at",
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		
 		val.put("file_id", ti.getFileId());
 		val.put("file_path", ti.getFile_path());
@@ -1561,7 +1562,7 @@ public class DBUtils extends SQLiteOpenHelper{
 //		String sql = "UPDATE " + CONS.tname_main + " SET " + 
 	
 		String sql = "UPDATE " + tableName + " SET " + 
-//				"last_viewed_at='" + Methods.getMillSeconds_now() + "' " +
+//				"last_viewed_at='" + STD.getMillSeconds_now() + "' " +
 
 				col_name + " = '" + value + "' "
 				+ " WHERE " + android.provider.BaseColumns._ID + " = '"
@@ -3731,12 +3732,12 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				"created_at", 
 				Methods.conv_MillSec_to_TimeLabel(
-								Methods.getMillSeconds_now()));
+								STD.getMillSeconds_now()));
 		
 		val.put(
 				"modified_at", 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put("word", pattern);
 		
@@ -3760,12 +3761,12 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				"created_at", 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put(
 				"modified_at", 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put("word", pattern);
 		
@@ -3894,8 +3895,8 @@ public class DBUtils extends SQLiteOpenHelper{
 						actv, 
 						ti,
 						CONS.DB.col_names_IFM11_full[12],
-						Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now())
-//						Methods.get_TimeLabel(Methods.getMillSeconds_now())
+						Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now())
+//						Methods.get_TimeLabel(STD.getMillSeconds_now())
 		);
 		
 //		ContentValues val = new ContentValues();
@@ -3989,7 +3990,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				CONS.DB.col_names_IFM11_full[2],		// modified_at 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put(
 				CONS.DB.col_names_IFM11_full[8],		// memos
@@ -4016,7 +4017,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				CONS.DB.col_names_IFM11_full[2],		// modified_at 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put(key, value);
 		
@@ -4044,7 +4045,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				CONS.DB.col_names_IFM11_full[2],		// modified_at 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put(
 				CONS.DB.col_names_IFM11_full[4],		// file_path
@@ -4076,7 +4077,7 @@ public class DBUtils extends SQLiteOpenHelper{
 //		val.put(
 //				CONS.DB.col_names_MemoPatterns_full[2],		// modified_at 
 //				Methods.conv_MillSec_to_TimeLabel(
-//						Methods.getMillSeconds_now()));
+//						STD.getMillSeconds_now()));
 //		
 //		val.put(
 //				CONS.DB.col_names_MemoPatterns_full[3],		// word
@@ -4103,7 +4104,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				CONS.DB.col_names_IFM11_full[2],		// modified_at 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put(
 				CONS.DB.col_names_IFM11_full[11],		// memos
@@ -4806,7 +4807,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		val.put(
 				CONS.DB.col_names_IFM11_full[2],		// modified_at 
 				Methods.conv_MillSec_to_TimeLabel(
-						Methods.getMillSeconds_now()));
+						STD.getMillSeconds_now()));
 		
 		val.put(colName, value);
 		
@@ -5123,7 +5124,7 @@ public class DBUtils extends SQLiteOpenHelper{
 			val.put(
 					CONS.DB.col_names_IFM11_full[2],		// modified_at 
 					Methods.conv_MillSec_to_TimeLabel(
-							Methods.getMillSeconds_now()));
+							STD.getMillSeconds_now()));
 			
 			tmp = ti.getMemo();
 			
@@ -5481,7 +5482,7 @@ public class DBUtils extends SQLiteOpenHelper{
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		String used_at = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		String used_at = Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now());
 		
 		////////////////////////////////
 	
@@ -5509,7 +5510,7 @@ public class DBUtils extends SQLiteOpenHelper{
 				", " +
 				CONS.DB.col_names_MemoPatterns_full[2] +
 				" = '" + 
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()) + 
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()) + 
 				"' " +
 				", " +
 				CONS.DB.col_names_MemoPatterns_full[5] +
@@ -5594,7 +5595,7 @@ public class DBUtils extends SQLiteOpenHelper{
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		String used_at = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		String used_at = Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now());
 		
 		////////////////////////////////
 		
@@ -5618,7 +5619,7 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		cv.put(
 				CONS.DB.col_names_MemoPatterns_full[2], 
-				Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 		
 		cv.put(CONS.DB.col_names_MemoPatterns_full[5], used_at);
 
@@ -5653,7 +5654,7 @@ public class DBUtils extends SQLiteOpenHelper{
 //					", " +
 //					CONS.DB.col_names_MemoPatterns_full[2] +
 //					" = '" + 
-//					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()) + 
+//					Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()) + 
 //					"' " +
 //					", " +
 //					CONS.DB.col_names_MemoPatterns_full[5] +
@@ -6118,7 +6119,7 @@ public class DBUtils extends SQLiteOpenHelper{
 						
 			};
 
-			String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+			String now = Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now());
 			
 			ContentValues val = new ContentValues();
 			
@@ -6141,11 +6142,11 @@ public class DBUtils extends SQLiteOpenHelper{
 			
 			val.put(
 					CONS.DB.col_names_Admin_full[1],
-					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+					Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 			
 			val.put(
 					CONS.DB.col_names_Admin_full[2],
-					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+					Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 			
 			val.put(
 					CONS.DB.col_names_Admin_full[3],
@@ -6153,7 +6154,7 @@ public class DBUtils extends SQLiteOpenHelper{
 			
 			val.put(
 					CONS.DB.col_names_Admin_full[4],
-					Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now()));
+					Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
 			
 			res = DBUtils.insert_Data_generic(actv, CONS.DB.tname_Admin, val);
 			

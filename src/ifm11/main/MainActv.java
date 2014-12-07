@@ -8,6 +8,7 @@ import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.STD;
 import ifm11.utils.Tags;
 
 import java.io.BufferedWriter;
@@ -274,7 +275,7 @@ public class MainActv extends ListActivity {
 		
 		String fname_TIs_List = "TIs_List"
 						+ "_"
-						+ Methods.get_TimeLabel(Methods.getMillSeconds_now())
+						+ Methods.get_TimeLabel(STD.getMillSeconds_now())
 						+ ".txt";
 		
 		File f = new File(CONS.DB.dPath_Data_Root, fname_TIs_List);
@@ -911,7 +912,7 @@ public class MainActv extends ListActivity {
 		// now + auto
 
 		////////////////////////////////
-//		String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+//		String now = Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now());
 		
 		String schedule = Methods.conv_MillSec_to_TimeLabel(
 								Methods.conv_TimeLabel_to_MillSec(last_bk)
@@ -931,7 +932,7 @@ public class MainActv extends ListActivity {
 		// comp
 
 		////////////////////////////////
-		String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+		String now = Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now());
 		int res = schedule.compareToIgnoreCase(now);
 		
 //		int res = schedule.compareToIgnoreCase(last_bk);
@@ -958,7 +959,7 @@ public class MainActv extends ListActivity {
 		}
 		
 		
-//		String now = Methods.conv_MillSec_to_TimeLabel(Methods.getMillSeconds_now());
+//		String now = Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now());
 		
 //		// Log
 //		msg_Log = String.format(

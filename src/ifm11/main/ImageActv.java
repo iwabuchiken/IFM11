@@ -7,6 +7,7 @@ import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.STD;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.content.Context;
@@ -423,7 +424,7 @@ public class ImageActv extends Activity {
 						CONS.IMageActv.ti, 
 						CONS.DB.col_names_IFM11_full[10],
 						Methods.conv_MillSec_to_TimeLabel(
-								Methods.getMillSeconds_now())
+								STD.getMillSeconds_now())
 						);
 		
 		String msg = null;
