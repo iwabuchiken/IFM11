@@ -142,9 +142,24 @@ public class ImageActv extends Activity {
 				+ Thread.currentThread().getStackTrace()[2].getMethodName()
 				+ "]", "file_path=" + file_path);
 		
-//		Bitmap bm = BitmapFactory.decodeFile(file_path);
-		bm = BitmapFactory.decodeFile(file_path);
-		
+		try {
+			
+			//		Bitmap bm = BitmapFactory.decodeFile(file_path);
+			bm = BitmapFactory.decodeFile(file_path);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			// Log
+			String msg_Log = "exception";
+			Log.e("ImageActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			e.printStackTrace();
+			
+			return;
+			
+		}
 		
 		CONS.IMageActv.bm_Modified = set_image_1_modify_bitmap(bm);
 //		bm_modified = set_image_1_modify_bitmap(bm);

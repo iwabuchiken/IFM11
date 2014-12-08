@@ -196,7 +196,7 @@ public class CV extends View {
 //			if (i < CONS.Canvas.col_R_adj.length) {
 //				
 			if (CONS.Canvas.list_Lows_R.contains((long)i)) {
-//				if (CONS.Canvas.list_Lows_R.contains(i)) {
+//			if (CONS.Canvas.list_Lows_R.contains(i)) {
 //				if (CONS.Canvas.list_Lows_R.contains((long)(i + 1))) {
 					
 					paint.setColor(Color.BLACK);
@@ -211,12 +211,12 @@ public class CV extends View {
 				
 				paint.setColor(Color.RED);
 				
-				msg_Log = String.format(Locale.JAPAN, "not contain: i = %d", i);
-
-				Log.d("CV.java"
-						+ "["
-						+ Thread.currentThread().getStackTrace()[2]
-								.getLineNumber() + "]", msg_Log);
+//				msg_Log = String.format(Locale.JAPAN, "not contain: i = %d", i);
+//
+//				Log.d("CV.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", msg_Log);
 				
 			}//if (CONS.Canvas.list_Lows_R.contains(i))
 //				

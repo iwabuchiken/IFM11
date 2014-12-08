@@ -4,6 +4,7 @@ package ifm11.listeners.dialog;
 import ifm11.items.ListItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
+import ifm11.main.ImageActv;
 import ifm11.main.R;
 import ifm11.tasks.Task_RefreshDB;
 import ifm11.utils.CONS;
@@ -281,6 +282,14 @@ public class DOI_CL implements OnItemClickListener {
 				R.string.menu_actv_canvas_Ops__GetRGB))) {
 
 			RGB.show_RGB(actv);
+			
+			ImageActv.bm.recycle();
+			
+			// Log
+			String msg_Log = "ImageActv.bm => recycled";
+			Log.d("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
 			
 			d1.dismiss();
 			
