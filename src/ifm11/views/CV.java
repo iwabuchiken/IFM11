@@ -188,6 +188,13 @@ public class CV extends View {
 		
 		for (i = 0; i < CONS.Canvas.col_R_adj.length; i++) {
 			
+//			msg_Log = String.format(Locale.JAPAN, "(long)(%d + 1)) = %d", i, (long)(i + 1));
+//
+//			Log.d("CV.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+			
+			
 			////////////////////////////////
 
 			// highs/lows
@@ -197,13 +204,13 @@ public class CV extends View {
 //				
 			if (CONS.Canvas.list_Lows_R.contains((long)i)) {
 //			if (CONS.Canvas.list_Lows_R.contains(i)) {
-//				if (CONS.Canvas.list_Lows_R.contains((long)(i + 1))) {
+//			if (CONS.Canvas.list_Lows_R.contains((long)(i + 1))) {
 					
 					paint.setColor(Color.BLACK);
 					
 			} else if (CONS.Canvas.list_Highs_R.contains((long)i)) {
 //			} else if (CONS.Canvas.list_Highs_R.contains(i)) {
-//				} else if (CONS.Canvas.list_Highs_R.contains((long)(i + 1))) {
+//			} else if (CONS.Canvas.list_Highs_R.contains((long)(i + 1))) {
 				
 				paint.setColor(Color.YELLOW);
 				
@@ -253,12 +260,30 @@ public class CV extends View {
 		int offset_Y = i;
 		
 		for (i = 0; i < CONS.Canvas.col_B_adj.length; i++) {
-			
+
+			////////////////////////////////
+
+			// highs/lows
+
+			////////////////////////////////
+			if (CONS.Canvas.list_Lows_B.contains((long)i)) {
+					
+					paint.setColor(Color.BLACK);
+					
+			} else if (CONS.Canvas.list_Highs_B.contains((long)i)) {
+				
+				paint.setColor(Color.YELLOW);
+				
+			} else {
+				
+				paint.setColor(Color.BLUE);
+				
+			}//if (CONS.Canvas.list_Lows_R.contains(i))
+
 			canvas.drawLine(
 					offset_X, offset_Y + i, 
 					CONS.Canvas.col_B_adj[i] + offset_X, offset_Y + i, 
 					paint);
-//			canvas.drawLine(10, i, CONS.Canvas.col_R_adj[i], i, paint);
 			
 		}
 		
@@ -279,6 +304,26 @@ public class CV extends View {
 		offset_Y += i;
 		
 		for (i = 0; i < CONS.Canvas.col_G_adj.length; i++) {
+
+			////////////////////////////////
+
+			// highs/lows
+
+			////////////////////////////////
+			if (CONS.Canvas.list_Lows_G.contains((long)i)) {
+					
+					paint.setColor(Color.BLACK);
+					
+			} else if (CONS.Canvas.list_Highs_G.contains((long)i)) {
+				
+				paint.setColor(Color.YELLOW);
+				
+			} else {
+				
+				paint.setColor(Color.GREEN);
+				
+			}//if (CONS.Canvas.list_Lows_R.contains(i))
+
 			
 			canvas.drawLine(
 					offset_X, offset_Y + i, 

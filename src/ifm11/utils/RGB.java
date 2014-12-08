@@ -270,11 +270,29 @@ public class RGB {
 		CONS.Canvas.list_Lows_R = new ArrayList<Long>();
 		CONS.Canvas.list_Highs_R = new ArrayList<Long>();
 		
+		CONS.Canvas.list_Lows_G = new ArrayList<Long>();
+		CONS.Canvas.list_Highs_G = new ArrayList<Long>();
+		
+		CONS.Canvas.list_Lows_B = new ArrayList<Long>();
+		CONS.Canvas.list_Highs_B = new ArrayList<Long>();
+		
 		RGB._highLows__ForLoop(
 					actv, 
 					CONS.Canvas.list_Lows_R, 
 					CONS.Canvas.list_Highs_R, 
 					range, ColNames.RED);
+		
+		RGB._highLows__ForLoop(
+				actv, 
+				CONS.Canvas.list_Lows_G, 
+				CONS.Canvas.list_Highs_G, 
+				range, ColNames.GREEN);
+		
+		RGB._highLows__ForLoop(
+				actv, 
+				CONS.Canvas.list_Lows_B, 
+				CONS.Canvas.list_Highs_B, 
+				range, ColNames.BLUE);
 		
 		// Log
 		msg_Log = "HighsLows => done";
