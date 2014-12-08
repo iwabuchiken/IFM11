@@ -1,6 +1,7 @@
 package ifm11.utils;
 
 import ifm11.main.R;
+import ifm11.utils.CONS.Canvas.ColNames;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,6 +181,13 @@ public class RGB {
 		
 		////////////////////////////////
 
+		// highs, lows
+
+		////////////////////////////////
+		RGB.get_RGB_HighsLows(actv, range);
+
+		////////////////////////////////
+
 		// draw
 
 		////////////////////////////////
@@ -193,12 +201,12 @@ public class RGB {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		////////////////////////////////
-
-		// highs, lows
-
-		////////////////////////////////
-		RGB.get_RGB_HighsLows(actv, range);
+//		////////////////////////////////
+//
+//		// highs, lows
+//
+//		////////////////////////////////
+//		RGB.get_RGB_HighsLows(actv, range);
 		
 	}//show_RGB
 
@@ -259,149 +267,14 @@ public class RGB {
 		// process
 
 		////////////////////////////////
-//		int col_Cur;
-//		int col_N;
+		CONS.Canvas.list_Lows_R = new ArrayList<Long>();
+		CONS.Canvas.list_Highs_R = new ArrayList<Long>();
 		
-//		int[] cols = CONS.Canvas.col_R_adj;
-//		
-//		int i = 0;
-//		
-//		col_Cur = cols[0];
-////		col_N = cols[i + 1];
-//		
-//		int tmp;
-//		
-//		int incli = 1;
-		
-		List<Integer> list_Lows = new ArrayList<Integer>();
-		List<Integer> list_Highs = new ArrayList<Integer>();
-		
-		RGB._highLows__ForLoop(actv, list_Lows, list_Highs, range);
-
-		/***************
-		for (i = 1; i < cols.length - 1; i++) {
-			
-			tmp = cols[i];	// get next value
-
-			////////////////////////////////
-
-			// validate
-
-			////////////////////////////////
-			if (tmp == 0 && col_Cur >= range * 0.1) {
-				
-				continue;
-				
-			}
-
-			////////////////////////////////
-
-			// next value	:p2
-
-			////////////////////////////////
-			col_N = tmp;
-			
-			////////////////////////////////
-
-			// judge: 		:j3
-
-			////////////////////////////////
-			if (col_N > col_Cur) {
-				
-				if (incli == 1) {
-					
-					// update: incli => remains 1
-					incli = 1;
-					
-					// update: col_Cur
-					col_Cur = col_N;
-					
-				} else if (incli == -1) {
-					
-					list_Lows.add(col_Cur);
-					
-					// update: incli => change to 1
-					incli = 1;
-					
-					// update: col_Cur
-					col_Cur = col_N;
-					
-				} else {
-					
-					// Log
-					msg_Log = "incli =>+ unknown value: " + incli
-							+ "(i = " + i + ")";
-					
-					Log.d("RGB.java"
-							+ "["
-							+ Thread.currentThread().getStackTrace()[2]
-									.getLineNumber() + "]", msg_Log);
-					
-					// update: incli => force-change to 1
-					incli = 1;
-					
-					// update: col_Cur
-					col_Cur = col_N;
-					
-				}//if (incli == 1)
-				
-			} else if (col_N < col_Cur) {//if (col_N > col_Cur)
-
-				if (incli == 1) {
-					
-					list_Highs.add(col_Cur);
-					
-					// update: incli => change to -1
-					incli = -1;
-					
-					// update: col_Cur
-					col_Cur = col_N;
-					
-				} else if (incli == -1) {
-					
-					// update: incli => remains -1
-					incli = -1;
-					
-					// update: col_Cur
-					col_Cur = col_N;
-					
-				} else {
-					
-					// Log
-					msg_Log = "incli =>+ unknown value: " + incli
-							+ "(i = " + i + ")";
-					
-					Log.d("RGB.java"
-							+ "["
-							+ Thread.currentThread().getStackTrace()[2]
-									.getLineNumber() + "]", msg_Log);
-					
-					// update: incli => force-change to -1
-					incli = -1;
-					
-					// update: col_Cur
-					col_Cur = col_N;
-					
-				}//if (incli == 1)
-				
-			} else if (col_N == col_Cur) {//if (col_N > col_Cur)
-				
-				// update: col_Cur
-				col_Cur = col_N;
-				
-			} else {//if (col_N > col_Cur)
-
-				// Log
-				msg_Log = "col_N, col_Cur => comparison undecided";
-				Log.i("RGB.java"
-						+ "["
-						+ Thread.currentThread().getStackTrace()[2]
-								.getLineNumber() + "]", msg_Log);
-				
-			}//if (col_N > col_Cur)
-			
-		}//for (int i = 0; i < CONS.Canvas.col_R_adj.length; i++)
-	 	**************/
+		RGB._highLows__ForLoop(
+					actv, 
+					CONS.Canvas.list_Lows_R, 
+					CONS.Canvas.list_Highs_R, 
+					range, ColNames.RED);
 		
 		// Log
 		msg_Log = "HighsLows => done";
@@ -415,9 +288,9 @@ public class RGB {
 
 		////////////////////////////////
 		// Log
-		msg_Log = "list_Lows.size() => " + list_Lows.size()
+		msg_Log = "list_Lows.size() => " + CONS.Canvas.list_Lows_R.size()
 				+ " / "
-				+ "list_Highs.size() => " + list_Highs.size();
+				+ "list_Highs.size() => " + CONS.Canvas.list_Highs_R.size();
 		
 		Log.d("RGB.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
@@ -425,19 +298,49 @@ public class RGB {
 		
 	}//get_RGB_HighsLows
 
+	/******************************
+		@param
+		range	=> max value in CONS.Canvas.col_X_adj
+		
+		@return
+		list_Lows	=> list of indices in CONS.Canvas.col_X_adj<br>
+		list_Highs	=> list of indices in CONS.Canvas.col_X_adj<br>
+	 ******************************/
 	private static void 
 	_highLows__ForLoop
 	(Activity actv,
-		List<Integer> list_Lows, List<Integer> list_Highs, int range) {
+		List<Long> list_Lows, List<Long> list_Highs, 
+		int range, ColNames colName) {
 		// TODO Auto-generated method stub
 
 		String msg_Log;
 		
-		int[] cols = CONS.Canvas.col_R_adj;
+		int[] cols = null;
 		
-		int col_Cur = cols[0], col_N, tmp, incli = 1, i = 0;
+		switch(colName) {
+		
+		case RED: cols = CONS.Canvas.col_R_adj; break;
+			
+		case GREEN: cols = CONS.Canvas.col_G_adj; break;
+		
+		case BLUE: cols = CONS.Canvas.col_B_adj; break;
+		
+		default: cols = CONS.Canvas.col_R_adj; break;
+		
+		}
 
-//		col_Cur = cols[0];
+		msg_Log = String.format(Locale.JAPAN, "high/lows for => %s", colName.toString());
+
+		Log.d("RGB.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		int tmp, incli = 1, i = 0;
+//		int col_Cur = cols[0], col_N, tmp, incli = 1, i = 0;
+
+		long col_Cur = cols[0], col_N;
+		
+		double threshold = 0.1;
 		
 		for (i = 1; i < cols.length - 1; i++) {
 			
@@ -454,6 +357,18 @@ public class RGB {
 				
 			}
 
+//			if (Math.abs((tmp - col_Cur)) < range * threshold) {
+//				
+//				msg_Log = String.format(Locale.JAPAN, "diff => < %f", threshold);
+//
+//				Log.d("RGB.java"
+//						+ "["
+//						+ Thread.currentThread().getStackTrace()[2]
+//								.getLineNumber() + "]", msg_Log);
+//				
+//				continue;
+//				
+//			}
 			////////////////////////////////
 
 			// next value	:p2
@@ -478,7 +393,8 @@ public class RGB {
 					
 				} else if (incli == -1) {
 					
-					list_Lows.add(col_Cur);
+					list_Lows.add((long)i);
+//					list_Lows.add(col_Cur);
 
 					msg_Log = String.format(
 								Locale.JAPAN, 
@@ -520,9 +436,8 @@ public class RGB {
 
 				if (incli == 1) {
 					
-					list_Highs.add(col_Cur);
-
-					list_Lows.add(col_Cur);
+					list_Highs.add((long)i);
+//					list_Highs.add(col_Cur);
 
 					msg_Log = String.format(
 								Locale.JAPAN, 

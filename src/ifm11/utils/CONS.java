@@ -781,6 +781,14 @@ public class CONS {
 		////////////////////////////////
 		public static int lineWidth		= 10;
 		
+		public static List<Long> list_Lows_R;
+		public static List<Long> list_Highs_R;
+		
+		public static List<Long> list_Lows_G;
+		public static List<Long> list_Highs_G;
+		
+		public static List<Long> list_Lows_B;
+		public static List<Long> list_Highs_B;
 		
 		////////////////////////////////
 
@@ -805,6 +813,18 @@ public class CONS {
 
 		////////////////////////////////
 		public static boolean f_RGB_Lines		= false;
+		
+		////////////////////////////////
+
+		// color names
+
+		////////////////////////////////
+		public static enum ColNames {
+			
+			RED, GREEN, BLUE
+			
+		}
+		
 		
 	}
 

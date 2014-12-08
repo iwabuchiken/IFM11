@@ -3,6 +3,7 @@ package ifm11.views;
 import ifm11.utils.CONS;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -171,7 +172,55 @@ public class CV extends View {
 		
 		int i = 0;
 		
+		for (int j = 0; j < CONS.Canvas.list_Lows_R.size(); j++) {
+			
+			msg_Log = String.format(
+						Locale.JAPAN, 
+						"lows => %d (j = %d)", 
+						CONS.Canvas.list_Lows_R.get(j), j);
+
+			Log.d("CV.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			
+		}
+		
 		for (i = 0; i < CONS.Canvas.col_R_adj.length; i++) {
+			
+			////////////////////////////////
+
+			// highs/lows
+
+			////////////////////////////////
+//			if (i < CONS.Canvas.col_R_adj.length) {
+//				
+			if (CONS.Canvas.list_Lows_R.contains((long)i)) {
+//				if (CONS.Canvas.list_Lows_R.contains(i)) {
+//				if (CONS.Canvas.list_Lows_R.contains((long)(i + 1))) {
+					
+					paint.setColor(Color.BLACK);
+					
+			} else if (CONS.Canvas.list_Highs_R.contains((long)i)) {
+//			} else if (CONS.Canvas.list_Highs_R.contains(i)) {
+//				} else if (CONS.Canvas.list_Highs_R.contains((long)(i + 1))) {
+				
+				paint.setColor(Color.YELLOW);
+				
+			} else {
+				
+				paint.setColor(Color.RED);
+				
+				msg_Log = String.format(Locale.JAPAN, "not contain: i = %d", i);
+
+				Log.d("CV.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}//if (CONS.Canvas.list_Lows_R.contains(i))
+//				
+//			}
 			
 			canvas.drawLine(
 					offset_X, i, 
