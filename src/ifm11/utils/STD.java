@@ -36,7 +36,7 @@ public class STD {
 	restore_DB(Activity actv) {
     	
     	// Log
-		Log.d("MainActv.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "Starting: restore_DB()");
 
@@ -55,7 +55,7 @@ public class STD {
 		if (src_dir_files.length < 1) {
 			
 			// Log
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread()
 						.getStackTrace()[2].getLineNumber()
 					+ "]", "No files in the dir: " + src_dir);
@@ -80,7 +80,7 @@ public class STD {
 		
 		// Show the path of the latest file
 		// Log
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "f_src_latest=" + f_src_latest.getAbsolutePath());
 		
@@ -103,7 +103,7 @@ public class STD {
 							src, dst);
 		
 		// Log
-		Log.d("MainActv.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "res=" + res);
 		
@@ -171,7 +171,7 @@ public class STD {
 	
 		} catch (FileNotFoundException e) {
 			// Log
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Exception: " + e.toString());
 			if (iChannel != null) {
@@ -183,7 +183,7 @@ public class STD {
 				} catch (IOException e1) {
 					
 					// Log
-					Log.e("Methods.java" + "["
+					Log.e("STD.java" + "["
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", "Exception: " + e.toString());
 	
@@ -200,7 +200,7 @@ public class STD {
 				} catch (IOException e1) {
 					
 					// Log
-					Log.e("Methods.java" + "["
+					Log.e("STD.java" + "["
 							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 							+ "]", "Exception: " + e.toString());
 					
@@ -215,7 +215,7 @@ public class STD {
 				} catch (IOException e1) {
 					
 					// Log
-					Log.e("Methods.java" + "["
+					Log.e("STD.java" + "["
 							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 							+ "]", "Exception: " + e.toString());
 					
@@ -227,7 +227,7 @@ public class STD {
 			
 		} catch (IOException e) {
 			// Log
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Exception: " + e.toString());
 			
@@ -240,7 +240,7 @@ public class STD {
 				} catch (IOException e1) {
 					
 					// Log
-					Log.e("Methods.java" + "["
+					Log.e("STD.java" + "["
 							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 							+ "]", "Exception: " + e.toString());
 					
@@ -255,7 +255,7 @@ public class STD {
 				} catch (IOException e1) {
 					
 					// Log
-					Log.e("Methods.java" + "["
+					Log.e("STD.java" + "["
 							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 							+ "]", "Exception: " + e.toString());
 					
@@ -312,7 +312,7 @@ public class STD {
 		if (res == false) {
 			
 			// Log
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Can't  create table");
 			
@@ -342,7 +342,7 @@ public class STD {
 			
 			// Log
 			String msg_Log = "can't build cursor";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -357,7 +357,7 @@ public class STD {
 			
 			// Log
 			String msg_Log = "No entry";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -379,7 +379,7 @@ public class STD {
 			
 			// Log
 			String msg_Log = "list_TI => Null";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			return -4;
@@ -417,7 +417,7 @@ public class STD {
 		
 		// Log
 		String msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 			
@@ -433,7 +433,7 @@ public class STD {
 
 		// Log
 		msg_Log = "insert refresh date => " + res;
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -469,7 +469,7 @@ public class STD {
 		
 		// Log
 		String msg_Log = "list_TI.size() => " + size;
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 
@@ -489,7 +489,7 @@ public class STD {
 		
 		// Log
 		msg_Log = "list_New.size() => " + list_New.size();
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -501,7 +501,7 @@ public class STD {
 			// Log
 			msg_Log = "ti(new) => " + list_New.get(i).getFile_name();
 //			msg_Log = "ti => " + list_TI.get(i).getFile_name();
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 		}
@@ -633,7 +633,7 @@ public class STD {
 		
 //		// Log
 //		String msg_Log = "list_TI.size => " + list_TI.size();
-//		Log.d("Methods.java" + "["
+//		Log.d("STD.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", msg_Log);
 		
@@ -658,7 +658,7 @@ public class STD {
 		c.moveToPrevious();
 		
 		// Log
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "c.getLong(3) => " + c.getLong(3));
 		
@@ -682,7 +682,7 @@ public class STD {
 		// If the table doesn't exist, create one
 		if (result == false) {
 
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Table doesn't exist: " + tableName);
 			
@@ -694,7 +694,7 @@ public class STD {
 			
 			if (result == false) {
 
-				Log.d("Methods.java"
+				Log.d("STD.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", "Can't create a table: "+ tableName);
@@ -703,7 +703,7 @@ public class STD {
 				
 			} else {//if (result == false)
 				
-				Log.d("Methods.java"
+				Log.d("STD.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", "Table created: "+ tableName);
@@ -714,7 +714,7 @@ public class STD {
 
 		} else {//if (result == false)
 			
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Table exists: "+ tableName);
 
@@ -740,7 +740,7 @@ public class STD {
 					+ " / "
 					+ "uri.getHost =>" + uri.getHost()
 					;
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
         
@@ -757,7 +757,7 @@ public class STD {
 			
 			// Log
 			msg_Log = "Setup can't be done => refresh_log  table";
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -767,7 +767,7 @@ public class STD {
 
 			// Log
 			msg_Log = "setup done => rehresh log";
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -806,7 +806,7 @@ public class STD {
 						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
 //		msg_Log = "lastRefreshedDate => " + lastRefreshedDate
 //				+ ;
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -824,7 +824,7 @@ public class STD {
 						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
 		//msg_Log = "lastRefreshedDate => " + lastRefreshedDate
 		//		+ ;
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -854,7 +854,7 @@ public class STD {
 			
 			// Log
 			msg_Log = "cursor => null";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -867,7 +867,7 @@ public class STD {
 			
 			// Log
 			msg_Log = "EXTERNAL_CONTENT_URI => no entry";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -877,18 +877,18 @@ public class STD {
 		
 		// Log
 		msg_Log = "cursor: count => " + c.getCount();
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 //		// Log
-//		Log.d("Methods.java" + "["
+//		Log.d("STD.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "Last refreshed (in sec): " + String.valueOf(lastRefreshedDate / 1000));
 //
 //        actv.startManagingCursor(c);
 //        
 //        // Log
-//		Log.d("Methods.java" + "["
+//		Log.d("STD.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "c.getCount() => " + c.getCount());
 //
@@ -925,7 +925,7 @@ public class STD {
 			
 			// Log
 			msg_Log = "Setup can't be done => refresh_log  table";
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -935,7 +935,7 @@ public class STD {
 			
 			// Log
 			msg_Log = "setup done => rehresh log";
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -958,7 +958,7 @@ public class STD {
 					end,
 					Methods.conv_MillSec_to_TimeLabel(end));
 		
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -997,7 +997,7 @@ public class STD {
 				last_Refreshed,
 				Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
 				
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -1028,7 +1028,7 @@ public class STD {
 			
 			// Log
 			msg_Log = "cursor => null";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -1041,7 +1041,7 @@ public class STD {
 			
 			// Log
 			msg_Log = "EXTERNAL_CONTENT_URI => no entry";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -1051,18 +1051,18 @@ public class STD {
 		
 		// Log
 		msg_Log = "cursor: count => " + c.getCount();
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 //		// Log
-//		Log.d("Methods.java" + "["
+//		Log.d("STD.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "Last refreshed (in sec): " + String.valueOf(lastRefreshedDate / 1000));
 //
 //        actv.startManagingCursor(c);
 //        
 //        // Log
-//		Log.d("Methods.java" + "["
+//		Log.d("STD.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "c.getCount() => " + c.getCount());
 //
@@ -1103,7 +1103,7 @@ public class STD {
 
 			// Log
 			String msg_Log = "query => null";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -1118,7 +1118,7 @@ public class STD {
 
 			// Log
 			String msg_Log = "entry => < 1";
-			Log.e("Methods.java" + "["
+			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -1153,7 +1153,7 @@ public class STD {
 			
 			// Log
 			String msg_Log = "table exists => " + CONS.DB.tname_RefreshLog;
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			return true;
@@ -1173,7 +1173,7 @@ public class STD {
 
 		if (result == true) {
 			// Log
-			Log.d("Methods.java"
+			Log.d("STD.java"
 				+ "["
 				+ Thread.currentThread().getStackTrace()[2]
 				.getLineNumber() + "]", "Table created => " + CONS.DB.tname_RefreshLog);
@@ -1183,7 +1183,7 @@ public class STD {
 		} else {//if (result == true)
 			
 			// Log
-			Log.d("Methods.java"
+			Log.d("STD.java"
 				+ "["
 				+ Thread.currentThread().getStackTrace()[2]
 				.getLineNumber() + "]", 
@@ -1221,7 +1221,7 @@ public class STD {
 		if (src_dir_files.length < 1) {
 			
 			// Log
-			Log.d("Methods.java" + "["
+			Log.d("STD.java" + "["
 					+ Thread.currentThread()
 						.getStackTrace()[2].getLineNumber()
 					+ "]", "No files in the dir: " + src_dir);
@@ -1246,7 +1246,7 @@ public class STD {
 		
 		// Show the path of the latest file
 		// Log
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "f_src_latest=" + f_src_latest.getAbsolutePath());
 		
@@ -1269,7 +1269,7 @@ public class STD {
 		// Log
 		String msg_Log = "db path => " 
 					+ actv.getDatabasePath(CONS.DB.dbName).getPath();
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -1294,7 +1294,7 @@ public class STD {
 							"src = %s // dst = %s", 
 							src, dst_New);
 		
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -1309,7 +1309,7 @@ public class STD {
 							src, dst_New);
 		
 		// Log
-		Log.d("MainActv.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "res=" + res);
 		
@@ -1351,7 +1351,7 @@ public class STD {
 		// Log
 		String msg_Log = "db path => " 
 				+ actv.getDatabasePath(CONS.DB.dbName).getPath();
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -1376,7 +1376,7 @@ public class STD {
 				"src = %s // dst = %s", 
 				src, dst_New);
 		
-		Log.d("Methods.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -1392,7 +1392,7 @@ public class STD {
 				src, dst_New);
 		
 		// Log
-		Log.d("MainActv.java" + "["
+		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "res=" + res);
 		

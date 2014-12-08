@@ -29,7 +29,7 @@ public class RGB {
 			
 			// Log
 			msg_Log = "CONS.IMageActv.ti => null";
-			Log.d("Methods.java" + "["
+			Log.d("RGB.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -41,7 +41,7 @@ public class RGB {
 			
 			// Log
 			msg_Log = "CONS.IMageActv.bm_Modified => null";
-			Log.d("Methods.java" + "["
+			Log.d("RGB.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -51,7 +51,7 @@ public class RGB {
 		
 		// Log
 		msg_Log = "createing a new Bitmap instance...";
-		Log.d("Methods.java" + "["
+		Log.d("RGB.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -64,7 +64,7 @@ public class RGB {
 		msg_Log = String.format(
 				Locale.JAPAN,
 				"bmp_W => %d, bmp_H => %d", bmp_W, bmp_H);
-		Log.d("Methods.java" + "["
+		Log.d("RGB.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -79,7 +79,7 @@ public class RGB {
 
 		// Log
 		msg_Log = "pixels => obtained";
-		Log.d("Methods.java" + "["
+		Log.d("RGB.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -101,15 +101,15 @@ public class RGB {
 				
 				int pixel = pixels[x + y * bmp_W];
 				
-				if (count > 50 && count < 100) {
-					
-					// Log
-					msg_Log = "Color.red(pixel) => " + Color.red(pixel);
-					Log.d("Methods.java"
-							+ "["
-							+ Thread.currentThread().getStackTrace()[2]
-									.getLineNumber() + "]", msg_Log);
-				}
+//				if (count > 50 && count < 100) {
+//					
+//					// Log
+//					msg_Log = "Color.red(pixel) => " + Color.red(pixel);
+//					Log.d("RGB.java"
+//							+ "["
+//							+ Thread.currentThread().getStackTrace()[2]
+//									.getLineNumber() + "]", msg_Log);
+//				}
 				
 				col_R[Color.red(pixel)] ++;
 				col_G[Color.green(pixel)] ++;
@@ -122,15 +122,15 @@ public class RGB {
 		}//for (int y = 0; y < bmp_H; y++)
 
 		
-		for (int i = 100; i < 150; i++) {
-			
-			// Log
-			msg_Log = "col_R[" + i + "] => " + col_R[i];
-			Log.d("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-		}
+//		for (int i = 100; i < 150; i++) {
+//			
+//			// Log
+//			msg_Log = "col_R[" + i + "] => " + col_R[i];
+//			Log.d("RGB.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}
 		
 		////////////////////////////////
 
@@ -259,23 +259,26 @@ public class RGB {
 		// process
 
 		////////////////////////////////
-		int col_Cur;
-		int col_N;
+//		int col_Cur;
+//		int col_N;
 		
-		int[] cols = CONS.Canvas.col_R_adj;
-		
-		int i = 0;
-		
-		col_Cur = cols[0];
-//		col_N = cols[i + 1];
-		
-		int tmp;
-		
-		int incli = 1;
+//		int[] cols = CONS.Canvas.col_R_adj;
+//		
+//		int i = 0;
+//		
+//		col_Cur = cols[0];
+////		col_N = cols[i + 1];
+//		
+//		int tmp;
+//		
+//		int incli = 1;
 		
 		List<Integer> list_Lows = new ArrayList<Integer>();
 		List<Integer> list_Highs = new ArrayList<Integer>();
 		
+		RGB._highLows__ForLoop(actv, list_Lows, list_Highs, range);
+
+		/***************
 		for (i = 1; i < cols.length - 1; i++) {
 			
 			tmp = cols[i];	// get next value
@@ -398,8 +401,192 @@ public class RGB {
 			}//if (col_N > col_Cur)
 			
 		}//for (int i = 0; i < CONS.Canvas.col_R_adj.length; i++)
+	 	**************/
+		
+		// Log
+		msg_Log = "HighsLows => done";
+		Log.d("RGB.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// report
+
+		////////////////////////////////
+		// Log
+		msg_Log = "list_Lows.size() => " + list_Lows.size()
+				+ " / "
+				+ "list_Highs.size() => " + list_Highs.size();
+		
+		Log.d("RGB.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 	}//get_RGB_HighsLows
+
+	private static void 
+	_highLows__ForLoop
+	(Activity actv,
+		List<Integer> list_Lows, List<Integer> list_Highs, int range) {
+		// TODO Auto-generated method stub
+
+		String msg_Log;
+		
+		int[] cols = CONS.Canvas.col_R_adj;
+		
+		int col_Cur = cols[0], col_N, tmp, incli = 1, i = 0;
+
+//		col_Cur = cols[0];
+		
+		for (i = 1; i < cols.length - 1; i++) {
+			
+			tmp = cols[i];	// get next value
+
+			////////////////////////////////
+
+			// validate
+
+			////////////////////////////////
+			if (tmp == 0 && col_Cur >= range * 0.1) {
+				
+				continue;
+				
+			}
+
+			////////////////////////////////
+
+			// next value	:p2
+
+			////////////////////////////////
+			col_N = tmp;
+			
+			////////////////////////////////
+
+			// judge: 		:j3
+
+			////////////////////////////////
+			if (col_N > col_Cur) {
+				
+				if (incli == 1) {
+					
+					// update: incli => remains 1
+					incli = 1;
+					
+					// update: col_Cur
+					col_Cur = col_N;
+					
+				} else if (incli == -1) {
+					
+					list_Lows.add(col_Cur);
+
+					msg_Log = String.format(
+								Locale.JAPAN, 
+								"Lows: col_Cur = %d, col_N = %d, incli = %d (i = %d)", 
+								col_Cur, col_N, incli, i);
+
+					Log.d("RGB.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					
+					// update: incli => change to 1
+					incli = 1;
+					
+					// update: col_Cur
+					col_Cur = col_N;
+					
+				} else {
+					
+					// Log
+					msg_Log = "incli =>+ unknown value: " + incli
+							+ "(i = " + i + ")";
+					
+					Log.d("RGB.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					// update: incli => force-change to 1
+					incli = 1;
+					
+					// update: col_Cur
+					col_Cur = col_N;
+					
+				}//if (incli == 1)
+				
+			} else if (col_N < col_Cur) {//if (col_N > col_Cur)
+
+				if (incli == 1) {
+					
+					list_Highs.add(col_Cur);
+
+					list_Lows.add(col_Cur);
+
+					msg_Log = String.format(
+								Locale.JAPAN, 
+								"Highs: col_Cur = %d, col_N = %d, incli = %d (i = %d)", 
+								col_Cur, col_N, incli, i);
+
+					Log.d("RGB.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+
+					// update: incli => change to -1
+					incli = -1;
+					
+					// update: col_Cur
+					col_Cur = col_N;
+					
+				} else if (incli == -1) {
+					
+					// update: incli => remains -1
+					incli = -1;
+					
+					// update: col_Cur
+					col_Cur = col_N;
+					
+				} else {
+					
+					// Log
+					msg_Log = "incli =>+ unknown value: " + incli
+							+ "(i = " + i + ")";
+					
+					Log.d("RGB.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					// update: incli => force-change to -1
+					incli = -1;
+					
+					// update: col_Cur
+					col_Cur = col_N;
+					
+				}//if (incli == 1)
+				
+			} else if (col_N == col_Cur) {//if (col_N > col_Cur)
+				
+				// update: col_Cur
+				col_Cur = col_N;
+				
+			} else {//if (col_N > col_Cur)
+
+				// Log
+				msg_Log = "col_N, col_Cur => comparison undecided";
+				Log.i("RGB.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			}//if (col_N > col_Cur)
+			
+		}//for (int i = 0; i < CONS.Canvas.col_R_adj.length; i++)
+
+	}//_highLows__ForLoop
+	
 
 	private static int[] 
 	adj_Pixel_Values
