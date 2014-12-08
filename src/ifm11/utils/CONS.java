@@ -781,178 +781,14 @@ public class CONS {
 		////////////////////////////////
 		public static int lineWidth		= 10;
 		
-		public static enum ChosenObj {
-			
-			Rect_A, Rect_B, Cir_A, Rect_C,
-			
-			Others,
-			
-		}
+		public static List<Long> list_Lows_R;
+		public static List<Long> list_Highs_R;
 		
-		public static ChosenObj currentObj;
-
-		public static List<Layer> list_Layer = null;
+		public static List<Long> list_Lows_G;
+		public static List<Long> list_Highs_G;
 		
-		public static enum Layer {
-			
-			Cir_A, Rect_A, Rect_B, Rect_C
-			
-		}
-		
-		////////////////////////////////
-
-		// onClick-related
-
-		////////////////////////////////
-		public static float x_Down;
-		public static float y_Down;
-		
-		public static float x_Up;
-		public static float y_Up;
-		
-		public static float diff_X;
-		public static float diff_Y;
-		
-		////////////////////////////////
-
-		// box A
-
-		////////////////////////////////
-		public static long Ax1;
-		public static long Ay1;
-		
-		public static long AH;
-		public static long AW;
-
-		public static float[] pointsA;
-		
-		public static int lineWidth_A	= lineWidth;
-		
-		////////////////////////////////
-
-		// box B
-
-		////////////////////////////////
-		public static long Bx1;
-		public static long By1;
-		
-		public static long BH;
-		public static long BW;
-		
-		public static float[] pointsB;
-		
-		public static int lineWidth_B	= lineWidth;
-		
-		////////////////////////////////
-		
-		// circle: A
-		
-		////////////////////////////////
-		public static float Cir_A_X;
-		public static float Cir_A_Y;
-		
-		public static float Cir_A_Radius;
-		
-		public static int LineWidth_Cir_A	= lineWidth;
-		
-		public static float Cir_A_Radius_dflt = 100;
-		
-		public static float Cir_A_X_prev;
-		public static float Cir_A_Y_prev;
-		
-		public static float Cir_A_DOWN_X;
-		public static float Cir_A_DOWN_Y;
-		
-		////////////////////////////////
-		
-		// rect: A
-		
-		////////////////////////////////
-		public static float Rect_A_X1;
-		public static float Rect_A_Y1;
-		
-		public static float Rect_A_X2;
-		public static float Rect_A_Y2;
-		
-		public static float Rect_A_W;
-		public static float Rect_A_H;
-		
-		public static int LineWidth_Rect_A	= lineWidth;
-		
-		public static float Rect_A_X1_prev;
-		public static float Rect_A_Y1_prev;
-		
-		// paint
-		public static Paint p_Rect_A;
-		
-		// flag
-		public static boolean Draw_Rect_A		= false;
-
-		// prev position
-		public static float Rect_A_X_prev;
-		public static float Rect_A_Y_prev;
-
-		// distance to the base point
-		public static float Rect_A_X_dist_from_base;
-		public static float Rect_A_Y_dist_from_base;
-		
-		////////////////////////////////
-		
-		// rect: B
-		
-		////////////////////////////////
-		public static float Rect_B_X1;
-		public static float Rect_B_Y1;
-		
-		public static float Rect_B_X2;
-		public static float Rect_B_Y2;
-		
-		public static float Rect_B_W;
-		public static float Rect_B_H;
-		
-		public static int LineWidth_Rect_B	= lineWidth;
-		
-		public static float Rect_B_X1_prev;
-		public static float Rect_B_Y1_prev;
-
-		// distance to the base point
-		public static float Rect_B_X_dist_from_base;
-		public static float Rect_B_Y_dist_from_base;
-
-		// paint
-		public static Paint p_Rect_B;
-		
-		// flag
-		public static boolean Draw_Rect_B		= false;
-		
-		////////////////////////////////
-		
-		// rect: C
-		
-		////////////////////////////////
-		public static float Rect_C_X1;
-		public static float Rect_C_Y1;
-		
-		public static float Rect_C_X2;
-		public static float Rect_C_Y2;
-		
-		public static float Rect_C_W;
-		public static float Rect_C_H;
-		
-		public static int LineWidth_Rect_C	= lineWidth;
-		
-		public static float Rect_C_X1_prev;
-		public static float Rect_C_Y1_prev;
-		
-		// distance to the base point
-		public static float Rect_C_X_dist_from_base;
-		public static float Rect_C_Y_dist_from_base;
-		
-		// paint
-		public static Paint p_Rect_C;
-		
-		// flag
-		public static boolean Draw_Rect_C		= false;
+		public static List<Long> list_Lows_B;
+		public static List<Long> list_Highs_B;
 		
 		////////////////////////////////
 
@@ -960,26 +796,35 @@ public class CONS {
 
 		////////////////////////////////
 		public static Paint p1;
-		
-		public static Paint p_A;
-		public static Paint p_B;
-		
-		public static Paint p_Cir_A;
-		
-//		public static Paint p_Rect_A;
+
+
+		////////////////////////////////
+
+		// data
+
+		////////////////////////////////
+		public static int[] col_R_adj;
+		public static int[] col_G_adj;
+		public static int[] col_B_adj;
 		
 		////////////////////////////////
 
 		// flags
 
 		////////////////////////////////
-		public static boolean DrawA		= false;
+		public static boolean f_RGB_Lines		= false;
 		
-		public static boolean DrawB		= false;
+		////////////////////////////////
+
+		// color names
+
+		////////////////////////////////
+		public static enum ColNames {
+			
+			RED, GREEN, BLUE
+			
+		}
 		
-		public static boolean Draw_Circle_A		= false;
-		
-//		public static boolean Draw_Rect_A		= false;
 		
 	}
 

@@ -7,6 +7,7 @@ import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.STD;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.content.Context;
@@ -141,9 +142,24 @@ public class ImageActv extends Activity {
 				+ Thread.currentThread().getStackTrace()[2].getMethodName()
 				+ "]", "file_path=" + file_path);
 		
-//		Bitmap bm = BitmapFactory.decodeFile(file_path);
-		bm = BitmapFactory.decodeFile(file_path);
-		
+		try {
+			
+			//		Bitmap bm = BitmapFactory.decodeFile(file_path);
+			bm = BitmapFactory.decodeFile(file_path);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			// Log
+			String msg_Log = "exception";
+			Log.e("ImageActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			e.printStackTrace();
+			
+			return;
+			
+		}
 		
 		CONS.IMageActv.bm_Modified = set_image_1_modify_bitmap(bm);
 //		bm_modified = set_image_1_modify_bitmap(bm);
@@ -423,7 +439,7 @@ public class ImageActv extends Activity {
 						CONS.IMageActv.ti, 
 						CONS.DB.col_names_IFM11_full[10],
 						Methods.conv_MillSec_to_TimeLabel(
-								Methods.getMillSeconds_now())
+								STD.getMillSeconds_now())
 						);
 		
 		String msg = null;

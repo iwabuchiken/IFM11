@@ -2,6 +2,7 @@ package ifm11.tasks;
 
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.STD;
 import android.app.Activity;
 import android.os.AsyncTask;
 
@@ -21,7 +22,7 @@ public class Task_RefreshDB extends AsyncTask<String, Integer, Integer> {
 	protected Integer doInBackground(String... arg0) {
 		// TODO Auto-generated method stub
 		
-		return Methods.refresh_MainDB(actv);
+		return STD.refresh_MainDB(actv);
 		
 	}
 

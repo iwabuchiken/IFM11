@@ -4,12 +4,15 @@ package ifm11.listeners.dialog;
 import ifm11.items.ListItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
+import ifm11.main.ImageActv;
 import ifm11.main.R;
 import ifm11.tasks.Task_RefreshDB;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.RGB;
+import ifm11.utils.STD;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.app.Dialog;
@@ -131,6 +134,14 @@ public class DOI_CL implements OnItemClickListener {
 			----------------------------*/
 		switch (tag) {
 		
+		case ACTV_CANVAS_OPS://----------------------------------------------
+			
+			li = (ListItem) parent.getItemAtPosition(position);
+			
+			case_ACTV_CANVAS_OPS(li);
+			
+			break;// case dlg_add_memos_gv
+			
 		case ACTV_IMAGE_OPTMENU_LABS://----------------------------------------------
 			
 			li = (ListItem) parent.getItemAtPosition(position);
@@ -261,6 +272,40 @@ public class DOI_CL implements OnItemClickListener {
 		}//switch (tag)
 		
 	}//public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+
+	private void 
+	case_ACTV_CANVAS_OPS
+	(ListItem li) {
+		// TODO Auto-generated method stub
+
+		if (li.getText().equals(actv.getString(
+				R.string.menu_actv_canvas_Ops__GetRGB))) {
+
+			RGB.show_RGB(actv);
+			
+			ImageActv.bm.recycle();
+			
+			// Log
+			String msg_Log = "ImageActv.bm => recycled";
+			Log.d("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			d1.dismiss();
+			
+//		} else if (li.getText().equals(actv.getString(
+//				R.string.opt_Menu_LABS__Rotate_Image))) {
+			
+//			Methods.roate_Image(actv);
+//			
+//			d1.dismiss();
+			
+		} else {
+			
+		}
+
+	}//case_ACTV_CANVAS_OPS
+	
 
 	private void 
 	case_ACTV_IMAGE_OPTMENU_LABS
@@ -756,7 +801,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (li.getText().equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_restore_db))) {
 			
-			Methods.restore_DB(actv);
+			STD.restore_DB(actv);
 			
 		////////////////////////////////
 		
@@ -766,7 +811,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (li.getText().equals(actv.getString(		// Drop table: cm7
 				R.string.dlg_db_admin_item_import_db_file))) {
 			
-			Methods.import_DB(actv, d1);
+			STD.import_DB(actv, d1);
 			
 			return;
 			

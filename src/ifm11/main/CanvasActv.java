@@ -6,6 +6,7 @@ import ifm11.listeners.view.V_OCL;
 import ifm11.listeners.view.V_OTL;
 import ifm11.utils.CONS;
 import ifm11.utils.Methods;
+import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
 import ifm11.utils.Tags.ButtonTags;
 import android.app.Activity;
@@ -109,23 +110,26 @@ public class CanvasActv extends Activity {
 	}//public void onBackPressed()
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean 
+	onCreateOptionsMenu
+	(Menu menu) {
 		// 
-//		MenuInflater mi = getMenuInflater();
-//		mi.inflate(R.menu.menu_actv_main, menu);
+		MenuInflater mi = getMenuInflater();
+		mi.inflate(R.menu.menu_actv_canvas, menu);
 		
 		return super.onCreateOptionsMenu(menu);
+		
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
-//		case R.id.menu_main_admin://----------------------------------
-//			
-//			Methods_dlg.dlg_ACTV_MAIN_Admin(this);
-//			
-//			break;// case R.id.main_opt_menu_create_folder
+		case R.id.menu_actv_canvas_opts://----------------------------------
+			
+			Methods_dlg.dlg_ACTV_CANVAS_Ops(this);
+			
+			break;// case R.id.main_opt_menu_create_folder
 			
 		}//switch (item.getItemId())
 		
@@ -178,7 +182,36 @@ public class CanvasActv extends Activity {
 		
 		_Setup__SetListener();
 
+		////////////////////////////////
+
+		// draw
+
+		////////////////////////////////
+		_Setup_Draw();
+		
 	}//protected void onStart()
+
+	private void 
+	_Setup_Draw() {
+		// TODO Auto-generated method stub
+		
+		ifm11.views.CV cv = (ifm11.views.CV) findViewById(R.id.actv_main_cv_canvas);
+		
+		////////////////////////////////
+		
+		// paint
+		
+		////////////////////////////////
+		Paint paint = new Paint();
+		paint.setColor(Color.BLUE);
+//		paint.setColor(0xFF4444FF);
+//		paint.setStyle(Paint.Style.FILL);
+		paint.setStrokeWidth(10);
+
+		cv.drawLine(0, 0, 100, 100, paint);
+//		cv.drawLine(10, 10, 100, 100, paint);
+		
+	}
 
 	private void 
 	_Setup__SetListener() {

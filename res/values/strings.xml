@@ -216,4 +216,9 @@
     	<string name="menu_showlist_filter">Filter</string>
     	<string name="menu_showlist_filter_history">Filter history</string>
     	
+    	
+    <!-- dlg: canvas_Ops -->	
+    	<string name="menu_actv_canvas_Ops">Ops</string>
+    	<string name="menu_actv_canvas_Ops__GetRGB">Get RGB</string>
+    	
 </resources>

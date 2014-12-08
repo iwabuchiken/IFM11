@@ -14,6 +14,7 @@ import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
+import ifm11.utils.STD;
 import ifm11.utils.Tags;
 import android.app.Activity;
 import android.app.Dialog;
@@ -584,7 +585,7 @@ public class DB_OCL implements OnClickListener {
 		////////////////////////////////
 		String fpath_DB = Methods.get_DB_path(actv);
 		
-		res_b = Methods.import_DB(actv, fpath_DB);
+		res_b = STD.import_DB(actv, fpath_DB);
 		
 		/******************************
 			validate
