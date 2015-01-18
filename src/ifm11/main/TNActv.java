@@ -79,25 +79,6 @@ public class TNActv extends ListActivity {
 			----------------------------*/
 		this.setTitle(this.getClass().getName());
 		
-//		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-//		
-//		/*----------------------------
-//		 * 4. Set up
-//			----------------------------*/
-//		set_listeners();
-//		
-//		set_list();
-//
-////		// Log
-////		Log.d("TNActv.java" + "["
-////				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-////				+ "]", "Table name: " + Methods.convert_path_into_table_name(this));
-//		
-//		/*----------------------------
-//		 * 5. Initialize vars
-//			----------------------------*/
-//		checkedPositions = new ArrayList<Integer>();
-		
 	}//public void onCreate(Bundle savedInstanceState)
 
 
@@ -924,9 +905,36 @@ public class TNActv extends ListActivity {
 
 	@Override
 	public void onBackPressed() {
-		/*----------------------------
-		 * memo
-			----------------------------*/
+		
+		////////////////////////////////
+
+		// reset: move mode
+
+		////////////////////////////////
+		if (CONS.TNActv.moveMode == true) {
+			
+			CONS.TNActv.moveMode = false;
+			
+//			MenuItem mi = CONS.TNActv.menu.getItem(0);
+//			
+//			// Log
+//			String msg_Log = "mi => " + mi.getTitle().toString();
+//			Log.d("TNActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			Methods.reset_MoveMode_True(this, mi);
+			
+		}//if (move_mode == true)
+
+		
+		
+		
+		////////////////////////////////
+
+		// finish
+
+		////////////////////////////////
 		this.finish();
 		
 		overridePendingTransition(0, 0);

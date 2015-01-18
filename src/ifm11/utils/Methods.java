@@ -3517,6 +3517,12 @@ public class Methods {
 			
 		}
 
+		// Log
+		String msg_Log = "listType =" + listType;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		////////////////////////////////
 
 		// rebuild: tiList
@@ -3538,8 +3544,10 @@ public class Methods {
 		
 		Methods.sort_List_TI(
 						CONS.TNActv.list_TNActv_Main, 
-						CONS.Enums.SortType.CREATED_AT, 
-						CONS.Enums.SortOrder.ASC);
+						CONS.Enums.SortType.FileName, 
+//						CONS.Enums.SortType.CREATED_AT, 
+						CONS.Enums.SortOrder.DESC);
+//		CONS.Enums.SortOrder.ASC);
 		
 		////////////////////////////////
 
@@ -3707,6 +3715,117 @@ public class Methods {
 		
 	}//_moveMode_True
 
+	public static void 
+	reset_MoveMode_True
+	(Activity actv, MenuItem item) {
+		
+		
+		////////////////////////////////
+		
+		// get: environs
+		
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Current path => null";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		
+		String tableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		////////////////////////////////
+		
+		// icon => change
+		
+		////////////////////////////////
+		item.setIcon(R.drawable.ifm8_thumb_actv_opt_menu_move_mode_off);
+		
+		if (CONS.TNActv.menu != null) {
+			
+			// Log
+			String msg_Log = "CONS.TNActv.menu => not null";
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+		
+		// move mode
+		
+		////////////////////////////////
+		CONS.TNActv.moveMode = false;
+		
+		////////////////////////////////
+		
+		// rebuild: tiList
+		
+		////////////////////////////////
+		CONS.TNActv.list_TNActv_Main.clear();
+		
+		List<TI> ti_List_Move = DBUtils.find_All_TI(actv, tableName);
+		
+		if (ti_List_Move != null) {
+			
+			CONS.TNActv.list_TNActv_Main.addAll(ti_List_Move);
+//			DBUtils.find_All_TI(actv, cur_TableName));
+			
+		}
+		
+//		CONS.TNActv.list_TNActv_Main.addAll(DBUtils.find_All_TI(actv, tableName));
+		
+		Methods.sort_List_TI(
+				CONS.TNActv.list_TNActv_Main, 
+				CONS.Enums.SortType.CREATED_AT, 
+				CONS.Enums.SortOrder.ASC);
+		
+		////////////////////////////////
+		
+		// checked positions
+		
+		////////////////////////////////
+		if (CONS.TNActv.checkedPositions != null) {
+			
+			CONS.TNActv.checkedPositions.clear();
+			
+		}
+		
+		////////////////////////////////
+		
+		// adapter
+		
+		////////////////////////////////
+		CONS.TNActv.adp_TNActv_Main = new Adp_TIList(
+				actv,
+				R.layout.list_row,
+//			R.layout.thumb_activity,
+				CONS.TNActv.list_TNActv_Main
+				);
+		
+		////////////////////////////////
+		
+		// Set adapter
+		
+		////////////////////////////////
+		((ListActivity) actv).setListAdapter(CONS.TNActv.adp_TNActv_Main);
+		
+		
+	}//reset_MoveMode_True
+	
 	/******************************
 		@return null => 1. dpath_Target ==> Dir doesn't exist<br>
 						2. listFiles ==> returned null
