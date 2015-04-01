@@ -9,6 +9,7 @@ import ifm11.utils.Methods_dlg;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -51,7 +52,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		this.actv = actv;
 		
 		// Log
-		Log.d("SearchTask.java" + "["
+		Log.d("Task_Search.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "Starts => SearchTask(Activity actv)");
 		
@@ -67,7 +68,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		string_searchedItems_table_names = null;
 
 //		// Log
-//		Log.d("SearchTask.java" + "["
+//		Log.d("Task_Search.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "Starts => SearchTask(Activity actv, int search_mode)");
 
@@ -92,14 +93,14 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 	protected Integer doInBackground(String[]... sw) {
 		
 		// Log
-		Log.d("SearchTask.java" + "["
+		Log.d("Task_Search.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "sw.length=" + sw.length);
 		
-		if(search_mode == 0) {
+		if(search_mode == 0) {		// 0 => Specific table (default)
 			
 			// Log
-			Log.d("SearchTask.java" + "["
+			Log.d("Task_Search.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Calling => doInBackground_specific_table(sw)");
 			
@@ -108,7 +109,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		} else {
 
 			// Log
-			Log.d("SearchTask.java" + "["
+			Log.d("Task_Search.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Calling => doInBackground_all_table(sw)");
 
@@ -164,6 +165,19 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		
 		String[] keywords = sw[0];
 		
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"sw[0].length=%d", sw[0].length
+				);
+		
+		Log.d("Task_Search.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		CONS.TNActv.searchedItems = _Search__AllTable(keywords);
 //		List<Long> searchedItems = this._Search__AllTable(keywords);
 //		List<Long> searchedItems = new ArrayList<Long>();
@@ -178,7 +192,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 //			String sql = "SELECT * FROM " + targetTable;
 //			
 //			// Log
-//			Log.d("SearchTask.java" + "["
+//			Log.d("Task_Search.java" + "["
 //					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //					+ "]", "targetTable: " + targetTable);
 //			
@@ -217,8 +231,9 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		}
 		
 		// Log
-		String msg_Log = "searchedItems.size() => " + len;
-		Log.d("SearchTask.java" + "["
+//		String msg_Log = null;
+		msg_Log = "searchedItems.size() => " + len;
+		Log.d("Task_Search.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -270,7 +285,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		String targetTable = sw[1][0];
 		
 		// Log
-		Log.d("SearchTask.java" + "["
+		Log.d("Task_Search.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "targetTable=" + targetTable);
 		
@@ -300,7 +315,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		
 		// Log
 		String msg_Log = "searchedItems.size() => " + len;
-		Log.d("SearchTask.java" + "["
+		Log.d("Task_Search.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 
@@ -323,11 +338,11 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 //		 * 4. Set up intent
 //			----------------------------*/
 //		// Log
-//		Log.d("SearchTask.java" + "["
+//		Log.d("Task_Search.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "long_searchedItems.length => " + long_searchedItems.length);
 //		
-//		Log.d("SearchTask.java" + "["
+//		Log.d("Task_Search.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "long_searchedItems[0] => " + long_searchedItems[0]);
 //		
@@ -509,7 +524,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 //					if (memo.matches(".*" + string + ".*")) {
 					
 					// Log
-					Log.d("SearchTask.java"
+					Log.d("Task_Search.java"
 							+ "["
 							+ Thread.currentThread().getStackTrace()[2]
 									.getLineNumber() + "]", "memo => " + target);
@@ -673,7 +688,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 //		String sql = "SELECT * FROM " + targetTable;
 //		
 //		// Log
-//		Log.d("SearchTask.java" + "["
+//		Log.d("Task_Search.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", "targetTable: " + targetTable);
 //		
@@ -692,12 +707,38 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 		int i;	// counter for cursor iteration
 		int j;	// counter for keywords iteration
 		
-		for (i = 0; i < c.getCount(); i++) {
+		String memo = null;
+
+		int max = c.getCount();
+		
+		for (i = 0; i < max; i++) {
+//			for (i = 0; i < c.getCount(); i++) {
 //			for (int i = 0; i < c.getCount(); i++) {
 			
+//			android.provider.BaseColumns._ID,		// 0
+//			"created_at", "modified_at",			// 1,2
+//			"file_id", "file_path", "file_name",	// 3,4,5
+//			"date_added", "date_modified",			// 6,7
+//			"memos", "tags",						// 8,9
+//			"last_viewed_at",						// 10
+//			"table_name",							// 11
+//			"uploaded_at",							// 12
+
 //			String memo = c.getString(6);
-			String memo = c.getString(8);	// memos
+//			String memo = c.getString(8);	// memos
 			
+//			memo = c.getString(8);	// memos
+			
+			if (this.search_Type == 0) {
+				
+				memo = c.getString(8);	// memos
+				
+			} else {//if (this.search_Type == 0)
+				
+				memo = c.getString(5);	// file_name
+				
+			}//if (this.search_Type == 0)
+
 			if (memo == null) {
 				
 				c.moveToNext();
@@ -705,6 +746,23 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 				continue;
 				
 			}//if (memo == null)
+
+			//debug
+			if (i < 20) {
+				
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"memo=%s", memo
+						);
+				
+				Log.d("Task_Search.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+			}
 			
 			for(j = 0; j < keywords.length; j ++) {
 				
@@ -712,7 +770,7 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 //					if (memo.matches(".*" + string + ".*")) {
 					
 					// Log
-					Log.d("SearchTask.java"
+					Log.d("Task_Search.java"
 							+ "["
 							+ Thread.currentThread().getStackTrace()[2]
 									.getLineNumber() + "]", "memo => " + memo);
@@ -815,80 +873,6 @@ public class Task_Search extends AsyncTask<String[], Integer, Integer>{
 
 		actv.startActivity(i);
 		
-//		// debug
-////		Toast.makeText(actv, result, 2000).show();
-//		// Log
-//		Log.d("SearchTask.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", result);
-//		
-//
-//		/*----------------------------
-//		 * 1. Set up intent
-//			----------------------------*/
-//		// Log
-//		Log.d("SearchTask.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "long_searchedItems.length => " + long_searchedItems.length);
-//		
-//		if(long_searchedItems.length > 0) {
-//			
-//			Log.d("SearchTask.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", "long_searchedItems[0] => " + long_searchedItems[0]);
-//			
-//			Intent i = new Intent();
-//			
-//			i.setClass(actv, TNActv.class);
-//			
-//			i.putExtra("long_searchedItems", long_searchedItems);
-//			
-//			if (string_searchedItems_table_names != null &&
-//					string_searchedItems_table_names.length > 0) {	
-//				
-//				i.putExtra(
-////						"string_searchedItems_table_names",
-//						MainActv.intent_label_searchedItems_table_names,
-//						string_searchedItems_table_names);
-//				
-//			}//if (variable == condition)
-////				i.putExtra("string_searchedItems_table_names", string_searchedItems_table_names);
-//
-//			// Log
-//			if (string_searchedItems_table_names != null) {
-//				
-//				Log.d("SearchTask.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", 
-//						"string_searchedItems_table_names.length="
-//							+ string_searchedItems_table_names.length);
-//				
-//			} else {//if (string_searchedItems_table_names != null)
-//
-//				Log.d("SearchTask.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", 
-//						"string_searchedItems_table_names => Null");
-//
-//			}//if (string_searchedItems_table_names != null)
-//			
-////			Log.d("SearchTask.java" + "["
-////					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-////					+ "]", 
-////					"string_searchedItems_table_names.length="
-////						+ string_searchedItems_table_names.length);
-//			
-//			/*----------------------------
-//			 * 2. Start activity
-//				----------------------------*/
-//			actv.startActivity(i);
-//			
-//		} else {
-//			
-//			// debug
-//			Toast.makeText(actv, "������܂���ł���", 2000).show();
-//		}
-
 	}//protected void onPostExecute(String result)
 	
 	

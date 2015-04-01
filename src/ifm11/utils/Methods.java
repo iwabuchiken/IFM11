@@ -4765,7 +4765,7 @@ public class Methods {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 
-		// Checkbox => all table
+		// Checkbox => by file name
 		CheckBox cb_FileName = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_file_name);
 		
 		int search_Type = 0;	// 0 => Specific table (default)
