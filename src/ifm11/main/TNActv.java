@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -243,18 +244,13 @@ public class TNActv extends ListActivity {
 		
 		////////////////////////////////
 		this._Setup_SetListeners_Navigation();
-		
-//		/*----------------------------
-//		 * 5. Initialize vars
-//			----------------------------*/
-//		checkedPositions = new ArrayList<Integer>();
 
-		////////////////////////////////
-
-		// test
-
-		////////////////////////////////
-		this.do_debug();
+//		////////////////////////////////
+//
+//		// test
+//
+//		////////////////////////////////
+//		this.do_debug();
 		
 	}//protected void onStart()
 
@@ -417,6 +413,32 @@ public class TNActv extends ListActivity {
 				//			main_opt_move_disabled
 
 				item_MoveFiles.setEnabled(false);
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"CONS.TNActv.menu != null"
+						);
+				
+				Log.i("TNActv.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+			}
+			
+			//debug
+			else {
+				
+				// Log
+//				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"CONS.TNActv.menu => null"
+						);
+				
+				Log.e("TNActv.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
 				
 			}
 			

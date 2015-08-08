@@ -114,19 +114,42 @@ public class CONS {
 		// Do not hardcode "/data/"; use Context.getFilesDir().getPath()
 //		public static String dPath_dbFile = "/data/data/cm7.main/databases";
 
-		public final static String dPath_Data_SDCard_Ext = "/mnt/sdcard-ext";
+		public static String dPath_Data_SDCard_Ext = "/mnt/sdcard-ext";
 		
-		public final static String dPath_Data_SDCard_Camera = 
+		public static String dPath_Data_SDCard_Camera = 
 						dPath_Data_SDCard_Ext + "/dcim/Camera";
 		
-		public final static String dPath_Data_Root = "/mnt/sdcard-ext/ifm11_data";
+		public static String dPath_Data_Root = "/mnt/sdcard-ext/ifm11_data";
 		
-		public final static String dPath_dbFile_backup = dPath_Data_Root + "/backup";
-//		public final static String dPath_dbFile_backup = dPath_Data_Root + "/ifm11_backup";
+		public static String dPath_dbFile_backup = dPath_Data_Root + "/backup";
+//		public static String dPath_dbFile_backup = dPath_Data_Root + "/ifm11_backup";
 //		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
 		
-		public final static String dPath_dbFile_backup_IFM10 = 
+		public static String dPath_dbFile_backup_IFM10 = 
 										"/mnt/sdcard-ext/IFM10_backup";
+		
+		public static String dPath_Log = dPath_Data_Root + "/log";
+		
+		// thumbnails
+		public static String dPath_TNs = dPath_Data_Root + "/tns";
+//		public final static String dPath_Data_SDCard_Ext = "/mnt/sdcard-ext";
+//		
+//		public final static String dPath_Data_SDCard_Camera = 
+//				dPath_Data_SDCard_Ext + "/dcim/Camera";
+//		
+//		public final static String dPath_Data_Root = "/mnt/sdcard-ext/ifm11_data";
+//		
+//		public final static String dPath_dbFile_backup = dPath_Data_Root + "/backup";
+////		public final static String dPath_dbFile_backup = dPath_Data_Root + "/ifm11_backup";
+////		public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
+//		
+//		public final static String dPath_dbFile_backup_IFM10 = 
+//				"/mnt/sdcard-ext/IFM10_backup";
+//		
+//		public final static String dPath_Log = dPath_Data_Root + "/log";
+//		
+//		// thumbnails
+//		public final static String dPath_TNs = dPath_Data_Root + "/tns";
 		
 //		public static String dPath_dbFile = 
 //							Methods.get_DirPath(new MainActv().getFilesDir().getPath());
@@ -134,8 +157,6 @@ public class CONS {
 		public final static String fname_DB_Backup_Trunk = "ifm11_backup";
 		
 		public final static String fname_DB_Backup_ext = ".bk";
-		
-		public final static String dPath_Log = dPath_Data_Root + "/log";
 		
 		public final static String fname_Log = "log.txt";
 		
@@ -147,9 +168,6 @@ public class CONS {
 		
 		// admin items
 		public static final String admin_LastBackup = "last_backup";
-		
-		// thumbnails
-		public final static String dPath_TNs = dPath_Data_Root + "/tns";
 		
 //		public static String dname_TapeATalk_Sdcard = "tapeatalk_records";
 		
@@ -373,6 +391,13 @@ public class CONS {
 					;
 			
 		}
+		
+		///////////////////////////////////
+		//
+		// others
+		//
+		///////////////////////////////////
+		public static String modelname_IS13SH	= "IS13SH";
 		
 	}//public static class DB
 
@@ -658,11 +683,11 @@ public class CONS {
 		
 		public static String dpath_Storage_Sdcard = "/mnt/sdcard-ext";
 		
+		public static String dpath_Storage_Camera = "/mnt/sdcard-ext/dcim/Camera";
+		
 		public static String dpath_Storage_Internal = "/mnt/sdcard";
 		
 		public static String  dname_Base = "ifm11";
-		
-		public static String dpath_Storage_Camera = "/mnt/sdcard-ext/dcim/Camera";
 		
 	}
 	

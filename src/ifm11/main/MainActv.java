@@ -29,6 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 
+
+
+
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Vibrator;
@@ -748,12 +751,19 @@ public class MainActv extends ListActivity {
 		
 		super.onStart();
 		
-		////////////////////////////////
+//		////////////////////////////////
+//
+//		// debug
+//
+//		////////////////////////////////
+//		do_debug();
 
-		// debug
-
-		////////////////////////////////
-		do_debug();
+		///////////////////////////////////
+		//
+		// re-install
+		//
+		///////////////////////////////////
+		reinstall_App();
 		
 		////////////////////////////////
 
@@ -858,6 +868,77 @@ public class MainActv extends ListActivity {
 		_Setup_AutoBK();
 		
 	}//protected void onStart()
+
+	private void reinstall_App() {
+		// TODO Auto-generated method stub
+		
+        // Log
+		String msg_Log;
+		
+		//REF model name http://stackoverflow.com/questions/7071281/get-android-device-name answered Aug 15 '11 at 22:07
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"model name => %s", android.os.Build.MODEL
+				);
+		
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		///////////////////////////////////
+		//
+		// edit: paths
+		//
+		///////////////////////////////////
+		///////////////////////////////////
+		//
+		// adjust: adjust paths by model names
+		//
+		///////////////////////////////////
+		// data root path
+		if (android.os.Build.MODEL.equals(CONS.DB.modelname_IS13SH)) {
+
+			CONS.DB.dPath_Data_SDCard_Ext = "/mnt/sdcard";
+//			CONS.DB.dPath_Data_SDCard_Ext = "/mnt/sdcard-ext";
+			
+			CONS.DB.dPath_Data_SDCard_Camera = 
+							CONS.DB.dPath_Data_SDCard_Ext + "/dcim/Camera";
+			
+			CONS.DB.dPath_Data_Root = "/mnt/sdcard/ifm11_data";
+//			CONS.DB.dPath_Data_Root = "/mnt/sdcard-ext/ifm11_data";
+			
+			CONS.DB.dPath_dbFile_backup = CONS.DB.dPath_Data_Root + "/backup";
+//			CONS.DB.dPath_dbFile_backup = dPath_Data_Root + "/ifm11_backup";
+//			public static String dPath_dbFile_backup = "/mnt/sdcard-ext/ifm11_backup";
+			
+			CONS.DB.dPath_dbFile_backup_IFM10 = 
+											"/mnt/sdcard/IFM10_backup";
+//			"/mnt/sdcard-ext/IFM10_backup";
+			
+			CONS.DB.dPath_Log = CONS.DB.dPath_Data_Root + "/log";
+			
+			// thumbnails
+			CONS.DB.dPath_TNs = CONS.DB.dPath_Data_Root + "/tns";
+			
+			CONS.Paths.dpath_Storage_Sdcard = "/mnt/sdcard";
+			
+			CONS.Paths.dpath_Storage_Camera = "/mnt/sdcard/dcim/Camera";
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"paths => modified"
+					);
+			
+			Log.i("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+	}//reinstall_App
 
 	private void 
 	_Setup_AutoBK() {
