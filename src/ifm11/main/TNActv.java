@@ -827,6 +827,16 @@ public class TNActv extends ListActivity {
 		
 		}
 		
+		///////////////////////////////////
+		//
+		// sort
+		//
+		///////////////////////////////////
+		Methods.sort_List_TI(
+						CONS.TNActv.list_TNActv_Main, 
+						CONS.Enums.SortType.FileName, 
+						CONS.Enums.SortOrder.DESC);
+		
 	}//_Setup_SetList__Search
 
 
