@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -245,33 +247,6 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			----------------------------*/
 		CheckBox cb = (CheckBox) v.findViewById(R.id.list_row_checked_box_checkBox1);
 		
-//		cb.setTag(Tags.ButtonTags.tilist_cb);
-		
-//		if (TNActv.checkedPositions.contains((Integer) position)) {
-//			
-//			cb.setChecked(true);
-//			
-//			// Log
-//			Log.d("TIListAdapter.java"
-//					+ "["
-//					+ Thread.currentThread().getStackTrace()[2]
-//							.getLineNumber() + "]", 
-//					"cb => true" + "(position => " + TNActv.checkedPositions.size() + ")");
-//			
-//			
-//		} else {//if (ThumbnailActivity.checkedPositions.contains((Integer) position)
-//			
-//			cb.setChecked(false);
-//			
-//		}//if (ThumbnailActivity.checkedPositions.contains((Integer) position)
-		
-//		cb.setOnClickListener(new ButtonOnClickListener((Activity) con, position));
-//		
-//		
-//		cb.setOnLongClickListener(
-//					new CustomOnLongClickListener(
-//									(Activity) con, position, Tags.ItemTags.tilist_checkbox));
-
 		/*----------------------------
 		 * 2.7. Return
 			----------------------------*/
@@ -353,6 +328,62 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	/*----------------------------
 		 * 4. Get bitmap
 			----------------------------*/
+//		move_ModeOff__Set_Bitmap(iv, ti);
+		
+    	////////////////////////////////
+
+		// file name
+
+		////////////////////////////////
+		tv.setText(ti.getFile_name());
+		
+		String pref_FontSize = Methods.get_Pref_String(
+				(Activity)con, 
+				CONS.Pref.pname_MainActv, 
+				((Activity)con).getString(R.string.prefs_tnactv_list_font_size_key), 
+				null);
+		
+		if (pref_FontSize != null && !pref_FontSize.equals("")) {
+			
+			tv.setTextSize(Integer.parseInt(pref_FontSize));
+			
+		}
+		
+		/*----------------------------
+		 * 5.2. Memo
+			----------------------------*/
+		TextView tv_memo = (TextView) v.findViewById(R.id.textView2);
+		
+		tv_memo.setTextColor(Color.BLACK);
+		tv_memo.setBackgroundColor(Color.WHITE);
+		
+		String memo = ti.getMemo();
+		
+		if (memo != null) {
+			tv_memo.setText(memo);
+			
+		} else {//if (memo)
+			
+			tv_memo.setText("");
+			
+		}//if (memo)
+		
+		/*********************************
+		 * 5-2. Get => last viewed
+		 *********************************/
+		
+		
+		/*----------------------------
+		 * 6. Return
+			----------------------------*/
+		return v;
+		
+	}//private void move_mode_off()
+
+
+	private void move_ModeOff__Set_Bitmap(ImageView iv, TI ti) {
+		// TODO Auto-generated method stub
+		
     	// ContentResolver
     	ContentResolver cr = con.getContentResolver();
 
@@ -417,57 +448,21 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			
 		}//if (this.fname_Image == null)
     	
+    	// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"setting imgage to image view"
+				);
+		
+		Log.i("Adp_TIList.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+    	
     	// Set bitmap
     	iv.setImageBitmap(bmp);
 
-    	////////////////////////////////
-
-		// file name
-
-		////////////////////////////////
-		tv.setText(ti.getFile_name());
-		
-		String pref_FontSize = Methods.get_Pref_String(
-				(Activity)con, 
-				CONS.Pref.pname_MainActv, 
-				((Activity)con).getString(R.string.prefs_tnactv_list_font_size_key), 
-				null);
-		
-		if (pref_FontSize != null && !pref_FontSize.equals("")) {
-			
-			tv.setTextSize(Integer.parseInt(pref_FontSize));
-			
-		}
-		
-		/*----------------------------
-		 * 5.2. Memo
-			----------------------------*/
-		TextView tv_memo = (TextView) v.findViewById(R.id.textView2);
-		
-		tv_memo.setTextColor(Color.BLACK);
-		tv_memo.setBackgroundColor(Color.WHITE);
-		
-		String memo = ti.getMemo();
-		
-		if (memo != null) {
-			tv_memo.setText(memo);
-			
-		} else {//if (memo)
-			
-			tv_memo.setText("");
-			
-		}//if (memo)
-		
-		/*********************************
-		 * 5-2. Get => last viewed
-		 *********************************/
-		
-		
-		/*----------------------------
-		 * 6. Return
-			----------------------------*/
-		return v;
-		
-	}//private void move_mode_off()
+	}//private void move_ModeOff__Set_Bitmap()
 
 }//public class TIListAdapter extends ArrayAdapter<TI>

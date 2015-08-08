@@ -1,9 +1,12 @@
 package ifm11.listeners.dialog;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.util.Log;
 
 public class DL implements OnClickListener {
 
@@ -30,6 +33,18 @@ public class DL implements OnClickListener {
 			
 			dialog.dismiss();
 			actv.finish();
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"actv => finished"
+					);
+			
+			Log.i("DL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
 			
 			actv.overridePendingTransition(0, 0);
 			

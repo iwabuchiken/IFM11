@@ -100,56 +100,17 @@ public class TNActv extends ListActivity {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		super.onResume();
 		
-//		// Log
-//		Log.d("TNActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "onResume()");
-//
-//		if (TNActv.aAdapter != null) {
-//					
-//			TNActv.aAdapter.notifyDataSetChanged();
-//			
-//		}
-//		TNActv.aAdapter.notifyDataSetChanged();
-
-//		/*********************************
-//		 * 3. Set selection
-//		 *********************************/
-//		lv_main = this.getListView();
-//		
-//		SharedPreferences prefs = this.getSharedPreferences(
-//				MainActv.prefName_tnActv,
-//				MODE_PRIVATE);
-//	
-//
-//		//Methods.PrefenceLabels.thumb_actv.name()
-//		
-//		//int savedPosition = prefs.getInt("chosen_list_item", -1);
-//		int savedPosition = prefs.getInt(
-//							MainActv.prefName_tnActv_current_image_position,
-//							-1);
-//		
-//		int target_position = savedPosition - (lv_main.getChildCount() / 2);
-//		
-//		if (target_position < 0) {
-//			
-//			target_position = 0;
-//			
-//		}//if (target_position == 0)
-//
-//		// Log
-//		Log.d("TNActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "target_position=" + target_position);
-//		
-//		
-//		lv_main.setSelection(target_position);
-
+		// Log
+		String msg_Log;
 		
-//		// Log
-//		Log.d("TNActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "lv_main.getCheckedItemPosition()=" + lv_main.getCheckedItemPosition());
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"onResume() => done"
+				);
+		
+		Log.i("TNActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 	}//protected void onResume()
 
@@ -187,6 +148,35 @@ public class TNActv extends ListActivity {
 		if (CONS.Admin.isRunning_TNActv == false) {
 			
 			CONS.Admin.isRunning_TNActv = true;
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"CONS.Admin.isRunning_TNActv => change to true"
+					);
+			
+			Log.i("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		//debug
+		else {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"CONS.Admin.isRunning_TNActv => true"
+					);
+			
+			Log.i("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
 			
 		}
 

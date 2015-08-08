@@ -657,7 +657,31 @@ public class MainActv extends ListActivity {
 		 * 4. Clear => file_names
 			----------------------------*/
 		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"calling => super.onDestroy()"
+				);
+		
+		Log.i("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		super.onDestroy();
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"onDestroy() => done"
+				);
+		
+		Log.i("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 	}//protected void onDestroy()
 
@@ -1484,6 +1508,25 @@ public class MainActv extends ListActivity {
 			
 		}
 
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"onStop()"
+				);
+		
+		Log.i("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 	}
 
 }//public class MainActv extends Activity
