@@ -386,6 +386,19 @@ public class STD {
 			
 		}
 		
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"TI list: size => %d", list_TI.size()
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		////////////////////////////////
 
 		// close: db
@@ -406,39 +419,39 @@ public class STD {
 //		List<TI> list_New = Methods
 //						._refresh_MainDB__RecoveryFrom_SDCard_Reset(actv, list_TI);
 		
-		////////////////////////////////
-
-		// Insert data into db
-
-		////////////////////////////////
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
-		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
+//		////////////////////////////////
+//
+//		// Insert data into db
+//
+//		////////////////////////////////
+////		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
+////		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
+//		
+//		// Log
+//		String msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+//		Log.d("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//			
+//		////////////////////////////////
+//
+//		// Insert: refresh date
+//		//		=> only if there is/are new entry/entries
+//
+//		////////////////////////////////
+//		res = STD._refresh_MainDB__InsertData_RefreshDate(
+////										actv, numOfItemsAdded, list_New);
+//										actv, numOfItemsAdded, list_TI);
+//
+//		// Log
+//		msg_Log = "insert refresh date => " + res;
+//		Log.d("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 		
-		// Log
-		String msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
-		Log.d("STD.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-			
-		////////////////////////////////
-
-		// Insert: refresh date
-		//		=> only if there is/are new entry/entries
-
-		////////////////////////////////
-		res = STD._refresh_MainDB__InsertData_RefreshDate(
-//										actv, numOfItemsAdded, list_New);
-										actv, numOfItemsAdded, list_TI);
-
-		// Log
-		msg_Log = "insert refresh date => " + res;
-		Log.d("STD.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-		
-//		return 0;
-		return numOfItemsAdded;
+		return 0;
+//		return numOfItemsAdded;
 		
 	}//public static int refreshMainDB(Activity actv)
 
