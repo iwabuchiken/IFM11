@@ -406,6 +406,14 @@ public class STD {
 		////////////////////////////////
 		wdb.close();
 		
+		///////////////////////////////////
+		//
+		// filter list
+		//
+		///////////////////////////////////
+		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
+		
+		
 //		////////////////////////////////
 //
 //		// test
@@ -454,6 +462,64 @@ public class STD {
 //		return numOfItemsAdded;
 		
 	}//public static int refreshMainDB(Activity actv)
+
+	private static List<TI> __refresh_MainDB__FilterList_ByFileName(
+			List<TI> list_TI) {
+		// TODO Auto-generated method stub
+		
+		List<TI> tmp_list = new ArrayList();
+		
+		TI tmp_ti = list_TI.get(0);
+		
+//		// Log
+//		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"list[0] file name => %s", tmp_ti.getFile_name()
+//				);
+//		
+//		Log.i("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// threshold
+		//
+		///////////////////////////////////
+		String th = "2015-08-01";
+		
+		int res;
+		
+		for (TI ti : list_TI) {
+			
+			res = ti.getFile_name().compareToIgnoreCase(th);
+			
+			if (res == 1) {
+
+				tmp_list.add(ti);
+
+			}//if (res == 1)
+			
+		}
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"tmp_list: size => %d", tmp_list.size()
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		return tmp_list;
+//		return list_TI;
+		
+	}
 
 	private static List<TI> 
 	_refresh_MainDB__RecoveryFrom_SDCard_Reset
