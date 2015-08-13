@@ -333,153 +333,153 @@ public class STD {
 		// IS13SH files
 		//
 		///////////////////////////////////
-		_refresh_MainDB__IS13SH_Files();
+//		_refresh_MainDB__IS13SH_Files();
+		
+		
+		////////////////////////////////
+
+		// Execute query for image files
+
+		////////////////////////////////
+		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			String msg_Log = "can't build cursor";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -2;
+			
+		}
+
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+			
+			// Log
+			String msg_Log = "No entry";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -3;
+			
+		}
+		
+		////////////////////////////////
+
+		// build: TI list from cursor
+
+		////////////////////////////////
+		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (list_TI == null) {
+			
+			// Log
+			String msg_Log = "list_TI => Null";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			return -4;
+			
+		}
+		
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"TI list: size => %d", list_TI.size()
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// close: db
+
+		////////////////////////////////
+		wdb.close();
+		
+		///////////////////////////////////
+		//
+		// filter list
+		//
+		//	1. this method is used when the SD card is once
+		//		pulled out from the device, and then re-inserted.
+		//	2. When you do the above action, if you refresh the
+		//		DB, all the image file will be in the refreshed list.
+		//	3. To avoid the result described in the above step 2,
+		//		you need to execute this method, so that only those image
+		//		files with the dates after a certain date will be
+		//		in the refreshed list.
+		//	4. Once you execute the step 3, you need to remove the below
+		//		executing line by commenting out or any other means.
+		//
+		///////////////////////////////////
+//		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
 		
 		
 //		////////////////////////////////
 //
-//		// Execute query for image files
+//		// test
+		/*
+		 * - SDCard => reinserted to the device
+		 * - seems: last update of each file => reset to the current date
+		 * - hence, need a work to fix the TI table
+		 */
 //
 //		////////////////////////////////
-//		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
-//		
-//		/******************************
-//			validate: null
-//		 ******************************/
-//		if (c == null) {
-//			
-//			// Log
-//			String msg_Log = "can't build cursor";
-//			Log.e("STD.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//			return -2;
-//			
-//		}
-//
-//		/******************************
-//			validate: any entry?
-//		 ******************************/
-//		if (c.getCount() < 1) {
-//			
-//			// Log
-//			String msg_Log = "No entry";
-//			Log.e("STD.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//			return -3;
-//			
-//		}
-//		
-//		////////////////////////////////
-//
-//		// build: TI list from cursor
-//
-//		////////////////////////////////
-//		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
-//
-//		/******************************
-//			validate: null
-//		 ******************************/
-//		if (list_TI == null) {
-//			
-//			// Log
-//			String msg_Log = "list_TI => Null";
-//			Log.e("STD.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			return -4;
-//			
-//		}
-//		
-//		
-//		// Log
-//		String msg_Log;
-//		
-//		msg_Log = String.format(
-//				Locale.JAPAN,
-//				"TI list: size => %d", list_TI.size()
-//				);
-//		
-//		Log.i("STD.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		////////////////////////////////
-//
-//		// close: db
-//
-//		////////////////////////////////
-//		wdb.close();
-//		
-//		///////////////////////////////////
-//		//
-//		// filter list
-//		//
-//		//	1. this method is used when the SD card is once
-//		//		pulled out from the device, and then re-inserted.
-//		//	2. When you do the above action, if you refresh the
-//		//		DB, all the image file will be in the refreshed list.
-//		//	3. To avoid the result described in the above step 2,
-//		//		you need to execute this method, so that only those image
-//		//		files with the dates after a certain date will be
-//		//		in the refreshed list.
-//		//	4. Once you execute the step 3, you need to remove the below
-//		//		executing line by commenting out or any other means.
-//		//
-//		///////////////////////////////////
-////		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
-//		
-//		
-////		////////////////////////////////
-////
-////		// test
-//		/*
-//		 * - SDCard => reinserted to the device
-//		 * - seems: last update of each file => reset to the current date
-//		 * - hence, need a work to fix the TI table
-//		 */
-////
-////		////////////////////////////////
-////		List<TI> list_New = Methods
-////						._refresh_MainDB__RecoveryFrom_SDCard_Reset(actv, list_TI);
-//		
-//		////////////////////////////////
-//
-//		// Insert data into db
-//
-//		////////////////////////////////
-////		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
-////		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
-//		
-//		// Log
-////		String 
-//		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
-//		Log.d("STD.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//			
-//		////////////////////////////////
-//
-//		// Insert: refresh date
-//		//		=> only if there is/are new entry/entries
-//
-//		////////////////////////////////
-//		res = STD._refresh_MainDB__InsertData_RefreshDate(
-////										actv, numOfItemsAdded, list_New);
-//										actv, numOfItemsAdded, list_TI);
-//
-//		// Log
-//		msg_Log = "insert refresh date => " + res;
-//		Log.d("STD.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
+//		List<TI> list_New = Methods
+//						._refresh_MainDB__RecoveryFrom_SDCard_Reset(actv, list_TI);
 		
-		return 0;
-//		return numOfItemsAdded;
+		////////////////////////////////
+
+		// Insert data into db
+
+		////////////////////////////////
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
+		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
+		
+		// Log
+//		String 
+		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+			
+		////////////////////////////////
+
+		// Insert: refresh date
+		//		=> only if there is/are new entry/entries
+
+		////////////////////////////////
+		res = STD._refresh_MainDB__InsertData_RefreshDate(
+//										actv, numOfItemsAdded, list_New);
+										actv, numOfItemsAdded, list_TI);
+
+		// Log
+		msg_Log = "insert refresh date => " + res;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		return 0;
+		return numOfItemsAdded;
 		
 	}//public static int refreshMainDB(Activity actv)
 
