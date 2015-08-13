@@ -410,8 +410,19 @@ public class STD {
 		//
 		// filter list
 		//
+		//	1. this method is used when the SD card is once
+		//		pulled out from the device, and then re-inserted.
+		//	2. When you do the above action, if you refresh the
+		//		DB, all the image file will be in the refreshed list.
+		//	3. To avoid the result described in the above step 2,
+		//		you need to execute this method, so that only those image
+		//		files with the dates after a certain date will be
+		//		in the refreshed list.
+		//	4. Once you execute the step 3, you need to remove the below
+		//		executing line by commenting out or any other means.
+		//
 		///////////////////////////////////
-		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
+//		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
 		
 		
 //		////////////////////////////////
@@ -427,44 +438,46 @@ public class STD {
 //		List<TI> list_New = Methods
 //						._refresh_MainDB__RecoveryFrom_SDCard_Reset(actv, list_TI);
 		
-//		////////////////////////////////
-//
-//		// Insert data into db
-//
-//		////////////////////////////////
-////		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
-////		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
-//		
-//		// Log
-//		String msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
-//		Log.d("STD.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//			
-//		////////////////////////////////
-//
-//		// Insert: refresh date
-//		//		=> only if there is/are new entry/entries
-//
-//		////////////////////////////////
-//		res = STD._refresh_MainDB__InsertData_RefreshDate(
-////										actv, numOfItemsAdded, list_New);
-//										actv, numOfItemsAdded, list_TI);
-//
-//		// Log
-//		msg_Log = "insert refresh date => " + res;
-//		Log.d("STD.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
+		////////////////////////////////
+
+		// Insert data into db
+
+		////////////////////////////////
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
+		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
 		
-		return 0;
-//		return numOfItemsAdded;
+		// Log
+//		String 
+		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+			
+		////////////////////////////////
+
+		// Insert: refresh date
+		//		=> only if there is/are new entry/entries
+
+		////////////////////////////////
+		res = STD._refresh_MainDB__InsertData_RefreshDate(
+//										actv, numOfItemsAdded, list_New);
+										actv, numOfItemsAdded, list_TI);
+
+		// Log
+		msg_Log = "insert refresh date => " + res;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		return 0;
+		return numOfItemsAdded;
 		
 	}//public static int refreshMainDB(Activity actv)
 
-	private static List<TI> __refresh_MainDB__FilterList_ByFileName(
-			List<TI> list_TI) {
+	private static List<TI> 
+	__refresh_MainDB__FilterList_ByFileName
+	(List<TI> list_TI) {
 		// TODO Auto-generated method stub
 		
 		List<TI> tmp_list = new ArrayList();
@@ -519,7 +532,7 @@ public class STD {
 		return tmp_list;
 //		return list_TI;
 		
-	}
+	}//__refresh_MainDB__FilterList_ByFileName
 
 	private static List<TI> 
 	_refresh_MainDB__RecoveryFrom_SDCard_Reset
