@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -326,154 +327,359 @@ public class STD {
 //		wdb.close();
 //		
 //		return -1;
-		
-		
-		////////////////////////////////
 
-		// Execute query for image files
-
-		////////////////////////////////
-		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
-		
-		/******************************
-			validate: null
-		 ******************************/
-		if (c == null) {
-			
-			// Log
-			String msg_Log = "can't build cursor";
-			Log.e("STD.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-			return -2;
-			
-		}
-
-		/******************************
-			validate: any entry?
-		 ******************************/
-		if (c.getCount() < 1) {
-			
-			// Log
-			String msg_Log = "No entry";
-			Log.e("STD.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-			return -3;
-			
-		}
-		
-		////////////////////////////////
-
-		// build: TI list from cursor
-
-		////////////////////////////////
-		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
-
-		/******************************
-			validate: null
-		 ******************************/
-		if (list_TI == null) {
-			
-			// Log
-			String msg_Log = "list_TI => Null";
-			Log.e("STD.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			return -4;
-			
-		}
-		
-		
-		// Log
-		String msg_Log;
-		
-		msg_Log = String.format(
-				Locale.JAPAN,
-				"TI list: size => %d", list_TI.size()
-				);
-		
-		Log.i("STD.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-		
-		////////////////////////////////
-
-		// close: db
-
-		////////////////////////////////
-		wdb.close();
-		
 		///////////////////////////////////
 		//
-		// filter list
-		//
-		//	1. this method is used when the SD card is once
-		//		pulled out from the device, and then re-inserted.
-		//	2. When you do the above action, if you refresh the
-		//		DB, all the image file will be in the refreshed list.
-		//	3. To avoid the result described in the above step 2,
-		//		you need to execute this method, so that only those image
-		//		files with the dates after a certain date will be
-		//		in the refreshed list.
-		//	4. Once you execute the step 3, you need to remove the below
-		//		executing line by commenting out or any other means.
+		// IS13SH files
 		//
 		///////////////////////////////////
-//		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
+		_refresh_MainDB__IS13SH_Files();
 		
 		
 //		////////////////////////////////
 //
-//		// test
-		/*
-		 * - SDCard => reinserted to the device
-		 * - seems: last update of each file => reset to the current date
-		 * - hence, need a work to fix the TI table
-		 */
+//		// Execute query for image files
 //
 //		////////////////////////////////
-//		List<TI> list_New = Methods
-//						._refresh_MainDB__RecoveryFrom_SDCard_Reset(actv, list_TI);
+//		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+//		
+//		/******************************
+//			validate: null
+//		 ******************************/
+//		if (c == null) {
+//			
+//			// Log
+//			String msg_Log = "can't build cursor";
+//			Log.e("STD.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			return -2;
+//			
+//		}
+//
+//		/******************************
+//			validate: any entry?
+//		 ******************************/
+//		if (c.getCount() < 1) {
+//			
+//			// Log
+//			String msg_Log = "No entry";
+//			Log.e("STD.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			return -3;
+//			
+//		}
+//		
+//		////////////////////////////////
+//
+//		// build: TI list from cursor
+//
+//		////////////////////////////////
+//		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
+//
+//		/******************************
+//			validate: null
+//		 ******************************/
+//		if (list_TI == null) {
+//			
+//			// Log
+//			String msg_Log = "list_TI => Null";
+//			Log.e("STD.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			return -4;
+//			
+//		}
+//		
+//		
+//		// Log
+//		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"TI list: size => %d", list_TI.size()
+//				);
+//		
+//		Log.i("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		////////////////////////////////
+//
+//		// close: db
+//
+//		////////////////////////////////
+//		wdb.close();
+//		
+//		///////////////////////////////////
+//		//
+//		// filter list
+//		//
+//		//	1. this method is used when the SD card is once
+//		//		pulled out from the device, and then re-inserted.
+//		//	2. When you do the above action, if you refresh the
+//		//		DB, all the image file will be in the refreshed list.
+//		//	3. To avoid the result described in the above step 2,
+//		//		you need to execute this method, so that only those image
+//		//		files with the dates after a certain date will be
+//		//		in the refreshed list.
+//		//	4. Once you execute the step 3, you need to remove the below
+//		//		executing line by commenting out or any other means.
+//		//
+//		///////////////////////////////////
+////		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
+//		
+//		
+////		////////////////////////////////
+////
+////		// test
+//		/*
+//		 * - SDCard => reinserted to the device
+//		 * - seems: last update of each file => reset to the current date
+//		 * - hence, need a work to fix the TI table
+//		 */
+////
+////		////////////////////////////////
+////		List<TI> list_New = Methods
+////						._refresh_MainDB__RecoveryFrom_SDCard_Reset(actv, list_TI);
+//		
+//		////////////////////////////////
+//
+//		// Insert data into db
+//
+//		////////////////////////////////
+////		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
+//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
+////		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
+//		
+//		// Log
+////		String 
+//		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+//		Log.d("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//			
+//		////////////////////////////////
+//
+//		// Insert: refresh date
+//		//		=> only if there is/are new entry/entries
+//
+//		////////////////////////////////
+//		res = STD._refresh_MainDB__InsertData_RefreshDate(
+////										actv, numOfItemsAdded, list_New);
+//										actv, numOfItemsAdded, list_TI);
+//
+//		// Log
+//		msg_Log = "insert refresh date => " + res;
+//		Log.d("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 		
-		////////////////////////////////
-
-		// Insert data into db
-
-		////////////////////////////////
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
-		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
-		
-		// Log
-//		String 
-		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
-		Log.d("STD.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-			
-		////////////////////////////////
-
-		// Insert: refresh date
-		//		=> only if there is/are new entry/entries
-
-		////////////////////////////////
-		res = STD._refresh_MainDB__InsertData_RefreshDate(
-//										actv, numOfItemsAdded, list_New);
-										actv, numOfItemsAdded, list_TI);
-
-		// Log
-		msg_Log = "insert refresh date => " + res;
-		Log.d("STD.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-		
-//		return 0;
-		return numOfItemsAdded;
+		return 0;
+//		return numOfItemsAdded;
 		
 	}//public static int refreshMainDB(Activity actv)
+
+	private static void 
+	_refresh_MainDB__IS13SH_Files() {
+		// TODO Auto-generated method stub
+		///////////////////////////////////
+		//
+		// get: file name list
+		//
+		///////////////////////////////////
+		File dpath_Src = new File("mnt/sdcard-ext/dcim/100SHARP");
+		File dpath_Dst = new File("mnt/sdcard-ext/dcim/100SHARP");
+		
+		
+//		String[] fname_list = dpath_Src.list(new FilenameFilter(){
+		File[] fname_list = dpath_Src.listFiles(new FilenameFilter(){
+
+			@Override
+			public boolean accept(File dir, String name) {
+				// TODO Auto-generated method stub
+
+				if (name.startsWith("DSC")) {
+					
+					return true;
+					
+				} else {//if (name.startsWith("DSC"))
+					
+					return false;
+					
+				}//if (name.startsWith("DSC"))
+				
+			}
+			
+		});
+
+		int tmp_len = fname_list.length;
+		
+		String tmp_str;
+		File tmp_file;
+		
+		for (int i = 0; i < tmp_len; i++) {
+			
+			tmp_file = fname_list[i];
+//			tmp_str = fname_list[i];
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"fname => %s (%s)", 
+					tmp_file.getName(), 
+					Methods.conv_MillSec_to_TimeLabel(tmp_file.lastModified())
+//					"fname => %s", tmp_str
+					);
+			
+			Log.i("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+//			
+//			if (tmp_str.startsWith("DSC")) {
+//
+//				// Log
+//				String msg_Log;
+//				
+//				msg_Log = String.format(
+//						Locale.JAPAN,
+//						"100SHART: %s", fname_list[i]
+//						);
+//				
+//				Log.i("STD.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", msg_Log);
+//
+//			}//if (tmp_str.startsWith("DSC"))
+			
+			
+		}
+
+		///////////////////////////////////
+		//
+		// copy
+		//
+		///////////////////////////////////
+		File f_Src = null;
+		File f_Dst = null;
+		
+		String[] a_tmp_str;
+		String[] a_tmp_str_2;
+		String[] a_tmp_str_3;
+		
+		String tmp_micros;
+		
+		StringBuilder sb = null;
+		
+		for (File file : fname_list) {
+			
+			f_Src = new File(dpath_Src, file.getName());
+			
+//			08-13 11:01:39.446: I/STD.java[541](13063): fname => DSC_0051.JPG (2015/08/10 07:05:24.000)
+			a_tmp_str = Methods.conv_MillSec_to_TimeLabel(file.lastModified()).split(" ");
+			
+			a_tmp_str_2 = a_tmp_str[0].split("/");
+			
+			tmp_micros = a_tmp_str[1].split("\\.")[1];
+			
+			a_tmp_str_3 = a_tmp_str[1].split("\\.")[0].split(":");
+			
+			sb = new StringBuilder();
+			
+			sb.append(a_tmp_str_2[0]);
+			sb.append("-");
+			sb.append(a_tmp_str_2[1]);
+			sb.append("-");
+			sb.append(a_tmp_str_2[2]);
+			
+			sb.append("_");
+			
+			sb.append(a_tmp_str_3[0]);
+			sb.append("-");
+			sb.append(a_tmp_str_3[1]);
+			sb.append("-");
+			sb.append(a_tmp_str_3[2]);
+			
+			sb.append("_");
+			sb.append(tmp_micros);
+			
+			sb.append(".jpg");
+			
+			f_Dst = new File(dpath_Dst, sb.toString());
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"src = %s / dst = %s", f_Src.getName(), f_Dst.getName()
+					);
+			
+			Log.i("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			///////////////////////////////////
+			//
+			// copy
+			//
+			///////////////////////////////////
+			FileChannel iChannel;
+			FileChannel oChannel;
+			
+			try {
+				iChannel = new FileInputStream(f_Src).getChannel();
+				
+				oChannel = new FileOutputStream(f_Dst).getChannel();
+				
+				iChannel.transferTo(0, iChannel.size(), oChannel);
+				
+				iChannel.close();
+				oChannel.close();
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}//for (File file : fname_list)
+		
+////		File f_Src = new File("mnt/sdcard-ext/dcim/100SHARP");
+////		File f_Dst = new File("mnt/sdcard-ext/dcim/100SHARP");
+//		
+//		FileChannel iChannel;
+//		FileChannel oChannel;
+//		
+//		try {
+//			iChannel = new FileInputStream(f_Src).getChannel();
+//			
+//			oChannel = new FileOutputStream(f_Dst).getChannel();
+//			
+//			iChannel.transferTo(0, iChannel.size(), oChannel);
+//			
+//			iChannel.close();
+//			oChannel.close();
+//			
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+	}//_refresh_MainDB__IS13SH_Files
+	
 
 	private static List<TI> 
 	__refresh_MainDB__FilterList_ByFileName

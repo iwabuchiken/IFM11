@@ -325,10 +325,12 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 
     	
     	
-    	/*----------------------------
-		 * 4. Get bitmap
-			----------------------------*/
-//		move_ModeOff__Set_Bitmap(iv, ti);
+		///////////////////////////////////
+		//
+		// bitmap
+		//
+		///////////////////////////////////
+		move_ModeOff__Set_Bitmap(iv, ti);
 		
     	////////////////////////////////
 
