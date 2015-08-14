@@ -78,6 +78,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 // Apache
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -9873,6 +9874,60 @@ public class Methods {
 		return list;
 		
 	}//get_LogFileNames_List
+
+	///////////////////////////////////
+	//
+	// cursor => col_names_IFM11_full
+	//
+	///////////////////////////////////
+	public static List<TI> 
+	conv_Cursor_2_TIList(Activity actv, Cursor c) {
+		// TODO Auto-generated method stub
+		List<TI> list_TI = new ArrayList<TI>();
+		
+		TI ti = null;
+		
+		while(c.moveToNext()) {
+			
+//			android.provider.BaseColumns._ID,		// 0
+//			"created_at", "modified_at",			// 1,2
+//			"file_id", "file_path", "file_name",	// 3,4,5
+//			"date_added", "date_modified",			// 6,7
+//			"memos", "tags",						// 8,9
+//			"last_viewed_at",						// 10
+//			"table_name",							// 11
+//			"uploaded_at",							// 12
+
+			ti = new TI.Builder()
+						
+						.setDb_Id(c.getLong(0))
+						.setCreated_at(c.getString(1))
+						.setModified_at(c.getString(2))
+						
+						.setFileId(c.getLong(3))
+						.setFile_path(c.getString(4))
+						.setFile_name(c.getString(5))
+						
+						.setDate_added(c.getString(6))
+						.setDate_modified(c.getString(7))
+						
+						.setMemo(c.getString(8))
+						.setTags(c.getString(9))
+						
+						.setLast_viewed_at(c.getString(10))
+						.setTable_name(c.getString(11))
+
+						.setUploaded_at(c.getString(12))
+						
+						.build();
+			
+			list_TI.add(ti);
+			
+		}//while(c.moveToNext())
+		
+		return list_TI;
+		
+	}//conv_Cursor_2_TIList
 
 }//public class Methods
 
