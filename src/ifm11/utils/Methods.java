@@ -17,6 +17,7 @@ import ifm11.main.PrefActv;
 import ifm11.main.R;
 import ifm11.main.ShowLogActv;
 import ifm11.main.TNActv;
+import ifm11.tasks.Task_CreateTN;
 import ifm11.tasks.Task_HTTP;
 import ifm11.tasks.Task_Search;
 import ifm11.utils.CONS.IMageActv;
@@ -77,6 +78,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+
+
 
 
 // Apache
@@ -4614,7 +4619,7 @@ public class Methods {
 		
 		// Log
 		String msg_Log = "numOfItems => " + numOfItems;
-		Log.d("MainActv.java" + "["
+		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -4627,7 +4632,7 @@ public class Methods {
 				
 				// Log
 				msg_Log = "yes: list.txt";
-				Log.d("MainActv.java"
+				Log.d("Methods.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", msg_Log);
@@ -4637,7 +4642,7 @@ public class Methods {
 				
 				// Log
 				msg_Log = "no";
-				Log.d("MainActv.java"
+				Log.d("Methods.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", msg_Log);
@@ -4658,7 +4663,7 @@ public class Methods {
 			
 			// Log
 			msg_Log = "name = " + name;
-			Log.d("MainActv.java"
+			Log.d("Methods.java"
 					+ "["
 					+ Thread.currentThread().getStackTrace()[2]
 							.getLineNumber() + "]", msg_Log);
@@ -9244,6 +9249,356 @@ public class Methods {
 		
 	}//create_TNs
 
+	/******************************
+		@return
+			-1	=> can't create tns dir
+			-2	=> TIs list ==> returned null
+	 ******************************/
+	public static Integer 
+	create_TNs_V2
+	(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// valicate: tns dir => exists
+		
+		////////////////////////////////
+		File dir_TNs = new File(CONS.DB.dPath_TNs);
+		
+		if (!dir_TNs.exists()) {
+			
+			boolean res = dir_TNs.mkdir();
+			
+			if (res == true) {
+				
+				// Log
+				msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+				
+				msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
+				
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				return -1;
+				
+			}
+			
+		} else {//if (!dir_TNs.exists())
+			
+			// Log
+			msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//if (!dir_TNs.exists())
+		
+		////////////////////////////////
+		
+		// get: TI
+		
+		////////////////////////////////
+		List<TI> list_TIs = DBUtils.find_All_TI(actv);
+
+		List<TI> list_TI_filtered = new ArrayList<TI>();
+		
+		List<TI> list_TI_NoTN = new ArrayList<TI>();
+		
+		///////////////////////////////////
+		//
+		// filter: 2015-06 and beyond
+		//
+		///////////////////////////////////
+//		String filter_Start = "2015-08";
+		String filter_Start = "2015-03";
+		String filter_End = "2015-05";
+//		String filter_Start = "2015-05";
+//		String filter_End = "2015-07";
+//		String filter_Start = "2015-07";
+//		String filter_End = "2015-08";
+		
+		for (TI ti : list_TIs) {
+
+//			if (ti.getFile_name().compareToIgnoreCase(filter_Start) > 0) {
+			if (ti.getFile_name().compareToIgnoreCase(filter_Start) > 0
+					&& ti.getFile_name().compareToIgnoreCase(filter_End) < 0) {
+
+				list_TI_filtered.add(ti);
+
+			}//if (ti.getFile_name().compareToIgnoreCase("2015-05") > 0)
+			
+		}
+
+		// report
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"filtered (%s, %s) => %d", 
+				filter_Start, filter_End, list_TI_filtered.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		
+		///////////////////////////////////
+		//
+		// detect: thumbnails in the media store?
+		//
+		///////////////////////////////////
+		ContentResolver cr = ((Context)actv).getContentResolver();
+		
+		Bitmap bmp = null;
+		
+		for (TI ti : list_TI_filtered) {
+//			for (TI ti : list_TI) {
+			
+        	// Bitmap
+        	bmp = 
+    				MediaStore.Images.Thumbnails.getThumbnail(
+    							cr, 
+    							ti.getFileId(), 
+    							MediaStore.Images.Thumbnails.MICRO_KIND, 
+    							null);
+
+        	// get TN-less TI
+        	if (bmp == null) {
+
+        		list_TI_NoTN.add(ti);
+
+			}//if (bmp == null)
+        	
+		}
+		
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"TN-less => %d", list_TI_NoTN.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		
+		msg_Log = "list_TIs.size() => " + list_TIs.size();
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// create: thumbnails
+		
+		////////////////////////////////
+		return _create_TNs_V2(actv, list_TI_NoTN);
+//		return -1;
+		
+	}//create_TNs
+	
+	private static Integer 
+	_create_TNs_V2(Activity actv, List<TI> list_TI_NoTN) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		
+		int range = 10;
+		TI ti = null;
+		File f_in = null;
+		File f_out = null;
+		
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		
+//		bmp = null;
+		Bitmap bmp = null;
+		
+		int bmp_W_orig;
+		int bmp_H_orig;
+		
+		int bmp_W_new;
+		int bmp_H_new;
+		
+		for (int i = 0; i < list_TI_NoTN.size(); i++) {
+//			for (int i = 0; i < CONS.TNActv.list_TNActv_Main.size(); i++) {
+//			for (int i = 0; i < range; i++) {
+			
+			ti = list_TI_NoTN.get(i);
+//			ti = CONS.TNActv.list_TNActv_Main.get(i);
+			
+			f_in = new File(ti.getFile_path(), ti.getFile_name());
+			f_out = new File(CONS.DB.dPath_TNs, ti.getFile_name());
+			
+			if (!f_out.exists()) {
+				
+				try {
+					
+					fis = new FileInputStream(f_in);
+					
+					bmp = BitmapFactory.decodeStream(fis);
+					
+					bmp_W_orig = bmp.getWidth();
+					bmp_H_orig = bmp.getHeight();
+					
+//					// Log
+//					String msg_Log = String.format(
+//								Locale.JAPAN,
+//								"bmp_W_orig = %d, bmp_H_orig = %d", 
+//								bmp_W_orig, bmp_H_orig);
+					
+//					Log.d("Methods.java"
+//							+ "["
+//							+ Thread.currentThread().getStackTrace()[2]
+//									.getLineNumber() + "]", msg_Log);
+					
+					if (bmp_W_orig > 0 && bmp_H_orig > 0) {
+						
+						if (bmp_W_orig > bmp_H_orig) {
+							
+							bmp_W_new = 100;
+							
+							bmp_H_new = (int) ((((float)100 / bmp_W_orig)) * bmp_H_orig);
+//							bmp_H_new = (int) (((float)(100 / bmp_W_orig)) * bmp_H_orig);
+							
+//							// Log
+//							msg_Log = String.format(
+//										Locale.JAPAN,
+//										"bmp_W_new = %d, bmp_H_new = %d", 
+//										bmp_W_new, bmp_H_new);
+//							
+//							Log.d("Methods.java"
+//									+ "["
+//									+ Thread.currentThread().getStackTrace()[2]
+//											.getLineNumber() + "]", msg_Log);
+							
+						} else if (bmp_W_orig < bmp_H_orig) {
+							
+							bmp_W_new = (int)(((float)100 / bmp_H_orig) * bmp_W_orig);
+//							bmp_W_new = (int)((float)(100 / bmp_H_orig) * bmp_W_orig);
+							
+							bmp_H_new = 100;
+							
+//							// Log
+//							msg_Log = String.format(
+//										Locale.JAPAN,
+//										"bmp_W_new = %d, bmp_H_new = %d", 
+//										bmp_W_new, bmp_H_new);
+//							
+//							Log.d("Methods.java"
+//									+ "["
+//									+ Thread.currentThread().getStackTrace()[2]
+//											.getLineNumber() + "]", msg_Log);
+							
+						} else {
+							
+							bmp_W_new = 100;
+							
+							bmp_H_new = 100;
+							
+						}
+						
+					} else {
+						
+//						// Log
+//						msg_Log = "bmp_W_new => < 0";
+//						Log.d("Methods.java"
+//								+ "["
+//								+ Thread.currentThread().getStackTrace()[2]
+//										.getLineNumber() + "]", msg_Log);
+						
+						bmp_W_new = 100;
+						
+						bmp_H_new = 100;
+						
+					}
+					
+					bmp = Bitmap.createScaledBitmap(
+							bmp, bmp_W_new, bmp_H_new, false);
+//					bmp, 50, 50, false);
+					
+					fos = new FileOutputStream(f_out);
+					
+					bmp.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+					
+					if (fos != null) {
+						
+						fos.flush();
+						fos.close();
+						
+						// Log
+						String msg_Log;
+						
+						msg_Log = "tn => saved: " + f_out.getAbsolutePath();
+						Log.d("Methods.java"
+								+ "["
+								+ Thread.currentThread().getStackTrace()[2]
+										.getLineNumber() + "]", msg_Log);
+						
+						count += 1;
+						
+					}
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					// Log
+					String msg_Log;
+					
+					msg_Log = "Exception: " + e.toString()
+							+ " (" + f_in.getAbsolutePath() + ")";
+					
+					Log.d("Methods.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					e.printStackTrace();
+					
+					continue;
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					
+					// Log
+					String msg_Log;
+					
+					msg_Log = "Exception: " + e.toString()
+							+ " (" + f_in.getAbsolutePath() + ")";
+					
+					Log.d("Methods.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					e.printStackTrace();
+				}//try
+				
+			}//if (!f_out.exists())
+			
+		}//for (int i = 0; i < range; i++)
+		
+		return count;
+
+	}//_create_TNs_V2(Activity actv)
+
 	public static void 
 	change_RGB
 	(Activity actv) {
@@ -9928,6 +10283,26 @@ public class Methods {
 		return list_TI;
 		
 	}//conv_Cursor_2_TIList
+
+	public static void 
+	create_TNs_main(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+		
+		Task_CreateTN task = new Task_CreateTN(actv);
+
+		// string
+		String task_type = "V2";
+		
+		task.execute(task_type);
+
+		///////////////////////////////////
+		//
+		// dismiss
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+	}//create_TNs_main(Activity actv, Dialog d1)
 
 }//public class Methods
 

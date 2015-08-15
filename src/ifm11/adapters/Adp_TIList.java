@@ -397,6 +397,18 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	if (this.fname_Image == null || !this.fname_Image.exists()) {
 //    		if (this.fname_Image == null) {
 			
+    		// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"this.fname_Image == null || !this.fname_Image.exists()"
+					);
+			
+			Log.i("Adp_TIList.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+    		
         	// Bitmap
         	bmp = 
     				MediaStore.Images.Thumbnails.getThumbnail(
@@ -405,6 +417,39 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     							MediaStore.Images.Thumbnails.MICRO_KIND, 
     							null);
     		
+        	///////////////////////////////////
+			//
+			// validate
+			//
+			///////////////////////////////////
+			if (bmp == null) {	// no thumbnail file in the dir,
+								// 	nor in the media store
+
+				// Log
+//				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"bmp => null"
+						);
+				
+				Log.i("Adp_TIList.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+
+			} else {//if (bmp == null)
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"bmp => height = %d", bmp.getHeight()
+						);
+				
+				Log.i("Adp_TIList.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+			}//if (bmp == null)
+        	
 		} else {
 
 			try {
@@ -431,6 +476,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 				// Log
 				String msg_Log = "Exception => " + e.toString();
 				Log.e("Adp_TIList.java"
+		
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", msg_Log);
@@ -450,17 +496,17 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			
 		}//if (this.fname_Image == null)
     	
-    	// Log
-		String msg_Log;
-		
-		msg_Log = String.format(
-				Locale.JAPAN,
-				"setting imgage to image view"
-				);
-		
-		Log.i("Adp_TIList.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
+//    	// Log
+//		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"setting imgage to image view"
+//				);
+//		
+//		Log.i("Adp_TIList.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
     	
     	// Set bitmap
     	iv.setImageBitmap(bmp);

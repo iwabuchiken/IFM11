@@ -22,6 +22,20 @@ public class Task_CreateTN extends AsyncTask<String, Integer, Integer> {
 	protected Integer doInBackground(String... arg0) {
 		// TODO Auto-generated method stub
 		
+		///////////////////////////////////
+		//
+		// dispatch
+		//
+		///////////////////////////////////
+		if (arg0[0].equals("V2")) {
+//			if (arg0.equals("V2")) {
+
+			return Methods.create_TNs_V2(actv);
+
+		}//if (arg0.equals("V2"))
+		
+//		return -10;
+		
 		return Methods.create_TNs(actv);
 		
 	}

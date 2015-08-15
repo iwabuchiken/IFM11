@@ -32,15 +32,21 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 
 
+
+
+
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -83,6 +89,8 @@ public class MainActv extends ListActivity {
 
     private void do_debug() {
     	
+//    	_do_debug__Thumbnails();
+    	
 //    	_do_debug__Create_ImageFileList();
 //    	_do_debug__Show_DBList();
 //    	_do_debug__MillSec_to_TimeLabel();
@@ -91,6 +99,100 @@ public class MainActv extends ListActivity {
 
     	
 	}//private void do_debug()
+
+	private void _do_debug__Thumbnails() {
+		// TODO Auto-generated method stub
+	
+		///////////////////////////////////
+		//
+		// build: TI list
+		//
+		///////////////////////////////////
+		List<TI> list_TI = DBUtils.find_All_TI(this);
+		
+		List<TI> list_TI_filtered = new ArrayList<TI>();
+		
+		List<TI> list_TI_NoTN = new ArrayList<TI>();
+		
+		///////////////////////////////////
+		//
+		// filter: 2015-06 and beyond
+		//
+		///////////////////////////////////
+		String filter = "2015-07";
+		
+		for (TI ti : list_TI) {
+
+			if (ti.getFile_name().compareToIgnoreCase(filter) > 0) {
+
+				list_TI_filtered.add(ti);
+
+			}//if (ti.getFile_name().compareToIgnoreCase("2015-05") > 0)
+			
+		}
+
+		// report
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"filtered (%s) => %d", filter, list_TI_filtered.size()
+				);
+		
+		Log.i("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		
+		///////////////////////////////////
+		//
+		// detect: thumbnails in the media store?
+		//
+		///////////////////////////////////
+		ContentResolver cr = ((Context)this).getContentResolver();
+		
+		Bitmap bmp = null;
+		
+		for (TI ti : list_TI_filtered) {
+//			for (TI ti : list_TI) {
+			
+        	// Bitmap
+        	bmp = 
+    				MediaStore.Images.Thumbnails.getThumbnail(
+    							cr, 
+    							ti.getFileId(), 
+    							MediaStore.Images.Thumbnails.MICRO_KIND, 
+    							null);
+
+        	// get TN-less TI
+        	if (bmp == null) {
+
+        		list_TI_NoTN.add(ti);
+
+			}//if (bmp == null)
+        	
+		}
+		
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"TN-less => %d", list_TI_NoTN.size()
+				);
+		
+		Log.i("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		
+	}//_do_debug__Thumbnails
+	
 
 	private void 
 	_do_debug__Create_ImageFileList() {
@@ -764,12 +866,12 @@ public class MainActv extends ListActivity {
 		
 		super.onStart();
 		
-//		////////////////////////////////
-//
-//		// debug
-//
-//		////////////////////////////////
-//		do_debug();
+		////////////////////////////////
+
+		// debug
+
+		////////////////////////////////
+		do_debug();
 
 //		///////////////////////////////////
 //		//

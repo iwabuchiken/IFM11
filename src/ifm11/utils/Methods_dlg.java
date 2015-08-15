@@ -3552,6 +3552,14 @@ public class Methods_dlg {
 							.setTextColor_ID(R.color.black)
 							.build());
 		
+		list.add(new ListItem.Builder()
+//					.setText("Create TNs")
+							.setText(actv.getString(
+									R.string.dlg_actv_main_other_Create_TNs))
+							.setIconID(R.drawable.menu_icon_admin_32x32_purple)
+							.setTextColor_ID(R.color.black)
+							.build());
+		
 		/****************************
 		* 3. Adapter
 		****************************/
