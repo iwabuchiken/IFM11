@@ -1079,6 +1079,16 @@ public class MainActv extends ListActivity {
 			
 			return;
 			
+		} else if (auto.equals("")) {
+			
+			// Log
+			String msg_Log = "auto bk => no value set";
+			Log.d("MainActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
 		}
 		
 		//
@@ -1153,32 +1163,6 @@ public class MainActv extends ListActivity {
 					+ "]", msg_Log);
 			
 		}
-		
-		
-//		String now = Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now());
-		
-//		// Log
-//		msg_Log = String.format(
-//							"now = %s ** last = %s ** sch = %s", 
-//							now, last_bk, schedule);
-//		
-//		Log.d("MainActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		// Log
-//		msg_Log = "now.compareToIgnoreCase(last_bk) => " 
-//					+ (now.compareToIgnoreCase(last_bk));
-//		Log.d("MainActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		msg_Log = "last_bk.compareToIgnoreCase(now) => " 
-//				+ (last_bk.compareToIgnoreCase(now));
-//		Log.d("MainActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-		
 		
 	}//_Setup_AutoBK
 

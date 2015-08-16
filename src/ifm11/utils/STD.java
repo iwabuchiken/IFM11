@@ -372,6 +372,8 @@ public class STD {
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
+			wdb.close();
+			
 			return -2;
 			
 		}
@@ -386,6 +388,8 @@ public class STD {
 			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
+			
+			wdb.close();
 			
 			return -3;
 			
@@ -408,6 +412,9 @@ public class STD {
 			Log.e("STD.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
+			
+			wdb.close();
+			
 			return -4;
 			
 		}
@@ -449,7 +456,65 @@ public class STD {
 		//
 		///////////////////////////////////
 //		list_TI = __refresh_MainDB__FilterList_ByFileName(list_TI);
+//		
+//		//debug
+//		for (TI ti : list_TI) {
+//			
+//			// Log
+////			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"TI file name => %s", ti.getFile_name()
+//					);
+//			
+//			Log.i("STD.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//		}
+//
+//		// Log
+////		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"__refresh_MainDB__FilterList_By_FileDate"
+//				);
+//		
+//		Log.i("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 		
+		// filter
+		list_TI = __refresh_MainDB__FilterList_By_FileDate(list_TI);
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list_TI size => %d", list_TI.size()
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		//debug
+		for (TI ti : list_TI) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"TI file name => %s", ti.getFile_name()
+					);
+			
+			Log.i("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}
 		
 //		////////////////////////////////
 //
@@ -469,9 +534,7 @@ public class STD {
 		// Insert data into db
 
 		////////////////////////////////
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_New);
 		int numOfItemsAdded = _refresh_MainDB__InsertData_TIs(actv, list_TI);
-//		int numOfItemsAdded = _refresh_MainDB__InsertData_Image(actv, wdb, dbu, c);
 		
 		// Log
 //		String 
@@ -496,8 +559,9 @@ public class STD {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-//		return 0;
 		return numOfItemsAdded;
+		
+//		return 0;
 		
 	}//public static int refreshMainDB(Activity actv)
 
@@ -1196,6 +1260,7 @@ public class STD {
 		// threshold
 		//
 		///////////////////////////////////
+//		String th = "2015-08-14";
 		String th = "2015-08-01";
 		
 		int res;
@@ -1229,6 +1294,59 @@ public class STD {
 		
 	}//__refresh_MainDB__FilterList_ByFileName
 
+	private static List<TI> 
+	__refresh_MainDB__FilterList_By_FileDate
+	(List<TI> list_TI) {
+		// TODO Auto-generated method stub
+		
+		List<TI> tmp_list = new ArrayList();
+		
+		///////////////////////////////////
+		//
+		// threshold
+		//
+		///////////////////////////////////
+		String th = "2015-08-14_07";
+		
+		int res;
+		
+		for (TI ti : list_TI) {
+			
+			// validate: "2015"
+			if (!ti.getFile_name().startsWith("2015")) {
+
+				continue;
+
+			}//if (!ti.getFile_name().startsWith("2015"))
+			
+			res = ti.getFile_name().compareToIgnoreCase(th);
+			
+			if (res > 0) {
+//				if (res == 1) {
+				
+				tmp_list.add(ti);
+				
+			}//if (res == 1)
+			
+		}
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"tmp_list: size => %d", tmp_list.size()
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		return tmp_list;
+//		return list_TI;
+		
+	}//__refresh_MainDB__FilterList_ByFileName
+	
 	private static List<TI> 
 	_refresh_MainDB__RecoveryFrom_SDCard_Reset
 	(Activity actv, List<TI> list_TI) {
