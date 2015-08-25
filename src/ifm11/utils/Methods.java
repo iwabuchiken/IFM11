@@ -9795,6 +9795,21 @@ public class Methods {
 						count += 1;
 						
 					}
+//					} else {
+//						
+//						// Log
+//						String msg_Log;
+//						
+//						msg_Log = String.format(
+//								Locale.JAPAN,
+//								"fos => null: in = %s, out = %s",
+//								f_in.getAbsolutePath(), f_out.getAbsolutePath()
+//								);
+//						
+//						Log.e("Methods.java" + "["
+//								+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//								+ "]", msg_Log);
+//											}
 					
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block

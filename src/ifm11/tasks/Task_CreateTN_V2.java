@@ -5,6 +5,7 @@ import ifm11.utils.Methods_dlg;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class Task_CreateTN_V2 extends AsyncTask<String, Integer, Integer> {
 
@@ -96,6 +97,8 @@ public class Task_CreateTN_V2 extends AsyncTask<String, Integer, Integer> {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg);
 
+		String msg_Toa = msg;
+		Toast.makeText(actv, msg_Toa, Toast.LENGTH_SHORT).show();
 //		Methods_dlg.dlg_ShowMessage(actv, msg);
 		
 	}//onPostExecute
