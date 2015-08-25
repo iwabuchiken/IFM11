@@ -1,0 +1,3 @@
+pushd C:\WORKS\WS\WS_Android\IFM11
+a
+gitk

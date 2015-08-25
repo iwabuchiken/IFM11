@@ -394,9 +394,28 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	
     	Bitmap bmp = null;
     	
+    	//debug
+    	String msg;
+		msg = String.format(Locale.JAPAN, "[%s : %d] ti: file id = %d (name = %s)", 
+				Thread.currentThread().getStackTrace()[1].getFileName(), 
+				Thread.currentThread().getStackTrace()[1].getLineNumber(), 
+				ti.getFileId(), ti.getFile_name());
+
+		System.out.println(msg);
+		
+		/*******************************
+		 * Either
+				1) file instance is null
+			Or
+				2) thumbnail file doesn't exist in "TNs" folder
+			Then
+				=> use MediaStore file
+		 *******************************/
     	if (this.fname_Image == null || !this.fname_Image.exists()) {
 //    		if (this.fname_Image == null) {
 			
+    		
+    		
     		// Log
 			String msg_Log;
 			

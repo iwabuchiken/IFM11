@@ -88,7 +88,23 @@ public class STD {
 		/*********************************
 		 * Restore file
 		 *********************************/
+//		f_src_latest = new File(CONS.DB.dPath_dbFile_backup, 
+//								"ifm11_backup_20150820_115900.bk");
+//		
+//		// Log
+//		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"f_src => %s", f_src_latest.getAbsolutePath()
+//				);
+//		
+//		Log.i("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
 		String src = f_src_latest.getAbsolutePath();
+		
 		String dst = StringUtils.join(
 				new String[]{
 						//REF http://stackoverflow.com/questions/9810430/get-database-path answered Jan 23 at 11:24
@@ -97,6 +113,9 @@ public class STD {
 //						actv.getFilesDir().getPath() , 
 //						CONS.DB.dbName},
 				File.separator);
+		
+		// debug
+//		boolean res = false;
 		
 		boolean res = STD.restore_DB(
 							actv, 
