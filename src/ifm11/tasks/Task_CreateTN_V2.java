@@ -6,12 +6,12 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class Task_CreateTN extends AsyncTask<String, Integer, Integer> {
+public class Task_CreateTN_V2 extends AsyncTask<String, Integer, Integer> {
 
 	Activity actv;
 	
 	
-	public Task_CreateTN(Activity actv) {
+	public Task_CreateTN_V2(Activity actv) {
 		// TODO Auto-generated constructor stub
 		
 		this.actv	= actv;
@@ -19,7 +19,7 @@ public class Task_CreateTN extends AsyncTask<String, Integer, Integer> {
 	}
 
 	@Override
-	protected Integer doInBackground(String... arg0) {
+	protected Integer doInBackground(String... params) {
 		// TODO Auto-generated method stub
 		
 		///////////////////////////////////
@@ -27,21 +27,23 @@ public class Task_CreateTN extends AsyncTask<String, Integer, Integer> {
 		// dispatch
 		//
 		///////////////////////////////////
-		if (arg0[0].equals("V2")) {
-//			if (arg0.equals("V2")) {
-
-			return Methods.create_TNs_V2(actv);
-
-		} else if (arg0[0].equals("V3")) {
-//			if (arg0.equals("V2")) {
-				
-				return Methods.create_TNs_V2(actv);
-				
-		}//if (arg0.equals("V2"))
+		return Methods.create_TNs_V3(actv, params[0], params[1]);
 		
-//		return -10;
-		
-		return Methods.create_TNs(actv);
+//		if (arg0[0].equals("V2")) {
+////			if (arg0.equals("V2")) {
+//
+//			return Methods.create_TNs_V2(actv);
+//
+//		} else if (arg0[0].equals("V3")) {
+////			if (arg0.equals("V2")) {
+//				
+//				return Methods.create_TNs_V2(actv);
+//				
+//		}//if (arg0.equals("V2"))
+//		
+////		return -10;
+//		
+//		return Methods.create_TNs(actv);
 		
 	}
 
@@ -90,7 +92,7 @@ public class Task_CreateTN extends AsyncTask<String, Integer, Integer> {
 				.getStackTrace()[2].getLineNumber());
 		
 		// Log
-		Log.d("Task_CreateTN.java" + "["
+		Log.d("Task_CreateTN_V2.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg);
 

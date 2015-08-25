@@ -478,7 +478,8 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_Create_TNs))) {
 			
-			Methods.create_TNs_main(actv, d1);
+			Methods.create_TNs_main_V2(actv, d1);
+//			Methods.create_TNs_main(actv, d1);
 			
 		} else {
 			

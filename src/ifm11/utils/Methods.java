@@ -18,6 +18,7 @@ import ifm11.main.R;
 import ifm11.main.ShowLogActv;
 import ifm11.main.TNActv;
 import ifm11.tasks.Task_CreateTN;
+import ifm11.tasks.Task_CreateTN_V2;
 import ifm11.tasks.Task_HTTP;
 import ifm11.tasks.Task_Search;
 import ifm11.utils.CONS.IMageActv;
@@ -78,6 +79,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 
 
@@ -9416,6 +9419,242 @@ public class Methods {
 		
 	}//create_TNs
 	
+	/******************************
+		@param end 
+	 * @param start 
+	 * @return
+			-1	=> can't create tns dir
+			-2	=> TIs list ==> returned null
+	 ******************************/
+	public static Integer 
+	create_TNs_V3
+	(Activity actv, String start, String end) {
+		// TODO Auto-generated method stub
+		
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// valicate: tns dir => exists
+		
+		////////////////////////////////
+		File dir_TNs = new File(CONS.DB.dPath_TNs);
+		
+		if (!dir_TNs.exists()) {
+			
+			boolean res = dir_TNs.mkdir();
+			
+			if (res == true) {
+				
+				// Log
+				msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+			} else {
+				
+				msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
+				
+				Log.d("Methods.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				return -1;
+				
+			}
+			
+		} else {//if (!dir_TNs.exists())
+			
+			// Log
+			msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//if (!dir_TNs.exists())
+		
+		////////////////////////////////
+		
+		// get: TI
+		
+		////////////////////////////////
+		List<TI> list_TIs = DBUtils.find_All_TI(actv);
+		
+		List<TI> list_TI_Filtered_ByDate = new ArrayList<TI>();
+		
+		List<TI> list_TI_NoTN = new ArrayList<TI>();
+		
+		///////////////////////////////////
+		//
+		// TNs folder: list
+		//
+		///////////////////////////////////
+//		File dir_TNs = new File(CONS.DB.dPath_TNs);
+		String[] TN_file_names = dir_TNs.list();
+		
+		///////////////////////////////////
+		//
+		// filter: between 'start' and 'end'
+		//
+		///////////////////////////////////
+//		String filter_Start = "2015-08";
+		String filter_Start = start;
+		String filter_End = end;
+//		String filter_Start = "2015-03";
+//		String filter_End = "2015-05";
+//		String filter_Start = "2015-05";
+//		String filter_End = "2015-07";
+//		String filter_Start = "2015-07";
+//		String filter_End = "2015-08";
+		
+		for (TI ti : list_TIs) {
+			
+//			if (ti.getFile_name().compareToIgnoreCase(filter_Start) > 0) {
+			if (ti.getFile_name().compareToIgnoreCase(filter_Start) > 0
+					&& ti.getFile_name().compareToIgnoreCase(filter_End) < 0) {
+				
+				list_TI_Filtered_ByDate.add(ti);
+				
+			}//if (ti.getFile_name().compareToIgnoreCase("2015-05") > 0)
+			
+		}
+		
+		// report
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"filtered by date (%s, %s) => %d", 
+				filter_Start, filter_End, list_TI_Filtered_ByDate.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// filter: no thumb in the TNs dir
+		//
+		///////////////////////////////////
+		TI tmp_ti = null;
+		String tmp_fname = null;
+		boolean tmp_res = false;
+		
+		for (int i = 0; i < list_TI_Filtered_ByDate.size(); i++) {
+			
+			tmp_ti = list_TI_Filtered_ByDate.get(i);
+			
+			tmp_fname = tmp_ti.getFile_name();
+			
+			tmp_res = Arrays.asList(TN_file_names).contains(tmp_fname);
+			
+			// if no TN --> then put into the list
+			if (tmp_res == false) {
+
+				list_TI_NoTN.add(tmp_ti);
+
+			}//if (tmp_res == false)
+			
+		}
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list_TI_NoTN => %d", list_TI_NoTN.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		// Log
+////		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"TN dir list => %d", TN_file_names.length
+//				);
+//		
+//		Log.i("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		
+		///////////////////////////////////
+		//
+		// filter: not TN
+		//
+		///////////////////////////////////
+		
+		
+//		///////////////////////////////////
+//		//
+//		// detect: thumbnails in the media store?
+//		//
+//		///////////////////////////////////
+//		ContentResolver cr = ((Context)actv).getContentResolver();
+//		
+//		Bitmap bmp = null;
+//		
+//		for (TI ti : list_TI_Filtered_ByDate) {
+////			for (TI ti : list_TI) {
+//			
+//			// Bitmap
+//			bmp = 
+//					MediaStore.Images.Thumbnails.getThumbnail(
+//							cr, 
+//							ti.getFileId(), 
+//							MediaStore.Images.Thumbnails.MICRO_KIND, 
+//							null);
+//			
+//			// get TN-less TI
+//			if (bmp == null) {
+//				
+//				list_TI_NoTN.add(ti);
+//				
+//			}//if (bmp == null)
+//			
+//		}
+//		
+//		///////////////////////////////////
+//		//
+//		// report
+//		//
+//		///////////////////////////////////
+//		// Log
+////		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"TN-less => %d", list_TI_NoTN.size()
+//				);
+//		
+//		Log.i("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		
+//		msg_Log = "list_TIs.size() => " + list_TIs.size();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+		////////////////////////////////
+		
+		// create: thumbnails
+		
+		////////////////////////////////
+		return _create_TNs_V2(actv, list_TI_NoTN);
+//		return -1;
+		
+	}//create_TNs_V3
+	
 	private static Integer 
 	_create_TNs_V2(Activity actv, List<TI> list_TI_NoTN) {
 		// TODO Auto-generated method stub
@@ -10287,6 +10526,7 @@ public class Methods {
 	public static void 
 	create_TNs_main(Activity actv, Dialog d1) {
 		// TODO Auto-generated method stub
+
 		
 		Task_CreateTN task = new Task_CreateTN(actv);
 
@@ -10304,6 +10544,35 @@ public class Methods {
 		
 	}//create_TNs_main(Activity actv, Dialog d1)
 
+	public static void 
+	create_TNs_main_V2
+	(Activity actv, Dialog d1) {
+
+		Task_CreateTN_V2 task = new Task_CreateTN_V2(actv);
+		
+		// string
+//		String task_type = "V2";
+		
+		String[] params = new String[]{
+				
+//				"2015-07",	// start
+				"2015-06",	// start
+				"2015-09",	// end
+				
+		};
+		
+		task.execute(params);
+//		task.execute(task_type);
+		
+		///////////////////////////////////
+		//
+		// dismiss
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+	}//create_TNs_main(Activity actv, Dialog d1)
+	
 }//public class Methods
 
 /*
