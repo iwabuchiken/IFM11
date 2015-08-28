@@ -9550,6 +9550,7 @@ public class Methods {
 			
 			tmp_fname = tmp_ti.getFile_name();
 			
+			//REF http://stackoverflow.com/questions/1128723/in-java-how-can-i-test-if-an-array-contains-a-certain-value answered Jul 15 '09 at 0:04
 			tmp_res = Arrays.asList(TN_file_names).contains(tmp_fname);
 			
 			// if no TN --> then put into the list
@@ -9795,6 +9796,21 @@ public class Methods {
 						count += 1;
 						
 					}
+//					} else {
+//						
+//						// Log
+//						String msg_Log;
+//						
+//						msg_Log = String.format(
+//								Locale.JAPAN,
+//								"fos => null: in = %s, out = %s",
+//								f_in.getAbsolutePath(), f_out.getAbsolutePath()
+//								);
+//						
+//						Log.e("Methods.java" + "["
+//								+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//								+ "]", msg_Log);
+//											}
 					
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
