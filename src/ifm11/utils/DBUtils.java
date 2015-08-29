@@ -4672,6 +4672,112 @@ public class DBUtils extends SQLiteOpenHelper{
 	}//delete_TI
 
 	/******************************
+		@return -1	=> TI doesn't exist in db<br>
+				-2	=> ti.table_name ==> null<br>
+				-3	=> deletion => returned 0<br>
+				> 1	=> Number of items affected
+	 ******************************/
+	public static int 
+	delete_TI
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		////////////////////////////////
+		
+		// delete: from db
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: is in db
+		
+		////////////////////////////////
+		boolean res = DBUtils.isInDB_long_ai(wdb, CONS.DB.tname_IFM11, ti.getDb_Id());
+		
+		if (res == false) {
+			
+			wdb.close();
+			
+			return -1;
+			
+		}
+		
+		////////////////////////////////
+		
+		// validate: table name => set
+		
+		////////////////////////////////
+		String tableName = ti.getTable_name();
+		
+		if (tableName == null) {
+			
+			wdb.close();
+			
+			return -2;
+			
+		}
+		
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		String where = CONS.DB.col_names_IFM11_full[0] + " = ?";
+//		String where = CONS.DB.col_names_IFM11[1] + " = ?";
+		
+		String[] args = new String[]{
+				
+				String.valueOf(ti.getDb_Id())
+				
+		};
+		
+		int res_int = wdb.delete(CONS.DB.tname_IFM11, where, args);
+		
+		/******************************
+			validate: success
+		 ******************************/
+		if (res_int < 1) {
+			
+			wdb.close();
+			
+			return -3;
+			
+		}
+		
+		////////////////////////////////
+		
+		// close
+		
+		////////////////////////////////
+		wdb.close();
+		
+		////////////////////////////////
+		
+		// log
+		
+		////////////////////////////////
+		String log_msg = String.format(
+				"Delete from DB => done: %s (table = %s)",
+				ti.getFile_name(), ti.getTable_name()
+				);
+		
+		Methods.write_Log(actv, log_msg,
+				Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+				.currentThread().getStackTrace()[2].getLineNumber());
+		
+		////////////////////////////////
+		
+		// return
+		
+		////////////////////////////////
+		return res_int;
+		
+	}//delete_TI
+	
+	/******************************
 		@return -1 => Insertion failed<br>
 				-2 => Exception<br>
 				1 => Insertion done<br>

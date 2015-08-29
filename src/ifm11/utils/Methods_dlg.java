@@ -3552,13 +3552,27 @@ public class Methods_dlg {
 							.setTextColor_ID(R.color.black)
 							.build());
 		
+//		int color_Create_TNs = R.color.black;
+		int color_Create_TNs = R.color.gray1;
+		
 		list.add(new ListItem.Builder()
 //					.setText("Create TNs")
 							.setText(actv.getString(
 									R.string.dlg_actv_main_other_Create_TNs))
 							.setIconID(R.drawable.menu_icon_admin_32x32_purple)
-							.setTextColor_ID(R.color.black)
+							.setTextColor_ID(color_Create_TNs)
+//							.setTextColor_ID(R.color.black)
 							.build());
+		
+		int color_Fix_DB = R.color.gray2;
+		
+		list.add(new ListItem.Builder()
+				.setText(actv.getString(
+						R.string.dlg_actv_main_other_Fix_DB))
+						.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
+						.setTextColor_ID(color_Fix_DB)
+//						.setTextColor_ID(R.color.black)
+						.build());
 		
 		/****************************
 		* 3. Adapter

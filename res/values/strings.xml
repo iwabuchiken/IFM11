@@ -202,6 +202,7 @@
     	<string name="dlg_actv_main_other_see_log">See log</string>    	
     	<string name="dlg_actv_main_other_Import_From10">Import data from IFM10</string>
     	<string name="dlg_actv_main_other_Create_TNs">Create TNs</string>
+    	<string name="dlg_actv_main_other_Fix_DB">Fix DB</string>
 
     <!-- labs -->
     	<string name="opt_Menu_LABS_title">LABs</string>

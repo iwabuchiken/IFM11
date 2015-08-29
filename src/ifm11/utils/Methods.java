@@ -10588,6 +10588,105 @@ public class Methods {
 		d1.dismiss();
 		
 	}//create_TNs_main(Activity actv, Dialog d1)
+
+	/*******************************
+	 * fix_DB<br>
+	 * 
+	 * Fix database file<br>
+	 * 	1. Delete records which are duplicated
+	 *******************************/
+	public static void 
+	fix_DB(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+		///////////////////////////////////
+		//
+		// list
+		//
+		///////////////////////////////////
+		List<TI> list = DBUtils.find_All_TI(actv);
+		
+		Methods.sort_List_TI(list, CONS.Enums.SortType.FileName, CONS.Enums.SortOrder.ASC);
+
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list.size => %d", list.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		List<TI> list_Final = new ArrayList<TI>();
+		
+		///////////////////////////////////
+		//
+		// TI instances
+		//
+		///////////////////////////////////
+		TI tmp_X = null;
+		TI tmp_Y = null;
+
+		///////////////////////////////////
+		//
+		// filter
+		//
+		///////////////////////////////////
+		final int  len = list.size();
+		
+		int res;
+		
+		int counter = 0;
+		
+		for (int i = 0; i < len - 1; i++) {
+			
+			tmp_X = list.get(i);
+			tmp_Y = list.get(i + 1);
+			
+			// compare
+			if (tmp_X.getFile_name().equals(tmp_Y.getFile_name())) {
+
+				res = DBUtils.delete_TI(actv, tmp_X);
+				
+				counter ++;
+				
+				// Log
+//				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"res => %d (file name = %s)", res, tmp_X.getFile_name()
+						);
+				
+				Log.i("Methods.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+
+			}//if (tmp_X.getFile_name().equals(tmp_Y.getFile_name()))
+			
+		}
+
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"deleted => %d", counter
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		///////////////////////////////////
+		//
+		// dismiss d1
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+	}//fix_DB
 	
 }//public class Methods
 
