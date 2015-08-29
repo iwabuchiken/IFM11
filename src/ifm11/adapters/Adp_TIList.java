@@ -397,8 +397,10 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	//debug
     	String msg;
 		msg = String.format(Locale.JAPAN, "[%s : %d] ti: file id = %d (name = %s)", 
-				Thread.currentThread().getStackTrace()[1].getFileName(), 
-				Thread.currentThread().getStackTrace()[1].getLineNumber(), 
+				Thread.currentThread().getStackTrace()[2].getFileName(), 
+				Thread.currentThread().getStackTrace()[2].getLineNumber(), 
+//				Thread.currentThread().getStackTrace()[1].getFileName(), 
+//				Thread.currentThread().getStackTrace()[1].getLineNumber(), 
 				ti.getFileId(), ti.getFile_name());
 
 		System.out.println(msg);
@@ -455,6 +457,8 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 				Log.i("Adp_TIList.java" + "["
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", msg_Log);
+				
+				return;
 
 			} else {//if (bmp == null)
 				

@@ -20,6 +20,7 @@
 	
 <!-- /main.xml -->
 	<color name="gray1">#424242</color>
+	<color name="gray2">#222222</color>
 	
 	<color name="yellow_bright">#ecf42a</color>
 	<color name="yellow_dark">#c2c166</color>

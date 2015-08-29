@@ -478,7 +478,21 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_Create_TNs))) {
 			
-			Methods.create_TNs_main_V2(actv, d1);
+			String msg = "Sorry. Not in use";
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+			
+//			Methods.create_TNs_main_V2(actv, d1);
+//			Methods.create_TNs_main(actv, d1);
+			
+		} else if (item.getText().equals(actv.getString(
+				R.string.dlg_actv_main_other_Fix_DB))) {
+			
+			String msg = "Sorry. Not in use";
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+//			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+
+			
+//			Methods.fix_DB(actv, d1);
 //			Methods.create_TNs_main(actv, d1);
 			
 		} else {
