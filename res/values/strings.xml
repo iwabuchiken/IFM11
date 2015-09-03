@@ -111,6 +111,20 @@
     	    									Every 0 days</string>
     	<string name="prefs_tnactv_db_auto_backup_title">
     	    									DB auto backup</string>
+    	    									
+    	<string name="prefs_tnactv_refresh_db_start_title">
+    	    									Refresh DB start</string>
+    	<string name="prefs_tnactv_refresh_db_start_summary">
+    	    									e.g. 2015-07</string>
+    	<string name="prefs_tnactv_refresh_db_start_key">
+    	    									prefs_tnactv_refresh_db_start_key</string>
+    	    
+    	<string name="prefs_tnactv_refresh_db_end_title">
+    	    									Refresh DB end</string>
+    	<string name="prefs_tnactv_refresh_db_end_summary">
+    	    									e.g. 2015-10</string>
+    	<string name="prefs_tnactv_refresh_db_end_key">
+    	    									prefs_tnactv_refresh_db_end_key</string>
 
     <!-- image_actv_menu.xml -->
 	    <string name="image_actv_menu_add_memo">Memo</string>
