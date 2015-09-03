@@ -1524,7 +1524,7 @@ public class STD {
 				==> these fields are to be filled later<br>
 					when inserting the list into DB
 	 ******************************/
-	private static List<TI> 
+	static List<TI> 
 	_refresh_MainDB__Build_TIList
 	(Activity actv, Cursor c) {
 		
@@ -1594,7 +1594,7 @@ public class STD {
 	/******************************
 		@return false => Table doesn't exist; can't create one
 	 ******************************/
-	private static boolean 
+	static boolean 
 	_refresh_MainDB__SetupTable
 	(SQLiteDatabase wdb, DBUtils dbu) {
 		/*----------------------------
@@ -1652,7 +1652,7 @@ public class STD {
 						2. Cursor => null<br>
 						3. Cursor => count < 1<br>
 	 ******************************/
-	private static Cursor 
+	static Cursor 
 	_refresh_MainDB__ExecQuery
 	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
 		Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;

@@ -1,6 +1,8 @@
 package ifm11.listeners.dialog;
 
 
+import java.util.Locale;
+
 import ifm11.items.ListItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
@@ -487,11 +489,31 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_Fix_DB))) {
 			
-//			String msg = "Sorry. Not in use";
-//			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+			String msg = "Sorry. Not in use";
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
 
 			
-			Methods.fix_DB(actv, d1);
+//			Methods.fix_DB(actv, d1);
+			
+		} else if (item.getText().equals(actv.getString(
+				R.string.dlg_actv_main_other_Fix_DB_Refresh))) {
+			
+//			String msg = "Sorry. Not in use";
+//			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+			
+			int result = Methods.fix_DB__Refresh(actv, d1);
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"result => %d", result
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
 			
 		} else {
 			

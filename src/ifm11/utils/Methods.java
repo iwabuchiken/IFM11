@@ -87,6 +87,8 @@ import android.widget.Toast;
 
 
 
+
+
 // Apache
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -10687,6 +10689,164 @@ public class Methods {
 		d1.dismiss();
 		
 	}//fix_DB
+
+	/*******************************
+	 * fix_DB__Refresh<br>
+	 * 
+	 * D-42 v-1.0<br>
+	 * 
+	 * codes copied from: STD.refresh_MainDB<br>
+	 * 
+	 * @return<br>
+	 * -1		=> setup table ~~> false<br>
+	 * -2		=> exec query ~~> cursor is null<br>
+	 * -3		=> cursor ~~> no entry<br>
+	 * -4		=> build TI list ~~> null<br>
+	 *******************************/
+	public static int 
+	fix_DB__Refresh(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+
+		// vars
+
+		////////////////////////////////
+		boolean res;
+		
+		////////////////////////////////
+
+		// Set up DB(writable)
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		////////////////////////////////
+
+		// Table exists?
+		// If no, then create one
+		//	1. baseDirName
+		//	2. backupTableName
+
+		////////////////////////////////
+		res = STD._refresh_MainDB__SetupTable(wdb, dbu);
+//		boolean res = refreshMainDB_1_set_up_table(wdb, dbu);
+
+		if (res == false) {
+			
+			// Log
+			Log.d("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Can't  create table");
+			
+			wdb.close();
+			
+			return -1;
+			
+		}//if (res == false)
+		
+		////////////////////////////////
+
+		// Execute query for image files
+
+		////////////////////////////////
+		Cursor c = STD._refresh_MainDB__ExecQuery(actv, wdb, dbu);
+//		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			String msg_Log = "can't build cursor";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -2;
+			
+		}
+
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+			
+			// Log
+			String msg_Log = "No entry";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -3;
+			
+		}
+		
+		////////////////////////////////
+
+		// build: TI list from cursor
+
+		////////////////////////////////
+		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (list_TI == null) {
+			
+			// Log
+			String msg_Log = "list_TI => Null";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -4;
+			
+		}
+		
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"TI list: size => %d", list_TI.size()
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// close: db
+
+		////////////////////////////////
+		wdb.close();
+
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return -1;
+		
+	}//fix_DB__Refresh
+
+	private static Cursor _refresh_MainDB__ExecQuery(Activity actv,
+			SQLiteDatabase wdb, DBUtils dbu) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }//public class Methods
 
