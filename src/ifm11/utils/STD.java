@@ -504,36 +504,36 @@ public class STD {
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", msg_Log);
 		
-		// filter
-		list_TI = __refresh_MainDB__FilterList_By_FileDate(list_TI);
-		
-		// Log
-//		String msg_Log;
-		
-		msg_Log = String.format(
-				Locale.JAPAN,
-				"list_TI size => %d", list_TI.size()
-				);
-		
-		Log.i("STD.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-		
-		//debug
-		for (TI ti : list_TI) {
-			
-			// Log
-//			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"TI file name => %s", ti.getFile_name()
-					);
-			
-			Log.i("STD.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-		}
+//		// filter
+//		list_TI = __refresh_MainDB__FilterList_By_FileDate(list_TI);
+//		
+//		// Log
+////		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"list_TI size => %d", list_TI.size()
+//				);
+//		
+//		Log.i("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		//debug
+//		for (TI ti : list_TI) {
+//			
+//			// Log
+////			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"TI file name => %s", ti.getFile_name()
+//					);
+//			
+//			Log.i("STD.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//		}
 		
 //		////////////////////////////////
 //
@@ -1440,7 +1440,7 @@ public class STD {
 	}//_refresh_MainDB__RecoveryFrom_SDCard_Reset
 	
 
-	private static boolean 
+	static boolean 
 	_refresh_MainDB__InsertData_RefreshDate
 	(Activity actv, 
 			int numOfItemsAdded, List<TI> list_TI) {
@@ -1492,7 +1492,7 @@ public class STD {
 	}//_refresh_MainDB__InsertData_RefreshDate
 	
 
-	private static int 
+	static int 
 	_refresh_MainDB__InsertData_TIs
 	(Activity actv, List<TI> list_TI) {
 		
@@ -2002,7 +2002,7 @@ public class STD {
 		@return null => 1. query returned null<br>
 						2. query found no entry<br>
 	 ******************************/
-	private static String 
+	static String 
 	_refresh_MainDB__Get_LastRefreshed
 	(Activity actv, SQLiteDatabase wdb, DBUtils dbu) {
 		

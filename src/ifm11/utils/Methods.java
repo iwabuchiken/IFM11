@@ -89,6 +89,8 @@ import android.widget.Toast;
 
 
 
+
+
 // Apache
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -1770,9 +1772,14 @@ public class Methods {
 		
 	}//drop_Table
 
+	/*******************************
+	 * format => CONS.Admin.format_Date<br>
+	 * 
+	 * "yyyy/MM/dd HH:mm:ss.SSS"
+	 * 
+	 *******************************/
 	public static String
-	conv_MillSec_to_TimeLabel(long millSec)
-	{
+	conv_MillSec_to_TimeLabel(long millSec) {
 		//REF http://stackoverflow.com/questions/7953725/how-to-convert-milliseconds-to-date-format-in-android answered Oct 31 '11 at 12:59
 		String dateFormat = CONS.Admin.format_Date;
 //		String dateFormat = "yyyy/MM/dd hh:mm:ss.SSS";
@@ -1789,6 +1796,55 @@ public class Methods {
 		
 	}//conv_MillSec_to_TimeLabel(long millSec)
 
+	public static String
+	conv_MillSec_to_TimeLabel
+	(long millSec, CONS.Enums.TimeLabelType timeLabel_Type) {
+		
+		//REF http://stackoverflow.com/questions/7953725/how-to-convert-milliseconds-to-date-format-in-android answered Oct 31 '11 at 12:59
+		String dateFormat = null;
+		
+		switch(timeLabel_Type) {
+		
+		case STANDARD:
+			
+			dateFormat = CONS.Admin.format_Date;
+			
+			break;
+		
+		case SERIAL:
+			
+			dateFormat = "yyyyMMdd_hhmmss_SSS";
+			
+			break;
+			
+		case SERIAL2:
+			
+			dateFormat = "yyyy-MM-dd_hh-mm-ss_SSS";
+			
+			break;
+			
+		default:
+			
+			dateFormat = CONS.Admin.format_Date;
+			
+			break;
+			
+		}
+//		String dateFormat = CONS.Admin.format_Date;
+//		String dateFormat = "yyyy/MM/dd hh:mm:ss.SSS";
+		
+		DateFormat formatter = new SimpleDateFormat(dateFormat, Locale.JAPAN);
+//		DateFormat formatter = new SimpleDateFormat(dateFormat);
+		
+		// Create a calendar object that will convert the date and time value in milliseconds to date. 
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.setTimeInMillis(millSec);
+		
+		return formatter.format(calendar.getTime());
+		
+	}//conv_MillSec_to_TimeLabel(long millSec)
+	
 	public static long
 	conv_TimeLabel_to_MillSec(String timeLabel)
 //	conv_MillSec_to_TimeLabel(long millSec)
@@ -10706,7 +10762,7 @@ public class Methods {
 	public static int 
 	fix_DB__Refresh(Activity actv, Dialog d1) {
 		// TODO Auto-generated method stub
-		
+
 		////////////////////////////////
 
 		// vars
@@ -10737,7 +10793,7 @@ public class Methods {
 		if (res == false) {
 			
 			// Log
-			Log.d("STD.java" + "["
+			Log.d("Methods.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "Can't  create table");
 			
@@ -10747,85 +10803,164 @@ public class Methods {
 			
 		}//if (res == false)
 		
+//		////////////////////////////////
+//
+//		// Execute query for image files
+//
+//		////////////////////////////////
+//		Cursor c = STD._refresh_MainDB__ExecQuery(actv, wdb, dbu);
+////		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+//		
+//		/******************************
+//			validate: null
+//		 ******************************/
+//		if (c == null) {
+//			
+//			// Log
+//			String msg_Log = "can't build cursor";
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			wdb.close();
+//			
+//			return -2;
+//			
+//		}
+//
+//		/******************************
+//			validate: any entry?
+//		 ******************************/
+//		if (c.getCount() < 1) {
+//			
+//			// Log
+//			String msg_Log = "No entry";
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			wdb.close();
+//			
+//			return -3;
+//			
+//		}
+//		
+//		////////////////////////////////
+//
+//		// build: TI list from cursor
+//
+//		////////////////////////////////
+//		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
+//
+//		/******************************
+//			validate: null
+//		 ******************************/
+//		if (list_TI == null) {
+//			
+//			// Log
+//			String msg_Log = "list_TI => Null";
+//			Log.e("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//			wdb.close();
+//			
+//			return -4;
+//			
+//		}
+//		
+//		
+//		// Log
+//		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"TI list: size => %d", list_TI.size()
+//				);
+//		
+//		Log.i("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
 		////////////////////////////////
 
-		// Execute query for image files
+		// get: last refreshed date
 
 		////////////////////////////////
-		Cursor c = STD._refresh_MainDB__ExecQuery(actv, wdb, dbu);
-//		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+//		long lastRefreshedDate = 0;		// Initial value => 0
+		String lastRefreshedDate = 
+				STD._refresh_MainDB__Get_LastRefreshed(actv, wdb, dbu);
+		
+		long last_Refreshed;
 		
 		/******************************
-			validate: null
+			validate: gotten data?
 		 ******************************/
-		if (c == null) {
+		if (lastRefreshedDate == null) {
 			
-			// Log
-			String msg_Log = "can't build cursor";
-			Log.e("STD.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
+			last_Refreshed = 0;
 			
-			wdb.close();
+		} else {
 			
-			return -2;
+			last_Refreshed = Methods.conv_TimeLabel_to_MillSec(lastRefreshedDate);
 			
 		}
-
-		/******************************
-			validate: any entry?
-		 ******************************/
-		if (c.getCount() < 1) {
-			
-			// Log
-			String msg_Log = "No entry";
-			Log.e("STD.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-			wdb.close();
-			
-			return -3;
-			
-		}
-		
-		////////////////////////////////
-
-		// build: TI list from cursor
-
-		////////////////////////////////
-		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
-
-		/******************************
-			validate: null
-		 ******************************/
-		if (list_TI == null) {
-			
-			// Log
-			String msg_Log = "list_TI => Null";
-			Log.e("STD.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-			wdb.close();
-			
-			return -4;
-			
-		}
-		
 		
 		// Log
 		String msg_Log;
-		
-		msg_Log = String.format(
-				Locale.JAPAN,
-				"TI list: size => %d", list_TI.size()
-				);
-		
-		Log.i("STD.java" + "["
+		msg_Log = String.format(Locale.JAPAN,
+						"last_Refreshed => %d (%s)", 
+						last_Refreshed, 
+						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
+//		msg_Log = "lastRefreshedDate => " + lastRefreshedDate
+//				+ ;
+		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
+		///////////////////////////////////
+		//
+		// get: date part
+		//
+		///////////////////////////////////
+		String[] tmp_tokens = 
+				(Methods.conv_MillSec_to_TimeLabel(
+							last_Refreshed, CONS.Enums.TimeLabelType.SERIAL2)
+				.split("_"));
+		
+		String lastRefreshedDate__Month = tmp_tokens[0];
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"last refreshed (date) => %s", tmp_tokens[0]
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// modify: refreshed date
+		//		=> convert to seconds
+
+		////////////////////////////////
+		last_Refreshed = last_Refreshed / 1000;
+		
+		msg_Log = String.format(Locale.JAPAN,
+						"last_Refreshed(converted) => %d (%s)", 
+						last_Refreshed, 
+						Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
+		//msg_Log = "lastRefreshedDate => " + lastRefreshedDate
+		//		+ ;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+
 		////////////////////////////////
 
 		// close: db
@@ -10833,6 +10968,91 @@ public class Methods {
 		////////////////////////////////
 		wdb.close();
 
+//		///////////////////////////////////
+//		//
+//		// filter list
+//		//
+//		///////////////////////////////////
+//		List<TI> list_TI__Filtered = new ArrayList<TI>();
+//
+//		int len = list_TI.size();
+//		
+//		TI tmp_ti = null;
+//		
+//		int res_i;
+//		
+//		for (int i = 0; i < len; i++) {
+//			
+//			tmp_ti = list_TI.get(i);
+//			
+//			res_i = tmp_ti.getFile_name().compareToIgnoreCase(lastRefreshedDate__Month);
+//			
+//			if (res_i == 1) {
+//
+//				list_TI__Filtered.add(tmp_ti);
+//
+//			}//if (res == 1)
+//			
+//		}
+//		
+//		// Log
+////		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"list_TI__Filtered => %d", list_TI__Filtered.size()
+//				);
+//		
+//		Log.i("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+//		////////////////////////////////
+//
+//		// Insert data into db
+//
+//		////////////////////////////////
+//		int numOfItemsAdded = 
+//					STD._refresh_MainDB__InsertData_TIs(actv, list_TI__Filtered);
+////		int numOfItemsAdded = STD._refresh_MainDB__InsertData_TIs(actv, list_TI);
+//		
+//		// Log
+////		String 
+//		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+//		Log.d("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//			
+//		////////////////////////////////
+//
+//		// Insert: refresh date
+//		//		=> only if there is/are new entry/entries
+//
+//		////////////////////////////////
+//		res = STD._refresh_MainDB__InsertData_RefreshDate(
+////										actv, numOfItemsAdded, list_New);
+//										actv, numOfItemsAdded, list_TI__Filtered);
+////		actv, numOfItemsAdded, list_TI);
+//
+//		// Log
+//		msg_Log = "insert refresh date => " + res;
+//		Log.d("STD.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		return numOfItemsAdded;
+	
+		///////////////////////////////////
+		//
+		// TNs
+		//
+		///////////////////////////////////
+		String start = "2015-07";
+//		String start = lastRefreshedDate__Month;
+		String end = "2015-10";
+		
+		Methods.create_TNs_V3(actv, start, end);
+		
 		///////////////////////////////////
 		//
 		// return

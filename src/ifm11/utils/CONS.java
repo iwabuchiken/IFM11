@@ -768,6 +768,14 @@ public class CONS {
 	public static class 
 	Enums {
 		
+		public enum TimeLabelType {
+
+			STANDARD, 		// yyyy/MM/dd HH:mm:ss.SSS
+			SERIAL, 		// yyyyMMdd_hhmmss_SSS
+			SERIAL2,		// yyyy-MM-dd_hh-mm-ss_SSS
+			
+		}
+
 		public static enum SortType {
 			
 			FileName, POSITION, CREATED_AT, WORD, USED,
