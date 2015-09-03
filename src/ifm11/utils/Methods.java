@@ -9714,7 +9714,7 @@ public class Methods {
 		
 	}//create_TNs_V3
 	
-	private static Integer 
+	public static Integer 
 	_create_TNs_V2(Activity actv, List<TI> list_TI_NoTN) {
 		// TODO Auto-generated method stub
 		int count = 0;
