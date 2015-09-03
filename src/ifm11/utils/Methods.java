@@ -9714,7 +9714,7 @@ public class Methods {
 		
 	}//create_TNs_V3
 	
-	private static Integer 
+	public static Integer 
 	_create_TNs_V2(Activity actv, List<TI> list_TI_NoTN) {
 		// TODO Auto-generated method stub
 		int count = 0;
@@ -11047,9 +11047,45 @@ public class Methods {
 		// TNs
 		//
 		///////////////////////////////////
-		String start = "2015-07";
+		String start = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				actv.getString(R.string.prefs_tnactv_refresh_db_start_key), 
+				null);
+
+		if (start == null) {
+
+			start = "2015-07";
+
+		}//if (start == null)
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"start => %s", start
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		String start = "2015-07";
 //		String start = lastRefreshedDate__Month;
-		String end = "2015-10";
+//		String end = "2015-10";
+		String end = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				actv.getString(R.string.prefs_tnactv_refresh_db_end_key), 
+				null);
+
+		if (end == null) {
+
+			end = "2015-10";
+
+		}//if (end == null)
+
 		
 		Methods.create_TNs_V3(actv, start, end);
 		

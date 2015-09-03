@@ -578,6 +578,26 @@ public class STD {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
+		///////////////////////////////////
+		//
+		// create: TNs
+		//
+		///////////////////////////////////
+		int tmp_i = Methods._create_TNs_V2(actv, list_TI);
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"TNs created => %d", tmp_i
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		
 		return numOfItemsAdded;
 		
 //		return 0;

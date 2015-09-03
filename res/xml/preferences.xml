@@ -27,6 +27,24 @@
         android:defaultValue="0"
         
     >
+    </EditTextPreference>
+        
+    <EditTextPreference
+        android:title="@string/prefs_tnactv_refresh_db_start_title"
+        android:key="@string/prefs_tnactv_refresh_db_start_key"
+        android:summary="@string/prefs_tnactv_refresh_db_start_summary"
+        android:defaultValue="2015-07"
+        
+    >
+    </EditTextPreference>
+        
+    <EditTextPreference
+        android:title="@string/prefs_tnactv_refresh_db_end_title"
+        android:key="@string/prefs_tnactv_refresh_db_end_key"
+        android:summary="@string/prefs_tnactv_refresh_db_end_summary"
+        android:defaultValue="2015-10"
+        
+    >
         
     </EditTextPreference>
     
