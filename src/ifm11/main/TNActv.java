@@ -642,6 +642,18 @@ public class TNActv extends ListActivity {
 			////////////////////////////////
 			this.setListAdapter(CONS.TNActv.adp_TNActv_Main);
 			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"Adp_TIList => set"
+					);
+			
+			Log.i("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
 		} else {
 			
 			CONS.TNActv.adp_TNActv_Main_Move = new Adp_TIList_Move(
@@ -657,6 +669,18 @@ public class TNActv extends ListActivity {
 			
 			////////////////////////////////
 			this.setListAdapter(CONS.TNActv.adp_TNActv_Main_Move);
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"Adp_TIList_Move => set"
+					);
+			
+			Log.i("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
 
 		}
 		
@@ -801,6 +825,23 @@ public class TNActv extends ListActivity {
 				CONS.Enums.SortOrder.DESC);
 //		CONS.Enums.SortType.CREATED_AT, 
 //		CONS.Enums.SortOrder.ASC);
+
+		for (int i = 0; i < 20; i++) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"list[%d] => %s", i, 
+					CONS.TNActv.list_TNActv_Main.get(i).getFile_name()
+					);
+			
+			Log.i("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
 		
 		return true;
 		
