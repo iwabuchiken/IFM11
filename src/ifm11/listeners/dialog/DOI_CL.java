@@ -498,22 +498,25 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_Fix_DB_Refresh))) {
 			
-//			String msg = "Sorry. Not in use";
-//			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+			case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_Refresh();
 			
-			int result = Methods.fix_DB__Refresh(actv, d1);
-			
-			// Log
-			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"result => %d", result
-					);
-			
-			Log.i("DOI_CL.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
+////			String msg = "Sorry. Not in use";
+////			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+//			
+//			int result = Methods.fix_DB__Refresh_V2(actv, d1);
+////			int result = Methods.fix_DB__Refresh(actv, d1);
+//			
+//			// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"result => %d", result
+//					);
+//			
+//			Log.i("DOI_CL.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
 			
 		} else {
 			
@@ -522,6 +525,106 @@ public class DOI_CL implements OnItemClickListener {
 	}//case_ACTV_MAIN_OPTMENU_OTHERS
 
 	
+	private void 
+	case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_Refresh() {
+		// TODO Auto-generated method stub
+		
+//		String msg = "Sorry. Not in use";
+//		Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+		
+		int result = Methods.fix_DB__Refresh_V2(actv, d1);
+//		int result = Methods.fix_DB__Refresh(actv, d1);
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"result => %d", result
+				);
+		
+		Log.i("DOI_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// dialog
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+		///////////////////////////////////
+		//
+		// message
+		//
+		///////////////////////////////////
+//		-1 => setup table(ifm11) ~~> false
+//		 -2 => exec query ~~> cursor is null
+//		 -3 => cursor ~~> no entry
+//		 -4 => build TI list ~~> null
+		String msg = null;
+		int colorId = 0;
+		
+//		-1 Table doesn't exist
+//		0< num of patterns inserted
+		
+
+		switch(result) {
+		
+		case -1:
+			
+			msg = "-1 => setup table(ifm11) ~~> false";
+			colorId = R.color.red;
+			
+			break;
+
+		case -2:
+			
+			msg = "-2 => exec query ~~> cursor is null";
+			colorId = R.color.red;
+			
+			break;
+			
+		case -3:
+			
+			msg = "-3 => cursor ~~> no entry";
+			colorId = R.color.red;
+			
+			break;
+			
+		case -4:
+			
+			msg = "-4 => build TI list ~~> null";
+			colorId = R.color.red;
+			
+			break;
+			
+		default:
+			
+			msg = "Unknown result => " + result;
+			colorId = R.color.gold2;
+			
+			break;
+			
+		}
+		
+		///////////////////////////////////
+		//
+		// refreshed
+		//
+		///////////////////////////////////
+		if (result > 0) {
+
+			msg = "Refreshed => " + result;
+			colorId = R.color.green4;
+
+		}//if (result > 0)
+		
+		Methods_dlg.dlg_ShowMessage(actv, msg, colorId);
+		
+	}//case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_Refresh
+
 	private void 
 	case_DLG_ACTV_TN_LIST_UPLOAD
 	(String choice) {

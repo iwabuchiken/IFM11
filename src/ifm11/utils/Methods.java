@@ -11098,6 +11098,368 @@ public class Methods {
 		
 	}//fix_DB__Refresh
 
+	/*******************************
+	 * fix_DB__Refresh<br>
+	 * 
+	 * D-42 v-1.0<br>
+	 * 
+	 * codes copied from: STD.refresh_MainDB<br>
+	 * 
+	 * @return<br>
+	 * -1		=> setup table(ifm11) ~~> false<br>
+	 * -2		=> exec query ~~> cursor is null<br>
+	 * -3		=> cursor ~~> no entry<br>
+	 * -4		=> build TI list ~~> null<br>
+	 *******************************/
+	public static int 
+	fix_DB__Refresh_V2(Activity actv, Dialog d1) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// vars
+		
+		////////////////////////////////
+		boolean res;
+		
+		////////////////////////////////
+		
+		// Set up DB(writable)
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		////////////////////////////////
+		
+		// Table exists?
+		// If no, then create one
+		//	1. baseDirName
+		//	2. backupTableName
+		
+		////////////////////////////////
+		res = STD._refresh_MainDB__SetupTable(wdb, dbu);
+//		boolean res = refreshMainDB_1_set_up_table(wdb, dbu);
+		
+		if (res == false) {
+			
+			// Log
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Can't  create table");
+			
+			wdb.close();
+			
+			return -1;
+			
+		}//if (res == false)
+		
+		////////////////////////////////
+
+		// Execute query for image files
+
+		////////////////////////////////
+		Cursor c = STD._refresh_MainDB__ExecQuery(actv, wdb, dbu);
+//		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			String msg_Log = "can't build cursor";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -2;
+			
+		}
+
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+			
+			// Log
+			String msg_Log = "No entry";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -3;
+			
+		}
+		
+		////////////////////////////////
+
+		// build: TI list from cursor
+
+		////////////////////////////////
+		List<TI> list_TI = STD._refresh_MainDB__Build_TIList(actv, c);
+
+		/******************************
+			validate: null
+		 ******************************/
+		if (list_TI == null) {
+			
+			// Log
+			String msg_Log = "list_TI => Null";
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -4;
+			
+		}
+		
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"TI list: size => %d", list_TI.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// get: last refreshed date
+		
+		////////////////////////////////
+//		long lastRefreshedDate = 0;		// Initial value => 0
+		String lastRefreshedDate = 
+				STD._refresh_MainDB__Get_LastRefreshed(actv, wdb, dbu);
+		
+		long last_Refreshed;
+		
+		/******************************
+			validate: gotten data?
+		 ******************************/
+		if (lastRefreshedDate == null) {
+			
+			last_Refreshed = 0;
+			
+		} else {
+			
+			last_Refreshed = Methods.conv_TimeLabel_to_MillSec(lastRefreshedDate);
+			
+		}
+		
+		// Log
+//		String msg_Log;
+		msg_Log = String.format(Locale.JAPAN,
+				"last_Refreshed => %d (%s)", 
+				last_Refreshed, 
+				Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
+//		msg_Log = "lastRefreshedDate => " + lastRefreshedDate
+//				+ ;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// get: date part
+		//
+		///////////////////////////////////
+		String[] tmp_tokens = 
+				(Methods.conv_MillSec_to_TimeLabel(
+						last_Refreshed, CONS.Enums.TimeLabelType.SERIAL2)
+						.split("_"));
+		
+		String lastRefreshedDate__Month = tmp_tokens[0];
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"lastRefreshedDate__Month => %s", lastRefreshedDate__Month
+//						"last refreshed (date) => %s", tmp_tokens[0]
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// modify: refreshed date
+		//		=> convert to seconds
+		
+		////////////////////////////////
+		last_Refreshed = last_Refreshed / 1000;
+		
+		msg_Log = String.format(Locale.JAPAN,
+				"last_Refreshed(converted) => %d (%s)", 
+				last_Refreshed, 
+				Methods.conv_MillSec_to_TimeLabel(last_Refreshed));
+		//msg_Log = "lastRefreshedDate => " + lastRefreshedDate
+		//		+ ;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		
+		////////////////////////////////
+		
+		// close: db
+		
+		////////////////////////////////
+		wdb.close();
+		
+		///////////////////////////////////
+		//
+		// filter list
+		//
+		///////////////////////////////////
+		List<TI> list_TI__Filtered = new ArrayList<TI>();
+
+		int len = list_TI.size();
+		
+		TI tmp_ti = null;
+		
+		int res_i;
+		
+		for (int i = 0; i < len; i++) {
+			
+			tmp_ti = list_TI.get(i);
+			
+			res_i = tmp_ti.getFile_name().compareToIgnoreCase(lastRefreshedDate__Month);
+			
+			if (res_i >= 1) {
+//				if (res_i == 1) {
+
+				list_TI__Filtered.add(tmp_ti);
+
+			}//if (res == 1)
+			
+		}
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list_TI__Filtered => %d", list_TI__Filtered.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// Insert data into db
+
+		////////////////////////////////
+		int numOfItemsAdded = 
+					STD._refresh_MainDB__InsertData_TIs(actv, list_TI__Filtered);
+//		int numOfItemsAdded = STD._refresh_MainDB__InsertData_TIs(actv, list_TI);
+		
+		// Log
+//		String 
+		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+			
+		////////////////////////////////
+
+		// Insert: refresh date
+		//		=> only if there is/are new entry/entries
+
+		////////////////////////////////
+		res = STD._refresh_MainDB__InsertData_RefreshDate(
+//										actv, numOfItemsAdded, list_New);
+										actv, numOfItemsAdded, list_TI__Filtered);
+//		actv, numOfItemsAdded, list_TI);
+
+		// Log
+		msg_Log = "insert refresh date => " + res;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		return numOfItemsAdded;
+		
+		///////////////////////////////////
+		//
+		// TNs
+		//
+		///////////////////////////////////
+		String start = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				actv.getString(R.string.prefs_tnactv_refresh_db_start_key), 
+				null);
+		
+		if (start == null) {
+			
+			start = "2015-07";
+			
+		}//if (start == null)
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"start => %s", start
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		String start = "2015-07";
+//		String start = lastRefreshedDate__Month;
+//		String end = "2015-10";
+		String end = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				actv.getString(R.string.prefs_tnactv_refresh_db_end_key), 
+				null);
+		
+		if (end == null) {
+			
+			end = "2015-10";
+			
+		}//if (end == null)
+		
+		
+		Methods.create_TNs_V3(actv, start, end);
+	
+		///////////////////////////////////
+		//
+		// dialog
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+//		return -1;
+		return numOfItemsAdded;
+		
+	}//fix_DB__Refresh_V2
+	
 	private static Cursor _refresh_MainDB__ExecQuery(Activity actv,
 			SQLiteDatabase wdb, DBUtils dbu) {
 		// TODO Auto-generated method stub

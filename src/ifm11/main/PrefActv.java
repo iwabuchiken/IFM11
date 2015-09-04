@@ -80,9 +80,54 @@ public class PrefActv extends PreferenceActivity
 		
 		_Setup_Listeners();
 		
+		///////////////////////////////////
+		//
+		// summaries
+		//
+		///////////////////////////////////
+		_Setup__Set_Summaries();
+		
 		super.onStart();
 		
 	}//protected void onStart()
+
+	private void _Setup__Set_Summaries() {
+		// TODO Auto-generated method stub
+	
+		////////////////////////////////
+
+		// pref: Refresh DB start
+
+		////////////////////////////////
+//		this.getString(R.string.prefs_tnactv_list_font_size_key));
+		EditTextPreference pref_RefreshDB_Start = 
+				(EditTextPreference) findPreference(
+						this.getString(R.string.prefs_tnactv_refresh_db_start_key));
+
+		// show: current
+		String summary = pref_RefreshDB_Start.getText();
+
+		pref_RefreshDB_Start.setSummary(summary);		
+
+		////////////////////////////////
+		
+		// pref: Refresh DB end
+		
+		////////////////////////////////
+//		this.getString(R.string.prefs_tnactv_list_font_size_key));
+		EditTextPreference pref_RefreshDB_End = 
+				(EditTextPreference) findPreference(
+						this.getString(R.string.prefs_tnactv_refresh_db_end_key));
+		
+		// show: current
+		String summary_RefreshDB_End = pref_RefreshDB_End.getText();
+		
+		pref_RefreshDB_End.setSummary(summary_RefreshDB_End);		
+		
+		
+	}//_Setup__Set_Summaries
+	
+
 
 	private void _Setup_Listeners() {
 		// TODO Auto-generated method stub
@@ -203,8 +248,13 @@ public class PrefActv extends PreferenceActivity
 		// update
 
 		////////////////////////////////
+		// font size
 		_Setup_Pref_FontSize();
 		
+		// summaries
+		this._Setup__Set_Summaries();
+		
+		// auto backup
 		this._Setup_Pref_AutoBk();
 		
 	}

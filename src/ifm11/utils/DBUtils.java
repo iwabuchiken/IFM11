@@ -1200,7 +1200,8 @@ public class DBUtils extends SQLiteOpenHelper{
 			} else {
 				
 				// Log
-				String msg_Log = "insertion => done";
+				String msg_Log = "insertion => done: " + ti.getFile_name();
+//				String msg_Log = "insertion => done";
 				Log.d("DBUtils.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
