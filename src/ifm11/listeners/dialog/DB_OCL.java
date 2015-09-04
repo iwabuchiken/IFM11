@@ -4,12 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import ifm11.items.LogItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.main.R;
 import ifm11.tasks.Task_FTP;
+import ifm11.tasks.Task_RefreshDB;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
@@ -47,6 +49,8 @@ public class DB_OCL implements OnClickListener {
 	private String item_Name;	// Methods_dlg.conf_DropTable
 	private TI ti;
 	private WordPattern wp;
+	private Task_RefreshDB task;	// STD.refresh_MainDB__PreExecute()
+								// used in ==> case_REFRESH_NO()
 	
 	public DB_OCL(Activity actv, Dialog dlg1) {
 		//
@@ -179,6 +183,18 @@ public class DB_OCL implements OnClickListener {
 		
 	}
 
+	public DB_OCL(Activity actv, Dialog dlg, Task_RefreshDB task) {
+		// TODO Auto-generated constructor stub
+		this.actv	= actv;
+		
+		this.d1	= dlg;
+
+		this.task	= task;
+		
+		CONS.Admin.vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+
+	}
+
 	public void onClick(View v) {
 		//
 		Tags.DialogTags tag_name = (Tags.DialogTags) v.getTag();
@@ -193,6 +209,18 @@ public class DB_OCL implements OnClickListener {
 		//
 		switch (tag_name) {
 
+		case REFRESH_NO://------------------------------------------------
+			
+			case_REFRESH_NO();
+			
+			break;
+			
+		case REFRESH_YES://------------------------------------------------
+			
+			case_REFRESH_YES();
+			
+			break;
+			
 		case DLG_FILTER_SHOWLIST_CLEAR://------------------------------------------------
 			
 			case_DLG_FILTER_SHOWLIST_CLEAR();
@@ -349,6 +377,57 @@ public class DB_OCL implements OnClickListener {
 			break;
 		}//switch (tag_name)
 	}//public void onClick(View v)
+
+	private void case_REFRESH_NO() {
+		// TODO Auto-generated method stub
+		
+		this.task.cancel(true);
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"cancel task => called"
+				);
+		
+		Log.i("DB_OCL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		///////////////////////////////////
+		//
+		// dismiss
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+	}//case_REFRESH_NO
+	
+
+	private void 
+	case_REFRESH_YES() {
+		// TODO Auto-generated method stub
+	
+		// set the flag ==> true
+		CONS.DB.REFRESH_YES = true;
+
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"flag ==> set to true"
+				);
+		
+		Log.i("DB_OCL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// dismiss the dialog
+		d1.dismiss();
+
+	}//case_REFRESH_YES
 
 	private void 
 	case_DLG_FILTER_SHOWLIST_CLEAR() {
