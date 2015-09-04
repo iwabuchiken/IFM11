@@ -361,6 +361,11 @@ public class CONS {
 		
 		public static int pastXDays		= -10;
 
+		// refresh db
+		public static final int REFRESH_MAX = 10;
+		
+		public static boolean REFRESH_YES	= true;
+
 		////////////////////////////////
 
 		// FileFilter

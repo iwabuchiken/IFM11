@@ -1,6 +1,8 @@
 package ifm11.utils;
 
 import ifm11.items.TI;
+import ifm11.main.R;
+import ifm11.tasks.Task_RefreshDB;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /******************************
@@ -290,6 +293,12 @@ public class STD {
 		
 	}//restore_DB
 
+	/*******************************
+	 * 	 * @return
+	 * 	-1	=> table "ifm11" ~~> doesn't exist<br>
+	 * 	-2	=> can't build cursor<br>
+	 * 	-3	=> no entry<br>
+	 *******************************/
 	public static int 
 	refresh_MainDB
 	(Activity actv) {
@@ -615,6 +624,7 @@ public class STD {
 	 * 		3-2. Filter the list by the above period criteria<br>
 	 * 		3-3. Once you got the final list, just use
 	 * 				the method "STD._refresh_MainDB__Build_TIList()"<br>
+	 * 
 	 *******************************/
 	private static void 
 	_refresh_MainDB__IS13SH_AddFiles_20150805
@@ -1612,7 +1622,7 @@ public class STD {
 	}//private static int refreshMainDB_3_insert_data(Cursor c)
 
 	/******************************
-		@return false => Table doesn't exist; can't create one
+		@return false => Table(ifm11) doesn't exist; can't create one
 	 ******************************/
 	static boolean 
 	_refresh_MainDB__SetupTable
@@ -2370,5 +2380,169 @@ public class STD {
 		return cal.getTime().getTime();
 		
 	}//private long getMillSeconds_now(int year, int month, int date)
+
+	/*******************************
+	 * 	 * 	 * @return
+	 * 	-1	=> table "ifm11" ~~> doesn't exist<br>
+	 * 	-2	=> can't build cursor<br>
+	 * 	-3	=> no entry<br>
+	 * @param task 
+	 *******************************/
+	public static int 
+	refresh_MainDB__PreExecute
+	(Activity actv, Task_RefreshDB task) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		boolean res;
+		
+		////////////////////////////////
+
+		// Set up DB(writable)
+
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		////////////////////////////////
+
+		// Table exists?
+		// If no, then create one
+		//	1. baseDirName
+		//	2. backupTableName
+
+		////////////////////////////////
+		res = STD._refresh_MainDB__SetupTable(wdb, dbu);
+//		boolean res = refreshMainDB_1_set_up_table(wdb, dbu);
+
+		if (res == false) {
+			
+			// Log
+			Log.d("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Can't  create table");
+			
+			wdb.close();
+			
+			return -1;
+			
+		}//if (res == false)
+		
+//		//debug
+//		wdb.close();
+//		
+//		return -1;
+
+		///////////////////////////////////
+		//
+		// IS13SH files
+		//
+		///////////////////////////////////
+//		_refresh_MainDB__IS13SH_Files();
+		
+		
+		////////////////////////////////
+
+		// Execute query for image files
+
+		////////////////////////////////
+		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (c == null) {
+			
+			// Log
+			String msg_Log = "can't build cursor";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -2;
+			
+		}
+
+		/******************************
+			validate: any entry?
+		 ******************************/
+		if (c.getCount() < 1) {
+			
+			// Log
+			String msg_Log = "No entry";
+			Log.e("STD.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			wdb.close();
+			
+			return -3;
+			
+		}
+
+		/*******************************
+		 * more than X files to be refreshed
+		 *******************************/
+		if (c.getCount() > CONS.DB.REFRESH_MAX) {
+
+			// set the flag --> false
+			CONS.DB.REFRESH_YES = false;
+			
+			
+			String message = String.format(
+					Locale.JAPAN,
+					"More than %d files --> refresh?", CONS.DB.REFRESH_MAX
+					);
+
+			Dialog d1 = Methods_dlg.dlg_Tmpl_OkCancel(
+							actv, 
+							R.layout.dlg_tmpl_toast_ok_cancel, 
+							R.string.generic_tv_confirm, 
+							
+							R.id.dlg_tmpl_toast_ok_cancel_bt_ok, 
+							R.id.dlg_tmpl_toast_ok_cancel_bt_cancel, 
+							Tags.DialogTags.REFRESH_YES, 
+							Tags.DialogTags.REFRESH_NO,
+							task);
+			
+			TextView tv = (TextView) d1.findViewById(R.id.dlg_tmpl_toast_ok_cancel_tv_message);
+			
+			tv.setText(message);
+			
+			d1.show();
+			
+//			Methods_dlg.dlg_ShowMessage(
+//							actv, 
+//							message, 
+//							R.color.gold2, 
+//							Tags.DialogTags.REFRESH_YES);
+
+		}//if (c.getCount() > CONS.DB.REFRESH_MAX)
+		
+		////////////////////////////////
+
+		// close: db
+
+		////////////////////////////////
+		wdb.close();
+
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"db => closed"
+				);
+		
+		Log.i("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		return -1;
+		
+	}//refresh_MainDB__PreExecute
 
 }
