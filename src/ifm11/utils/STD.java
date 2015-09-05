@@ -302,6 +302,13 @@ public class STD {
 	public static int 
 	refresh_MainDB
 	(Activity actv) {
+		
+		String log_msg = "refresh_MainDB => starts";
+		
+		Methods.write_Log(actv, log_msg, Thread.currentThread()
+				.getStackTrace()[2].getFileName(), Thread
+				.currentThread().getStackTrace()[2].getLineNumber());
+
 		////////////////////////////////
 
 		// Set up DB(writable)
@@ -571,6 +578,12 @@ public class STD {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 			
+//		String log_msg = "refresh_MainDB => starts";
+		
+		Methods.write_Log(actv, msg_Log, Thread.currentThread()
+				.getStackTrace()[2].getFileName(), Thread
+				.currentThread().getStackTrace()[2].getLineNumber());
+
 		////////////////////////////////
 
 		// Insert: refresh date
@@ -1781,6 +1794,13 @@ public class STD {
 		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+		
+//		String log_msg = "Log in => Succeeded: " + ti.getFile_name();
+		Methods.write_Log(actv, 
+				msg_Log, 
+				Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
 		
 		////////////////////////////////
 
