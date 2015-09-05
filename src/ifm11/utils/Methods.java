@@ -11114,7 +11114,14 @@ public class Methods {
 	public static int 
 	fix_DB__Refresh_V2(Activity actv, Dialog d1) {
 		// TODO Auto-generated method stub
+
+		String log_msg = "fix_DB__Refresh_V2 => starts";
 		
+		Methods.write_Log(actv, log_msg, Thread.currentThread()
+				.getStackTrace()[2].getFileName(), Thread
+				.currentThread().getStackTrace()[2].getLineNumber());
+		
+
 		////////////////////////////////
 		
 		// vars
@@ -11162,7 +11169,7 @@ public class Methods {
 		////////////////////////////////
 		Cursor c = STD._refresh_MainDB__ExecQuery(actv, wdb, dbu);
 //		Cursor c = _refresh_MainDB__ExecQuery(actv, wdb, dbu);
-		
+
 		/******************************
 			validate: null
 		 ******************************/
@@ -11376,7 +11383,15 @@ public class Methods {
 		Log.d("STD.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
-			
+
+//		String log_msg = "Log in => Succeeded: " + ti.getFile_name();
+		Methods.write_Log(actv, 
+				msg_Log, 
+				Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+		
+
 		////////////////////////////////
 
 		// Insert: refresh date
