@@ -91,6 +91,10 @@ import android.widget.Toast;
 
 
 
+
+
+
+
 // Apache
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -10318,7 +10322,235 @@ public class Methods {
 		}//for (int y = 0; y < bmp_H; y++)
 		
 	}//proc_Pixels
+
+	public static void 
+	importData_From_IFM10__V2
+	(Activity actv, Dialog d1) {
+
+		///////////////////////////////////
+		//
+		// validate: db file => exist?
+		//
+		///////////////////////////////////
+		boolean res = Methods.validate_DBFile_Exists(actv, CONS.DB.dbName_IFM10);
+		
+		if (res == true) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db file => exists: %s", CONS.DB.dbName_IFM10
+					);
+			
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {//if (res == true)
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db file => does NOT exist: %s", CONS.DB.dbName_IFM10
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			int res_i = Methods.import_DBFile__IFM10(actv);
+			
+		}//if (res == true)
+		
+		
+		////////////////////////////////
+		
+		// get: TIs from IFM10
+		
+		////////////////////////////////
+		
+		
+		
+//		List<TI> list_TIs_IFM10 = DBUtils.find_All_TI_IFM10(actv);
+		
+//		////////////////////////////////
+//
+//		// get: TIs from IFM11
+//
+//		////////////////////////////////
+//		
+//		List<TI> list_TIs_IFM11 = DBUtils.find_All_TI(actv);
+
+	}//importData_From_IFM10__V2
+
 	
+	/*******************************
+	 * @return
+	 * -1	=> db_files => null<br>
+	 * -2	=> db_files => no entry<br>
+	 *******************************/
+	private static int 
+	import_DBFile__IFM10(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		///////////////////////////////////
+		//
+		// find: file
+		//
+		///////////////////////////////////
+		File dir = new File(CONS.DB.dPath_dbFile_backup_IFM10);
+		
+		String[] db_files = dir.list();
+		
+		// validate: null
+		if (db_files == null) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db_files => null"
+					);
+			
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+
+		}//if (db_files == null)
+
+		// validate: entry
+		if (db_files.length < 1) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db_files => no entry"
+					);
+			
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -2;
+
+		}//if (db_files.length < 1)
+		
+//		for (String name : db_files) {
+//			
+//			// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"db file => %s", name
+//					);
+//			
+//			Log.i("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//		}
+		
+		///////////////////////////////////
+		//
+		// get: the latest
+		//
+		///////////////////////////////////
+		String tmp = null;
+//		String tmp = db_files[0];
+		
+		int len = db_files.length;
+				
+		if (len == 1) {
+			
+			tmp = db_files[0];
+			
+		} else {//if (db_files.length == 1)
+			
+			tmp = db_files[0];
+			
+			for (int i = 1; i < len; i++) {
+				
+				if (tmp.compareToIgnoreCase(db_files[i]) < 0) {
+
+					tmp = db_files[i];
+
+				}//if (tmp.compareToIgnoreCase(db_files[i]) < 0)
+				
+			}
+			
+		}//if (db_files.length == 1)
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"db files(latest) => %s", tmp
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// copy file
+		//
+		///////////////////////////////////
+		String dbName = CONS.DB.dbName;
+		String src = new File(CONS.DB.dPath_dbFile_backup_IFM10, tmp)
+						.getAbsolutePath();
+		
+		String dst = StringUtils.join(
+				new String[]{
+						//REF http://stackoverflow.com/questions/9810430/get-database-path answered Jan 23 at 11:24
+						actv.getDatabasePath(CONS.DB.dbName_IFM10).getPath()
+//						actv.getDatabasePath(CONS.DB.dbName).getPath()
+				},
+//						actv.getFilesDir().getPath() , 
+//						CONS.DB.dbName},
+				File.separator);
+
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"src = %s / dst = %s", src, dst
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		// copy
+		boolean res = STD.restore_DB(actv, dbName, src, dst);
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"copy db => %s", res
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		return -1;
+		
+	}//import_DBFile__IFM10
+
 	public static void 
 	importData_From_IFM10
 	(Activity actv, Dialog d1) {
@@ -11481,6 +11713,28 @@ public class Methods {
 		return null;
 	}
 	
+	public static boolean 
+	validate_DBFile_Exists(Activity actv,
+			String dbName) {
+		// TODO Auto-generated method stub
+		File dpath_DBFile = actv.getDatabasePath(dbName);
+
+		if (!dpath_DBFile.exists()) {
+			
+			String msg = "No DB file: " + dbName;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return false;
+			
+		} else {
+			
+			return true;
+			
+		}
+		
+	}//validate_DBFile_Exists
+
+
 }//public class Methods
 
 /*
