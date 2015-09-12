@@ -76,14 +76,60 @@ public class Comp_TI implements Comparator<TI> {
 		case ASC:
 			
 //				res = (int) (a1.getCreated_at() - a2.getCreated_at());
-			res = t1.getFile_name().compareTo(t2.getFile_name());
+			try {
+				
+				res = t1.getFile_name().compareTo(t2.getFile_name());
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"Exception => %s", e1.getMessage()
+						);
+				
+				Log.e("Comp_TI.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+				e1.printStackTrace();
+				
+				res = 1;
+				
+			}
 			
 			break;
 			
 		case DESC:
 			
 //				res = (int) -(a1.getCreated_at() - a2.getCreated_at());
-			res = t2.getFile_name().compareTo(t1.getFile_name());
+			try {
+				
+				res = t2.getFile_name().compareTo(t1.getFile_name());
+				
+			} catch (Exception e) {
+			
+				res = 1;
+
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"Exception => %s", e.getMessage()
+						);
+				
+				Log.e("Comp_TI.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
 			
 			break;
 			

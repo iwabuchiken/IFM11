@@ -22,6 +22,7 @@ import ifm11.utils.Methods_dlg;
 import ifm11.utils.STD;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -498,6 +499,25 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 						
 						msg += "(File deleted)";
 						colorID = R.color.green4;
+						
+						///////////////////////////////////
+						//
+						// file deleted => now, delete the ti from CONS.TNActv.list_TNActv_Main
+						//
+						///////////////////////////////////
+						CONS.TNActv.list_TNActv_Main.remove(ti);
+						
+						// Log
+						String msg_Log;
+						
+						msg_Log = String.format(
+								Locale.JAPAN,
+								"ti => removed: %s", ti.getFile_name()
+								);
+						
+						Log.i("Task_FTP.java" + "["
+								+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+								+ "]", msg_Log);
 						
 						break;
 						
