@@ -1158,6 +1158,12 @@ public class DB_OCL implements OnClickListener {
 		
 		Methods.delete_TI(actv, d1, d2, ti);
 		
+		///////////////////////////////////
+		//
+		// delete from: CONS.TNActv.list_TNActv_Main
+		//
+		///////////////////////////////////
+		CONS.TNActv.list_TNActv_Main.remove(ti);
 		
 	}//dlg_DLG_DELETE_TI_CONF_OK
 

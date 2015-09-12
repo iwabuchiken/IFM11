@@ -298,6 +298,41 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			----------------------------*/
     	TI ti = (TI) getItem(position);
 
+    	///////////////////////////////////
+		//
+		// validate: null
+		//
+		///////////////////////////////////
+    	
+		if (ti == null) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"ti => null"
+					);
+			
+			Log.e("Adp_TIList.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		
+			///////////////////////////////////
+			//
+			// new TI
+			//
+			///////////////////////////////////
+			ti = new TI.Builder().setFile_name("null").setMemo("null").build();
+			
+//			ti.setFile_name("null");
+//			ti.setMemo("null");
+			
+			
+//			return null;
+
+		}//if (ti == null)
+    	
     	////////////////////////////////
 
 		// Set background
@@ -390,7 +425,30 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	ContentResolver cr = con.getContentResolver();
 
 //    	this.fname_Image = new File(ti.getFile_path(), ti.getFile_name());
-    	this.fname_Image = new File(CONS.DB.dPath_TNs, ti.getFile_name());
+    	try {
+    		
+			this.fname_Image = new File(CONS.DB.dPath_TNs, ti.getFile_name());
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"Exception => %s", e1.getMessage()
+					);
+			
+			Log.e("Adp_TIList.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			e1.printStackTrace();
+
+			return;
+			
+		}
     	
     	Bitmap bmp = null;
     	
