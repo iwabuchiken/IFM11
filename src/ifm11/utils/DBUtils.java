@@ -2697,6 +2697,8 @@ public class DBUtils extends SQLiteOpenHelper{
 	find_All_TI_IFM10
 	(Activity actv) {
 		
+		
+		
 		String tableName = CONS.DB.tname_IFM11;
 		
 		////////////////////////////////
@@ -2865,6 +2867,682 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//find_All_TI
 	
+	/******************************
+	 * new from => 43/1.1#2
+		@return null => 1. No DB file<br>
+						2. No such table<br>
+						3. Query exception<br>
+						4. Query returned null<br>
+						5. Query found 0<br>
+	 ******************************/
+	public static List<TI>
+	find_All_TI_IFM10__V2
+	(Activity actv) {
+		////////////////////////////////
+		
+		// validate: DB file exists?
+		
+		////////////////////////////////
+		String dbName = CONS.DB.dbName_IFM10;
+		
+		
+		File dpath_DBFile = actv.getDatabasePath(dbName);
+		
+		if (!dpath_DBFile.exists()) {
+			
+			String msg = "No DB file: " + dbName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		} else {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db file exists => %s", dbName
+					);
+			
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+		}
+		
+		
+		///////////////////////////////////
+		//
+		// get: all table names
+		//
+		///////////////////////////////////
+		List<String> tnames = 
+					DBUtils.get_All_TableNames(
+									actv, 
+									dbName,
+									"IFM10");
+//		List<String> tnames = DBUtils.get_All_TableNames(actv, CONS.DB.dbName_IFM10);
+
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"table names => %d", tnames.size()
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		///////////////////////////////////
+		//
+		// validate: any entry
+		//
+		///////////////////////////////////
+		if (tnames.size() < 1) {
+
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"table names => no entry"
+					);
+			
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+
+		}//if (tnames.size() < 1)
+		
+		///////////////////////////////////
+		//
+		// get: entries
+		//
+		///////////////////////////////////
+		////////////////////////////////
+		
+		// setup: DB
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		Cursor c = null;
+		
+		List<TI> list_TIs = new ArrayList<TI>();
+		
+		TI ti = null;
+		
+		///////////////////////////////////
+		//
+		// get: entries
+		//
+		///////////////////////////////////
+		for (String name : tnames) {
+			
+			////////////////////////////////
+			
+			// validate: table exists?
+			
+			////////////////////////////////
+			boolean res = dbu.tableExists(rdb, name);
+			
+			if (res == false) {
+				
+				String msg = "No such table: " + name;
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+//				rdb.close();
+				
+				continue;
+				
+//				return null;
+				
+			}
+
+			////////////////////////////////
+			
+			// Query
+			
+			////////////////////////////////
+			c = null;
+			
+			try {
+				
+				// Log
+//				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"querying => %s", name
+						);
+				
+				Log.i("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+				c = rdb.query(
+						
+						name,			// 1
+						CONS.DB.col_names_IFM10_full,	// 2
+						null, null,		// 3,4
+//						where, args,		// 3,4
+						null, null,		// 5,6
+						null,			// 7
+						null);
+				
+			} catch (Exception e) {
+				
+				// Log
+				Log.e("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ ":"
+						+ Thread.currentThread().getStackTrace()[2].getMethodName()
+						+ "]", e.toString());
+				
+				
+				continue;
+				
+//				rdb.close();
+//				
+//				return null;
+				
+			}//try
+			
+			/***************************************
+			 * Validate
+			 * 	Cursor => Null?
+			 * 	Entry => 0?
+			 ***************************************/
+			if (c == null) {
+				
+				// Log
+				Log.e("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ ":"
+						+ Thread.currentThread().getStackTrace()[2].getMethodName()
+						+ "]", "Query failed");
+
+				continue;
+//				rdb.close();
+//				
+//				return null;
+				
+			} else if (c.getCount() < 1) {//if (c == null)
+				
+				// Log
+				Log.d("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ ":"
+						+ Thread.currentThread().getStackTrace()[2].getMethodName()
+						+ "]", "No entry in the table");
+				
+				continue;
+				
+//				rdb.close();
+//				
+//				return null;
+				
+			}//if (c == null)
+
+			while (c.moveToNext()) {
+				
+				///////////////////////////////////
+				//
+				// build: ti
+				//
+				///////////////////////////////////
+//			android.provider.BaseColumns._ID,		// 0
+//			"created_at", "modified_at",			// 1,2
+//			"file_id", "file_path", "file_name",	// 3,4,5
+//			"date_added", "date_modified",			// 6,7
+//			"memos", "tags",						// 8,9
+//			"last_viewed_at",						// 10
+//			"table_name",							// 11
+				
+				ti = new TI.Builder()
+				.setFile_name(c.getString(5))
+				.setDate_added(
+						Methods.conv_MillSec_to_TimeLabel(c.getLong(6) * 1000))
+						.setDate_modified(
+								Methods.conv_MillSec_to_TimeLabel(c.getLong(7) * 1000))
+								.build();
+				
+				list_TIs.add(ti);
+				
+			}
+			
+		}//for (String name : tnames)
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"queries => done: %d entries", list_TIs.size()
+//				"tables exists"
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// close db
+		//
+		///////////////////////////////////
+		rdb.close();
+
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return list_TIs;
+		
+//		return null;
+		
+//		String tableName = CONS.DB.tname_IFM11;
+//		
+//		////////////////////////////////
+//		
+//		// validate: DB file exists?
+//		
+//		////////////////////////////////
+//		File dpath_DBFile = actv.getDatabasePath(CONS.DB.dbName);
+//		
+//		if (!dpath_DBFile.exists()) {
+//			
+//			String msg = "No DB file: " + CONS.DB.dbName;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			return null;
+//			
+//		}
+//		
+//		////////////////////////////////
+//		
+//		// DB
+//		
+//		////////////////////////////////
+//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		
+//		SQLiteDatabase rdb = dbu.getReadableDatabase();
+//		
+//		////////////////////////////////
+//		
+//		// validate: table exists?
+//		
+//		////////////////////////////////
+//		boolean res = dbu.tableExists(rdb, CONS.DB.tname_IFM11);
+////		boolean res = dbu.tableExists(rdb, tableName);
+//		
+//		if (res == false) {
+//			
+//			String msg = "No such table: " + tableName;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}
+//		
+//		////////////////////////////////
+//		
+//		// Query
+//		
+//		////////////////////////////////
+//		Cursor c = null;
+//		
+////		String where = CONS.DB.col_names_IFM11[8] + " = ?";
+////		String[] args = new String[]{
+////				
+////				tableName
+////		};
+//		
+//		try {
+//			
+//			c = rdb.query(
+//					
+//					tableName,			// 1
+//					CONS.DB.col_names_IFM11_full,	// 2
+//					null, null,		// 3,4
+////					where, args,		// 3,4
+//					null, null,		// 5,6
+//					null,			// 7
+//					null);
+//			
+//		} catch (Exception e) {
+//			
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", e.toString());
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}//try
+//		
+//		/***************************************
+//		 * Validate
+//		 * 	Cursor => Null?
+//		 * 	Entry => 0?
+//		 ***************************************/
+//		if (c == null) {
+//			
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", "Query failed");
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		} else if (c.getCount() < 1) {//if (c == null)
+//			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", "No entry in the table");
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}//if (c == null)
+//		
+//		/***************************************
+//		 * Build list
+//		 ***************************************/
+////		android.provider.BaseColumns._ID,		// 0
+////		"created_at", "modified_at",			// 1,2
+////		"file_id", "file_path", "file_name",	// 3,4,5
+////		"date_added", "date_modified",			// 6,7
+////		"memos", "tags",						// 8,9
+////		"last_viewed_at",						// 10
+////		"table_name"							// 11
+////		"uploaded_at",							// 12
+//		
+//		List<TI> ti_List = new ArrayList<TI>();
+//		
+//		while(c.moveToNext()) {
+//			
+//			TI ti = new TI.Builder()
+//			
+//			.setDb_Id(c.getLong(0))
+//			.setCreated_at(c.getString(1))
+//			.setModified_at(c.getString(2))
+//			
+//			.setFileId(c.getLong(3))
+//			.setFile_path(c.getString(4))
+//			.setFile_name(c.getString(5))
+//			
+//			.setDate_added(c.getString(6))
+//			.setDate_modified(c.getString(7))
+//			
+//			.setMemo(c.getString(8))
+//			.setTags(c.getString(9))
+//			
+//			.setLast_viewed_at(c.getString(10))
+//			.setTable_name(c.getString(11))
+//			
+//			.setUploaded_at(c.getString(12))
+//			
+//			.build();
+//			
+//			ti_List.add(ti);
+//			
+//		}
+//		
+//		rdb.close();
+//		
+//		return ti_List;
+		
+	}//find_All_TI_IFM10__V2
+	
+	private static List<String> 
+//			private static String[] 
+	get_All_TableNames(Activity actv, String dbName) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, dbName);
+		
+		//
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+
+		//ref http://stackoverflow.com/questions/15383847/how-to-get-all-table-names-in-android-sqlite-database answered Mar 13 '13 at 11:39
+		Cursor c = rdb.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+		///////////////////////////////////
+		//
+		// validate
+		//
+		///////////////////////////////////
+		if (c.getCount() < 1) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"query => no entry"
+					);
+			
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+
+		}//if (c.getCount() < 1)
+
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"query count => %d", c.getCount()
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		///////////////////////////////////
+		//
+		// build list
+		//
+		///////////////////////////////////
+		int cnt = c.getCount();
+
+		List<String> list = new ArrayList<String>(cnt);
+		
+		String tmp_s = null;
+		
+		while (c.moveToNext()) {
+//			if (c.moveToNext()) {
+			
+			tmp_s = c.getString(0);
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"table => %s", tmp_s
+					);
+			
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			list.add(tmp_s);
+			
+//			if (c.moveToFirst()) {
+			
+//		    while ( !c.isAfterLast() ) {
+//		    	
+////		        Toast.makeText(activityName.this, "Table Name=> "+c.getString(0), Toast.LENGTH_LONG).show();
+//		        c.moveToNext();
+//		        
+//		    }
+		}
+		
+		///////////////////////////////////
+		//
+		// close
+		//
+		///////////////////////////////////
+		rdb.close();
+		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return list;
+		
+//		return null;
+		
+	}//get_All_TableNames
+	
+	private static List<String> 
+//			private static String[] 
+	get_All_TableNames
+	(Activity actv, String dbName, String nameStartWith) {
+		// TODO Auto-generated method stub
+		
+		DBUtils dbu = new DBUtils(actv, dbName);
+		
+		//
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		//ref http://stackoverflow.com/questions/15383847/how-to-get-all-table-names-in-android-sqlite-database answered Mar 13 '13 at 11:39
+		Cursor c = rdb.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+		
+		///////////////////////////////////
+		//
+		// validate
+		//
+		///////////////////////////////////
+		if (c.getCount() < 1) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"query => no entry"
+					);
+			
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return null;
+			
+		}//if (c.getCount() < 1)
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"query count => %d", c.getCount()
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// build list
+		//
+		///////////////////////////////////
+		int cnt = c.getCount();
+		
+		List<String> list = new ArrayList<String>(cnt);
+		
+		String tmp_s = null;
+		
+		while (c.moveToNext()) {
+//			if (c.moveToNext()) {
+			
+			tmp_s = c.getString(0);
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"table => %s", tmp_s
+					);
+			
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			///////////////////////////////////
+			//
+			// filter
+			//
+			///////////////////////////////////
+			if (tmp_s.startsWith(nameStartWith)) {
+
+				list.add(tmp_s);
+
+			}//if (tmp_s.startsWith(nameStartWith))
+			
+			
+//			if (c.moveToFirst()) {
+			
+//		    while ( !c.isAfterLast() ) {
+//		    	
+////		        Toast.makeText(activityName.this, "Table Name=> "+c.getString(0), Toast.LENGTH_LONG).show();
+//		        c.moveToNext();
+//		        
+//		    }
+		}
+		
+		///////////////////////////////////
+		//
+		// close
+		//
+		///////////////////////////////////
+		rdb.close();
+		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return list;
+		
+//		return null;
+		
+	}//get_All_TableNames
+	
+	
+	
+
 	/******************************
 		@return null => 1. No DB file<br>
 						2. No such table<br>

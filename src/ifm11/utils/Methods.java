@@ -10373,7 +10373,28 @@ public class Methods {
 		// get: TIs from IFM10
 		
 		////////////////////////////////
+		List<TI> list_TIs_IFM10 = DBUtils.find_All_TI_IFM10__V2(actv);
 //		List<TI> list_TIs_IFM10 = DBUtils.find_All_TI_IFM10(actv);
+
+		TI ti = null;
+		
+		for (int i = 0; i < 10; i++) {
+			
+			ti = list_TIs_IFM10.get(i);
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"ifm10: file => %s", ti.getFile_name()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
 		
 //		////////////////////////////////
 //
@@ -10381,8 +10402,21 @@ public class Methods {
 //
 //		////////////////////////////////
 //		
-//		List<TI> list_TIs_IFM11 = DBUtils.find_All_TI(actv);
+		List<TI> list_TIs_IFM11 = DBUtils.find_All_TI(actv);
 
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"IFM10 => %d / IFM11 => %d", 
+				list_TIs_IFM10.size(), list_TIs_IFM11.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 	}//importData_From_IFM10__V2
 
 	

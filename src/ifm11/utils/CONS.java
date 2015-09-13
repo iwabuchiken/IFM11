@@ -203,6 +203,20 @@ public class CONS {
 			
 		};
 
+		public static final String[] col_names_IFM10_full = {
+			
+			//	0
+			android.provider.BaseColumns._ID,		// 0
+			"created_at", "modified_at",			// 1,2
+			"file_id", "file_path", "file_name",	// 3,4,5
+			"date_added", "date_modified",			// 6,7
+			"memos", "tags",						// 8,9
+			"last_viewed_at",						// 10
+			"table_name",							// 11
+//			"uploaded_at",							// 12
+			
+		};
+		
 		public static final String[] col_types_IFM11 = {
 			"INTEGER", "TEXT", "TEXT",	// 0,1,2
 			"TEXT", "TEXT",				// 3,4
