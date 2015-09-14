@@ -1239,6 +1239,153 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//insertData_TI
 
+	/******************************
+	 * insert_Data_TIs
+	 ******************************/
+	public static void 
+	insert_Data_TIs__IFM10
+	(Activity actv, List<TI> list) {
+		///////////////////////////////////
+		//
+		// prep: db
+		//
+		///////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+
+		///////////////////////////////////
+		//
+		// vars
+		//
+		///////////////////////////////////
+		int cnt_Success = 0;
+		int cnt_Failed = 0;
+		
+		///////////////////////////////////
+		//
+		// insertions
+		//
+		///////////////////////////////////
+		for (TI ti : list) {
+			
+			////////////////////////////////
+			
+			// prep: content values
+			
+			////////////////////////////////
+			// ContentValues
+			ContentValues val = _build_Values__TI__IFM10(actv, ti);
+//			ContentValues val = _build_Values__TI(actv, ti);
+
+			try {
+				// Start transaction
+				wdb.beginTransaction();
+				
+				// Insert data
+				long res = wdb.insert(CONS.DB.tname_IFM11, null, val);
+//				long res = wdb.insert(CONS.DB.tname_RefreshLog, null, val);
+				
+				if (res == -1) {
+					
+					// Log
+					String msg_Log = "insertion => failed: " + ti.getFile_name();
+					Log.e("DBUtils.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					wdb.endTransaction();
+//					wdb.close();
+
+					// count
+					cnt_Failed += 1;
+					
+					continue;
+					
+//					return false;
+					
+				} else {
+					
+					// Log
+					String msg_Log = "insertion => done: " + ti.getFile_name();
+//					String msg_Log = "insertion => done";
+					Log.d("DBUtils.java"
+							+ "["
+							+ Thread.currentThread().getStackTrace()[2]
+									.getLineNumber() + "]", msg_Log);
+					
+					// Set as successful
+					wdb.setTransactionSuccessful();
+					
+					// End transaction
+					wdb.endTransaction();
+					
+					// count
+					cnt_Success += 1;
+					
+				}//if (res == -1)
+				
+//				wdb.close();
+//				
+//				return true;
+				
+			} catch (Exception e) {
+				
+				// Log
+				Log.e("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", "Exception! => " + e.toString());
+				
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"Exception: file => %s", ti.getFile_name()
+						);
+				
+				Log.e("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
+				// count
+				cnt_Failed += 1;
+				
+				continue;
+				
+//				return false;
+				
+			}//try
+			
+		}//for (TI ti : list)
+		
+		///////////////////////////////////
+		//
+		// close db
+		//
+		///////////////////////////////////
+		wdb.close();
+
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"insertion: success => %d / failed => %d", cnt_Success, cnt_Failed
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+	}//insertData_TIs
+	
 	private static ContentValues 
 	_build_Values__TI
 	(Activity actv, TI ti) {
@@ -1275,6 +1422,49 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//_build_Values__TI
 
+	private static ContentValues 
+	_build_Values__TI__IFM10
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		val.put("created_at", 
+				ti.getDate_added());
+//				Methods.conv_MillSec_to_TimeLabel(
+//							Integer.parseInt(ti.getDate_added()) * 1000));
+//		Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
+		val.put("modified_at",
+				ti.getDate_modified());
+//				Methods.conv_MillSec_to_TimeLabel(
+//							Integer.parseInt(ti.getDate_modified()) * 1000));
+//				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
+		
+		val.put("file_id", ti.getFileId());
+		val.put("file_path", ti.getFile_path());
+		val.put("file_name", ti.getFile_name());
+		
+		val.put("date_added", ti.getDate_added());
+		val.put("date_modified", ti.getDate_modified());
+		
+		val.put("memos", ti.getMemo());
+		val.put("tags", ti.getTags());
+		
+		val.put("last_viewed_at", ti.getLast_viewed_at());
+		val.put("table_name", CONS.DB.tname_IFM11);
+//		val.put("table_name", ti.getTable_name());
+		
+		return val;
+		
+	}//_build_Values__TI__IFM10
+	
 	public boolean deleteData(Activity actv, SQLiteDatabase db, String tableName, long file_id) {
 		/*----------------------------
 		 * Steps
@@ -3107,12 +3297,25 @@ public class DBUtils extends SQLiteOpenHelper{
 //			"table_name",							// 11
 				
 				ti = new TI.Builder()
-				.setFile_name(c.getString(5))
-				.setDate_added(
-						Methods.conv_MillSec_to_TimeLabel(c.getLong(6) * 1000))
-						.setDate_modified(
-								Methods.conv_MillSec_to_TimeLabel(c.getLong(7) * 1000))
-								.build();
+					.setCreated_at(c.getString(1))
+					.setModified_at(c.getString(2))
+					
+					.setFileId(c.getInt(3))
+					.setFile_path(c.getString(4))
+					.setFile_name(c.getString(5))
+					
+					.setDate_added(
+							Methods.conv_MillSec_to_TimeLabel(c.getLong(6) * 1000))
+					.setDate_modified(
+							Methods.conv_MillSec_to_TimeLabel(c.getLong(7) * 1000))
+					
+					.setMemo(c.getString(8))
+					.setTags(c.getString(9))
+					
+					.setLast_viewed_at(c.getString(10))
+					.setTable_name(c.getString(11))
+							
+					.build();
 				
 				list_TIs.add(ti);
 				

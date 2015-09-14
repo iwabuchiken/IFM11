@@ -452,16 +452,16 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     	
     	Bitmap bmp = null;
     	
-    	//debug
-    	String msg;
-		msg = String.format(Locale.JAPAN, "[%s : %d] ti: file id = %d (name = %s)", 
-				Thread.currentThread().getStackTrace()[2].getFileName(), 
-				Thread.currentThread().getStackTrace()[2].getLineNumber(), 
-//				Thread.currentThread().getStackTrace()[1].getFileName(), 
-//				Thread.currentThread().getStackTrace()[1].getLineNumber(), 
-				ti.getFileId(), ti.getFile_name());
-
-		System.out.println(msg);
+//    	//debug
+//    	String msg;
+//		msg = String.format(Locale.JAPAN, "[%s : %d] ti: file id = %d (name = %s)", 
+//				Thread.currentThread().getStackTrace()[2].getFileName(), 
+//				Thread.currentThread().getStackTrace()[2].getLineNumber(), 
+////				Thread.currentThread().getStackTrace()[1].getFileName(), 
+////				Thread.currentThread().getStackTrace()[1].getLineNumber(), 
+//				ti.getFileId(), ti.getFile_name());
+//
+//		System.out.println(msg);
 		
 		/*******************************
 		 * Either

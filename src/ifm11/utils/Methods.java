@@ -10387,7 +10387,8 @@ public class Methods {
 			
 			msg_Log = String.format(
 					Locale.JAPAN,
-					"ifm10: file => %s", ti.getFile_name()
+					"ifm10: file => %s (%s)", 
+					ti.getFile_name(), ti.getMemo()
 					);
 			
 			Log.i("Methods.java" + "["
@@ -10416,6 +10417,103 @@ public class Methods {
 		Log.i("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// filter
+		//
+		///////////////////////////////////
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"filtering..."
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		List<TI> list_TIs_Filtered = new ArrayList<TI>(list_TIs_IFM10.size());
+		
+		String tmp_10, tmp_11;
+		
+		boolean is_In = false;
+		
+		for (TI ti_10 : list_TIs_IFM10) {
+
+			tmp_10 = ti_10.getFile_name();
+			
+			for (TI ti_11 : list_TIs_IFM11) {
+			
+				tmp_11 = ti_11.getFile_name();
+				
+				if (tmp_10.equals(tmp_11)) {
+
+					is_In = true;
+					
+					break;
+
+				}//if (tmp_10.equals(tmp_11))
+				
+			}//for (TI ti_11 : list_TIs_IFM11)
+			
+			// if not in => add to the list
+			if (is_In == false) {
+
+				 list_TIs_Filtered.add(ti_10);
+
+			} else {//if (is_In)
+				
+				// reset: flag
+				is_In = false;
+				
+				
+			}//if (is_In)
+//		}//if (is_In)
+			
+		}//for (TI ti_10 : list_TIs_IFM10)
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"filtering done => %d remain", list_TIs_Filtered.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		for (int i = 0; i < 10; i++) {
+			
+			ti = list_TIs_Filtered.get(i);
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"filtered: file => %s (%s)", 
+					ti.getFile_name(), ti.getMemo()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+
+		///////////////////////////////////
+		//
+		// insert data
+		//
+		///////////////////////////////////
+		DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
 		
 	}//importData_From_IFM10__V2
 
