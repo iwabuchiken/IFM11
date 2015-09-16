@@ -3285,6 +3285,18 @@ public class DBUtils extends SQLiteOpenHelper{
 				
 				///////////////////////////////////
 				//
+				// filter
+				//
+				///////////////////////////////////
+				// 2012-...
+				if (!c.getString(5).startsWith("2012-")) {
+
+					continue;
+
+				}//if (!c.getString(5).startsWith("2012-"))
+				
+				///////////////////////////////////
+				//
 				// build: ti
 				//
 				///////////////////////////////////

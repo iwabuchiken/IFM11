@@ -2137,6 +2137,13 @@ public class Methods {
 		
 	}//start_Activity_HistActv
 	
+	/*******************************
+	 * @return => void<br>
+	 * 
+	 * param "ti_List" ==> changes not held in the caller<br>
+	 * Use the method "sort_List_TI_V2"
+	 * 
+	 *******************************/
 	public static void
 	sort_List_TI
 	(List<TI> ti_List, 
@@ -10420,7 +10427,7 @@ public class Methods {
 		
 		///////////////////////////////////
 		//
-		// filter
+		// filter: if already in ifm11.db => not inserting
 		//
 		///////////////////////////////////
 		msg_Log = String.format(
@@ -10486,20 +10493,124 @@ public class Methods {
 		
 		///////////////////////////////////
 		//
-		// report
+		// filter: if file doesn't exist => remove from the lsit
 		//
 		///////////////////////////////////
-		for (int i = 0; i < 10; i++) {
+		String tmp_s = null;
+		String tmp_s_2 = null;
+		
+		File tmp_f = null;
+
+		List<TI> list_TIs_Filtered_FileExists = 
+							new ArrayList<TI>(list_TIs_IFM10.size());
+		
+		for (TI t : list_TIs_Filtered) {
 			
-			ti = list_TIs_Filtered.get(i);
+			tmp_s = t.getFile_name();
+			
+			tmp_s_2 = t.getFile_path();
+			
+			tmp_f = new File(tmp_s_2, tmp_s);
+			
+			if (tmp_f.exists()) {
+
+				list_TIs_Filtered_FileExists.add(t);
+
+			}//if (!tmp_f.exists())
+			
+		}//for (TI t : list_TIs_Filtered)
+		
+		
+		///////////////////////////////////
+		//
+		// sort list
+		//
+		///////////////////////////////////
+		
+		if (list_TIs_Filtered_FileExists.size() > 0) {
+//			if (list_TIs_Filtered_FileExists.size() > 1) {
+
+			Methods.sort_List_TI_V2(
+					list_TIs_Filtered_FileExists, 
+//				list_TIs_Filtered, 
+					CONS.Enums.SortType.FileName, 
+					CONS.Enums.SortOrder.ASC);
+
+		} else {//if (list_TIs_Filtered_FileExists.size() > 1)
 			
 			// Log
 //			String msg_Log;
 			
 			msg_Log = String.format(
 					Locale.JAPAN,
-					"filtered: file => %s (%s)", 
-					ti.getFile_name(), ti.getMemo()
+					"list_TIs_Filtered_FileExists => %d", list_TIs_Filtered_FileExists.size()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//if (list_TIs_Filtered_FileExists.size() > 1)
+		
+//		Methods.sort_List_TI_V2(
+//				list_TIs_Filtered_FileExists, 
+////				list_TIs_Filtered, 
+//				CONS.Enums.SortType.FileName, 
+//				CONS.Enums.SortOrder.ASC);
+		
+		
+		///////////////////////////////////
+		//
+		// modify: "file_path" value
+		//
+		///////////////////////////////////
+		tmp_s = null;
+//		String tmp = null;
+		
+//		path = /mnt/sdcard-ext/dcim/Camera/2012-09-16_17-48-24_29.jpg)
+		
+		//ref http://www.regexplanet.com/advanced/java/index.html
+		//ref http://stackoverflow.com/questions/632204/java-string-replace-using-regular-expressions answered Mar 10 '09 at 20:51
+		String regex = "\\/[\\d-_]+\\.jpg$";
+		
+//		Pattern p = Pattern.compile("\\/[\\d-_]+\\.jpg");
+//		
+//		Matcher m = null;
+		
+		for (TI t : list_TIs_Filtered_FileExists) {
+//			for (TI t : list_TIs_Filtered) {
+			
+			tmp_s = t.getFile_path();
+		
+			//ref http://www.javamex.com/tutorials/regular_expressions/search_replace.shtml#.Vfi0jxHtmko
+			tmp_s = tmp_s.replaceAll(regex, "");
+		
+			// set a new value
+			t.setFile_path(tmp_s);
+			
+		}//for (TI ti : list_TIs_Filtered)
+		
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		int tmp_i = (list_TIs_Filtered_FileExists.size() > 10) ? 
+							10 : list_TIs_Filtered_FileExists.size();
+				
+		for (int i = 0; i < tmp_i; i++) {
+//			for (int i = 0; i < 10; i++) {
+			
+			ti = list_TIs_Filtered_FileExists.get(i);
+//			ti = list_TIs_Filtered.get(i);
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"filtered: file => %s (%s / path = %s)", 
+					ti.getFile_name(), ti.getMemo(), ti.getFile_path()
 					);
 			
 			Log.i("Methods.java" + "["
@@ -10508,12 +10619,20 @@ public class Methods {
 			
 		}
 
-		///////////////////////////////////
-		//
-		// insert data
-		//
-		///////////////////////////////////
-		DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
+		
+		
+//		///////////////////////////////////
+//		//
+//		// insert data
+//		//
+//		///////////////////////////////////
+//		if (list_TIs_Filtered_FileExists.size() > 0) {
+//
+//			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
+//
+//		}//if (list_TIs_Filtered_FileExists.size() > 0)
+		
+//		DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
 		
 	}//importData_From_IFM10__V2
 
