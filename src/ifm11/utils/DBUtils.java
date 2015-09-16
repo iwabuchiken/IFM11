@@ -2870,6 +2870,8 @@ public class DBUtils extends SQLiteOpenHelper{
 			
 		}
 		
+		c.close();
+		
 		rdb.close();
 		
 		return ti_List;
@@ -3288,8 +3290,10 @@ public class DBUtils extends SQLiteOpenHelper{
 				// filter
 				//
 				///////////////////////////////////
-				// 2012-...
-				if (!c.getString(5).startsWith("2012-")) {
+				// 2013-...
+				if (!c.getString(5).startsWith("2013-")) {
+//				// 2012-...
+//				if (!c.getString(5).startsWith("2012-")) {
 
 					continue;
 
@@ -3353,6 +3357,13 @@ public class DBUtils extends SQLiteOpenHelper{
 		// close db
 		//
 		///////////////////////////////////
+		if (!c.isClosed()) {
+
+			c.close();
+
+		}//if (!c.isClosed())
+		
+		
 		rdb.close();
 
 		///////////////////////////////////

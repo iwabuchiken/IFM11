@@ -10385,24 +10385,24 @@ public class Methods {
 
 		TI ti = null;
 		
-		for (int i = 0; i < 10; i++) {
-			
-			ti = list_TIs_IFM10.get(i);
-			
-			// Log
-			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"ifm10: file => %s (%s)", 
-					ti.getFile_name(), ti.getMemo()
-					);
-			
-			Log.i("Methods.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-		}
+//		for (int i = 0; i < 10; i++) {
+//			
+//			ti = list_TIs_IFM10.get(i);
+//			
+//			// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"ifm10: file => %s (%s)", 
+//					ti.getFile_name(), ti.getMemo()
+//					);
+//			
+//			Log.i("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}
 		
 //		////////////////////////////////
 //
@@ -10491,35 +10491,36 @@ public class Methods {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
-		///////////////////////////////////
-		//
-		// filter: if file doesn't exist => remove from the lsit
-		//
-		///////////////////////////////////
-		String tmp_s = null;
-		String tmp_s_2 = null;
-		
-		File tmp_f = null;
-
-		List<TI> list_TIs_Filtered_FileExists = 
-							new ArrayList<TI>(list_TIs_IFM10.size());
-		
-		for (TI t : list_TIs_Filtered) {
-			
-			tmp_s = t.getFile_name();
-			
-			tmp_s_2 = t.getFile_path();
-			
-			tmp_f = new File(tmp_s_2, tmp_s);
-			
-			if (tmp_f.exists()) {
-
-				list_TIs_Filtered_FileExists.add(t);
-
-			}//if (!tmp_f.exists())
-			
-		}//for (TI t : list_TIs_Filtered)
-		
+//		///////////////////////////////////
+//		//
+//		// filter: if file doesn't exist => remove from the lsit
+//		//
+//		///////////////////////////////////
+//		String tmp_s = null;
+//		String tmp_s_2 = null;
+//		
+//		File tmp_f = null;
+//
+//		List<TI> list_TIs_Filtered_FileExists = 
+//							new ArrayList<TI>();
+////		new ArrayList<TI>(list_TIs_IFM10.size());
+//		
+//		for (TI t : list_TIs_Filtered) {
+//			
+//			tmp_s = t.getFile_name();
+//			
+//			tmp_s_2 = t.getFile_path();
+//			
+//			tmp_f = new File(tmp_s_2, tmp_s);
+//			
+//			if (tmp_f.exists()) {
+//
+//				list_TIs_Filtered_FileExists.add(t);
+//
+//			}//if (!tmp_f.exists())
+//			
+//		}//for (TI t : list_TIs_Filtered)
+//		
 		
 		///////////////////////////////////
 		//
@@ -10527,12 +10528,13 @@ public class Methods {
 		//
 		///////////////////////////////////
 		
-		if (list_TIs_Filtered_FileExists.size() > 0) {
-//			if (list_TIs_Filtered_FileExists.size() > 1) {
+//		if (list_TIs_Filtered_FileExists.size() > 0) {
+//		if (list_TIs_Filtered_FileExists.size() > 1) {
+		if (list_TIs_Filtered.size() > 1) {
 
 			Methods.sort_List_TI_V2(
-					list_TIs_Filtered_FileExists, 
-//				list_TIs_Filtered, 
+//					list_TIs_Filtered_FileExists, 
+					list_TIs_Filtered, 
 					CONS.Enums.SortType.FileName, 
 					CONS.Enums.SortOrder.ASC);
 
@@ -10543,7 +10545,8 @@ public class Methods {
 			
 			msg_Log = String.format(
 					Locale.JAPAN,
-					"list_TIs_Filtered_FileExists => %d", list_TIs_Filtered_FileExists.size()
+					"list_TIs_Filtered => %d", list_TIs_Filtered.size()
+//					"list_TIs_Filtered_FileExists => %d", list_TIs_Filtered_FileExists.size()
 					);
 			
 			Log.i("Methods.java" + "["
@@ -10564,9 +10567,11 @@ public class Methods {
 		// modify: "file_path" value
 		//
 		///////////////////////////////////
-		tmp_s = null;
-//		String tmp = null;
-		
+//		tmp_s = null;
+		String tmp = null;
+
+		String tmp_s = null;
+
 //		path = /mnt/sdcard-ext/dcim/Camera/2012-09-16_17-48-24_29.jpg)
 		
 		//ref http://www.regexplanet.com/advanced/java/index.html
@@ -10577,8 +10582,8 @@ public class Methods {
 //		
 //		Matcher m = null;
 		
-		for (TI t : list_TIs_Filtered_FileExists) {
-//			for (TI t : list_TIs_Filtered) {
+//		for (TI t : list_TIs_Filtered_FileExists) {
+		for (TI t : list_TIs_Filtered) {
 			
 			tmp_s = t.getFile_path();
 		
@@ -10589,7 +10594,38 @@ public class Methods {
 			t.setFile_path(tmp_s);
 			
 		}//for (TI ti : list_TIs_Filtered)
+
+		///////////////////////////////////
+		//
+		// filter: if file doesn't exist => remove from the lsit
+		//
+		///////////////////////////////////
+//		String tmp_s = null;
+		String tmp_s_2 = null;
 		
+		File tmp_f = null;
+
+		List<TI> list_TIs_Filtered_FileExists = 
+							new ArrayList<TI>();
+//		new ArrayList<TI>(list_TIs_IFM10.size());
+		
+		for (TI t : list_TIs_Filtered) {
+			
+			tmp_s = t.getFile_name();
+			
+			tmp_s_2 = t.getFile_path();
+			
+			tmp_f = new File(tmp_s_2, tmp_s);
+			
+			if (tmp_f.exists()) {
+
+				list_TIs_Filtered_FileExists.add(t);
+
+			}//if (!tmp_f.exists())
+			
+		}//for (TI t : list_TIs_Filtered)
+		
+
 		///////////////////////////////////
 		//
 		// report
@@ -10621,14 +10657,27 @@ public class Methods {
 
 		
 		
-//		///////////////////////////////////
-//		//
-//		// insert data
-//		//
-//		///////////////////////////////////
+		///////////////////////////////////
+		//
+		// insert data
+		//
+		///////////////////////////////////
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list_TIs_Filtered_FileExists.size() => %d", list_TIs_Filtered_FileExists.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 //		if (list_TIs_Filtered_FileExists.size() > 0) {
 //
-//			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
+//			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered_FileExists);
+////			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
 //
 //		}//if (list_TIs_Filtered_FileExists.size() > 0)
 		
