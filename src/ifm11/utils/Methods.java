@@ -10733,6 +10733,7 @@ public class Methods {
 		// TODO Auto-generated method stub
 		
 		DBUtils.moveFiles_2013(actv);
+//		DBUtils.moveFiles_2012(actv);
 		
 	}//importData_From_IFM10__V2__MoveFiles_2013
 

@@ -3718,10 +3718,10 @@ public class DBUtils extends SQLiteOpenHelper{
 				///////////////////////////////////
 //				// 2014-...
 //				if (!c.getString(5).startsWith("2014-")) {
-//					// 2013-...
-//					if (!c.getString(5).startsWith("2013-")) {
-				// 2012-...
-				if (!c.getString(5).startsWith("2012-")) {
+				// 2013-...
+				if (!c.getString(5).startsWith("2013-")) {
+//				// 2012-...
+//				if (!c.getString(5).startsWith("2012-")) {
 					
 					continue;
 					
@@ -3806,7 +3806,8 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 		for (TI t : list_TIs) {
 			
-			if (t.getFile_name().startsWith("2012-")) {
+			if (t.getFile_name().startsWith("2013-")) {
+//			if (t.getFile_name().startsWith("2012-")) {
 //				if (!t.getFile_name().startsWith("2012-")) {
 //				if (!c.getString(5).startsWith("2014-")) {
 				
@@ -3875,6 +3876,533 @@ public class DBUtils extends SQLiteOpenHelper{
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", msg_Log);
 
+			} else {//if (tmp_i != 1)
+				
+				tmp_i_2 ++;
+				
+			}//if (tmp_i != 1)
+			
+		}//for (TI t : list_TIs_Filtered__TnameChanged)
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"tname changed => %d", tmp_i_2
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return list_TIs_Filtered;
+		
+//		return null;
+		
+//		String tableName = CONS.DB.tname_IFM11;
+//		
+//		////////////////////////////////
+//		
+//		// validate: DB file exists?
+//		
+//		////////////////////////////////
+//		File dpath_DBFile = actv.getDatabasePath(CONS.DB.dbName);
+//		
+//		if (!dpath_DBFile.exists()) {
+//			
+//			String msg = "No DB file: " + CONS.DB.dbName;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			return null;
+//			
+//		}
+//		
+//		////////////////////////////////
+//		
+//		// DB
+//		
+//		////////////////////////////////
+//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+//		
+//		SQLiteDatabase rdb = dbu.getReadableDatabase();
+//		
+//		////////////////////////////////
+//		
+//		// validate: table exists?
+//		
+//		////////////////////////////////
+//		boolean res = dbu.tableExists(rdb, CONS.DB.tname_IFM11);
+////		boolean res = dbu.tableExists(rdb, tableName);
+//		
+//		if (res == false) {
+//			
+//			String msg = "No such table: " + tableName;
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}
+//		
+//		////////////////////////////////
+//		
+//		// Query
+//		
+//		////////////////////////////////
+//		Cursor c = null;
+//		
+////		String where = CONS.DB.col_names_IFM11[8] + " = ?";
+////		String[] args = new String[]{
+////				
+////				tableName
+////		};
+//		
+//		try {
+//			
+//			c = rdb.query(
+//					
+//					tableName,			// 1
+//					CONS.DB.col_names_IFM11_full,	// 2
+//					null, null,		// 3,4
+////					where, args,		// 3,4
+//					null, null,		// 5,6
+//					null,			// 7
+//					null);
+//			
+//		} catch (Exception e) {
+//			
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", e.toString());
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}//try
+//		
+//		/***************************************
+//		 * Validate
+//		 * 	Cursor => Null?
+//		 * 	Entry => 0?
+//		 ***************************************/
+//		if (c == null) {
+//			
+//			// Log
+//			Log.e("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", "Query failed");
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		} else if (c.getCount() < 1) {//if (c == null)
+//			
+//			// Log
+//			Log.d("DBUtils.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ ":"
+//					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+//					+ "]", "No entry in the table");
+//			
+//			rdb.close();
+//			
+//			return null;
+//			
+//		}//if (c == null)
+//		
+//		/***************************************
+//		 * Build list
+//		 ***************************************/
+////		android.provider.BaseColumns._ID,		// 0
+////		"created_at", "modified_at",			// 1,2
+////		"file_id", "file_path", "file_name",	// 3,4,5
+////		"date_added", "date_modified",			// 6,7
+////		"memos", "tags",						// 8,9
+////		"last_viewed_at",						// 10
+////		"table_name"							// 11
+////		"uploaded_at",							// 12
+//		
+//		List<TI> ti_List = new ArrayList<TI>();
+//		
+//		while(c.moveToNext()) {
+//			
+//			TI ti = new TI.Builder()
+//			
+//			.setDb_Id(c.getLong(0))
+//			.setCreated_at(c.getString(1))
+//			.setModified_at(c.getString(2))
+//			
+//			.setFileId(c.getLong(3))
+//			.setFile_path(c.getString(4))
+//			.setFile_name(c.getString(5))
+//			
+//			.setDate_added(c.getString(6))
+//			.setDate_modified(c.getString(7))
+//			
+//			.setMemo(c.getString(8))
+//			.setTags(c.getString(9))
+//			
+//			.setLast_viewed_at(c.getString(10))
+//			.setTable_name(c.getString(11))
+//			
+//			.setUploaded_at(c.getString(12))
+//			
+//			.build();
+//			
+//			ti_List.add(ti);
+//			
+//		}
+//		
+//		rdb.close();
+//		
+//		return ti_List;
+		
+	}//find_All_TI_IFM10__V2
+	
+	/******************************
+	 * new from => 43/2.0#3<br>
+	 * change table name => to 'ifm11__2012'
+		@return null => 1. No DB file<br>
+						2. No such table<br>
+						3. Query exception<br>
+						4. Query returned null<br>
+						5. Query found 0<br>
+	 ******************************/
+	public static List<TI>
+	moveFiles_2012
+	(Activity actv) {
+		////////////////////////////////
+		
+		// validate: DB file exists?
+		
+		////////////////////////////////
+		String dbName = CONS.DB.dbName;
+//		String dbName = CONS.DB.dbName_IFM10;
+		
+		
+		File dpath_DBFile = actv.getDatabasePath(dbName);
+		
+		if (!dpath_DBFile.exists()) {
+			
+			String msg = "No DB file: " + dbName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		} else {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db file exists => %s", dbName
+					);
+			
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+		
+		// setup: DB
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		Cursor c = null;
+		
+		List<TI> list_TIs = new ArrayList<TI>();
+		
+		TI ti = null;
+		
+		///////////////////////////////////
+		//
+		// get: entries
+		//
+		///////////////////////////////////
+//		for (String name : tnames) {
+		
+		////////////////////////////////
+		
+		// validate: table exists?
+		
+		////////////////////////////////
+		String name = CONS.DB.tname_IFM11;
+		
+		boolean res = dbu.tableExists(rdb, name);
+		
+		if (res == false) {
+			
+			String msg = "No such table: " + name;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+//				continue;
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		c = null;
+		
+		try {
+			
+			c = rdb.query(
+					
+					name,			// 1
+					CONS.DB.col_names_IFM11_full,	// 2
+//						CONS.DB.col_names_IFM10_full,	// 2
+					null, null,		// 3,4
+//						where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			
+//				continue;
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+//				continue;
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+//				continue;
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+		
+		while (c.moveToNext()) {
+			
+			///////////////////////////////////
+			//
+			// filter
+			//
+			///////////////////////////////////
+//				// 2014-...
+//				if (!c.getString(5).startsWith("2014-")) {
+//					// 2013-...
+//					if (!c.getString(5).startsWith("2013-")) {
+			// 2012-...
+			if (!c.getString(5).startsWith("2012-")) {
+				
+				continue;
+				
+			}//if (!c.getString(5).startsWith("2012-"))
+			
+			///////////////////////////////////
+			//
+			// build: ti
+			//
+			///////////////////////////////////
+//			android.provider.BaseColumns._ID,		// 0
+//			"created_at", "modified_at",			// 1,2
+//			"file_id", "file_path", "file_name",	// 3,4,5
+//			"date_added", "date_modified",			// 6,7
+//			"memos", "tags",						// 8,9
+//			"last_viewed_at",						// 10
+//			"table_name",							// 11
+			
+			ti = new TI.Builder()
+			
+			.setDb_Id(c.getLong(0))
+			
+			.setCreated_at(c.getString(1))
+			.setModified_at(c.getString(2))
+			
+			.setFileId(c.getInt(3))
+			.setFile_path(c.getString(4))
+			.setFile_name(c.getString(5))
+			
+			.setDate_added(
+					Methods.conv_MillSec_to_TimeLabel(c.getLong(6) * 1000))
+					.setDate_modified(
+							Methods.conv_MillSec_to_TimeLabel(c.getLong(7) * 1000))
+							
+							.setMemo(c.getString(8))
+							.setTags(c.getString(9))
+							
+							.setLast_viewed_at(c.getString(10))
+							.setTable_name(c.getString(11))
+							
+							.build();
+			
+			list_TIs.add(ti);
+			
+		}
+		
+//		}//for (String name : tnames)
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"queries => done: %d entries", list_TIs.size()
+//				"tables exists"
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// close db
+		//
+		///////////////////////////////////
+		if (!c.isClosed()) {
+			
+			c.close();
+			
+		}//if (!c.isClosed())
+		
+		
+		rdb.close();
+		
+		///////////////////////////////////
+		//
+		// filter
+		//
+		///////////////////////////////////
+		List<TI> list_TIs_Filtered = new ArrayList<TI>(list_TIs.size());
+		
+		for (TI t : list_TIs) {
+			
+			if (t.getFile_name().startsWith("2012-")) {
+//				if (!t.getFile_name().startsWith("2012-")) {
+//				if (!c.getString(5).startsWith("2014-")) {
+				
+				list_TIs_Filtered.add(t);
+				
+			}
+			
+		}//for (TI t : list_TIs)
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list_TIs_Filtered => %d", list_TIs_Filtered.size()
+				);
+		
+		Log.i("DBUtils.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// change: table name
+		//
+		///////////////////////////////////
+		List<TI> list_TIs_Filtered__TnameChanged = 
+				new ArrayList<TI>(list_TIs_Filtered.size());
+		
+		int tmp_i = list_TIs_Filtered.size();
+		
+		ti = null;
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			ti = list_TIs_Filtered.get(i);
+			
+			ti.setTable_name("ifm11__2012");
+			
+			list_TIs_Filtered__TnameChanged.add(ti);
+			
+		}
+		
+		///////////////////////////////////
+		//
+		// update data
+		//
+		///////////////////////////////////
+		int tmp_i_2 = 0;
+		
+		for (TI t : list_TIs_Filtered__TnameChanged) {
+			
+			tmp_i = DBUtils.update_TI__All(actv, t);
+			
+			if (tmp_i != 1) {
+				
+				// Log
+//				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"Error => %s (%d)", t.getFile_name(), tmp_i
+						);
+				
+				Log.e("DBUtils.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+				
 			} else {//if (tmp_i != 1)
 				
 				tmp_i_2 ++;
