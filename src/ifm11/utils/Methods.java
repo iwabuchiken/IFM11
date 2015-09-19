@@ -10609,6 +10609,8 @@ public class Methods {
 							new ArrayList<TI>();
 //		new ArrayList<TI>(list_TIs_IFM10.size());
 		
+		boolean tmp_b = false;
+		
 		for (TI t : list_TIs_Filtered) {
 			
 			tmp_s = t.getFile_name();
@@ -10623,8 +10625,39 @@ public class Methods {
 
 			}//if (!tmp_f.exists())
 			
+//			//debug
+//			if ((t.getMemo() != null) && t.getMemo().contains("図書館")) {
+////				if (t.getMemo().contains("図書館")) {
+//	
+//					// Log
+//	//			String msg_Log;
+//				
+//				msg_Log = String.format(
+//						Locale.JAPAN,
+//						"memo => %s", t.getMemo()
+//						);
+//				
+//				Log.i("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", msg_Log);
+//	
+//				tmp_b = true;
+//			
+//			}//if (t.getMemo().e)
+			
 		}//for (TI t : list_TIs_Filtered)
 		
+		// Log
+//		String msg_Log;
+		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"図書館 => %s", tmp_b
+//				);
+//		
+//		Log.i("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 
 		///////////////////////////////////
 		//
