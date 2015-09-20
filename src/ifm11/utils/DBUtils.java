@@ -1275,7 +1275,8 @@ public class DBUtils extends SQLiteOpenHelper{
 			
 			////////////////////////////////
 			// ContentValues
-			ContentValues val = _build_Values__TI__IFM10(actv, ti);
+			ContentValues val = _build_Values__TI__IFM10__NewTable(actv, ti);
+//			ContentValues val = _build_Values__TI__IFM10(actv, ti);
 //			ContentValues val = _build_Values__TI(actv, ti);
 
 			try {
@@ -1308,7 +1309,12 @@ public class DBUtils extends SQLiteOpenHelper{
 				} else {
 					
 					// Log
-					String msg_Log = "insertion => done: " + ti.getFile_name();
+					String msg_Log = "insertion => done: " + ti.getFile_name()
+							
+							+ " (table = "
+							+ ti.getTable_name()
+							+ ")"
+							;
 //					String msg_Log = "insertion => done";
 					Log.d("DBUtils.java"
 							+ "["
@@ -1464,6 +1470,49 @@ public class DBUtils extends SQLiteOpenHelper{
 		return val;
 		
 	}//_build_Values__TI__IFM10
+	
+	private static ContentValues 
+	_build_Values__TI__IFM10__NewTable
+	(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+		ContentValues val = new ContentValues();
+		
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"file_id", "file_path", "file_name",	// 3,4,5
+//		"date_added", "date_modified",			// 6,7
+//		"memos", "tags",						// 8,9
+//		"last_viewed_at",						// 10
+//		"table_name"							// 11
+		
+		val.put("created_at", 
+				ti.getDate_added());
+//				Methods.conv_MillSec_to_TimeLabel(
+//							Integer.parseInt(ti.getDate_added()) * 1000));
+//		Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
+		val.put("modified_at",
+				ti.getDate_modified());
+//				Methods.conv_MillSec_to_TimeLabel(
+//							Integer.parseInt(ti.getDate_modified()) * 1000));
+//				Methods.conv_MillSec_to_TimeLabel(STD.getMillSeconds_now()));
+		
+		val.put("file_id", ti.getFileId());
+		val.put("file_path", ti.getFile_path());
+		val.put("file_name", ti.getFile_name());
+		
+		val.put("date_added", ti.getDate_added());
+		val.put("date_modified", ti.getDate_modified());
+		
+		val.put("memos", ti.getMemo());
+		val.put("tags", ti.getTags());
+		
+		val.put("last_viewed_at", ti.getLast_viewed_at());
+//		val.put("table_name", CONS.DB.tname_IFM11);
+		val.put("table_name", ti.getTable_name());
+		
+		return val;
+		
+	}//_build_Values__TI__IFM10__NewTable
 	
 	public boolean deleteData(Activity actv, SQLiteDatabase db, String tableName, long file_id) {
 		/*----------------------------
@@ -3283,6 +3332,14 @@ public class DBUtils extends SQLiteOpenHelper{
 				
 			}//if (c == null)
 
+//			// matcher
+//			String regex = "^\\d\\d\\d\\d$";
+////			String regex = "\\d\\d\\d\\d";
+//			
+//			Pattern p = Pattern.compile(regex);
+//			
+//			Matcher m = null;
+			
 			while (c.moveToNext()) {
 				
 				///////////////////////////////////
@@ -3290,6 +3347,11 @@ public class DBUtils extends SQLiteOpenHelper{
 				// filter
 				//
 				///////////////////////////////////
+//				m = p.matcher(c.getString(5));
+				
+//				if (m.find()) {
+				// 4 digit name
+//				if (!m.find()) {
 				// 2014-...
 				if (!c.getString(5).startsWith("2014-")) {
 //					// 2013-...

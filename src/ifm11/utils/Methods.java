@@ -10335,281 +10335,177 @@ public class Methods {
 	importData_From_IFM10__V2
 	(Activity actv, Dialog d1) {
 
-		///////////////////////////////////
-		//
-		// move files: "2013-..."
-		//
-		///////////////////////////////////
-		importData_From_IFM10__V2__MoveFiles_2013(actv);
-
-		return;
+//		///////////////////////////////////
+//		//
+//		// move files: "2013-..."
+//		//
+//		///////////////////////////////////
+////		importData_From_IFM10__V2__MoveFiles_2013(actv);
+//
+//		return;
 		
-//		///////////////////////////////////
-//		//
-//		// validate: db file => exist?
-//		//
-//		///////////////////////////////////
-//		boolean res = Methods.validate_DBFile_Exists(actv, CONS.DB.dbName_IFM10);
-//		
-//		if (res == true) {
+		///////////////////////////////////
+		//
+		// validate: db file => exist?
+		//
+		///////////////////////////////////
+		boolean res = Methods.validate_DBFile_Exists(actv, CONS.DB.dbName_IFM10);
+		
+		if (res == true) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db file => exists: %s", CONS.DB.dbName_IFM10
+					);
+			
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		} else {//if (res == true)
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"db file => does NOT exist: %s", CONS.DB.dbName_IFM10
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			int res_i = Methods.import_DBFile__IFM10(actv);
+			
+		}//if (res == true)
+		
+		
+		////////////////////////////////
+		
+		// get: TIs from IFM10
+		
+		////////////////////////////////
+		List<TI> list_TIs_IFM10 = DBUtils.find_All_TI_IFM10__V2(actv);
+//		List<TI> list_TIs_IFM10 = DBUtils.find_All_TI_IFM10(actv);
+
+		TI ti = null;
+		
+//		for (int i = 0; i < 10; i++) {
+//			
+//			ti = list_TIs_IFM10.get(i);
 //			
 //			// Log
 //			String msg_Log;
 //			
 //			msg_Log = String.format(
 //					Locale.JAPAN,
-//					"db file => exists: %s", CONS.DB.dbName_IFM10
-//					);
-//			
-//			Log.d("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		} else {//if (res == true)
-//			
-//			// Log
-//			String msg_Log;
-//			
-//			msg_Log = String.format(
-//					Locale.JAPAN,
-//					"db file => does NOT exist: %s", CONS.DB.dbName_IFM10
+//					"ifm10: file => %s (%s)", 
+//					ti.getFile_name(), ti.getMemo()
 //					);
 //			
 //			Log.i("Methods.java" + "["
 //					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //					+ "]", msg_Log);
 //			
-//			int res_i = Methods.import_DBFile__IFM10(actv);
-//			
-//		}//if (res == true)
-//		
-//		
+//		}
+		
+//		////////////////////////////////
+//
+//		// get: TIs from IFM11
+//
 //		////////////////////////////////
 //		
-//		// get: TIs from IFM10
-//		
-//		////////////////////////////////
-//		List<TI> list_TIs_IFM10 = DBUtils.find_All_TI_IFM10__V2(actv);
-////		List<TI> list_TIs_IFM10 = DBUtils.find_All_TI_IFM10(actv);
-//
-//		TI ti = null;
-//		
-////		for (int i = 0; i < 10; i++) {
-////			
-////			ti = list_TIs_IFM10.get(i);
-////			
-////			// Log
-////			String msg_Log;
-////			
-////			msg_Log = String.format(
-////					Locale.JAPAN,
-////					"ifm10: file => %s (%s)", 
-////					ti.getFile_name(), ti.getMemo()
-////					);
-////			
-////			Log.i("Methods.java" + "["
-////					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-////					+ "]", msg_Log);
-////			
-////		}
-//		
-////		////////////////////////////////
-////
-////		// get: TIs from IFM11
-////
-////		////////////////////////////////
-////		
-//		List<TI> list_TIs_IFM11 = DBUtils.find_All_TI(actv);
-//
-//		// Log
+		List<TI> list_TIs_IFM11 = DBUtils.find_All_TI(actv);
+
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"IFM10 => %d / IFM11 => %d", 
+				list_TIs_IFM10.size(), list_TIs_IFM11.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// filter: if already in ifm11.db => not inserting
+		//
+		///////////////////////////////////
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"filtering..."
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		List<TI> list_TIs_Filtered = new ArrayList<TI>(list_TIs_IFM10.size());
+		
+		String tmp_10, tmp_11;
+		
+		boolean is_In = false;
+		
+		for (TI ti_10 : list_TIs_IFM10) {
+
+			tmp_10 = ti_10.getFile_name();
+			
+			for (TI ti_11 : list_TIs_IFM11) {
+			
+				tmp_11 = ti_11.getFile_name();
+				
+				if (tmp_10.equals(tmp_11)) {
+
+					is_In = true;
+					
+					break;
+
+				}//if (tmp_10.equals(tmp_11))
+				
+			}//for (TI ti_11 : list_TIs_IFM11)
+			
+			// if not in => add to the list
+			if (is_In == false) {
+
+				 list_TIs_Filtered.add(ti_10);
+
+			} else {//if (is_In)
+				
+				// reset: flag
+				is_In = false;
+				
+				
+			}//if (is_In)
+//		}//if (is_In)
+			
+		}//for (TI ti_10 : list_TIs_IFM10)
+		
+		// Log
 //		String msg_Log;
-//		
-//		msg_Log = String.format(
-//				Locale.JAPAN,
-//				"IFM10 => %d / IFM11 => %d", 
-//				list_TIs_IFM10.size(), list_TIs_IFM11.size()
-//				);
-//		
-//		Log.i("Methods.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		///////////////////////////////////
-//		//
-//		// filter: if already in ifm11.db => not inserting
-//		//
-//		///////////////////////////////////
-//		msg_Log = String.format(
-//				Locale.JAPAN,
-//				"filtering..."
-//				);
-//		
-//		Log.i("Methods.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//
-//		List<TI> list_TIs_Filtered = new ArrayList<TI>(list_TIs_IFM10.size());
-//		
-//		String tmp_10, tmp_11;
-//		
-//		boolean is_In = false;
-//		
-//		for (TI ti_10 : list_TIs_IFM10) {
-//
-//			tmp_10 = ti_10.getFile_name();
-//			
-//			for (TI ti_11 : list_TIs_IFM11) {
-//			
-//				tmp_11 = ti_11.getFile_name();
-//				
-//				if (tmp_10.equals(tmp_11)) {
-//
-//					is_In = true;
-//					
-//					break;
-//
-//				}//if (tmp_10.equals(tmp_11))
-//				
-//			}//for (TI ti_11 : list_TIs_IFM11)
-//			
-//			// if not in => add to the list
-//			if (is_In == false) {
-//
-//				 list_TIs_Filtered.add(ti_10);
-//
-//			} else {//if (is_In)
-//				
-//				// reset: flag
-//				is_In = false;
-//				
-//				
-//			}//if (is_In)
-////		}//if (is_In)
-//			
-//		}//for (TI ti_10 : list_TIs_IFM10)
-//		
-//		// Log
-////		String msg_Log;
-//		
-//		msg_Log = String.format(
-//				Locale.JAPAN,
-//				"filtering done => %d remain", list_TIs_Filtered.size()
-//				);
-//		
-//		Log.i("Methods.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-////		///////////////////////////////////
-////		//
-////		// filter: if file doesn't exist => remove from the lsit
-////		//
-////		///////////////////////////////////
-////		String tmp_s = null;
-////		String tmp_s_2 = null;
-////		
-////		File tmp_f = null;
-////
-////		List<TI> list_TIs_Filtered_FileExists = 
-////							new ArrayList<TI>();
-//////		new ArrayList<TI>(list_TIs_IFM10.size());
-////		
-////		for (TI t : list_TIs_Filtered) {
-////			
-////			tmp_s = t.getFile_name();
-////			
-////			tmp_s_2 = t.getFile_path();
-////			
-////			tmp_f = new File(tmp_s_2, tmp_s);
-////			
-////			if (tmp_f.exists()) {
-////
-////				list_TIs_Filtered_FileExists.add(t);
-////
-////			}//if (!tmp_f.exists())
-////			
-////		}//for (TI t : list_TIs_Filtered)
-////		
-//		
-//		///////////////////////////////////
-//		//
-//		// sort list
-//		//
-//		///////////////////////////////////
-//		
-////		if (list_TIs_Filtered_FileExists.size() > 0) {
-////		if (list_TIs_Filtered_FileExists.size() > 1) {
-//		if (list_TIs_Filtered.size() > 1) {
-//
-//			Methods.sort_List_TI_V2(
-////					list_TIs_Filtered_FileExists, 
-//					list_TIs_Filtered, 
-//					CONS.Enums.SortType.FileName, 
-//					CONS.Enums.SortOrder.ASC);
-//
-//		} else {//if (list_TIs_Filtered_FileExists.size() > 1)
-//			
-//			// Log
-////			String msg_Log;
-//			
-//			msg_Log = String.format(
-//					Locale.JAPAN,
-//					"list_TIs_Filtered => %d", list_TIs_Filtered.size()
-////					"list_TIs_Filtered_FileExists => %d", list_TIs_Filtered_FileExists.size()
-//					);
-//			
-//			Log.i("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		}//if (list_TIs_Filtered_FileExists.size() > 1)
-//		
-////		Methods.sort_List_TI_V2(
-////				list_TIs_Filtered_FileExists, 
-//////				list_TIs_Filtered, 
-////				CONS.Enums.SortType.FileName, 
-////				CONS.Enums.SortOrder.ASC);
-//		
-//		
-//		///////////////////////////////////
-//		//
-//		// modify: "file_path" value
-//		//
-//		///////////////////////////////////
-////		tmp_s = null;
-//		String tmp = null;
-//
-//		String tmp_s = null;
-//
-////		path = /mnt/sdcard-ext/dcim/Camera/2012-09-16_17-48-24_29.jpg)
-//		
-//		//ref http://www.regexplanet.com/advanced/java/index.html
-//		//ref http://stackoverflow.com/questions/632204/java-string-replace-using-regular-expressions answered Mar 10 '09 at 20:51
-//		String regex = "\\/[\\d-_]+\\.jpg$";
-//		
-////		Pattern p = Pattern.compile("\\/[\\d-_]+\\.jpg");
-////		
-////		Matcher m = null;
-//		
-////		for (TI t : list_TIs_Filtered_FileExists) {
-//		for (TI t : list_TIs_Filtered) {
-//			
-//			tmp_s = t.getFile_path();
-//		
-//			//ref http://www.javamex.com/tutorials/regular_expressions/search_replace.shtml#.Vfi0jxHtmko
-//			tmp_s = tmp_s.replaceAll(regex, "");
-//		
-//			// set a new value
-//			t.setFile_path(tmp_s);
-//			
-//		}//for (TI ti : list_TIs_Filtered)
-//
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"filtering done => %d remain", list_TIs_Filtered.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 //		///////////////////////////////////
 //		//
 //		// filter: if file doesn't exist => remove from the lsit
 //		//
 //		///////////////////////////////////
-////		String tmp_s = null;
+//		String tmp_s = null;
 //		String tmp_s_2 = null;
 //		
 //		File tmp_f = null;
@@ -10617,8 +10513,6 @@ public class Methods {
 //		List<TI> list_TIs_Filtered_FileExists = 
 //							new ArrayList<TI>();
 ////		new ArrayList<TI>(list_TIs_IFM10.size());
-//		
-//		boolean tmp_b = false;
 //		
 //		for (TI t : list_TIs_Filtered) {
 //			
@@ -10634,100 +10528,269 @@ public class Methods {
 //
 //			}//if (!tmp_f.exists())
 //			
-////			//debug
-////			if ((t.getMemo() != null) && t.getMemo().contains("図書館")) {
-//////				if (t.getMemo().contains("図書館")) {
-////	
-////					// Log
-////	//			String msg_Log;
-////				
-////				msg_Log = String.format(
-////						Locale.JAPAN,
-////						"memo => %s", t.getMemo()
-////						);
-////				
-////				Log.i("Methods.java" + "["
-////						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-////						+ "]", msg_Log);
-////	
-////				tmp_b = true;
-////			
-////			}//if (t.getMemo().e)
-//			
 //		}//for (TI t : list_TIs_Filtered)
 //		
-//		// Log
-////		String msg_Log;
+		
+		///////////////////////////////////
+		//
+		// sort list
+		//
+		///////////////////////////////////
+		
+//		if (list_TIs_Filtered_FileExists.size() > 0) {
+//		if (list_TIs_Filtered_FileExists.size() > 1) {
+		if (list_TIs_Filtered.size() > 1) {
+
+			Methods.sort_List_TI_V2(
+//					list_TIs_Filtered_FileExists, 
+					list_TIs_Filtered, 
+					CONS.Enums.SortType.FileName, 
+					CONS.Enums.SortOrder.ASC);
+
+		} else {//if (list_TIs_Filtered_FileExists.size() > 1)
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"list_TIs_Filtered => %d", list_TIs_Filtered.size()
+//					"list_TIs_Filtered_FileExists => %d", list_TIs_Filtered_FileExists.size()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//if (list_TIs_Filtered_FileExists.size() > 1)
+		
+//		Methods.sort_List_TI_V2(
+//				list_TIs_Filtered_FileExists, 
+////				list_TIs_Filtered, 
+//				CONS.Enums.SortType.FileName, 
+//				CONS.Enums.SortOrder.ASC);
+		
+		
+		///////////////////////////////////
+		//
+		// modify: "file_path" value
+		//
+		///////////////////////////////////
+//		tmp_s = null;
+		String tmp = null;
+
+		String tmp_s = null;
+
+//		path = /mnt/sdcard-ext/dcim/Camera/2012-09-16_17-48-24_29.jpg)
+		
+		//ref http://www.regexplanet.com/advanced/java/index.html
+		//ref http://stackoverflow.com/questions/632204/java-string-replace-using-regular-expressions answered Mar 10 '09 at 20:51
+		String regex = "\\/[\\d-_]+\\.jpg$";
+		
+//		Pattern p = Pattern.compile("\\/[\\d-_]+\\.jpg");
 //		
-////		msg_Log = String.format(
-////				Locale.JAPAN,
-////				"図書館 => %s", tmp_b
-////				);
-////		
-////		Log.i("Methods.java" + "["
-////				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-////				+ "]", msg_Log);
-//
-//		///////////////////////////////////
-//		//
-//		// report
-//		//
-//		///////////////////////////////////
-//		int tmp_i = (list_TIs_Filtered_FileExists.size() > 10) ? 
-//							10 : list_TIs_Filtered_FileExists.size();
+//		Matcher m = null;
+		
+//		for (TI t : list_TIs_Filtered_FileExists) {
+		for (TI t : list_TIs_Filtered) {
+			
+			tmp_s = t.getFile_path();
+
+			if (tmp_s != null) {
+
+				//ref http://www.javamex.com/tutorials/regular_expressions/search_replace.shtml#.Vfi0jxHtmko
+				tmp_s = tmp_s.replaceAll(regex, "");
+				
+				// set a new value
+				t.setFile_path(tmp_s);
+
+			}//if (tmp_s != null)
+			
+		}//for (TI ti : list_TIs_Filtered)
+
+		///////////////////////////////////
+		//
+		// report: list_TIs_Filtered
+		//
+		///////////////////////////////////
+		for (int i = 0; i < 10; i++) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"filtered file => %s (path = %s)(memo = %s)(table = %s)", 
+					list_TIs_Filtered.get(i).getFile_name(),
+					list_TIs_Filtered.get(i).getFile_path(),
+					list_TIs_Filtered.get(i).getMemo(),
+					list_TIs_Filtered.get(i).getTable_name()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		///////////////////////////////////
+		//
+		// filter: if file doesn't exist => remove from the lsit
+		//
+		///////////////////////////////////
+//		String tmp_s = null;
+		String tmp_s_2 = null;
+		
+		File tmp_f = null;
+
+		List<TI> list_TIs_Filtered_FileExists = 
+							new ArrayList<TI>();
+//		new ArrayList<TI>(list_TIs_IFM10.size());
+		
+		boolean tmp_b = false;
+		
+		for (TI t : list_TIs_Filtered) {
+			
+			tmp_s = t.getFile_name();
+			
+			tmp_s_2 = t.getFile_path();
+			
+			tmp_f = new File(tmp_s_2, tmp_s);
+			
+			if (tmp_f.exists()) {
+
+				list_TIs_Filtered_FileExists.add(t);
+
+			}//if (!tmp_f.exists())
+			
+//			//debug
+//			if ((t.getMemo() != null) && t.getMemo().contains("図書館")) {
+////				if (t.getMemo().contains("図書館")) {
+//	
+//					// Log
+//	//			String msg_Log;
 //				
-//		for (int i = 0; i < tmp_i; i++) {
-////			for (int i = 0; i < 10; i++) {
+//				msg_Log = String.format(
+//						Locale.JAPAN,
+//						"memo => %s", t.getMemo()
+//						);
+//				
+//				Log.i("Methods.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", msg_Log);
+//	
+//				tmp_b = true;
 //			
-//			ti = list_TIs_Filtered_FileExists.get(i);
-////			ti = list_TIs_Filtered.get(i);
-//			
-//			// Log
-////			String msg_Log;
-//			
-//			msg_Log = String.format(
-//					Locale.JAPAN,
-//					"filtered: file => %s (%s / path = %s)", 
-//					ti.getFile_name(), ti.getMemo(), ti.getFile_path()
-//					);
-//			
-//			Log.i("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
-//			
-//		}
-//
-//		
-//		
-//		///////////////////////////////////
-//		//
-//		// insert data
-//		//
-//		///////////////////////////////////
-//		// Log
-////		String msg_Log;
-//		
+//			}//if (t.getMemo().e)
+			
+		}//for (TI t : list_TIs_Filtered)
+		
+		// Log
+//		String msg_Log;
+		
 //		msg_Log = String.format(
 //				Locale.JAPAN,
-//				"list_TIs_Filtered_FileExists.size() => %d", list_TIs_Filtered_FileExists.size()
+//				"図書館 => %s", tmp_b
 //				);
 //		
 //		Log.i("Methods.java" + "["
 //				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //				+ "]", msg_Log);
-//		
-////		if (list_TIs_Filtered_FileExists.size() > 0) {
-////
-////			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered_FileExists);
-//////			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
-////
-////		}//if (list_TIs_Filtered_FileExists.size() > 0)
-//		
-////		DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
+
+		///////////////////////////////////
+		//
+		// update: table name
+		// 	"2014"
+		//
+		///////////////////////////////////
+		List<TI> list_TIs_Filtered_FileExists__NewTable = 
+							new ArrayList<TI>(list_TIs_Filtered_FileExists.size());
+		
+		TI tmp_TI = null;
+		
+		for (TI t : list_TIs_Filtered_FileExists) {
+			
+			tmp_TI = t;
+			
+			tmp_TI.setTable_name("ifm11__2014");
+			
+			list_TIs_Filtered_FileExists__NewTable.add(tmp_TI);
+			
+		}//for (TI ti2 : list_TIs_Filtered_FileExists)
+		
+
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		int tmp_i = (list_TIs_Filtered_FileExists__NewTable.size() > 10) ? 
+							10 : list_TIs_Filtered_FileExists__NewTable.size();
+				
+		for (int i = 0; i < tmp_i; i++) {
+//			for (int i = 0; i < 10; i++) {
+			
+			ti = list_TIs_Filtered_FileExists__NewTable.get(i);
+//			ti = list_TIs_Filtered.get(i);
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"filtered: file => %s (%s / path = %s)(table = %s", 
+					ti.getFile_name(), ti.getMemo(), ti.getFile_path(),
+					ti.getTable_name()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+
+		///////////////////////////////////
+		//
+		// insert data
+		//
+		///////////////////////////////////
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list_TIs_Filtered_FileExists__NewTable.size() => %d", 
+				list_TIs_Filtered_FileExists__NewTable.size()
+//				"list_TIs_Filtered_FileExists.size() => %d", 
+//				list_TIs_Filtered_FileExists.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		if (list_TIs_Filtered_FileExists.size() > 0) {
+
+			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered_FileExists__NewTable);
+//			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered_FileExists);
+//			DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
+
+		}//if (list_TIs_Filtered_FileExists.size() > 0)
+		
+//		DBUtils.insert_Data_TIs__IFM10(actv, list_TIs_Filtered);
 		
 	}//importData_From_IFM10__V2
 
 	
+	private static void 
+	importData_From_IFM10__V2__MoveFiles_4Digits(Activity actv) {
+		// TODO Auto-generated method stub
+		
+//		DBUtils.moveFiles_4Digits(actv);
+//		DBUtils.moveFiles_2012(actv);
+		
+	}//importData_From_IFM10__V2__MoveFiles_2013
+
 	private static void 
 	importData_From_IFM10__V2__MoveFiles_2013(Activity actv) {
 		// TODO Auto-generated method stub
@@ -10736,7 +10799,7 @@ public class Methods {
 //		DBUtils.moveFiles_2012(actv);
 		
 	}//importData_From_IFM10__V2__MoveFiles_2013
-
+	
 	/*******************************
 	 * @return
 	 * -1	=> db_files => null<br>
