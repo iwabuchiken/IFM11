@@ -119,6 +119,9 @@ public class CONS {
 		public static String dPath_Data_SDCard_Camera = 
 						dPath_Data_SDCard_Ext + "/dcim/Camera";
 		
+		public static String dPath_Data_SDCard_Camera_SHARP100 = 
+				dPath_Data_SDCard_Ext + "/dcim/100SHARP";
+		
 		public static String dPath_Data_Root = "/mnt/sdcard-ext/ifm11_data";
 		
 		public static String dPath_dbFile_backup = dPath_Data_Root + "/backup";

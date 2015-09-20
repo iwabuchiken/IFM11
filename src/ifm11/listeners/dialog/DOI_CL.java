@@ -490,10 +490,11 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_Fix_DB))) {
 			
-			String msg = "Sorry. Not in use";
-			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+//			String msg = "Sorry. Not in use";
+//			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
 
 			
+			Methods.fix_DB_SHARP100(actv, d1);
 //			Methods.fix_DB(actv, d1);
 			
 		} else if (item.getText().equals(actv.getString(

@@ -11391,6 +11391,165 @@ public class Methods {
 	}//fix_DB
 
 	/*******************************
+	 * fix_DB_SHARP100<br>
+	 * 
+	 * Fix database file<br>
+	 * 	1. Delete records which are duplicated
+	 *******************************/
+	public static void 
+	fix_DB_SHARP100(Activity actv, Dialog d1) {
+		
+		///////////////////////////////////
+		//
+		// change: file name
+		//
+		///////////////////////////////////
+		File f = new File(CONS.DB.dPath_Data_SDCard_Camera_SHARP100);
+		
+		// validate
+		if (!f.exists()) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir => not exist: %s", f.getAbsolutePath()
+					);
+			
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			d1.dismiss();
+			
+			return;
+
+		} else {//if (!f.exists())
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir => exists: %s", f.getAbsolutePath()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+		}////if (!f.exists())
+		
+		///////////////////////////////////
+		//
+		// get: files list
+		//
+		///////////////////////////////////
+		File[] files = f.listFiles();
+		
+		int tmp_i = files.length;
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"files => %d", tmp_i
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file(%d) => %s (%s)", 
+					i, 
+					files[i].getName(), 
+					Methods.conv_MillSec_to_TimeLabel(files[i].lastModified())
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+//		// TODO Auto-generated method stub
+//		///////////////////////////////////
+//		//
+//		// list
+//		//
+//		///////////////////////////////////
+//		List<TI> list = DBUtils.find_All_TI(actv);
+//
+//		///////////////////////////////////
+//		//
+//		// filter: file path
+//		//
+//		///////////////////////////////////
+//		List<TI> list_Filtered = new ArrayList<TI>(list.size());
+//		
+//		for (TI t : list) {
+//			
+//			if (t.getFile_path().contains("100SHARP")) {
+//
+//				list_Filtered.add(t);
+//
+//			}//if (t.getFile_path().contains("100SHARP"));
+//			
+//		}//for (TI t : list_Filtered)
+//		
+//		// Log
+//		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"list => %d / filtered => %d", list.size(), list_Filtered.size()
+//				);
+//		
+//		Log.i("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		///////////////////////////////////
+//		//
+//		// report
+//		//
+//		///////////////////////////////////
+//		for (TI t : list_Filtered) {
+//			
+//			// Log
+////			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"file => %s (path = %s)", t.getFile_name(), t.getFile_path()
+//					);
+//			
+//			Log.i("Methods.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);;
+//						
+//					}//for (TI t : list_Filtered)
+		
+		
+		///////////////////////////////////
+		//
+		// dismiss d1
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+	}//fix_DB_SHARP100
+	
+	/*******************************
 	 * fix_DB__Refresh<br>
 	 * 
 	 * D-42 v-1.0<br>
