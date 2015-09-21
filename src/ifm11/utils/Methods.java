@@ -95,6 +95,7 @@ import android.widget.Toast;
 
 
 
+
 // Apache
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -11395,8 +11396,10 @@ public class Methods {
 	 * 
 	 * Fix database file<br>
 	 * 	1. Delete records which are duplicated
+	 * @return 
+	 * -1	=> dir does not exist<br>
 	 *******************************/
-	public static void 
+	public static int 
 	fix_DB_SHARP100(Activity actv, Dialog d1) {
 		
 		///////////////////////////////////
@@ -11423,7 +11426,7 @@ public class Methods {
 			
 			d1.dismiss();
 			
-			return;
+			return -1;
 
 		} else {//if (!f.exists())
 			
@@ -11480,75 +11483,233 @@ public class Methods {
 					+ "]", msg_Log);
 			
 		}
+
+		///////////////////////////////////
+		//
+		// build: TI list
+		//
+		///////////////////////////////////
+		List<TI> list_TIs = new ArrayList<TI>(tmp_i);
 		
-//		// TODO Auto-generated method stub
-//		///////////////////////////////////
-//		//
-//		// list
-//		//
-//		///////////////////////////////////
-//		List<TI> list = DBUtils.find_All_TI(actv);
-//
-//		///////////////////////////////////
-//		//
-//		// filter: file path
-//		//
-//		///////////////////////////////////
-//		List<TI> list_Filtered = new ArrayList<TI>(list.size());
-//		
-//		for (TI t : list) {
-//			
-//			if (t.getFile_path().contains("100SHARP")) {
-//
-//				list_Filtered.add(t);
-//
-//			}//if (t.getFile_path().contains("100SHARP"));
-//			
-//		}//for (TI t : list_Filtered)
-//		
-//		// Log
+		TI t = null;
+
+		long time;
+		
+		String time_label = null;
+		
+		String time_now = Methods.conv_MillSec_to_TimeLabel(
+								STD.getMillSeconds_now(), 
+								CONS.Enums.TimeLabelType.STANDARD);
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			time = Methods.conv_FileName_2_MillSec(files[i].getName());
+
+			time_label = Methods.conv_MillSec_to_TimeLabel(
+							time, 
+							CONS.Enums.TimeLabelType.STANDARD);
+
+			t = new TI.Builder()
+			
+					.setCreated_at(time_now)
+					.setModified_at(time_now)
+					
+					.setFile_name(files[i].getName())
+					.setFile_path(CONS.DB.dPath_Data_SDCard_Camera_SHARP100)
+					
+					.setDate_added(time_label)
+					.setDate_modified(time_label)
+			
+					.setTable_name(CONS.DB.tname_IFM11)
+					
+					.build();
+			
+			list_TIs.add(t);
+			
+		}
+		
+		//debug
+		// Log
 //		String msg_Log;
-//		
-//		msg_Log = String.format(
-//				Locale.JAPAN,
-//				"list => %d / filtered => %d", list.size(), list_Filtered.size()
-//				);
-//		
-//		Log.i("Methods.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
-//		
-//		///////////////////////////////////
-//		//
-//		// report
-//		//
-//		///////////////////////////////////
-//		for (TI t : list_Filtered) {
-//			
-//			// Log
-////			String msg_Log;
-//			
-//			msg_Log = String.format(
-//					Locale.JAPAN,
-//					"file => %s (path = %s)", t.getFile_name(), t.getFile_path()
-//					);
-//			
-//			Log.i("Methods.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);;
-//						
-//					}//for (TI t : list_Filtered)
 		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list_TIs => %d", list_TIs.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		//debug
+//		long time = Methods.conv_FileName_2_MillSec(files[0].getName());
+//		
+//		String time_label = Methods.conv_MillSec_to_TimeLabel(
+//								time, 
+//								CONS.Enums.TimeLabelType.STANDARD);
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"fname => %s || label => %s", files[0].getName(), time_label
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+
+		// Insert data into db
+
+		////////////////////////////////
+		int numOfItemsAdded = 
+					STD._refresh_MainDB__InsertData_TIs(actv, list_TIs);
+//		int numOfItemsAdded = STD._refresh_MainDB__InsertData_TIs(actv, list_TI);
+		
+		// Log
+//		String 
+		msg_Log = "numOfItemsAdded => " + numOfItemsAdded;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+//		String log_msg = "Log in => Succeeded: " + ti.getFile_name();
+		Methods.write_Log(actv, 
+				msg_Log, 
+				Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+		
+
+		////////////////////////////////
+
+		// Insert: refresh date
+		//		=> only if there is/are new entry/entries
+
+		////////////////////////////////
+		boolean res = STD._refresh_MainDB__InsertData_RefreshDate(
+//										actv, numOfItemsAdded, list_New);
+										actv, numOfItemsAdded, list_TIs);
+//		actv, numOfItemsAdded, list_TI);
+
+		// Log
+		msg_Log = "insert refresh date => " + res;
+		Log.d("STD.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
 		
 		///////////////////////////////////
 		//
-		// dismiss d1
+		// TNs
+		//
+		///////////////////////////////////
+		String start = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				actv.getString(R.string.prefs_tnactv_refresh_db_start_key), 
+				null);
+		
+		if (start == null) {
+			
+			start = "2015-07";
+			
+		}//if (start == null)
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"start => %s", start
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		String start = "2015-07";
+//		String start = lastRefreshedDate__Month;
+//		String end = "2015-10";
+		String end = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				actv.getString(R.string.prefs_tnactv_refresh_db_end_key), 
+				null);
+		
+		if (end == null) {
+			
+			end = "2015-10";
+			
+		}//if (end == null)
+		
+		
+		Methods.create_TNs_V3(actv, start, end);
+	
+		///////////////////////////////////
+		//
+		// dialog
 		//
 		///////////////////////////////////
 		d1.dismiss();
 		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+//		return -1;
+		return numOfItemsAdded;
+
+		
+		
+//		///////////////////////////////////
+//		//
+//		// dismiss d1
+//		//
+//		///////////////////////////////////
+//		d1.dismiss();
+		
 	}//fix_DB_SHARP100
 	
+	private static long 
+	conv_FileName_2_MillSec(String fname) {
+		// TODO Auto-generated method stub
+//		2015-08-08_12-27-06_000.jpg (2015/09/20 19:19:36.000)
+
+		String time_str = fname.split("\\.")[0];
+		
+		Date date;
+		
+		try {
+			
+			date = new SimpleDateFormat(
+						"yyyy-MM-dd_HH-mm-ss_SSS", Locale.JAPAN).parse(time_str);
+//			CONS.Admin.format_Date, Locale.JAPAN).parse(fname);	// "yyyy/MM/dd HH:mm:ss.SSS"
+			
+			return date.getTime();
+//			long milliseconds = date.getTime();
+			
+		} catch (ParseException e) {
+			
+//			e.printStackTrace();
+			// Log
+			String msg_Log = "Exception: " + e.toString();
+			Log.e("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return -1;
+			
+		}
+		
+//		return 0;
+		
+	}//conv_FileName_2_MillSec
+	
+
 	/*******************************
 	 * fix_DB__Refresh<br>
 	 * 
@@ -12170,6 +12331,28 @@ public class Methods {
 		Log.i("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		for (TI t : list_TI__Filtered) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file => %s", t.getFile_name()
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);;
+			
+		}//for (TI t : list_TI__Filtered)
+		
 		
 		////////////////////////////////
 

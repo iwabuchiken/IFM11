@@ -6,3 +6,7 @@ gitk
 [console]
 javac MyTest.java
 java MyTest
+
+javac ChangeFileName.java
+java ChangeFileName
+
