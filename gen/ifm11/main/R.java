@@ -485,6 +485,9 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
+        /**  http://stackoverflow.com/questions/6226538/how-to-increase-the-size-of-the-title-bar-in-an-android-application 
+         */
+        public static final int CustomTheme=0x7f07000b;
         /**  REF http://stackoverflow.com/questions/3551169/change-background-color-of-preference answered May 11 '11 at 14:05 
          */
         public static final int PrefTheme=0x7f070003;

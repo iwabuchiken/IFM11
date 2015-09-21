@@ -774,6 +774,7 @@ public class TNActv extends ListActivity {
 		msg_Log = "currentPath => " + currentPath;
 		Log.d("TNActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+		
 				+ "]", msg_Log);
 		
 		////////////////////////////////
@@ -826,6 +827,27 @@ public class TNActv extends ListActivity {
 //		CONS.Enums.SortType.CREATED_AT, 
 //		CONS.Enums.SortOrder.ASC);
 
+		///////////////////////////////////
+		//
+		// show numOf TIs in the title bar
+		//
+		///////////////////////////////////
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"%s (%d)", 
+//				this.getClass().getName(),
+//				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
+				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+				CONS.TNActv.list_TNActv_Main.size()
+				);
+		
+		this.setTitle(msg_Log);
+//		this.setTitle(this.getClass().getName());
+		
+		
 //		for (int i = 0; i < 20; i++) {
 //			
 //			// Log
@@ -890,6 +912,25 @@ public class TNActv extends ListActivity {
 						CONS.Enums.SortType.FileName, 
 						CONS.Enums.SortOrder.DESC);
 		
+		///////////////////////////////////
+		//
+		// show numOf TIs in the title bar
+		//
+		///////////////////////////////////
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"%s (%d)", 
+//				this.getClass().getName(),
+//				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
+				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+				CONS.TNActv.list_TNActv_Main.size()
+				);
+		
+		this.setTitle(msg_Log);
+
 	}//_Setup_SetList__Search
 
 

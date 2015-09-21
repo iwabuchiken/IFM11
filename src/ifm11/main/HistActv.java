@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -569,6 +570,26 @@ public class HistActv extends ListActivity {
 		Log.d("HistActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// show numOf TIs in the title bar
+		//
+		///////////////////////////////////
+		// Log
+//		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"%s (%d)", 
+//				this.getClass().getName(),
+//				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
+				this.getClass().getName(),
+				CONS.HistActv.list_HistActv_Main.size()
+				);
+		
+		this.setTitle(msg_Log);
+
 		
 //		////////////////////////////////
 //

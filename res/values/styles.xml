@@ -103,5 +103,11 @@
 	    <item name="android:layout_margin">2dp</item>
 	    
     </style>    
+
+    <!-- http://stackoverflow.com/questions/6226538/how-to-increase-the-size-of-the-title-bar-in-an-android-application -->
+    <style name="CustomTheme" parent="android:Theme">
+        <item name="android:windowTitleSize">50dip</item>
+        <item name="android:textSize">20dip</item>
+    </style>
     
 </resources>
