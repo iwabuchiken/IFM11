@@ -368,7 +368,46 @@ public class CONS {
 			"TEXT", 					// 3
 			
 		};
+
+		////////////////////////////////
+
+		// Table: upload history
+
+		////////////////////////////////
+		public static final String tname_UploadHistory = "upload_history";
 		
+		public static final String[] col_names_upload_history = {
+			
+			"db_id",								// 0
+			"file_name", "file_path"				// 1,2
+			
+		};
+		
+		public static final String[] col_names_upload_history_full = {
+			
+			android.provider.BaseColumns._ID,		// 0
+			"created_at", "modified_at",			// 1,2
+			"db_id",								// 3
+			"file_name", "file_path"				// 4,5
+			
+		};
+		
+		public static final String[] col_types_upload_history = {
+			
+			"INTEGER",						// 0
+			"TEXT", "TEXT"					// 1,2
+				
+		};
+		
+		public static final String[] col_types_upload_history_full = {
+			
+			"INTEGER", "TEXT", "TEXT",		// 0,1,2
+			"INTEGER",						// 3
+			"TEXT", "TEXT"					// 4,5
+			
+		};
+		
+
 		////////////////////////////////
 
 		// Others
