@@ -12204,6 +12204,27 @@ public class Methods {
 		Log.i("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+
+		///////////////////////////////////
+		//
+		// dialog
+		//
+		///////////////////////////////////
+		d1.dismiss();
+
+		///////////////////////////////////
+		//
+		// dialog 2: interim report
+		//
+		///////////////////////////////////
+		int duration = 2000;	// 2000 milsec
+		int colorID = R.color.green4;
+		String message = String.format(
+				Locale.JAPAN,
+				"Refreshing... => %d", list_TI.size()
+				);
+		
+		Methods_dlg.dlg_ShowMessage_Duration__V2(actv, message, colorID, duration);
 		
 		////////////////////////////////
 		
@@ -12444,13 +12465,13 @@ public class Methods {
 		
 		Methods.create_TNs_V3(actv, start, end);
 	
-		///////////////////////////////////
-		//
-		// dialog
-		//
-		///////////////////////////////////
-		d1.dismiss();
-		
+//		///////////////////////////////////
+//		//
+//		// dialog
+//		//
+//		///////////////////////////////////
+//		d1.dismiss();
+//		
 		///////////////////////////////////
 		//
 		// return

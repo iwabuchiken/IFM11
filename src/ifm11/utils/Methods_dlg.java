@@ -325,6 +325,50 @@ public class Methods_dlg {
 	
 	}//public static Dialog dlg_template_okCancel()
 	
+	public static
+	Dialog dlg_Template_TV_Only
+	(Activity actv, int layoutId, int titleStringId) {
+		/****************************
+		 * Steps
+		 * 1. Set up
+		 * 2. Add listeners => OnTouch
+		 * 3. Add listeners => OnClick
+		 ****************************/
+		
+		// 
+		Dialog dlg = new Dialog(actv);
+		
+		//
+		dlg.setContentView(layoutId);
+		
+		// Title
+		dlg.setTitle(titleStringId);
+		
+//		/****************************
+//		 * 2. Add listeners => OnTouch
+//		 ****************************/
+//		//
+//		Button btn_cancel = (Button) dlg.findViewById(cancelButtonId);
+//		
+//		//
+//		btn_cancel.setTag(cancelTag);
+//		
+//		//
+//		btn_cancel.setOnTouchListener(new DB_OTL(actv, dlg));
+		
+//		/****************************
+//		 * 3. Add listeners => OnClick
+//		 ****************************/
+//		//
+//		btn_cancel.setOnClickListener(new DB_OCL(actv, dlg));
+		
+		//
+		//dlg.show();
+		
+		return dlg;
+		
+	}//dlg_Template_TV_Only
+	
 	public static Dialog 
 	dlg_Template_Cancel_SecondDialog
 	(Activity actv, Dialog dlg1,
@@ -560,7 +604,7 @@ public class Methods_dlg {
 				Tags.DialogTags.GENERIC_DISMISS);
 		
 		TextView tv_Message = 
-				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setText(message);
 		
@@ -580,7 +624,7 @@ public class Methods_dlg {
 				Tags.DialogTags.GENERIC_DISMISS);
 		
 		TextView tv_Message = 
-				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setText(message);
 		
@@ -612,7 +656,7 @@ public class Methods_dlg {
 //		Tags.DialogTags.GENERIC_DISMISS);
 		
 		TextView tv_Message = 
-				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setText(message);
 		
@@ -640,7 +684,7 @@ public class Methods_dlg {
 				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
 		
 		TextView tv_Message = 
-				(TextView) dlg2.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) dlg2.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setText(message);
 		
@@ -3474,7 +3518,7 @@ public class Methods_dlg {
 				Tags.DialogTags.GENERIC_DISMISS);
 		
 		TextView tv_Message = 
-				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setText(message);
 		
@@ -3511,7 +3555,7 @@ public class Methods_dlg {
 				Tags.DialogTags.GENERIC_DISMISS);
 		
 		TextView tv_Message = 
-				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setText(message);
 		
@@ -3541,6 +3585,74 @@ public class Methods_dlg {
 		
 	}
 
+	/******************************
+	 * dlg_ShowMessage_Duration__V2<br>
+	 * 
+	 * 	Dialog layout => no buttons; message only
+	 * 
+		@param duration => millseconds
+	 ******************************/
+	public static void
+	dlg_ShowMessage_Duration__V2
+	(Activity actv, String message, int colorID, int duration) {
+		
+		////////////////////////////////
+
+		// validate
+
+		////////////////////////////////
+		String actv_Name = actv.getClass().getName();
+		
+		if (actv_Name.equals(CONS.Admin.actvName_TNActv)) {
+			
+			if (CONS.Admin.isRunning_TNActv == false) {
+				
+				// Log
+				String msg_Log = "TNActv => not running";
+				Log.i("Methods_dlg.java"
+						+ "["
+						+ Thread.currentThread().getStackTrace()[2]
+								.getLineNumber() + "]", msg_Log);
+				
+				return;
+				
+			}
+			
+		}
+		
+		////////////////////////////////
+
+		// build dlg
+
+		////////////////////////////////
+//		final Dialog dlg = Methods_dlg.dlg_Template_Cancel(
+		final Dialog dlg = Methods_dlg.dlg_Template_TV_Only(
+				actv, R.layout.dlg_tmpl_toast_ok, 
+				R.string.generic_tv_confirm);
+		
+		TextView tv_Message = 
+				(TextView) dlg.findViewById(R.id.dlg_tmpl_toast_tv_message);
+		
+		tv_Message.setText(message);
+		
+		////////////////////////////////
+
+		// show
+
+		////////////////////////////////
+		dlg.show();
+		
+		//REF http://xjaphx.wordpress.com/2011/07/13/auto-close-dialog-after-a-specific-time/
+		final Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            public void run() {
+                dlg.dismiss(); // when the task active then close the dialog
+                t.cancel(); // also just top the timer thread, otherwise, you may receive a crash report
+            }
+        }, duration); // after 2 second (or 2000 miliseconds), the task will be active.
+        
+	}//dlg_ShowMessage_Duration__V2
+	
 	public static void 
 	conf_Upload_DB
 	(Activity actv, Dialog d1) {
@@ -4255,7 +4367,7 @@ public class Methods_dlg {
 				Tags.DialogTags.GENERIC_DISMISS_THIRD_DIALOG);
 		
 		TextView tv_Message = 
-				(TextView) dlg3.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) dlg3.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setBackgroundColor(actv.getResources().getColor(colorID));
 		
@@ -4651,7 +4763,7 @@ public class Methods_dlg {
 				Tags.DialogTags.GENERIC_DISMISS_SECOND_DIALOG);
 		
 		TextView tv_Message = 
-				(TextView) d2.findViewById(R.id.dlg_tmpl_toast_ok_tv_message);
+				(TextView) d2.findViewById(R.id.dlg_tmpl_toast_tv_message);
 		
 		tv_Message.setText(message);
 		
