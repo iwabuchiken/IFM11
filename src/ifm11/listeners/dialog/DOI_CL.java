@@ -473,6 +473,15 @@ public class DOI_CL implements OnItemClickListener {
 			Methods.start_Activity_LogActv(actv, d1);
 			
 		} else if (item.getText().equals(actv.getString(
+				R.string.dlg_actv_main_other_UploadHistory))) {
+			
+//			// dismiss
+//			d1.dismiss();
+//			
+//			Methods.start_Activity_HistUploadActv(actv);
+////			Methods.importData_From_IFM10(actv, d1);
+			
+		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_Import_From10))) {
 			
 			Methods.importData_From_IFM10__V2(actv, d1);

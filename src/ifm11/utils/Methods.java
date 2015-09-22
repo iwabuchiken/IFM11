@@ -11,6 +11,7 @@ import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
 import ifm11.main.CanvasActv;
 import ifm11.main.HistActv;
+import ifm11.main.HistUploadActv;
 import ifm11.main.ImageActv;
 import ifm11.main.LogActv;
 import ifm11.main.PrefActv;
@@ -79,6 +80,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 
 
@@ -7920,6 +7922,21 @@ public class Methods {
 		
 	}//start_Activity_LogActv
 
+	public static void 
+	start_Activity_HistUploadActv
+	(Activity actv) {
+		
+		
+		Intent i = new Intent();
+		
+		i.setClass(actv, HistUploadActv.class);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+		
+	}//start_Activity_UploadHistActv
+	
 	public static void 
 	start_Activity_ShowLogActv
 	(Activity actv, String itemName) {

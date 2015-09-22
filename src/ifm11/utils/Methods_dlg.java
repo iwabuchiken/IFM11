@@ -34,6 +34,8 @@ import org.apache.commons.lang.StringUtils;
 
 
 
+
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -43,6 +45,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -3745,6 +3750,13 @@ public class Methods_dlg {
 						.build());
 		
 		list.add(new ListItem.Builder()
+				.setText(actv.getString(
+						R.string.dlg_actv_main_other_UploadHistory))
+						.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
+						.setTextColor_ID(R.color.black)
+						.build());
+		
+		list.add(new ListItem.Builder()
 					.setText(actv.getString(
 							R.string.dlg_actv_main_other_Import_From10))
 							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
@@ -3821,6 +3833,41 @@ public class Methods_dlg {
 		lv.setTag(Tags.DialogItemTags.ACTV_MAIN_OPTMENU_OTHERS);
 		
 		lv.setOnItemClickListener(new DOI_CL(actv, d1));
+		
+//		///////////////////////////////////
+//		//
+//		// listener: onTouch		//=> n/w 23/09/2015 08:27:51
+//		//
+//		///////////////////////////////////
+//		lv.setOnTouchListener(new OnTouchListener(){
+//
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				
+//				// Log
+//				String msg_Log;
+//				
+//				msg_Log = String.format(
+//						Locale.JAPAN,
+//						"view name => %s", v.getClass().getName()
+//						);
+//				
+//				Log.i("Methods_dlg.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", msg_Log);
+//				
+//				///////////////////////////////////
+//				//
+//				// background
+//				//
+//				///////////////////////////////////
+//				v.setBackgroundColor(Color.GRAY);
+//				
+//				return false;
+//			}
+//			
+//		});
 		
 		/***************************************
 		* Modify the list view height
