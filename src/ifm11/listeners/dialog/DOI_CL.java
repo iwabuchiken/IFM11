@@ -442,6 +442,11 @@ public class DOI_CL implements OnItemClickListener {
 			Methods_dlg.conf_DropCreate_Table_Admin(actv, d1, d2);
 			
 		} else if (li.getText().equals(actv.getString(
+				R.string.dlg_db_ops_item_drop_create_tbl_UploadHistory))) {
+			
+			Methods_dlg.conf_DropCreate_Table_UploadHistory(actv, d1, d2);
+			
+		} else if (li.getText().equals(actv.getString(
 				R.string.dlg_db_ops_item_import_patterns_from_previous))) {
 			
 			Methods.import_Patterns_Previous(actv, d1, d2);
@@ -475,10 +480,10 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_UploadHistory))) {
 			
-//			// dismiss
-//			d1.dismiss();
-//			
-//			Methods.start_Activity_HistUploadActv(actv);
+			// dismiss
+			d1.dismiss();
+			
+			Methods.start_Activity_HistUploadActv(actv);
 ////			Methods.importData_From_IFM10(actv, d1);
 			
 		} else if (item.getText().equals(actv.getString(

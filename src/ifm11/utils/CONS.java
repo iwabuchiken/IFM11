@@ -376,7 +376,7 @@ public class CONS {
 		////////////////////////////////
 		public static final String tname_UploadHistory = "upload_history";
 		
-		public static final String[] col_names_upload_history = {
+		public static final String[] col_names_Upload_History = {
 			
 			"db_id",								// 0
 			"file_name", "file_path"				// 1,2
@@ -392,7 +392,7 @@ public class CONS {
 			
 		};
 		
-		public static final String[] col_types_upload_history = {
+		public static final String[] col_types_Upload_History = {
 			
 			"INTEGER",						// 0
 			"TEXT", "TEXT"					// 1,2
