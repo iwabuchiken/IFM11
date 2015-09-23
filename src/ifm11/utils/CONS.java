@@ -831,6 +831,10 @@ public class CONS {
 		
 		public enum TimeLabelType {
 
+			/*******************************
+			 * STANDARD => yyyy/MM/dd HH:mm:ss.SSS<br>
+			 * 	label for ==> created_at, modified_at
+			 *******************************/
 			STANDARD, 		// yyyy/MM/dd HH:mm:ss.SSS
 			SERIAL, 		// yyyyMMdd_hhmmss_SSS
 			SERIAL2,		// yyyy-MM-dd_hh-mm-ss_SSS

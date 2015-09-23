@@ -187,7 +187,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 			
 			////////////////////////////////
 
-			// post data
+			// post data: Post data to the Cake app
 
 			////////////////////////////////
 			if (res == CONS.Remote.status_220) {
@@ -439,7 +439,33 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 		////////////////////////////////
 		if (res_i >= 200 && res_i <= 220) {
 			
-			boolean tmp_b = DBUtils.update_TI__UploadedAt(actv, ti);
+			boolean tmp_b;
+
+			///////////////////////////////////
+			//
+			// upload history
+			//
+			///////////////////////////////////
+			tmp_b = DBUtils.insert_Data__UploadHistory(actv, ti);
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"insert_Data__UploadHistory => %s", tmp_b
+					);
+			
+			Log.i("Task_FTP.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			///////////////////////////////////
+			//
+			// update: TI data
+			//
+			///////////////////////////////////
+			tmp_b = DBUtils.update_TI__UploadedAt(actv, ti);
 			
 			if (tmp_b == true) {
 
@@ -508,7 +534,7 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 						CONS.TNActv.list_TNActv_Main.remove(ti);
 						
 						// Log
-						String msg_Log;
+//						String msg_Log;
 						
 						msg_Log = String.format(
 								Locale.JAPAN,
@@ -564,7 +590,8 @@ public class Task_FTP extends AsyncTask<String, Integer, Integer> {
 								);
 					
 					// Log
-					String msg_Log = "update ti, uploaded_at => " + tmp_i;
+//					String msg_Log = null;
+					msg_Log = "update ti, uploaded_at => " + tmp_i;
 					Log.d("Task_FTP.java"
 							+ "["
 							+ Thread.currentThread().getStackTrace()[2]

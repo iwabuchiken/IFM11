@@ -949,6 +949,8 @@ public class DBUtils extends SQLiteOpenHelper{
 	}//insertData_RefreshDate
 	
 	/******************************
+	 * insert_Data_generic<br>
+	 *  @param val => needs all column values except _id
 		@return false => 1. Insertion failed<br>
 						2. Exception
 	 ******************************/
@@ -8923,6 +8925,37 @@ public class DBUtils extends SQLiteOpenHelper{
 		return ti;
 		
 	}//find_TI_first
+
+	public static boolean 
+	insert_Data__UploadHistory(Activity actv, TI ti) {
+		// TODO Auto-generated method stub
+
+		ContentValues val = new ContentValues();
+		
+		// Put values
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"db_id",								// 3
+//		"file_name", "file_path"				// 4,5
+
+		String time = Methods.conv_MillSec_to_TimeLabel(
+						STD.getMillSeconds_now(), 
+						CONS.Enums.TimeLabelType.STANDARD);
+		
+		val.put(CONS.DB.col_names_upload_history_full[1], time);
+		val.put(CONS.DB.col_names_upload_history_full[2], time);
+		
+		val.put(CONS.DB.col_names_upload_history_full[3], ti.getDb_Id());
+		val.put(CONS.DB.col_names_upload_history_full[4], ti.getFile_name());
+		val.put(CONS.DB.col_names_upload_history_full[5], ti.getFile_path());
+		
+//		for (int i = 0; i < columnNames.length; i++) {
+//			val.put(columnNames[i], values[i]);
+//		}//for (int i = 0; i < columnNames.length; i++)
+
+		return insert_Data_generic(actv, CONS.DB.tname_UploadHistory, val);
+		
+	}//insert_Data__UploadHistory(Activity actv, TI ti)
 
 	
 }//public class DBUtils
