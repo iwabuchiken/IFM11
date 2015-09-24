@@ -205,6 +205,8 @@ public final class R {
         public static final int list_row_checked_box_textView1=0x7f09007b;
         public static final int list_row_checked_box_textView2=0x7f09007c;
         public static final int list_row_gv_tv=0x7f09007e;
+        public static final int list_row_histupload_tv_date=0x7f090079;
+        public static final int list_row_histupload_tv_filename=0x7f090078;
         public static final int list_row_logitem_TV_filename=0x7f090082;
         public static final int list_row_logitem_TV_line=0x7f090083;
         public static final int list_row_logitem_TV_text=0x7f090084;
@@ -236,8 +238,6 @@ public final class R {
         public static final int tableRow2=0x7f090028;
         public static final int tableRow3=0x7f09002b;
         public static final int tableRow4=0x7f09002e;
-        public static final int textView1=0x7f090078;
-        public static final int textView2=0x7f090079;
         public static final int thumb_activity_LL_buttons=0x7f09008a;
         public static final int thumb_activity_ib_back=0x7f09008d;
         public static final int thumb_activity_ib_next_page=0x7f09008e;
@@ -278,12 +278,13 @@ public final class R {
         public static final int list_row=0x7f03001b;
         public static final int list_row_checked_box=0x7f03001c;
         public static final int list_row_gv=0x7f03001d;
-        public static final int list_row_logitem=0x7f03001e;
-        public static final int list_row_simple_1=0x7f03001f;
-        public static final int list_row_simple_2=0x7f030020;
-        public static final int list_row_simple_iv_1=0x7f030021;
-        public static final int main_pref=0x7f030022;
-        public static final int thumb_activity=0x7f030023;
+        public static final int list_row_histupload=0x7f03001e;
+        public static final int list_row_logitem=0x7f03001f;
+        public static final int list_row_simple_1=0x7f030020;
+        public static final int list_row_simple_2=0x7f030021;
+        public static final int list_row_simple_iv_1=0x7f030022;
+        public static final int main_pref=0x7f030023;
+        public static final int thumb_activity=0x7f030024;
     }
     public static final class menu {
         public static final int image_actv_menu=0x7f080000;

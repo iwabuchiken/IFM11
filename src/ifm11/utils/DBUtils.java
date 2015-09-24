@@ -2,6 +2,7 @@ package ifm11.utils;
 
 
 
+import ifm11.items.HistUpload;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.main.R;
@@ -2928,6 +2929,185 @@ public class DBUtils extends SQLiteOpenHelper{
 		return ti_List;
 		
 	}//find_All_TI
+	
+	/******************************
+		@return null => 1. No DB file<br>
+						2. No such table<br>
+						3. Query exception<br>
+						4. Query returned null<br>
+						5. Query found 0<br>
+	 ******************************/
+	public static List<HistUpload>
+	find_All_HistUpload
+	(Activity actv) {
+		
+		String tableName = CONS.DB.tname_UploadHistory;
+		
+		////////////////////////////////
+		
+		// validate: DB file exists?
+		
+		////////////////////////////////
+		File dpath_DBFile = actv.getDatabasePath(CONS.DB.dbName);
+		
+		if (!dpath_DBFile.exists()) {
+			
+			String msg = "No DB file: " + CONS.DB.dbName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// DB
+		
+		////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		////////////////////////////////
+		
+		// validate: table exists?
+		
+		////////////////////////////////
+		boolean res = dbu.tableExists(rdb, CONS.DB.tname_UploadHistory);
+//		boolean res = dbu.tableExists(rdb, tableName);
+		
+		if (res == false) {
+			
+			String msg = "No such table: " + tableName;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			rdb.close();
+			
+			return null;
+			
+		}
+		
+		////////////////////////////////
+		
+		// Query
+		
+		////////////////////////////////
+		Cursor c = null;
+		
+//		String where = CONS.DB.col_names_IFM11[8] + " = ?";
+//		String[] args = new String[]{
+//				
+//				tableName
+//		};
+		
+		try {
+			
+			c = rdb.query(
+					
+					tableName,			// 1
+					CONS.DB.col_names_Upload_History_full,	// 2
+					null, null,		// 3,4
+//					where, args,		// 3,4
+					null, null,		// 5,6
+					null,			// 7
+					null);
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+		
+		/***************************************
+		 * Build list
+		 ***************************************/
+//		android.provider.BaseColumns._ID,		// 0
+//		"created_at", "modified_at",			// 1,2
+//		"db_id",								// 3
+//		"file_name", "file_path"				// 4,5
+		
+		List<HistUpload> list_HistUploads = new ArrayList<HistUpload>();
+		
+		HistUpload histUpload = null;
+		
+		while(c.moveToNext()) {
+			
+			histUpload = new HistUpload.Builder()
+			
+						.set_id(c.getLong(0))
+						.setCreated_at(c.getString(1))
+						.setModified_at(c.getString(2))
+						
+						.setDb_id(c.getLong(3))
+						
+						.setFile_name(c.getString(4))
+						.setFile_path(c.getString(5))
+			
+						.build();
+			
+			list_HistUploads.add(histUpload);
+			
+		}
+		
+		///////////////////////////////////
+		//
+		// close
+		//
+		///////////////////////////////////
+		c.close();
+		
+		rdb.close();
+
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return list_HistUploads;
+		
+	}//find_All_HistUpload
 	
 	/******************************
 		@return null => 1. No DB file<br>
@@ -8942,12 +9122,12 @@ public class DBUtils extends SQLiteOpenHelper{
 						STD.getMillSeconds_now(), 
 						CONS.Enums.TimeLabelType.STANDARD);
 		
-		val.put(CONS.DB.col_names_upload_history_full[1], time);
-		val.put(CONS.DB.col_names_upload_history_full[2], time);
+		val.put(CONS.DB.col_names_Upload_History_full[1], time);
+		val.put(CONS.DB.col_names_Upload_History_full[2], time);
 		
-		val.put(CONS.DB.col_names_upload_history_full[3], ti.getDb_Id());
-		val.put(CONS.DB.col_names_upload_history_full[4], ti.getFile_name());
-		val.put(CONS.DB.col_names_upload_history_full[5], ti.getFile_path());
+		val.put(CONS.DB.col_names_Upload_History_full[3], ti.getDb_Id());
+		val.put(CONS.DB.col_names_Upload_History_full[4], ti.getFile_name());
+		val.put(CONS.DB.col_names_Upload_History_full[5], ti.getFile_path());
 		
 //		for (int i = 0; i < columnNames.length; i++) {
 //			val.put(columnNames[i], values[i]);

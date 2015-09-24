@@ -291,7 +291,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			----------------------------*/
     	ImageView iv = (ImageView) v.findViewById(R.id.iv_thumbnail);
 
-    	TextView tv = (TextView) v.findViewById(R.id.textView1);
+    	TextView tv = (TextView) v.findViewById(R.id.list_row_histupload_tv_filename);
     	
     	/*----------------------------
 		 * 3. Get item
@@ -389,7 +389,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 		/*----------------------------
 		 * 5.2. Memo
 			----------------------------*/
-		TextView tv_memo = (TextView) v.findViewById(R.id.textView2);
+		TextView tv_memo = (TextView) v.findViewById(R.id.list_row_histupload_tv_date);
 		
 		tv_memo.setTextColor(Color.BLACK);
 		tv_memo.setBackgroundColor(Color.WHITE);

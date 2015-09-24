@@ -3,8 +3,10 @@ package ifm11.utils;
 
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
+import ifm11.comps.Comp_HistUpload;
 import ifm11.comps.Comp_TI;
 import ifm11.comps.Comp_WP;
+import ifm11.items.HistUpload;
 import ifm11.items.LogItem;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
@@ -80,6 +82,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 
 
@@ -2179,6 +2183,45 @@ public class Methods {
 
 	}//sort_List_ai_List
 
+	/*******************************
+	 * @return => void<br>
+	 * 
+	 * param "ti_List" ==> changes not held in the caller<br>
+	 * Use the method "sort_List_TI_V2"
+	 * 
+	 *******************************/
+	public static void
+	sort_List_HistUpload
+	(List<HistUpload> list_HistUploads, 
+			final CONS.Enums.SortType sortType, 
+			final CONS.Enums.SortOrder sortOrder) {
+		
+//		// Log
+//		String msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		Comp_HistUpload aiComp = new Comp_HistUpload(list_HistUploads, sortType, sortOrder);
+		
+		Collections.sort(list_HistUploads, aiComp);
+		
+		// Log
+		String msg_Log;
+		msg_Log = "sort => done";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+//		// Log
+//		msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		
+	}//sort_List_HistUpload
+	
 	public static List<TI>
 	sort_List_TI_V2
 	(List<TI> ti_List, 

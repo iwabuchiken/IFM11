@@ -1,11 +1,13 @@
 package ifm11.utils;
 
+import ifm11.adapters.Adp_HistUpload;
 import ifm11.adapters.Adp_LogFileList;
 import ifm11.adapters.Adp_MainList;
 import ifm11.adapters.Adp_ShowLogFile_List;
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.adapters.Adp_WordPatterns;
+import ifm11.items.HistUpload;
 import ifm11.items.LogItem;
 import ifm11.items.MyView;
 import ifm11.items.TI;
@@ -383,7 +385,7 @@ public class CONS {
 			
 		};
 		
-		public static final String[] col_names_upload_history_full = {
+		public static final String[] col_names_Upload_History_full = {
 			
 			android.provider.BaseColumns._ID,		// 0
 			"created_at", "modified_at",			// 1,2
@@ -490,13 +492,24 @@ public class CONS {
 		
 		////////////////////////////////
 
-		// TNActv
+		// HistUploadActv
 
+		////////////////////////////////
+		public static SharedPreferences prefs_HistUploadActv;
+		
+		public static String pkey_CurrentPosition_HistUploadActv
+									= "pkey_CurrentPosition_HistUploadActv";
+		
+		
+		////////////////////////////////
+		
+		// TNActv
+		
 		////////////////////////////////
 		public static SharedPreferences prefs_TNActv;
 		
 		public static String pkey_CurrentPosition_TNActv
-									= "pkey_CurrentPosition_TNActv";
+		= "pkey_CurrentPosition_TNActv";
 		
 		public static String pkey_TNActv__CurPath_Move
 									= "pkey_TNActv__CurPath_Move";
@@ -597,6 +610,14 @@ public class CONS {
 
 		// Used => Deleting TI in TNActv list view
 		public static int inList_Pos;
+		
+	}
+	
+	public static class HistUploadActv {
+
+		public static List<HistUpload> list_HistUploadActv_Main = null;
+
+		public static Adp_HistUpload adp_HistUploadActv_Main;
 		
 	}
 	
@@ -702,6 +723,8 @@ public class CONS {
 
 		// is running
 		public static boolean isRunning_TNActv = true;
+		public static boolean isRunning_HistUploadActv = true;
+		
 		public static String actvName_TNActv = "ifm11.main.TNActv";
 		
 		public static String[] special_Chars = new String[]{
