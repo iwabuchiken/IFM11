@@ -19,6 +19,7 @@ import ifm11.utils.Tags;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
@@ -486,12 +487,38 @@ public class HistUploadActv extends ListActivity {
 	do_debug() {
 		// TODO Auto-generated method stub
 		
+		this._test_D_47_V_3_1__Calendar();
 //		_test_D_23_3_V_1_1__GetTNfileNumbers();
 //		_test_D_23_3_V_1_1__SaveThumbnail();
 		
 //		_do_debug__Pref_FontSize();
 		
 	}//do_debug
+
+
+	private void 
+	_test_D_47_V_3_1__Calendar() {
+		// TODO Auto-generated method stub
+	
+		Calendar cal = Calendar.getInstance();
+		
+		int tmp_i = cal.get(Calendar.YEAR) - 1900;
+//		int tmp_i = Calendar.get(Calendar.YEAR) - 1900;
+		 
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"year => %d", tmp_i
+				);
+		
+		Log.i("HistUploadActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		 
+		 
+	}
 
 
 	private void _do_debug__Pref_FontSize() {

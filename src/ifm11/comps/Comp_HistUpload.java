@@ -193,7 +193,8 @@ public class Comp_HistUpload implements Comparator<HistUpload> {
 
 			if (time1 > time2) {
 				
-				res = 1;
+				res = -1;
+//				res = 1;
 				
 			} else if (time1 == time2) {
 
@@ -201,7 +202,9 @@ public class Comp_HistUpload implements Comparator<HistUpload> {
 				
 			} else {
 				
-				res = -1;
+//				res = -1;
+				res = 1;
+				
 			}
 			
 //			res = (time1 > time2) ? 1 : 0;

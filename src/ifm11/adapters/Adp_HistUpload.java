@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -129,12 +131,12 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
     	/*----------------------------
 		 * 2. Get view
 			----------------------------*/
-    	TextView tv = (TextView) v.findViewById(R.id.list_row_histupload_tv_filename);
+    	TextView tv_Filename = (TextView) v.findViewById(R.id.list_row_histupload_tv_filename);
     	
     	/*----------------------------
 		 * 3. Get item
 			----------------------------*/
-    	HistUpload ti = (HistUpload) getItem(position);
+    	HistUpload hu = (HistUpload) getItem(position);
 
     	///////////////////////////////////
 		//
@@ -142,7 +144,7 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 		//
 		///////////////////////////////////
     	
-		if (ti == null) {
+		if (hu == null) {
 
 			// Log
 			String msg_Log;
@@ -161,7 +163,7 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 			// new TI
 			//
 			///////////////////////////////////
-			ti = new HistUpload.Builder()
+			hu = new HistUpload.Builder()
 					.setFile_name("null")
 					.setCreated_at("null")
 					.build();
@@ -173,32 +175,128 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 		// Set background
 
 		////////////////////////////////
-		int savedPosition = Methods.get_Pref_Int(
-								(Activity)con, 
-								CONS.Pref.pname_MainActv, 
-								CONS.Pref.pkey_CurrentPosition_HistUploadActv, 
-								CONS.Pref.dflt_IntExtra_value);
+//		///////////////////////////////////
+//		//
+//		// today
+//		//
+//		///////////////////////////////////
+//		Calendar cal = Calendar.getInstance();
+////		
+//		int tmp_i = cal.get(Calendar.YEAR) - 1900;
+//		
+//		cal.set(Calendar.HOUR, 0);
+//		cal.set(Calendar.MINUTE, 0);
+//		cal.set(Calendar.SECOND, 0);
+//		cal.set(Calendar.MILLISECOND, 0);
+//		
+//		long start = cal.getTime().getTime();
+//		
+//		long target = Methods.conv_TimeLabel_to_MillSec(hu.getCreated_at());
+//
+//		TextView tv_Date = (TextView) v.findViewById(R.id.list_row_histupload_tv_date);
+////		TextView tv = (TextView) v.findViewById(R.id.list_row_histupload_tv_filename);
+//		
+//		// Log
+//		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"start = %d | target = %d", start, target
+////				"start = %ld | target = %ld", start, target
+//				);
+//		
+//		Log.i("Adp_HistUpload.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+//		///////////////////////////////////
+//		//
+//		// bg color
+//		//
+//		///////////////////////////////////
+//		if (target >= start) {
+//
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"target >= start"
+////					"start = %ld | target = %ld", start, target
+//					);
+//			
+//			Log.i("Adp_HistUpload.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//
+//			tv_Date.setBackgroundColor(Color.BLUE);
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+//			
+//		} else {//if (target >= start)
+//
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"!(target >= start)"
+////					"start = %ld | target = %ld", start, target
+//					);
+//			
+//			Log.i("Adp_HistUpload.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//
+//			tv_Date.setBackgroundColor(Color.LTGRAY);
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.white));
+//			
+//		}//if (target >= start)
+
 		
-		if (savedPosition == position) {
-			
-			tv.setBackgroundResource(R.color.gold2);
-			tv.setTextColor(Color.BLACK);
-			
-		} else if (savedPosition == -1) {//if (savedPosition == position)
-			
-		} else {//if (savedPosition == position)
-			
-			tv.setBackgroundColor(Color.BLACK);
-			tv.setTextColor(Color.WHITE);
-			
-		}//if (savedPosition == position)
+//		v = _getView__Background(v, hu);
+		
+//		_getView__Background(v, hu);
+		
+//		Calendar cal = Calendar.getInstance();
+////		
+//		int tmp_i = cal.get(Calendar.YEAR) - 1900;
+//		
+//		cal.set(Calendar.HOUR, 0);
+//		cal.set(Calendar.MINUTE, 0);
+//		cal.set(Calendar.SECOND, 0);
+//		cal.set(Calendar.MILLISECOND, 0);
+//		
+//		long 
+		
+//		Date d = cal.getTime();
+//		
+//		d.getye
+//		
+////		cal.set(Calendar., value);
+//		
+//		cal.getTime().getTime();
+		
+		
+//		int savedPosition = Methods.get_Pref_Int(
+//								(Activity)con, 
+//								CONS.Pref.pname_MainActv, 
+//								CONS.Pref.pkey_CurrentPosition_HistUploadActv, 
+//								CONS.Pref.dflt_IntExtra_value);
+//		
+//		if (savedPosition == position) {
+//			
+//			tv.setBackgroundResource(R.color.gold2);
+//			tv.setTextColor(Color.BLACK);
+//			
+//		} else if (savedPosition == -1) {//if (savedPosition == position)
+//			
+//		} else {//if (savedPosition == position)
+//			
+//			tv.setBackgroundColor(Color.BLACK);
+//			tv.setTextColor(Color.WHITE);
+//			
+//		}//if (savedPosition == position)
 
     	////////////////////////////////
 
 		// file name
 
 		////////////////////////////////
-		tv.setText(ti.getFile_name());
+		tv_Filename.setText(hu.getFile_name());
 		
 		String pref_FontSize = Methods.get_Pref_String(
 				(Activity)con, 
@@ -208,7 +306,7 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 		
 		if (pref_FontSize != null && !pref_FontSize.equals("")) {
 			
-			tv.setTextSize(Integer.parseInt(pref_FontSize));
+			tv_Filename.setTextSize(Integer.parseInt(pref_FontSize));
 			
 		}
 
@@ -222,7 +320,7 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 		tv_Created_at.setTextColor(Color.BLACK);
 		tv_Created_at.setBackgroundColor(Color.WHITE);
 		
-		String created_at = ti.getCreated_at();
+		String created_at = hu.getCreated_at();
 		
 		if (created_at != null) {
 			
@@ -236,11 +334,75 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 
 		///////////////////////////////////
 		//
+		// created_at: bg
+		//
+		///////////////////////////////////
+		v = _getView__Background(v, hu);
+		
+		///////////////////////////////////
+		//
 		// return: view
 		//
 		///////////////////////////////////
 		return v;
 		
     }//public View getView(int position, View convertView, ViewGroup parent)
+
+
+	private View 
+	_getView__Background(View v, HistUpload hu) {
+		// TODO Auto-generated method stub
+
+		///////////////////////////////////
+		//
+		// today
+		//
+		///////////////////////////////////
+		Calendar cal = Calendar.getInstance();
+//		
+		int tmp_i = cal.get(Calendar.YEAR) - 1900;
+		
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		long start = cal.getTime().getTime();
+		
+		long target = Methods.conv_TimeLabel_to_MillSec(hu.getCreated_at());
+
+		TextView tv_Created_at = (TextView) v.findViewById(R.id.list_row_histupload_tv_date);
+//		TextView tv = (TextView) v.findViewById(R.id.list_row_histupload_tv_filename);
+		
+		///////////////////////////////////
+		//
+		// bg color
+		// text color
+		//
+		///////////////////////////////////
+		if (target >= start) {
+			
+			tv_Created_at.setBackgroundColor(Color.BLUE);
+//			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+			
+			tv_Created_at.setTextColor(Color.WHITE);
+			
+		} else {//if (target >= start)
+			
+			tv_Created_at.setBackgroundColor(Color.LTGRAY);
+//			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.white));
+			
+			tv_Created_at.setTextColor(Color.BLACK);
+			
+		}//if (target >= start)
+		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return v;
+		
+	}//_getView__Background
 
 }//public class TIListAdapter extends ArrayAdapter<TI>
