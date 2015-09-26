@@ -7,28 +7,14 @@
 
     <TextView
         android:id="@+id/list_row_histupload_tv_filename"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/black"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
+        style="@style/tv_basic_4"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/list_row_histupload_tv_date"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        android:textColor="@color/black"
-        android:textSize="20dp" />
+        style="@style/tv_basic_4"
+        android:textStyle="italic" />
 
 </LinearLayout>

@@ -358,18 +358,35 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 		// today
 		//
 		///////////////////////////////////
-		Calendar cal = Calendar.getInstance();
+		Calendar cal_Now = Calendar.getInstance();
 //		
-		int tmp_i = cal.get(Calendar.YEAR) - 1900;
+//		int tmp_i = cal_Now.get(Calendar.YEAR) - 1900;
 		
-		cal.set(Calendar.HOUR, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
+		cal_Now.set(Calendar.HOUR, 0);
+		cal_Now.set(Calendar.MINUTE, 0);
+		cal_Now.set(Calendar.SECOND, 0);
+		cal_Now.set(Calendar.MILLISECOND, 0);
+
+		// today
+		long time_Today_L = cal_Now.getTime().getTime();
 		
-		long start = cal.getTime().getTime();
+		// yesterday
+		cal_Now.add(Calendar.DATE, -1);
 		
-		long target = Methods.conv_TimeLabel_to_MillSec(hu.getCreated_at());
+		long time_Yesterday_L = cal_Now.getTime().getTime();
+
+		// 3 days ago
+		cal_Now.add(Calendar.DATE, -2);	// -1 + (-2) = -3
+		
+		long time_3DaysAgo_L = cal_Now.getTime().getTime();
+
+		// this week
+		cal_Now.add(Calendar.DATE, -4);	// -3 + (-4) = -7
+		
+		long time_ThisWeek_L = cal_Now.getTime().getTime();
+		
+		// created at
+		long time_Created_At_L = Methods.conv_TimeLabel_to_MillSec(hu.getCreated_at());
 
 		TextView tv_Created_at = (TextView) v.findViewById(R.id.list_row_histupload_tv_date);
 //		TextView tv = (TextView) v.findViewById(R.id.list_row_histupload_tv_filename);
@@ -380,10 +397,33 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 		// text color
 		//
 		///////////////////////////////////
-		if (target >= start) {
+		if (time_Created_At_L >= time_Today_L) {
 			
 			tv_Created_at.setBackgroundColor(Color.BLUE);
 //			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+			
+			tv_Created_at.setTextColor(Color.WHITE);
+		
+		} else if (time_Created_At_L >= time_Yesterday_L) {//if (target >= start)
+
+			tv_Created_at.setBackgroundColor(Color.GREEN);
+	//		tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+			
+			tv_Created_at.setTextColor(Color.BLACK);
+
+		} else if (time_Created_At_L >= time_3DaysAgo_L) {//if (target >= start)
+
+			tv_Created_at.setBackgroundColor(
+			((Activity)con).getResources().getColor(R.color.gold2));
+			//tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+			
+			tv_Created_at.setTextColor(Color.BLACK);
+
+		} else if (time_Created_At_L >= time_ThisWeek_L) {//if (target >= start)
+			
+			tv_Created_at.setBackgroundColor(
+			((Activity)con).getResources().getColor(R.color.purple4));
+		//	tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
 			
 			tv_Created_at.setTextColor(Color.WHITE);
 			
@@ -395,6 +435,86 @@ public class Adp_HistUpload extends ArrayAdapter<HistUpload> {
 			tv_Created_at.setTextColor(Color.BLACK);
 			
 		}//if (target >= start)
+		
+//		///////////////////////////////////
+//		//
+//		// yesterday
+//		//
+//		///////////////////////////////////
+//		cal_Now.add(Calendar.DATE, -1);
+//		
+//		long time_Yesterday_L = cal_Now.getTime().getTime();
+//
+//		if (time_Created_At_L < time_Today_L
+//				&& time_Created_At_L >= time_Yesterday_L) {
+//			
+//			tv_Created_at.setBackgroundColor(Color.GREEN);
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+//			
+//			tv_Created_at.setTextColor(Color.BLACK);
+//		
+//		} else {//if (target >= start)
+//			
+//			tv_Created_at.setBackgroundColor(Color.LTGRAY);
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.white));
+//			
+//			tv_Created_at.setTextColor(Color.BLACK);
+//			
+//		}//if (target >= start)
+//
+//		///////////////////////////////////
+//		//
+//		// 3 days ago
+//		//
+//		///////////////////////////////////
+//		cal_Now.add(Calendar.DATE, -2);	// -1 + (-2) = -3
+//		
+//		long time_3DaysAgo_L = cal_Now.getTime().getTime();
+//		
+//		if (time_Created_At_L < time_Yesterday_L
+//				&& time_Created_At_L >= time_3DaysAgo_L) {
+//			
+//			tv_Created_at.setBackgroundColor(
+//						((Activity)con).getResources().getColor(R.color.gold2));
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+//			
+//			tv_Created_at.setTextColor(Color.BLACK);
+//			
+//		} else {//if (target >= start)
+//			
+//			tv_Created_at.setBackgroundColor(Color.LTGRAY);
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.white));
+//			
+//			tv_Created_at.setTextColor(Color.BLACK);
+//			
+//		}//if (target >= start)
+//		
+//		///////////////////////////////////
+//		//
+//		// this week
+//		//
+//		///////////////////////////////////
+//		cal_Now.add(Calendar.DATE, -4);	// -3 + (-4) = -7
+//		
+//		long time_ThisWeek_L = cal_Now.getTime().getTime();
+//		
+//		if (time_Created_At_L < time_3DaysAgo_L
+//				&& time_Created_At_L >= time_ThisWeek_L) {
+//			
+//			tv_Created_at.setBackgroundColor(
+//					((Activity)con).getResources().getColor(R.color.purple4));
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.blue1));
+//			
+//			tv_Created_at.setTextColor(Color.WHITE);
+//			
+//		} else {//if (target >= start)
+//			
+//			tv_Created_at.setBackgroundColor(Color.LTGRAY);
+////			tv.setBackgroundColor(((Activity)con).getResources().getColor(R.color.white));
+//			
+//			tv_Created_at.setTextColor(Color.BLACK);
+//			
+//		}//if (target >= start)
 		
 		///////////////////////////////////
 		//

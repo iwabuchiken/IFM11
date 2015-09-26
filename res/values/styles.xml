@@ -76,6 +76,25 @@
 	    <item name="android:padding">3dp</item>   
     </style> 	
     
+    <!-- list_row_histupload.xml -->
+    <style name="tv_basic_4">
+	    
+	    <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/black</item>
+        
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">25dp</item> 
+	    
+    </style> 	
+    
 <style name="bt_basic_1">
 	    <item name="android:layout_height">wrap_content</item>
 	    <item name="android:layout_width">wrap_content</item>

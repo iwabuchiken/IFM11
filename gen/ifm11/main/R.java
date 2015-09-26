@@ -491,13 +491,13 @@ public final class R {
         public static final int AppTheme=0x7f070001;
         /**  http://stackoverflow.com/questions/6226538/how-to-increase-the-size-of-the-title-bar-in-an-android-application 
          */
-        public static final int CustomTheme=0x7f07000b;
+        public static final int CustomTheme=0x7f07000c;
         /**  REF http://stackoverflow.com/questions/3551169/change-background-color-of-preference answered May 11 '11 at 14:05 
          */
         public static final int PrefTheme=0x7f070003;
-        public static final int bt_basic_1=0x7f070008;
-        public static final int et_basic_1=0x7f070009;
-        public static final int ib_basic_1=0x7f07000a;
+        public static final int bt_basic_1=0x7f070009;
+        public static final int et_basic_1=0x7f07000a;
+        public static final int ib_basic_1=0x7f07000b;
         /**  image_activity.xml 
          */
         public static final int image_activity_ib=0x7f070004;
@@ -506,6 +506,9 @@ public final class R {
         public static final int tv_basic_1=0x7f070005;
         public static final int tv_basic_2=0x7f070006;
         public static final int tv_basic_3=0x7f070007;
+        /**  list_row_histupload.xml 
+         */
+        public static final int tv_basic_4=0x7f070008;
         public static final int v1_ib=0x7f070002;
     }
     public static final class xml {
