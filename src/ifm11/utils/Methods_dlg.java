@@ -3800,6 +3800,21 @@ public class Methods_dlg {
 		//						.setTextColor_ID(R.color.black)
 						.build());
 		
+		///////////////////////////////////
+		//
+		// fix db: refresh
+		//
+		///////////////////////////////////
+		int color_Fix_DB_SDCard = R.color.black;
+		
+		list.add(new ListItem.Builder()
+				.setText(actv.getString(
+						R.string.dlg_actv_main_other_Fix_DB_SDCard))
+						.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
+						.setTextColor_ID(color_Fix_DB_Refresh)
+						//						.setTextColor_ID(R.color.black)
+						.build());
+		
 		/****************************
 		* 3. Adapter
 		****************************/

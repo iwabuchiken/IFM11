@@ -118,6 +118,8 @@ public class CONS {
 
 		public static String dPath_Data_SDCard_Ext = "/mnt/sdcard-ext";
 		
+		public static String dPath_Data_SDCard = "/mnt/sdcard";
+		
 		public static String dPath_Data_SDCard_Camera = 
 						dPath_Data_SDCard_Ext + "/dcim/Camera";
 		

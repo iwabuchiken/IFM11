@@ -304,6 +304,7 @@ public final class R {
         public static final int dlg_actv_main_other_Create_TNs=0x7f06006f;
         public static final int dlg_actv_main_other_Fix_DB=0x7f060070;
         public static final int dlg_actv_main_other_Fix_DB_Refresh=0x7f060071;
+        public static final int dlg_actv_main_other_Fix_DB_SDCard=0x7f060072;
         public static final int dlg_actv_main_other_Import_From10=0x7f06006e;
         public static final int dlg_actv_main_other_UploadHistory=0x7f06006d;
         /**  dlg: MainActv: Others 
@@ -434,22 +435,22 @@ public final class R {
         public static final int main_opt_menu_search=0x7f060015;
         /**  dlg: canvas_Ops 
          */
-        public static final int menu_actv_canvas_Ops=0x7f06007c;
-        public static final int menu_actv_canvas_Ops__GetRGB=0x7f06007d;
+        public static final int menu_actv_canvas_Ops=0x7f06007d;
+        public static final int menu_actv_canvas_Ops__GetRGB=0x7f06007e;
         /**  Menu: showlist 
          */
-        public static final int menu_showlist_filter=0x7f06007a;
-        public static final int menu_showlist_filter_history=0x7f06007b;
-        public static final int opt_Menu_LABS__Binary_Image=0x7f060074;
-        public static final int opt_Menu_LABS__BlueColor_zero=0x7f060077;
-        public static final int opt_Menu_LABS__Canvas=0x7f060079;
-        public static final int opt_Menu_LABS__Change_RGB=0x7f060073;
-        public static final int opt_Menu_LABS__GreenColor_zero=0x7f060078;
-        public static final int opt_Menu_LABS__RedColor_zero=0x7f060076;
-        public static final int opt_Menu_LABS__Rotate_Image=0x7f060075;
+        public static final int menu_showlist_filter=0x7f06007b;
+        public static final int menu_showlist_filter_history=0x7f06007c;
+        public static final int opt_Menu_LABS__Binary_Image=0x7f060075;
+        public static final int opt_Menu_LABS__BlueColor_zero=0x7f060078;
+        public static final int opt_Menu_LABS__Canvas=0x7f06007a;
+        public static final int opt_Menu_LABS__Change_RGB=0x7f060074;
+        public static final int opt_Menu_LABS__GreenColor_zero=0x7f060079;
+        public static final int opt_Menu_LABS__RedColor_zero=0x7f060077;
+        public static final int opt_Menu_LABS__Rotate_Image=0x7f060076;
         /**  labs 
          */
-        public static final int opt_Menu_LABS_title=0x7f060072;
+        public static final int opt_Menu_LABS_title=0x7f060073;
         public static final int prefs_tnactv_db_auto_backup_key=0x7f060038;
         public static final int prefs_tnactv_db_auto_backup_summary=0x7f060039;
         public static final int prefs_tnactv_db_auto_backup_title=0x7f06003a;

@@ -1,6 +1,9 @@
 package ifm11.listeners.dialog;
 
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.Arrays;
 import java.util.Locale;
 
 import ifm11.items.ListItem;
@@ -504,11 +507,11 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (item.getText().equals(actv.getString(
 				R.string.dlg_actv_main_other_Fix_DB))) {
 			
-//			String msg = "Sorry. Not in use";
-//			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
+			String msg = "Sorry. Not in use";
+			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
 
 			
-			Methods.fix_DB_SHARP100(actv, d1);
+//			Methods.fix_DB_SHARP100(actv, d1);
 //			Methods.fix_DB(actv, d1);
 			
 		} else if (item.getText().equals(actv.getString(
@@ -516,23 +519,12 @@ public class DOI_CL implements OnItemClickListener {
 			
 			case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_Refresh();
 			
-////			String msg = "Sorry. Not in use";
-////			Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, d1);
-//			
-//			int result = Methods.fix_DB__Refresh_V2(actv, d1);
-////			int result = Methods.fix_DB__Refresh(actv, d1);
-//			
-//			// Log
-//			String msg_Log;
-//			
-//			msg_Log = String.format(
-//					Locale.JAPAN,
-//					"result => %d", result
-//					);
-//			
-//			Log.i("DOI_CL.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
+		} else if (item.getText().equals(actv.getString(
+				R.string.dlg_actv_main_other_Fix_DB_SDCard))) {
+			
+			case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard__EXT();
+			case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard__INTERNAL();
+//			case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard();
 			
 		} else {
 			
@@ -641,6 +633,453 @@ public class DOI_CL implements OnItemClickListener {
 		
 	}//case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_Refresh
 
+	private void 
+	case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard() {
+		// TODO Auto-generated method stub
+
+		File dir_SDCard = new File(CONS.DB.dPath_Data_SDCard);
+		
+		// validate
+		if (!dir_SDCard.exists()) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir not exist => %s", dir_SDCard.getAbsolutePath()
+					);
+			
+			Log.e("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			return;
+			
+		}//if (!dir_SDCard.exists())
+		
+		// get: file list
+		String[] fnames = dir_SDCard.list();
+
+		// validate: entry
+		if (fnames.length < 1) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir list => num is 0"
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			return;
+			
+		}//if (fnames.length < 1)
+		
+		// show list
+		int tmp_i = fnames.length;
+		
+		// Log
+		String msg_Log;
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file => %s", fnames[i]
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);;
+			
+		}//for (int i = 0; i < tmp_i; i++)
+		
+		///////////////////////////////////
+		//
+		// dcim folder
+		//
+		///////////////////////////////////
+		File dir_DCIM = new File(CONS.DB.dPath_Data_SDCard, "DCIM");
+		
+		// validate
+		if (!dir_DCIM.exists()) {
+
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir not exist => %s", dir_DCIM.getAbsolutePath()
+					);
+			
+			Log.e("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			return;
+			
+		}//if (!dir_DCIM.exists())
+		
+		// get: file list
+		String[] fnames_dcim = dir_DCIM.list();
+
+		// validate: entry
+		if (fnames_dcim.length < 1) {
+
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir list => num is 0"
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			return;
+			
+		}//if (fnames_dcim.length < 1)
+		
+		// show list
+		tmp_i = fnames_dcim.length;
+		
+		// Log
+//		String msg_Log;
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file(DCIM) => %s", fnames_dcim[i]
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);;
+			
+		}//for (int i = 0; i < tmp_i; i++)
+		
+		///////////////////////////////////
+		//
+		// Camera folder
+		//
+		///////////////////////////////////
+		File dir_Camera = new File(
+						dir_DCIM.getAbsolutePath(), 
+						"Camera");
+		
+		// validate
+		if (!dir_Camera.exists()) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir not exist => %s", dir_Camera.getAbsolutePath()
+					);
+			
+			Log.e("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}//if (!dir_Camera.exists())
+		
+		// get: file list
+		String[] fnames_Camera = dir_Camera.list();
+		
+		// validate: entry
+		if (fnames_Camera.length < 1) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir list => num is 0"
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}//if (fnames_Camera.length < 1)
+		
+		// show list
+		tmp_i = fnames_Camera.length;
+		
+		// Log
+//		String msg_Log;
+		
+		Arrays.sort(fnames_Camera);
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file(Camera) => %s", fnames_Camera[i]
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);;
+					
+		}//for (int i = 0; i < tmp_i; i++)
+		
+		///////////////////////////////////
+		//
+		// dialog
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+		
+	}//case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard
+	
+	private void 
+	case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard__EXT() {
+		// TODO Auto-generated method stub
+		
+		File dir_SDCard = new File(
+//							CONS.DB.dPath_Data_SDCard, "/DCIM/Camera");
+		CONS.DB.dPath_Data_SDCard_Camera);
+		
+		// validate
+		if (!dir_SDCard.exists()) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir not exist => %s", dir_SDCard.getAbsolutePath()
+					);
+			
+			Log.e("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		} else {//if (!dir_SDCard.exists())
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir exists => %s", dir_SDCard.getAbsolutePath()
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			
+		}//if (!dir_SDCard.exists())
+		
+		// get: file list
+//		String[] fnames = dir_SDCard.list();
+		
+		File[] files_list = dir_SDCard.listFiles(new FileFilter(){
+			
+			@Override
+			public boolean accept(File f) {
+				
+				return f.getName().startsWith("2015-09-2")
+						|| f.getName().startsWith("2015-09-3")
+						;
+//				return f.getName().startsWith("2015-09-2");
+//				return f.getName().startsWith("2015-09-30");
+				
+			}
+			
+		});
+
+		
+		// validate: entry
+		if (files_list.length < 1) {
+//			if (fnames.length < 1) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir list => num is 0"
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}//if (fnames.length < 1)
+		
+		// show list
+		int tmp_i = files_list.length;
+//		int tmp_i = fnames.length;
+		
+		// Log
+		String msg_Log;
+		
+		Arrays.sort(files_list);
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file => %s", files_list[i].getName()
+//							"file => %s", fnames[i]
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);;
+					
+		}//for (int i = 0; i < tmp_i; i++)
+		
+		///////////////////////////////////
+		//
+		// dialog
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+		
+	}//case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard
+	
+	private void 
+	case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard__INTERNAL() {
+		// TODO Auto-generated method stub
+		
+		File dir_SDCard = new File(
+							CONS.DB.dPath_Data_SDCard, "/DCIM/Camera");
+//				CONS.DB.dPath_Data_SDCard_Camera);
+		
+		// validate
+		if (!dir_SDCard.exists()) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir not exist => %s", dir_SDCard.getAbsolutePath()
+					);
+			
+			Log.e("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		} else {//if (!dir_SDCard.exists())
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir exists => %s", dir_SDCard.getAbsolutePath()
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			
+		}//if (!dir_SDCard.exists())
+		
+		// get: file list
+//		String[] fnames = dir_SDCard.list();
+		
+		File[] files_list = dir_SDCard.listFiles(new FileFilter(){
+			
+			@Override
+			public boolean accept(File f) {
+				
+				return f.getName().startsWith("2015-09-2")
+						|| f.getName().startsWith("2015-09-3")
+						;
+//				return f.getName().startsWith("2015-09-2");
+//				return f.getName().startsWith("2015-09-30");
+				
+			}
+			
+		});
+		
+		
+		// validate: entry
+		if (files_list.length < 1) {
+//			if (fnames.length < 1) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"dir list => num is 0"
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			return;
+			
+		}//if (fnames.length < 1)
+		
+		// show list
+		int tmp_i = files_list.length;
+//		int tmp_i = fnames.length;
+		
+		// Log
+		String msg_Log;
+		
+		Arrays.sort(files_list);
+		
+		for (int i = 0; i < tmp_i; i++) {
+			
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file => %s", files_list[i].getName()
+//							"file => %s", fnames[i]
+					);
+			
+			Log.i("DOI_CL.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);;
+					
+		}//for (int i = 0; i < tmp_i; i++)
+		
+		///////////////////////////////////
+		//
+		// dialog
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+		
+	}//case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_INTERNAL
+	
 	private void 
 	case_DLG_ACTV_TN_LIST_UPLOAD
 	(String choice) {
