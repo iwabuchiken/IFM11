@@ -66,7 +66,8 @@ public class HistUploadActv extends ListActivity {
 				+ "]", "onCreate()");
 		
 		//
-		setContentView(R.layout.thumb_activity);
+		setContentView(R.layout.actv_hist_upload);
+//		setContentView(R.layout.thumb_activity);
 		
 		/*----------------------------
 		 * 3. Basics
@@ -264,10 +265,13 @@ public class HistUploadActv extends ListActivity {
 		// Back
 		
 		////////////////////////////////
-		ImageButton ib_Back = (ImageButton) findViewById(R.id.thumb_activity_ib_back);
+		ImageButton ib_Back = 
+				(ImageButton) findViewById(R.id.actv_hist_upload_ib_back);
+//		ImageButton ib_Back = (ImageButton) findViewById(R.id.thumb_activity_ib_back);
 		
 //		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
-		ib_Back.setTag(Tags.ButtonTags.ACTV_TN_IB_BACK);
+		ib_Back.setTag(Tags.ButtonTags.ACTV_HISTUPLOAD_IB_BACK);
+//		ib_Back.setTag(Tags.ButtonTags.ACTV_TN_IB_BACK);
 		
 		ib_Back.setOnTouchListener(new BO_TL(this));
 		ib_Back.setOnClickListener(new BO_CL(this));
@@ -277,11 +281,12 @@ public class HistUploadActv extends ListActivity {
 		// Top
 		
 		////////////////////////////////
-		ImageButton ib_TOP = (ImageButton) findViewById(R.id.thumb_activity_ib_toTop);
+		ImageButton ib_TOP = (ImageButton) findViewById(R.id.actv_hist_upload_ib_toTop);
 		
 //		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
 //		ib_TOP.setTag(Tags.ButtonTags.thumb_activity_ib_top);
-		ib_TOP.setTag(Tags.ButtonTags.ACTV_TN_IB_TOP);
+		ib_TOP.setTag(Tags.ButtonTags.ACTV_HISTUPLOAD_IB_TOP);
+//		ib_TOP.setTag(Tags.ButtonTags.ACTV_TN_IB_TOP);
 		
 		ib_TOP.setOnTouchListener(new BO_TL(this));
 		ib_TOP.setOnClickListener(new BO_CL(this));
@@ -291,11 +296,12 @@ public class HistUploadActv extends ListActivity {
 		// Bottom
 		
 		////////////////////////////////
-		ImageButton ib_Bottom = (ImageButton) findViewById(R.id.thumb_activity_ib_toBottom);
+		ImageButton ib_Bottom = (ImageButton) findViewById(R.id.actv_hist_upload_ib_toBottom);
 		
 //		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
 //		ib_Bottom.setTag(Tags.ButtonTags.thumb_activity_ib_top);
-		ib_Bottom.setTag(Tags.ButtonTags.ACTV_TN_IB_BOTTOM);
+		ib_Bottom.setTag(Tags.ButtonTags.ACTV_HISTUPLOAD_IB_BOTTOM);
+//		ib_Bottom.setTag(Tags.ButtonTags.ACTV_TN_IB_BOTTOM);
 		
 		ib_Bottom.setOnTouchListener(new BO_TL(this));
 		ib_Bottom.setOnClickListener(new BO_CL(this));
@@ -305,11 +311,10 @@ public class HistUploadActv extends ListActivity {
 		// Down
 		
 		////////////////////////////////
-		ImageButton ib_Down = (ImageButton) findViewById(R.id.thumb_activity_ib_next_page);
+		ImageButton ib_Down = (ImageButton) findViewById(R.id.actv_hist_upload_ib_next_page);
 		
-//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
-//		ib_Down.setTag(Tags.ButtonTags.thumb_activity_ib_top);
-		ib_Down.setTag(Tags.ButtonTags.ACTV_TN_IB_DOWN);
+		ib_Down.setTag(Tags.ButtonTags.ACTV_HISTUPLOAD_IB_DOWN);
+//		ib_Down.setTag(Tags.ButtonTags.ACTV_TN_IB_DOWN);
 		
 		ib_Down.setOnTouchListener(new BO_TL(this));
 		ib_Down.setOnClickListener(new BO_CL(this));
@@ -319,11 +324,10 @@ public class HistUploadActv extends ListActivity {
 		// Up
 		
 		////////////////////////////////
-		ImageButton ib_Up = (ImageButton) findViewById(R.id.thumb_activity_ib_prev_page);
+		ImageButton ib_Up = (ImageButton) findViewById(R.id.actv_hist_upload_ib_prev_page);
 		
-//		ib_Back.setTag(Tags.ButtonTags.thumb_activity_ib_back);
-//		ib_Up.setTag(Tags.ButtonTags.thumb_activity_ib_top);
-		ib_Up.setTag(Tags.ButtonTags.ACTV_TN_IB_UP);
+		ib_Up.setTag(Tags.ButtonTags.ACTV_HISTUPLOAD_IB_UP);
+//		ib_Up.setTag(Tags.ButtonTags.ACTV_TN_IB_UP);
 		
 		ib_Up.setOnTouchListener(new BO_TL(this));
 		ib_Up.setOnClickListener(new BO_CL(this));

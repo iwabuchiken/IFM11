@@ -13,7 +13,6 @@ import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
 import ifm11.utils.STD;
-
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
@@ -97,6 +96,7 @@ public class BO_CL implements OnClickListener {
 		case ACTV_TN_IB_BACK://-----------------------------------------------------------------------------
 		case ACTV_SHOWLOG_IB_BACK://-----------------------------------------------------------------------------
 		case image_activity_back://-----------------------------------------------------------------------------
+		case ACTV_HISTUPLOAD_IB_BACK://-----------------------------------------------------------------------------
 			
 			case_ACTV_TN_IB_BACK();
 			
@@ -105,6 +105,12 @@ public class BO_CL implements OnClickListener {
 		case ACTV_TN_IB_TOP://-----------------------------------------------------------------------------
 			
 			case_ACTV_TN_IB_TOP();
+			
+			break;
+			
+		case ACTV_HISTUPLOAD_IB_TOP://-----------------------------------------------------------------------------
+			
+			case_ACTV_HISTUPLOAD_IB_TOP();
 			
 			break;
 			
@@ -126,6 +132,12 @@ public class BO_CL implements OnClickListener {
 			
 			break;
 			
+		case ACTV_HISTUPLOAD_IB_BOTTOM://-----------------------------------------------------------------------------
+			
+			case_ACTV_HISTUPLOAD_IB_BOTTOM();
+			
+			break;
+			
 		case ACTV_SHOWLOG_IB_BOTTOM://-----------------------------------------------------------------------------
 			
 			case_ACTV_SHOWLOG_IB_BOTTOM();
@@ -144,6 +156,12 @@ public class BO_CL implements OnClickListener {
 			
 			break;
 			
+		case ACTV_HISTUPLOAD_IB_DOWN://-----------------------------------------------------------------------------
+			
+			case_ACTV_HISTUPLOAD_IB_DOWN();
+			
+			break;
+			
 		case ACTV_SHOWLOG_IB_DOWN://-----------------------------------------------------------------------------
 			
 			case_ACTV_SHOWLOG_IB_DOWN();
@@ -159,6 +177,12 @@ public class BO_CL implements OnClickListener {
 		case ACTV_TN_IB_UP://-----------------------------------------------------------------------------
 			
 			case_ACTV_TN_IB_UP();
+			
+			break;
+			
+		case ACTV_HISTUPLOAD_IB_UP://-----------------------------------------------------------------------------
+			
+			case_ACTV_HISTUPLOAD_IB_UP();
 			
 			break;
 			
@@ -640,6 +664,53 @@ public class BO_CL implements OnClickListener {
 	}//case_ACTV_TN_IB_TOP
 
 	private void 
+	case_ACTV_HISTUPLOAD_IB_TOP() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+//			if (CONS.TNActv.list_TNActv_Main == null) {
+			
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+//			CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+
+			// build: list
+			CONS.HistUploadActv.list_HistUploadActv_Main = 
+									DBUtils.find_All_HistUpload(actv);
+
+			// validate
+			if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+				
+				String msg = "list_HistUploadActv_Main => null";
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				return;
+				
+			}
+
+			////////////////////////////////
+
+			// sort
+
+			////////////////////////////////
+			Methods.sort_List_HistUpload(
+					CONS.HistUploadActv.list_HistUploadActv_Main, 
+					CONS.Enums.SortType.CREATED_AT, 
+//					CONS.Enums.SortType.FileName, 
+					CONS.Enums.SortOrder.DESC);
+			
+		}//if (CONS.HistUploadActv.list_HistUploadActv_Main == null)
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		lv.setSelection(0);
+		
+	}//case_ACTV_HISTUPLOAD_IB_TOP
+	
+	private void 
 	case_ACTV_SHOWLOG_IB_TOP() {
 		// TODO Auto-generated method stub
 		
@@ -708,6 +779,59 @@ public class BO_CL implements OnClickListener {
 		lv.setSelection(indexOfLastChild);
 		
 	}//case_ACTV_TN_IB_TOP
+	
+	private void 
+	case_ACTV_HISTUPLOAD_IB_BOTTOM() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+	//		if (CONS.TNActv.list_TNActv_Main == null) {
+			
+	//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+	//		CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+	
+			// build: list
+			CONS.HistUploadActv.list_HistUploadActv_Main = 
+									DBUtils.find_All_HistUpload(actv);
+	
+			// validate
+			if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+				
+				String msg = "list_HistUploadActv_Main => null";
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				return;
+				
+			}
+	
+			////////////////////////////////
+	
+			// sort
+	
+			////////////////////////////////
+			Methods.sort_List_HistUpload(
+					CONS.HistUploadActv.list_HistUploadActv_Main, 
+					CONS.Enums.SortType.CREATED_AT, 
+	//				CONS.Enums.SortType.FileName, 
+					CONS.Enums.SortOrder.DESC);
+			
+		}//if (CONS.HistUploadActv.list_HistUploadActv_Main == null)
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int numOfGroups = CONS.HistUploadActv.list_HistUploadActv_Main.size() 
+								/ lv.getChildCount();
+//		int numOfGroups = CONS.TNActv.list_TNActv_Main.size() / lv.getChildCount();
+		
+		int indexOfLastChild = lv.getChildCount() * numOfGroups;
+		
+		lv.setSelection(indexOfLastChild);
+		
+	}//case_ACTV_HISTUPLOAD_IB_BOTTOM
 	
 	private void 
 	case_ACTV_SHOWLOG_IB_BOTTOM() {
@@ -789,6 +913,64 @@ public class BO_CL implements OnClickListener {
 		lv.setSelection(new_Position);
 		
 	}//case_ACTV_TN_IB_TOP
+	
+	private void 
+	case_ACTV_HISTUPLOAD_IB_DOWN() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+//			if (CONS.TNActv.list_TNActv_Main == null) {
+			
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+//			CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+
+			// build: list
+			CONS.HistUploadActv.list_HistUploadActv_Main = 
+									DBUtils.find_All_HistUpload(actv);
+
+			// validate
+			if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+				
+				String msg = "list_HistUploadActv_Main => null";
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				return;
+				
+			}
+
+			////////////////////////////////
+
+			// sort
+
+			////////////////////////////////
+			Methods.sort_List_HistUpload(
+					CONS.HistUploadActv.list_HistUploadActv_Main, 
+					CONS.Enums.SortType.CREATED_AT, 
+//					CONS.Enums.SortType.FileName, 
+					CONS.Enums.SortOrder.DESC);
+			
+		}//if (CONS.HistUploadActv.list_HistUploadActv_Main == null)
+
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int new_Position = lv.getLastVisiblePosition();
+		
+		if((new_Position + lv.getChildCount()) 
+				> CONS.HistUploadActv.list_HistUploadActv_Main.size()) {
+//			> CONS.TNActv.list_TNActv_Main.size()) {
+			
+			new_Position = CONS.HistUploadActv.list_HistUploadActv_Main.size() - lv.getChildCount();
+//			new_Position = CONS.TNActv.list_TNActv_Main.size() - lv.getChildCount();
+			
+		}
+		
+		lv.setSelection(new_Position);
+		
+	}//case_ACTV_HISTUPLOAD_IB_DOWN
 	
 	private void 
 	case_ACTV_SHOWLOG_IB_DOWN() {
@@ -887,6 +1069,69 @@ public class BO_CL implements OnClickListener {
 		lv.setSelection(new_Position);		
 		
 	}//case_ACTV_TN_IB_TOP
+	
+	private void 
+	case_ACTV_HISTUPLOAD_IB_UP() {
+		// TODO Auto-generated method stub
+		
+		/******************************
+			validate: list
+		 ******************************/
+		if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+//			if (CONS.TNActv.list_TNActv_Main == null) {
+			
+//			DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+			
+//			CONS.TNActv.list_TNActv_Main = DBUtils.find_All_TI(actv, CONS.DB.tname_IFM11);
+
+			// build: list
+			CONS.HistUploadActv.list_HistUploadActv_Main = 
+									DBUtils.find_All_HistUpload(actv);
+
+			// validate
+			if (CONS.HistUploadActv.list_HistUploadActv_Main == null) {
+				
+				String msg = "list_HistUploadActv_Main => null";
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				return;
+				
+			}
+
+			////////////////////////////////
+
+			// sort
+
+			////////////////////////////////
+			Methods.sort_List_HistUpload(
+					CONS.HistUploadActv.list_HistUploadActv_Main, 
+					CONS.Enums.SortType.CREATED_AT, 
+//					CONS.Enums.SortType.FileName, 
+					CONS.Enums.SortOrder.DESC);
+			
+		}//if (CONS.HistUploadActv.list_HistUploadActv_Main == null)
+		
+		ListView lv = ((ListActivity) actv).getListView();
+		
+		int lastPos = lv.getLastVisiblePosition();
+		
+		int childCount = lv.getChildCount();
+		
+		int new_Position;
+		
+		if (lastPos - (childCount * 2) + 2 > 0) {
+			
+			new_Position = lastPos - (childCount * 2) + 2;
+			
+		} else {
+			
+			new_Position = 0;
+			
+		}
+		
+		lv.setSelection(new_Position);		
+		
+	}//case_ACTV_HISTUPLOAD_IB_UP
 	
 	private void 
 	case_ACTV_SHOWLOG_IB_UP() {
