@@ -797,12 +797,49 @@ public class HistActv extends ListActivity {
 		
 		if (res == false) {
 			
-			String msg = "File doesn't exist => " + fpath;
-			Methods_dlg.dlg_ShowMessage(this, msg);
+			///////////////////////////////////
+			//
+			// validate: internal?
+			//
+			///////////////////////////////////
+			fpath = StringUtils.join(
+							new String[]{
+									
+									CONS.DB.dPath_Data_SDCard + "/DCIM/Camera",
+//									ti.getFile_path(),
+									ti.getFile_name()
+							}, 
+							File.separator);
+
+			if (Methods.file_Exists(this, fpath)) {
+
+				// Log
+//				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"file exists in => %s", fpath
+						);
+				
+				Log.i("TNActv.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+
+			} else {//if (Methods.file_Exists(this, fpath))
+				
+				String msg = "File doesn't exist => " + fpath;
+				Methods_dlg.dlg_ShowMessage(this, msg);
+				
+				return;
+				
+			}//if (Methods.file_Exists(this, fpath))
+
+//			String msg = "File doesn't exist => " + fpath;
+//			Methods_dlg.dlg_ShowMessage(this, msg);
+//			
+//			return;
 			
-			return;
-			
-		}
+		}//if (res == false)
 		
 		////////////////////////////////
 
