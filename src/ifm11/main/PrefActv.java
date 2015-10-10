@@ -76,7 +76,11 @@ public class PrefActv extends PreferenceActivity
 		
 		_Setup_Pref_FontSize();
 		
+		// auto backup
 		this._Setup_Pref_AutoBk();
+		
+		// upload history list size
+		this._Setup_Pref_UploadHistory_ListSize();
 		
 		_Setup_Listeners();
 		
@@ -226,6 +230,71 @@ public class PrefActv extends PreferenceActivity
 		
 	}
 	
+	private void 
+	_Setup_Pref_UploadHistory_ListSize() {
+		// TODO Auto-generated method stub
+		String msg_Log;
+		
+		////////////////////////////////
+		
+		// pref: auto backup
+		
+		////////////////////////////////
+		EditTextPreference pref_UploadHistory_ListSize = 
+				(EditTextPreference) findPreference(
+						this.getString(R.string.prefs_UploadActv_ListSize_key));
+//		this.getString(R.string.prefs_history_size_key));
+		
+		pref_UploadHistory_ListSize.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+		
+		////////////////////////////////
+		
+		// show: current
+		
+		////////////////////////////////
+		String current = pref_UploadHistory_ListSize.getText();
+		
+//		// Log
+//		msg_Log = "current => " + current;
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//		
+		String summary = pref_UploadHistory_ListSize.getSummary().toString();
+//		
+//		// Log
+//		msg_Log = "summary(current) => " + summary;
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		
+		if (current == null) {
+//			if (summary == null || current == null) {
+			
+			summary = this.getString(R.string.prefs_UploadActv_ListSize_summary);
+			
+		} else {
+			
+			//REF http://stackoverflow.com/questions/12377838/android-replace-with-regex answered Sep 11 '12 at 21:01
+			summary = "Current = " + current;
+//			summary = summary.replaceAll("\\d{1,}", current);
+//			summary = summary.replaceAll("[\\d+?X]", current);
+//			summary = summary.replaceAll("X", current);
+			
+		}
+		
+//		// Log
+//		msg_Log = "summary(new) => " + summary;
+//		Log.d("PrefActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		pref_UploadHistory_ListSize.setSummary(summary);
+//		pref_AutoBk.setSummary("Current = " + current);
+		
+	}//_Setup_Pref_UploadHistory_ListSize
+	
 
 	@Override
 	protected void onStop() {
@@ -256,6 +325,9 @@ public class PrefActv extends PreferenceActivity
 		
 		// auto backup
 		this._Setup_Pref_AutoBk();
+		
+		// upload history: list size
+		this._Setup_Pref_UploadHistory_ListSize();
 		
 	}
 	

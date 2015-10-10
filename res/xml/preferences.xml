@@ -48,4 +48,14 @@
         
     </EditTextPreference>
     
+    <EditTextPreference
+        android:title="@string/prefs_UploadActv_ListSize_title"
+        android:key="@string/prefs_UploadActv_ListSize_key"
+        android:summary="@string/prefs_UploadActv_ListSize_summary"
+        android:defaultValue="20"
+        
+    >
+    </EditTextPreference>
+    
+    
 </PreferenceScreen>
