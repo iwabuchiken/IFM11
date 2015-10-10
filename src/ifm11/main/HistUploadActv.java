@@ -597,8 +597,40 @@ public class HistUploadActv extends ListActivity {
 		// build: list
 
 		////////////////////////////////
+		// get: pref value
+		String listSize = Methods.get_Pref_String(
+					this, 
+					CONS.Pref.pname_MainActv, 
+					this.getString(R.string.prefs_UploadActv_ListSize_key), 
+					null);
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"list size (pref value) => %s", listSize
+				);
+		
+		Log.i("HistUploadActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		int list_Size_int;
+		
+		if (listSize == null) {
+			
+			list_Size_int = CONS.HistUploadActv.dflt_ListSize;
+			
+		} else {//if (listSize == null)
+			
+			list_Size_int = Integer.parseInt(listSize);
+			
+		}//if (listSize == null)
+		
 		CONS.HistUploadActv.list_HistUploadActv_Main = 
-								DBUtils.find_All_HistUpload(this);
+								DBUtils.find_All_HistUpload(this, list_Size_int);
+//		DBUtils.find_All_HistUpload(this);
 		
 		/******************************
 			validate: null
@@ -613,7 +645,7 @@ public class HistUploadActv extends ListActivity {
 		}
 		
 		// Log
-		String msg_Log;
+//		String msg_Log;
 		
 		msg_Log = "list.size => " + CONS.HistUploadActv.list_HistUploadActv_Main.size();
 		Log.d("HistUploadActv.java" + "["

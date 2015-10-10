@@ -620,6 +620,8 @@ public class CONS {
 		public static List<HistUpload> list_HistUploadActv_Main = null;
 
 		public static Adp_HistUpload adp_HistUploadActv_Main;
+
+		public static int dflt_ListSize		= 30;
 		
 	}
 	
