@@ -9211,7 +9211,6 @@ public class DBUtils extends SQLiteOpenHelper{
 //					where, args,		// 3,4
 					null, null,		// 5,6
 					null,			// 7
-					
 					//ref http://stackoverflow.com/questions/6361668/how-to-use-the-limit-argument-in-an-sqlite-query-with-android answered Jun 15 '11 at 17:24
 					String.valueOf(size));
 			
