@@ -230,6 +230,7 @@
     	<string name="dlg_actv_main_other_Fix_DB">Fix DB (SHARP)</string>
     	<string name="dlg_actv_main_other_Fix_DB_Refresh">Fix DB(refresh)</string>
     	<string name="dlg_actv_main_other_Fix_DB_SDCard">Fix DB(SDCard)</string>
+    	<string name="dlg_actv_main_other_Remove_Duplicates">Remove duplicates</string>
 
     <!-- labs -->
     	<string name="opt_Menu_LABS_title">LABs</string>

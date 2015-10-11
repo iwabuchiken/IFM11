@@ -526,6 +526,11 @@ public class DOI_CL implements OnItemClickListener {
 			case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard__INTERNAL();
 //			case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_SDCard();
 			
+		} else if (item.getText().equals(actv.getString(
+				R.string.dlg_actv_main_other_Remove_Duplicates))) {
+			
+			case_ACTV_MAIN_OPTMENU_OTHERS__Remove_Duplicates();
+			
 		} else {
 			
 		}
@@ -533,6 +538,54 @@ public class DOI_CL implements OnItemClickListener {
 	}//case_ACTV_MAIN_OPTMENU_OTHERS
 
 	
+	private void 
+	case_ACTV_MAIN_OPTMENU_OTHERS__Remove_Duplicates() {
+		// TODO Auto-generated method stub
+		
+		int res_Int = DBUtils.remove_Duplicates(actv);
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"remove duplicates: result => %d", res_Int
+				);
+		
+		Log.i("DOI_CL.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// dismiss
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+		///////////////////////////////////
+		//
+		// report
+		//
+		///////////////////////////////////
+		String message = message = "Duplicates removed => " + res_Int;
+		
+		int colorID;
+		
+		if (res_Int > 0) {
+			
+			colorID = R.color.green4;
+			
+		} else {//if (res_Int > 0)
+			
+			colorID = R.color.red;
+			
+		}//if (res_Int > 0)
+		
+		Methods_dlg.dlg_ShowMessage(actv, message, colorID);
+		
+	}//case_ACTV_MAIN_OPTMENU_OTHERS__Remove_Duplicates
+
 	private void 
 	case_ACTV_MAIN_OPTMENU_OTHERS__FixDB_Refresh() {
 		// TODO Auto-generated method stub

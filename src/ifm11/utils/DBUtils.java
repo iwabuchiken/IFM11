@@ -9312,6 +9312,152 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//find_All_HistUpload
 
+	public static int 
+	remove_Duplicates(Activity actv) {
+		// TODO Auto-generated method stub
+		
+		///////////////////////////////////
+		//
+		// setup db
+		//
+		///////////////////////////////////
+		String tname = CONS.DB.tname_IFM11;
+		
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		//
+		SQLiteDatabase wdb = dbu.getWritableDatabase();
+		
+		///////////////////////////////////
+		//
+		// validate: table exists
+		//
+		///////////////////////////////////
+		if (DBUtils.tableExists(actv, CONS.DB.dbName, tname)) {
+			// Log
+			Log.i("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table exists => " + tname);
+			
+//			// debug
+//			String msg_Toast = "Table exists => " + tname;
+//			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
+			
+		} else {//if (!tableExists(SQLiteDatabase db, String tableName))
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", "Table DOESN'T exists => " + tname);
+			
+//			// debug
+//			String msg_Toast = "Table exists => " + tname;
+//			Toast.makeText(actv, msg_Toast, Toast.LENGTH_SHORT).show();
+			
+			///////////////////////////////////
+			//
+			// close db
+			//
+			///////////////////////////////////
+			wdb.close();
+			
+			return -1;
+			
+		}//if (!tableExists(SQLiteDatabase db, String tableName))
+
+		///////////////////////////////////
+		//
+		// build list: main
+		//
+		///////////////////////////////////
+		List<TI> list_TIs = DBUtils.find_All_TI(actv, tname);
+		
+		Methods.sort_List_TI_V2(
+						list_TIs, 
+						CONS.Enums.SortType.FileName, 
+						CONS.Enums.SortOrder.ASC);
+		
+		///////////////////////////////////
+		//
+		// remove duplicate
+		//
+		///////////////////////////////////
+		TI ti_Cur = null;
+		TI ti_Next = null;
+		
+		int len = list_TIs.size();
+		
+		int res_I;
+
+		int count = 0;
+		
+		for (int i = 0; i < len - 1; i++) {
+			
+			ti_Cur = list_TIs.get(i);
+			ti_Next = list_TIs.get(i + 1);
+			
+			if (ti_Cur.getFile_name().equals(ti_Next.getFile_name())) {
+
+				res_I = DBUtils.delete_TI(actv, ti_Cur);
+
+				// report
+				if (res_I > 0) {
+					
+					// Log
+					String msg_Log;
+					
+					msg_Log = String.format(
+							Locale.JAPAN,
+							"TI removed => %s", ti_Cur.getFile_name()
+							);
+					
+					Log.i("DBUtils.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", msg_Log);
+					
+					// count 
+					count ++;
+					
+				} else {//if (res_I > 0)
+					
+					// Log
+					String msg_Log;
+					
+					msg_Log = String.format(
+							Locale.JAPAN,
+							"TI removed => failed: %d (%s)", 
+							res_I, ti_Cur.getFile_name()
+							);
+					
+					Log.e("DBUtils.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", msg_Log);
+					
+				}//if (res_I > 0)
+				
+				
+			}//if (ti_Cur.getFile_name().equals(ti_Next.getFile_name()))
+			
+		}//for (int i = 0; i < tmp_TI_Next; i++)
+		
+		
+		///////////////////////////////////
+		//
+		// close db
+		//
+		///////////////////////////////////
+		wdb.close();
+		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return count;
+//		return 0;
+		
+	}//remove_Duplicates
+
 	
 }//public class DBUtils
 

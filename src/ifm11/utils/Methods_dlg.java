@@ -3756,12 +3756,12 @@ public class Methods_dlg {
 						.setTextColor_ID(R.color.black)
 						.build());
 		
-		list.add(new ListItem.Builder()
-					.setText(actv.getString(
-							R.string.dlg_actv_main_other_Import_From10))
-							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
-							.setTextColor_ID(R.color.black)
-							.build());
+//		list.add(new ListItem.Builder()
+//					.setText(actv.getString(
+//							R.string.dlg_actv_main_other_Import_From10))
+//							.setIconID(R.drawable.menu_icon_admin_32x32_brown)
+//							.setTextColor_ID(R.color.black)
+//							.build());
 		
 //		int color_Create_TNs = R.color.black;
 		int color_Create_TNs = R.color.gray1;
@@ -3777,13 +3777,14 @@ public class Methods_dlg {
 		
 		int color_Fix_DB = R.color.gray2;
 		
-		list.add(new ListItem.Builder()
-				.setText(actv.getString(
-						R.string.dlg_actv_main_other_Fix_DB))
-						.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
-						.setTextColor_ID(color_Fix_DB)
-//						.setTextColor_ID(R.color.black)
-						.build());
+//		// files from SHARP phone
+//		list.add(new ListItem.Builder()
+//				.setText(actv.getString(
+//						R.string.dlg_actv_main_other_Fix_DB))
+//						.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
+//						.setTextColor_ID(color_Fix_DB)
+////						.setTextColor_ID(R.color.black)
+//						.build());
 
 		///////////////////////////////////
 		//
@@ -3800,16 +3801,31 @@ public class Methods_dlg {
 		//						.setTextColor_ID(R.color.black)
 						.build());
 		
+//		///////////////////////////////////
+//		//
+//		// fix db: SDCard
+//		//
+//		///////////////////////////////////
+//		int color_Fix_DB_SDCard = R.color.black;
+//		
+//		list.add(new ListItem.Builder()
+//				.setText(actv.getString(
+//						R.string.dlg_actv_main_other_Fix_DB_SDCard))
+//						.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
+//						.setTextColor_ID(color_Fix_DB_Refresh)
+//						//						.setTextColor_ID(R.color.black)
+//						.build());
+		
 		///////////////////////////////////
 		//
-		// fix db: refresh
+		// fix db: SDCard
 		//
 		///////////////////////////////////
 		int color_Fix_DB_SDCard = R.color.black;
 		
 		list.add(new ListItem.Builder()
 				.setText(actv.getString(
-						R.string.dlg_actv_main_other_Fix_DB_SDCard))
+						R.string.dlg_actv_main_other_Remove_Duplicates))
 						.setIconID(R.drawable.menu_icon_admin_32x32_yellow)
 						.setTextColor_ID(color_Fix_DB_Refresh)
 						//						.setTextColor_ID(R.color.black)
