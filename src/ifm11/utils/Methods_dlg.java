@@ -30,17 +30,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.commons.lang.StringUtils;
-
-
-
-
-
-
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Vibrator;
+import android.text.ClipboardManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -2509,6 +2506,7 @@ public class Methods_dlg {
 				actv.getString(R.string.generic_tv_edit),
 				actv.getString(R.string.generic_tv_delete),
 				actv.getString(R.string.generic_tv_upload),
+				actv.getString(R.string.generic_Copy_Memo),
 		};
 		
 		List<String> list = new ArrayList<String>();
@@ -5056,5 +5054,47 @@ public class Methods_dlg {
 		d1.show();
 		
 	}//dlg_ACTV_CANVAS_Ops
+
+	public static void 
+	copy_Memo(Activity actv, Dialog d1, TI ti) {
+		// TODO Auto-generated method stub
+		
+		//ref http://stackoverflow.com/questions/9027629/android-clipboard-code-that-works-on-all-api-levels answered Jan 27 '12 at 0:58
+		//ref https://github.com/commonsguy/cw-advandroid/blob/master/SystemServices/ClipIP/src/com/commonsware/android/clipip/IPClipper.java "cm.setText(addr);"
+		ClipboardManager clipboard = 
+					(ClipboardManager) ((Context)actv).getSystemService(
+													Context.CLIPBOARD_SERVICE); 
+		
+		clipboard.setText(ti.getMemo());
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"clipped"
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// vibrate
+		//
+		///////////////////////////////////
+		Vibrator vib = (Vibrator) actv.getSystemService(Context.VIBRATOR_SERVICE);
+		
+		vib.vibrate(CONS.Admin.vibLength_click);
+
+		///////////////////////////////////
+		//
+		// dismiss
+		//
+		///////////////////////////////////
+		d1.dismiss();
+		
+	}//copy_Memo
 	
 }//public class Methods_dialog

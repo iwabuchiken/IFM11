@@ -1217,6 +1217,11 @@ public class DOI_CL implements OnItemClickListener {
 //			Methods_dlg.uploadImageFile_main(actv, dlg1, ti);
 //			Methods_dlg.dlg_confirm_uploadImageFile(actv, dlg1, ti);
 			
+		} else if (choice.equals(actv.getString(
+				R.string.generic_Copy_Memo))) {//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
+			
+			Methods_dlg.copy_Memo(actv, d1, ti);
+			
 		}//if (choice.equals(actv.getString(R.string.generic_tv_delete))))
 
 		
