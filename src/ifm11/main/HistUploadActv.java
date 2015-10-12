@@ -601,7 +601,7 @@ public class HistUploadActv extends ListActivity {
 		String listSize = Methods.get_Pref_String(
 					this, 
 					CONS.Pref.pname_MainActv, 
-					this.getString(R.string.prefs_UploadActv_ListSize_key), 
+					this.getString(R.string.prefs_HistActv_ListSize_key), 
 					null);
 		
 		// Log

@@ -479,14 +479,14 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     		// Log
 			String msg_Log;
 			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"this.fname_Image == null || !this.fname_Image.exists()"
-					);
-			
-			Log.i("Adp_TIList.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"this.fname_Image == null || !this.fname_Image.exists()"
+//					);
+//			
+//			Log.i("Adp_TIList.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
     		
         	// Bitmap
         	bmp = 
@@ -520,14 +520,14 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 
 			} else {//if (bmp == null)
 				
-				msg_Log = String.format(
-						Locale.JAPAN,
-						"bmp => height = %d", bmp.getHeight()
-						);
-				
-				Log.i("Adp_TIList.java" + "["
-						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-						+ "]", msg_Log);
+//				msg_Log = String.format(
+//						Locale.JAPAN,
+//						"bmp => height = %d", bmp.getHeight()
+//						);
+//				
+//				Log.i("Adp_TIList.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", msg_Log);
 				
 			}//if (bmp == null)
         	

@@ -131,11 +131,11 @@
     	<string name="prefs_tnactv_refresh_db_end_key">
     	    									prefs_tnactv_refresh_db_end_key</string>
 
-    	<string name="prefs_UploadActv_ListSize_title">
+    	<string name="prefs_HistActv_ListSize_title">
     	    									Upload history list: size</string>
-    	<string name="prefs_UploadActv_ListSize_summary">
+    	<string name="prefs_HistActv_ListSize_summary">
     	    									e.g. 25</string>
-    	<string name="prefs_UploadActv_ListSize_key">
+    	<string name="prefs_HistActv_ListSize_key">
     	    									prefs_UploadActv_ListSize_key</string>
 
     <!-- image_actv_menu.xml -->

@@ -242,7 +242,7 @@ public class PrefActv extends PreferenceActivity
 		////////////////////////////////
 		EditTextPreference pref_UploadHistory_ListSize = 
 				(EditTextPreference) findPreference(
-						this.getString(R.string.prefs_UploadActv_ListSize_key));
+						this.getString(R.string.prefs_HistActv_ListSize_key));
 //		this.getString(R.string.prefs_history_size_key));
 		
 		pref_UploadHistory_ListSize.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -272,7 +272,7 @@ public class PrefActv extends PreferenceActivity
 		if (current == null) {
 //			if (summary == null || current == null) {
 			
-			summary = this.getString(R.string.prefs_UploadActv_ListSize_summary);
+			summary = this.getString(R.string.prefs_HistActv_ListSize_summary);
 			
 		} else {
 			

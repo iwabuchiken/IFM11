@@ -460,9 +460,9 @@ public final class R {
         /**  labs 
          */
         public static final int opt_Menu_LABS_title=0x7f060078;
-        public static final int prefs_UploadActv_ListSize_key=0x7f060044;
-        public static final int prefs_UploadActv_ListSize_summary=0x7f060043;
-        public static final int prefs_UploadActv_ListSize_title=0x7f060042;
+        public static final int prefs_HistActv_ListSize_key=0x7f060044;
+        public static final int prefs_HistActv_ListSize_summary=0x7f060043;
+        public static final int prefs_HistActv_ListSize_title=0x7f060042;
         public static final int prefs_tnactv_db_auto_backup_key=0x7f060039;
         public static final int prefs_tnactv_db_auto_backup_summary=0x7f06003a;
         public static final int prefs_tnactv_db_auto_backup_title=0x7f06003b;

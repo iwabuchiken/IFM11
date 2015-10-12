@@ -549,7 +549,30 @@ public class HistActv extends ListActivity {
 		// build: list
 
 		////////////////////////////////
-		int limit = 20;
+		///////////////////////////////////
+		//
+		// get: pref value
+		//
+		///////////////////////////////////
+		String tmp_I = Methods.get_Pref_String(
+							this, 
+							CONS.Pref.pname_MainActv, 
+							this.getString(R.string.prefs_HistActv_ListSize_key), 
+							null);
+
+		int limit;
+		
+		if (tmp_I != null) {
+			
+			limit = Integer.parseInt(tmp_I);
+			
+		} else {//if (tmp_I != null)
+			
+			limit = CONS.HistActv.dflt_ListSize;
+			
+		}//if (tmp_I != null)
+		
+//		int limit = 20;
 		
 		CONS.HistActv.list_HistActv_Main = DBUtils.find_TIs_History(this, limit);
 		

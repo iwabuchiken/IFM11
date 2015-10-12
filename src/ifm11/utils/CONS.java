@@ -657,8 +657,10 @@ public class CONS {
 		
 		// Used => Deleting TI in TNActv list view
 		public static int inList_Pos;
+
+		public static int dflt_ListSize		= 20;
 		
-	}
+	}//public static class HistActv
 	
 	public static class 
 	IMageActv {
