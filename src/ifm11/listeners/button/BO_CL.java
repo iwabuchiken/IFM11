@@ -1,6 +1,7 @@
 package ifm11.listeners.button;
 
 import java.io.File;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -239,12 +240,12 @@ public class BO_CL implements OnClickListener {
 	image_activity_next() {
 		/*********************************
 		 * 1. Get prefs => current position
-		 * 2. No more prev?
+		 * 2. No more next?
 		 * 
-		 * 3. Get the previous item in the ti list
+		 * 3. Get the next item in the ti list
 		 * 4. New image file path
 		 * 
-		 * 5. Show the previous image
+		 * 5. Show the next image
 		 * 
 		 * 6. Set new pref value
 		 * 
@@ -265,7 +266,7 @@ public class BO_CL implements OnClickListener {
 				+ "]", "savedPosition=" + savedPosition);
 		
 		/*********************************
-		 * 2. No more prev?
+		 * 2. No more next?
 		 *********************************/
 //		if (savedPosition == 0) {
 		if (savedPosition >= CONS.TNActv.list_TNActv_Main.size() - 1) {
@@ -281,9 +282,9 @@ public class BO_CL implements OnClickListener {
 		}//if (savedPosition == 0)
 
 		/*********************************
-		 * 3. Get the previous item in the ti list
+		 * 3. Get the next item in the ti list
 		 *********************************/
-		TI ti_prev = CONS.TNActv.list_TNActv_Main.get(savedPosition + 1);
+		TI ti_Next = CONS.TNActv.list_TNActv_Main.get(savedPosition + 1);
 //		
 		/*********************************
 		 * 4. New image file path
@@ -291,8 +292,8 @@ public class BO_CL implements OnClickListener {
 		String image_file_path_new = StringUtils.join(
 				
 				new String[]{
-						ti_prev.getFile_path(),
-						ti_prev.getFile_name()
+						ti_Next.getFile_path(),
+						ti_Next.getFile_name()
 				},
 				File.separator
 		);
@@ -311,16 +312,65 @@ public class BO_CL implements OnClickListener {
 		
 		if (!f.exists()) {
 			
-			String msg = "No such file => " + f.getAbsolutePath();
-			Methods_dlg.dlg_ShowMessage(actv, msg);
+			///////////////////////////////////
+			//
+			// validate: internal?
+			//
+			///////////////////////////////////
+			String fpath = StringUtils.join(
+							new String[]{
+									
+									CONS.DB.dPath_Data_SDCard + "/DCIM/Camera",
+//									ti.getFile_path(),
+									ti_Next.getFile_name()
+//									ti.getFile_name()
+							}, 
+							File.separator);
+
+			if (Methods.file_Exists(actv, fpath)) {
+
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"Next file exists => %s", fpath
+						);
+				
+				Log.i("TNActv.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+
+				///////////////////////////////////
+				//
+				// reset: file
+				//
+				///////////////////////////////////
+				image_file_path_new = fpath;
+				
+				f = new File(image_file_path_new);
+				
+			} else {//if (Methods.file_Exists(this, fpath))
+				
+				String msg = "No such file => " + fpath;
+//				String msg = "File doesn't exist => " + fpath;
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				return;
+				
+			}//if (Methods.file_Exists(this, fpath))
+
 			
-			return;
+//			String msg = "No such file => " + f.getAbsolutePath();
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			return;
 			
-		}
+		}//if (!f.exists())
 		
 //		
 		/*********************************
-		 * 5. Show the next image
+		 * 5. Show the Next image
 		 *********************************/
 //		ImageActv.bm = null;
 		CONS.IMageActv.bm_Modified.recycle();
@@ -388,7 +438,7 @@ public class BO_CL implements OnClickListener {
 		/*********************************
 		 * 7. Update the file name label
 		 *********************************/
-		ImageActv.tv_file_name.setText(ti_prev.getFile_name());
+		ImageActv.tv_file_name.setText(ti_Next.getFile_name());
 
 		/*********************************
 		 * 8. Save history
@@ -400,7 +450,7 @@ public class BO_CL implements OnClickListener {
 		////////////////////////////////
 		int res_i = DBUtils.update_TI(
 				actv, 
-				ti_prev, 
+				ti_Next, 
 				CONS.DB.col_names_IFM11_full[10],
 				Methods.conv_MillSec_to_TimeLabel(
 						STD.getMillSeconds_now())
@@ -530,11 +580,65 @@ public class BO_CL implements OnClickListener {
 		File f = new File(image_file_path_new);
 		
 		if (!f.exists()) {
+
+			///////////////////////////////////
+			//
+			// validate: internal?
+			//
+			///////////////////////////////////
+			String fpath = StringUtils.join(
+							new String[]{
+									
+									CONS.DB.dPath_Data_SDCard + "/DCIM/Camera",
+//									ti.getFile_path(),
+									ti_prev.getFile_name()
+//									ti.getFile_name()
+							}, 
+							File.separator);
+
+			if (Methods.file_Exists(actv, fpath)) {
+
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"Previous file exists => %s", fpath
+						);
+				
+				Log.i("TNActv.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+
+				///////////////////////////////////
+				//
+				// reset: file
+				//
+				///////////////////////////////////
+				image_file_path_new = fpath;
+				
+				f = new File(image_file_path_new);
+				
+			} else {//if (Methods.file_Exists(this, fpath))
+				
+				String msg = "No such file => " + fpath;
+//				String msg = "File doesn't exist => " + fpath;
+				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				return;
+				
+			}//if (Methods.file_Exists(this, fpath))
+
 			
-			String msg = "No such file => " + f.getAbsolutePath();
-			Methods_dlg.dlg_ShowMessage(actv, msg);
-			
-			return;
+//			String msg = "No such file => " + f.getAbsolutePath();
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			return;
+
+//			String msg = "No such file => " + f.getAbsolutePath();
+//			Methods_dlg.dlg_ShowMessage(actv, msg);
+//			
+//			return;
 			
 		}
 
