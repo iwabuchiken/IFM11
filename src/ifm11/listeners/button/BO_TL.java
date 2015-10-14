@@ -11,6 +11,7 @@ import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class BO_TL implements OnTouchListener {
@@ -23,6 +24,8 @@ public class BO_TL implements OnTouchListener {
 
 	//
 	Vibrator vib;
+
+	Button bt = null;
 	
 	public BO_TL(Activity actv) {
 		//
@@ -122,6 +125,14 @@ public class BO_TL implements OnTouchListener {
 				
 				break;// case image_activity_next
 				
+			case GENERIC_ACTV_BT_CANCEL://----------------------------------------------------
+			case ACTV_SEARCH_BT_OK://----------------------------------------------------
+				
+				bt = (Button) v;
+				bt.setBackgroundColor(Color.GRAY);
+				
+				break;// case image_activity_next
+				
 			}//switch (tag)
 			
 			break;//case MotionEvent.ACTION_DOWN:
@@ -133,8 +144,6 @@ public class BO_TL implements OnTouchListener {
 				
 				ImageButton ib = (ImageButton) v;
 				ib.setImageResource(R.drawable.ifm8_up);
-				
-//				v.setBackgroundColor(Color.WHITE);
 				
 				break;// case ib_up
 				
@@ -207,6 +216,13 @@ public class BO_TL implements OnTouchListener {
 				
 				break;// case image_activity_next
 				
+			case GENERIC_ACTV_BT_CANCEL://----------------------------------------------------
+			case ACTV_SEARCH_BT_OK://----------------------------------------------------
+				
+				bt = (Button) v;
+				bt.setBackgroundColor(Color.WHITE);
+				
+				break;// case image_activity_next
 
 			}//switch (tag)
 			

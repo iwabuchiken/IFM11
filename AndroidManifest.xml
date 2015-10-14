@@ -61,6 +61,8 @@
             android:authorities="ifm11.main.CV">
         </provider>
         <activity android:name=".CanvasActv" android:screenOrientation="portrait"></activity>
+        <activity android:name=".SearchActv" android:screenOrientation="portrait"></activity>
+        <activity android:name=".SearchResultActv" android:screenOrientation="portrait"></activity>
         
     </application>
 

@@ -820,6 +820,8 @@ public class MainActv extends ListActivity {
 			
 			Methods_dlg.dlg_SeratchItem(this);
 			
+//			Methods.start_Activity_SearchActv(this);
+			
 			break;
 			
 		case R.id.main_opt_menu_others://------------------

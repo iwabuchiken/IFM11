@@ -1319,7 +1319,8 @@ public class DB_OCL implements OnClickListener {
 	dlg_DLG_SEARCH_OK() {
 		// TODO Auto-generated method stub
 		
-		Methods.searchItem(actv, d1);
+		Methods.searchItem__V2(actv, d1);
+//		Methods.searchItem(actv, d1);
 		
 	}
 

@@ -9,6 +9,8 @@ public class Tags {
 
 		GENERIC_SECOND_DIALOG_CLEAR_ALL, 
 		
+		GENERIC_ACTV_BT_CANCEL,
+		
 		// dlg_create_folder.xml
 		dlg_create_folder_ok, dlg_create_folder_cancel,
 
@@ -211,7 +213,9 @@ public class Tags {
 		ACTV_HISTUPLOAD_IB_BACK, 
 		ACTV_HISTUPLOAD_IB_TOP, 
 		ACTV_HISTUPLOAD_IB_BOTTOM, 
-		ACTV_HISTUPLOAD_IB_DOWN, ACTV_HISTUPLOAD_IB_UP,
+		ACTV_HISTUPLOAD_IB_DOWN, ACTV_HISTUPLOAD_IB_UP, 
+		
+		ACTV_SEARCH_BT_OK, GENERIC_ACTV_BT_CANCEL,
 
 	}//public static enum ButtonTags
 	

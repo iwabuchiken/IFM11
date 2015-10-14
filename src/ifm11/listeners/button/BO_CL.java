@@ -68,6 +68,18 @@ public class BO_CL implements OnClickListener {
 		//
 		switch (tag) {
 
+		case ACTV_SEARCH_BT_OK://-----------------------------------------------------
+			
+			case_ACTV_SEARCH_BT_OK();
+			
+			break;
+			
+		case GENERIC_ACTV_BT_CANCEL://------------------------------------------------
+			
+			case_GENERIC_ACTV_BT_CANCEL();
+			
+			break;
+			
 		case ib_up:
 			
 			case_ACTV_MAIN_IB_UP();
@@ -235,6 +247,22 @@ public class BO_CL implements OnClickListener {
 		}//switch (tag)
 		
 	}//public void onClick(View v)
+
+	private void case_ACTV_SEARCH_BT_OK() {
+		// TODO Auto-generated method stub
+		
+		
+		
+	}//case_ACTV_SEARCH_BT_OK
+
+	private void case_GENERIC_ACTV_BT_CANCEL() {
+		// TODO Auto-generated method stub
+		
+		actv.finish();
+		
+		actv.overridePendingTransition(0, 0);
+		
+	}//case_GENERIC_ACTV_BT_CANCEL
 
 	private void 
 	image_activity_next() {

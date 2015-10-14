@@ -18,12 +18,14 @@ import ifm11.main.ImageActv;
 import ifm11.main.LogActv;
 import ifm11.main.PrefActv;
 import ifm11.main.R;
+import ifm11.main.SearchActv;
 import ifm11.main.ShowLogActv;
 import ifm11.main.TNActv;
 import ifm11.tasks.Task_CreateTN;
 import ifm11.tasks.Task_CreateTN_V2;
 import ifm11.tasks.Task_HTTP;
 import ifm11.tasks.Task_Search;
+import ifm11.tasks.Task_Search_2;
 import ifm11.utils.CONS.IMageActv;
 
 import java.io.BufferedReader;
@@ -82,6 +84,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 
 
@@ -2129,6 +2133,20 @@ public class Methods {
 		actv.startActivity(i);
 		
 	}//start_Activity_HistActv
+	
+	public static void 
+	start_Activity_SearchActv
+	(Activity actv) {
+		
+		Intent i = new Intent();
+		
+		i.setClass(actv, SearchActv.class);
+		
+		i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		
+		actv.startActivity(i);
+		
+	}//start_Activity_SearchActv
 	
 	public static void 
 	start_Activity_CanvasActv
@@ -4811,7 +4829,8 @@ public class Methods {
 			
 			// debug
 //			Toast.makeText(actv, "������ĂȂ���", Toast.LENGTH_LONG).show();
-			Toast.makeText(actv, "語句を入れてないよ", Toast.LENGTH_LONG).show();
+//			Toast.makeText(actv, "語句を入れてないよ", Toast.LENGTH_LONG).show();
+			Toast.makeText(actv, "No keywords set", Toast.LENGTH_LONG).show();
 			
 			return;
 			
@@ -4926,6 +4945,136 @@ public class Methods {
 		
 	}//public static void searchItem(Activity actv, Dialog dlg)
 
+	public static void 
+	searchItem__V2
+	(Activity actv, Dialog dlg) {
+		/*----------------------------
+		 * Steps
+		 * 1. Get search words
+		 * 2. Format words
+		 * 
+		 * 2-2. Get table name from current path
+		 * 3. Search task
+		 * 
+		 * 9. Dismiss dialog
+			----------------------------*/
+		EditText et = (EditText) dlg.findViewById(R.id.dlg_search_et);
+		
+		String words = et.getText().toString();
+		
+		if (words.equals("")) {
+			
+			// debug
+			Toast.makeText(actv, "No keywords set", Toast.LENGTH_LONG).show();
+			
+			return;
+			
+		}//if (words.equals(""))
+		
+		////////////////////////////////
+		
+		// Format words
+		
+		////////////////////////////////
+		words = words.replace(CONS.Admin.char_Space_Whole, CONS.Admin.char_Space_Half);
+		
+		String[] a_words = words.split(" ");
+		
+		//debug
+		for (String w : a_words) {
+			
+			// Log
+			String msg_Log = "word = " + w;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+		
+		// Get table name from current path
+		
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Can't get the current path => Use the top table";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			return;
+			
+		}
+		
+		String tableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		////////////////////////////////
+		
+		// prep: search
+		
+		////////////////////////////////
+		// Checkbox => all table
+		CheckBox cb_AllTable = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_all_table);
+		
+		int search_mode = 0;	// 0 => Specific table (default)
+		
+		if (cb_AllTable.isChecked()) {
+			
+			search_mode = 1;	// 1 => All tables
+			
+		}//if (condition)
+		
+		// Log
+		String msg_Log = "search mode => " + search_mode;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// Checkbox => by file name
+		CheckBox cb_FileName = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_file_name);
+		
+		int search_Type = 0;	// 0 => Specific table (default)
+		
+		if (cb_FileName.isChecked()) {
+			
+			search_Type = 1;	// 1 => Search by file name
+			
+		}//if (condition)
+		
+		// Log
+		msg_Log = "search_Type => " + search_Type;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// search
+		
+		////////////////////////////////
+		Task_Search_2 st = new Task_Search_2(actv, search_mode, search_Type);
+//		Task_Search st = new Task_Search(actv, search_mode, search_Type);
+//		Task_Search st = new Task_Search(actv, search_mode);
+		
+		st.execute(a_words, new String[]{tableName});
+		
+		////////////////////////////////
+		
+		// Dismiss dialog
+		
+		////////////////////////////////
+		dlg.dismiss();
+		
+	}//searchItem__V2
+	
 	public static void 
 	delete_TI
 	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {
