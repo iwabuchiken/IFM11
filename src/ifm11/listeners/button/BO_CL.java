@@ -251,7 +251,7 @@ public class BO_CL implements OnClickListener {
 	private void case_ACTV_SEARCH_BT_OK() {
 		// TODO Auto-generated method stub
 		
-		
+		Methods.searchItem_SearchActv(actv);
 		
 	}//case_ACTV_SEARCH_BT_OK
 

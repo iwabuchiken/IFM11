@@ -5076,6 +5076,140 @@ public class Methods {
 	}//searchItem__V2
 	
 	public static void 
+	searchItem_SearchActv
+	(Activity actv) {
+//		(Activity actv, Dialog dlg) {
+		/*----------------------------
+		 * Steps
+		 * 1. Get search words
+		 * 2. Format words
+		 * 
+		 * 2-2. Get table name from current path
+		 * 3. Search task
+		 * 
+		 * 9. Dismiss dialog
+			----------------------------*/
+//		EditText et = (EditText) dlg.findViewById(R.id.dlg_search_et);
+		EditText et = (EditText) actv.findViewById(R.id.dlg_search_2_et);
+//		EditText et = (EditText) dlg.findViewById(R.id.dlg_search_2_et);
+		
+		String words = et.getText().toString();
+		
+		if (words.equals("")) {
+			
+			// debug
+			Toast.makeText(actv, "No keywords set", Toast.LENGTH_LONG).show();
+			
+			return;
+			
+		}//if (words.equals(""))
+		
+		////////////////////////////////
+		
+		// Format words
+		
+		////////////////////////////////
+		words = words.replace(CONS.Admin.char_Space_Whole, CONS.Admin.char_Space_Half);
+		
+		String[] a_words = words.split(" ");
+		
+		//debug
+		for (String w : a_words) {
+			
+			// Log
+			String msg_Log = "word = " + w;
+			Log.d("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+		
+		////////////////////////////////
+		
+		// Get table name from current path
+		
+		////////////////////////////////
+		String currentPath = Methods.get_Pref_String(
+				actv, 
+				CONS.Pref.pname_MainActv, 
+				CONS.Pref.pkey_CurrentPath, 
+				null);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (currentPath == null) {
+			
+			String msg = "Can't get the current path => Use the top table";
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.gold2);
+			
+			return;
+			
+		}
+		
+		String tableName = Methods.conv_CurrentPath_to_TableName(currentPath);
+		
+		////////////////////////////////
+		
+		// prep: search
+		
+		////////////////////////////////
+		// Checkbox => all table
+//		CheckBox cb_AllTable = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_all_table);
+		CheckBox cb_AllTable = (CheckBox) actv.findViewById(R.id.dlg_search_2_cb_all_table);
+		
+		int search_mode = 0;	// 0 => Specific table (default)
+		
+		if (cb_AllTable.isChecked()) {
+			
+			search_mode = 1;	// 1 => All tables
+			
+		}//if (condition)
+		
+		// Log
+		String msg_Log = "search mode => " + search_mode;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		// Checkbox => by file name
+		CheckBox cb_FileName = (CheckBox) actv.findViewById(R.id.dlg_search_2_cb_file_name);
+		
+		int search_Type = 0;	// 0 => Specific table (default)
+		
+		if (cb_FileName.isChecked()) {
+			
+			search_Type = 1;	// 1 => Search by file name
+			
+		}//if (condition)
+		
+		// Log
+		msg_Log = "search_Type => " + search_Type;
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		////////////////////////////////
+		
+		// search
+		
+		////////////////////////////////
+		Task_Search_2 st = new Task_Search_2(actv, search_mode, search_Type);
+//		Task_Search st = new Task_Search(actv, search_mode, search_Type);
+//		Task_Search st = new Task_Search(actv, search_mode);
+		
+		st.execute(a_words, new String[]{tableName});
+		
+//		////////////////////////////////
+//		
+//		// Dismiss dialog
+//		
+//		////////////////////////////////
+//		dlg.dismiss();
+		
+	}//searchItem_SearchActv
+	
+	public static void 
 	delete_TI
 	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {
 		
