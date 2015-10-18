@@ -106,6 +106,7 @@ import android.widget.Toast;
 
 
 
+
 // Apache
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -5932,6 +5933,45 @@ public class Methods {
 						ti.getFile_path(),
 						ti.getFile_name()
 				}, File.separator);
+		
+		///////////////////////////////////
+		//
+		// validate: file exists
+		//
+		///////////////////////////////////
+		fpath_Src = StringUtils.join(
+				new String[]{
+						
+						CONS.DB.dPath_Data_SDCard + "/DCIM/Camera",
+//						ti.getFile_path(),
+						ti.getFile_name()
+				}, 
+				File.separator);
+
+		if (Methods.file_Exists(actv, fpath_Src)) {
+		
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"file exists in => %s", fpath_Src
+					);
+			
+			Log.i("TNActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		
+		} else {//if (Methods.file_Exists(this, fpath))
+			
+			String msg = "File doesn't exist => " + fpath_Src;
+			Methods_dlg.dlg_ShowMessage(actv, msg);
+			
+			return -7;	// -7	=> can't find the source file
+			
+		}//if (Methods.file_Exists(this, fpath))
+
+		
 		
 		String fpath_remote = StringUtils.join(
 					new String[]{

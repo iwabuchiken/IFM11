@@ -30,6 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.commons.lang.StringUtils;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -3405,7 +3406,65 @@ public class Methods_dlg {
 	(Activity actv, 
 		Dialog dlg1, Dialog dlg2, TI ti) {
 		// TODO Auto-generated method stub
+
+		///////////////////////////////////
+		//
+		// validate: file exists
+		//
+		///////////////////////////////////
+		String fpath_Src = StringUtils.join(
+				new String[]{
+						ti.getFile_path(),
+						ti.getFile_name()
+				}, File.separator);
 		
+		// in SDCard-ext
+		if (!new File(fpath_Src).exists()) {
+
+			fpath_Src = StringUtils.join(
+					new String[]{
+							
+							CONS.DB.dPath_Data_SDCard + "/DCIM/Camera",
+//							ti.getFile_path(),
+							ti.getFile_name()
+					}, 
+					File.separator);
+
+			if (Methods.file_Exists(actv, fpath_Src)) {
+				
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"file exists in => %s", fpath_Src
+						);
+				
+				Log.i("TNActv.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
+			
+			} else {//if (Methods.file_Exists(this, fpath))
+
+				// dismiss: dialog 2
+				dlg2.dismiss();
+				
+				String msg = "File doesn't exist => " + fpath_Src;
+				Methods_dlg.dlg_ShowMessage_SecondDialog(actv, msg, dlg1, R.color.red);
+//				Methods_dlg.dlg_ShowMessage(actv, msg);
+				
+				return;
+				
+			}//if (Methods.file_Exists(this, fpath))
+
+
+		}//if (!new File(fpath_Src).exists())
+		
+		///////////////////////////////////
+		//
+		// dialog
+		//
+		///////////////////////////////////
 		Dialog d3 = new Dialog(actv);
 		
 		//

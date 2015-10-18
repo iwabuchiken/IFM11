@@ -629,9 +629,13 @@ public class HistUploadActv extends ListActivity {
 		}//if (listSize == null)
 		
 		CONS.HistUploadActv.list_HistUploadActv_Main = 
-								DBUtils.find_All_HistUpload(this, list_Size_int);
+						DBUtils.find_All_HistUpload(
+									this, 
+									list_Size_int, 
+									CONS.DB.col_names_Upload_History_full[0], 
+									"DESC");
 //		DBUtils.find_All_HistUpload(this);
-		
+
 		/******************************
 			validate: null
 		 ******************************/
