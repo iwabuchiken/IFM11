@@ -457,7 +457,7 @@ public class DOI_CL implements OnItemClickListener {
 		} else if (li.getText().equals(actv.getString(
 				R.string.dlg_db_ops_item_drop_create_tbl_Filter_History))) {
 			
-			Methods_dlg.conf_DropCreate_Table_Filter_History(actv, d1, d2);
+			Methods_dlg.conf_DropCreate_Table_Search_History(actv, d1, d2);
 //			Methods_dlg.conf_DropCreate_Table_Admin(actv, d1, d2);
 			
 		} else {

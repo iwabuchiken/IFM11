@@ -4504,7 +4504,7 @@ public class Methods_dlg {
 	}//conf_DropCreate_Table_Admin
 
 	public static void 
-	conf_DropCreate_Table_Filter_History
+	conf_DropCreate_Table_Search_History
 	(Activity actv, Dialog d1, Dialog d2) {
 		// TODO Auto-generated method stub
 		
@@ -4535,7 +4535,7 @@ public class Methods_dlg {
 		TextView tv_ItemName = (TextView) d3.findViewById(
 				R.id.dlg_tmpl_confirm_simple_tv_item_name);
 		
-		tv_ItemName.setText(CONS.DB.tname_Filter_History);
+		tv_ItemName.setText(CONS.DB.tname_Search_History);
 //		tv_ItemName.setText(CONS.DB.tname_Admin);
 		
 		////////////////////////////////
@@ -4578,7 +4578,7 @@ public class Methods_dlg {
 		////////////////////////////////
 		d3.show();		
 		
-	}//conf_DropCreate_Table_Filter_History
+	}//conf_DropCreate_Table_Search_History
 	
 	public static void 
 	conf_DropCreate_Table_UploadHistory

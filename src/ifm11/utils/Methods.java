@@ -63,6 +63,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -84,6 +85,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 
 
@@ -5155,20 +5158,26 @@ public class Methods {
 		// prep: search
 		
 		////////////////////////////////
+		
+		///////////////////////////////////
+		//
+		// Checkbox => all table
+		//
+		///////////////////////////////////
 		// Checkbox => all table
 //		CheckBox cb_AllTable = (CheckBox) dlg.findViewById(R.id.dlg_search_cb_all_table);
 		CheckBox cb_AllTable = (CheckBox) actv.findViewById(R.id.dlg_search_2_cb_all_table);
 		
-		int search_mode = 0;	// 0 => Specific table (default)
+		int search_mode_All_Table = 0;	// 0 => Specific table (default)
 		
 		if (cb_AllTable.isChecked()) {
 			
-			search_mode = 1;	// 1 => All tables
+			search_mode_All_Table = 1;	// 1 => All tables
 			
 		}//if (condition)
 		
 		// Log
-		String msg_Log = "search mode => " + search_mode;
+		String msg_Log = "search mode => " + search_mode_All_Table;
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
@@ -5176,16 +5185,16 @@ public class Methods {
 		// Checkbox => by file name
 		CheckBox cb_FileName = (CheckBox) actv.findViewById(R.id.dlg_search_2_cb_file_name);
 		
-		int search_Type = 0;	// 0 => Specific table (default)
+		int search_mode_By_FileName = 0;	// 0 => Specific table (default)
 		
 		if (cb_FileName.isChecked()) {
 			
-			search_Type = 1;	// 1 => Search by file name
+			search_mode_By_FileName = 1;	// 1 => Search by file name
 			
 		}//if (condition)
 		
 		// Log
-		msg_Log = "search_Type => " + search_Type;
+		msg_Log = "search_Type => " + search_mode_By_FileName;
 		Log.d("Methods.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
@@ -5195,11 +5204,48 @@ public class Methods {
 		// search
 		
 		////////////////////////////////
-		Task_Search_2 st = new Task_Search_2(actv, search_mode, search_Type);
+		Task_Search_2 st = new Task_Search_2(actv, search_mode_All_Table, search_mode_By_FileName);
 //		Task_Search st = new Task_Search(actv, search_mode, search_Type);
 //		Task_Search st = new Task_Search(actv, search_mode);
 		
 		st.execute(a_words, new String[]{tableName});
+
+		///////////////////////////////////
+		//
+		// save: search history
+		//
+		///////////////////////////////////
+		// all tables
+		if (cb_AllTable.isChecked()) {
+			
+			search_mode_All_Table = 1;	// 1 => All tables
+			
+		} else {//if (condition)
+			
+			search_mode_All_Table = 0;
+			
+		}//if (condition)
+
+		// search by file name
+		if (cb_FileName.isChecked()) {
+			
+			search_mode_By_FileName = 1;	// 1 => Search by file name
+			
+		} else {//if (condition)
+			
+			search_mode_By_FileName = 0;
+			
+		}
+		
+		// search type
+		int search_type = 1;
+		
+		Methods.save_Search_History(
+						actv, 
+						words, 
+						search_mode_All_Table, 
+						search_mode_By_FileName,
+						search_type);
 		
 //		////////////////////////////////
 //		
@@ -5210,6 +5256,65 @@ public class Methods {
 		
 	}//searchItem_SearchActv
 	
+	private static void 
+	save_Search_History
+	(Activity actv, String words, 
+			int search_mode_All_Table, 
+			int search_mode_By_FileName,
+			int search_type) {
+		// TODO Auto-generated method stub
+		
+		///////////////////////////////////
+		//
+		// content
+		//
+		///////////////////////////////////
+		ContentValues val = new ContentValues();
+		
+		//		android.provider.BaseColumns._ID,	// 0
+		//		"created_at", "modified_at",		// 1,2
+		//		"keywords",							// 3
+		//		"all_table",						// 4
+		//		"by_file_name",						// 5
+		//		"type",								// 6	=> AND, OR, NOT
+		
+		// Put values
+		long tmp_Time = STD.getMillSeconds_now();
+		
+		val.put("created_at",
+				Methods.conv_MillSec_to_TimeLabel(tmp_Time));
+		val.put("modified_at",
+				Methods.conv_MillSec_to_TimeLabel(tmp_Time));
+		
+		val.put("keywords", words);
+		
+		val.put("all_table", search_mode_All_Table);
+		val.put("by_file_name", search_mode_By_FileName);
+		val.put("type", search_type);
+
+		///////////////////////////////////
+		//
+		// insert data
+		//
+		///////////////////////////////////
+		String tname = CONS.DB.tname_Search_History;
+		
+		boolean res = DBUtils.insert_Data_generic(actv, tname, val);
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"insert keywords => %s (%s)", res, words
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+	}//save_Search_History
+
 	public static void 
 	delete_TI
 	(Activity actv, Dialog dlg1, Dialog dlg2, TI ti) {

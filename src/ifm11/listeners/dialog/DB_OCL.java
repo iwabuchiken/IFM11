@@ -402,7 +402,7 @@ public class DB_OCL implements OnClickListener {
 		// drop table
 		
 		////////////////////////////////
-		String tname = CONS.DB.tname_Filter_History;
+		String tname = CONS.DB.tname_Search_History;
 //		String tname = CONS.DB.tname_UploadHistory;
 		
 		res = DBUtils.dropTable_2(actv, tname);
@@ -428,8 +428,8 @@ public class DB_OCL implements OnClickListener {
 		res = DBUtils.createTable_static(
 				actv, 
 				tname, 
-				CONS.DB.col_names_Filter_History, 
-				CONS.DB.col_types_Filter_History);
+				CONS.DB.col_names_Search_History, 
+				CONS.DB.col_types_Search_History);
 //		CONS.DB.col_names_Admin, 
 //		CONS.DB.col_types_Admin);
 		

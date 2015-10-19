@@ -413,43 +413,65 @@ public class CONS {
 		
 		////////////////////////////////
 		
-		// table: filter_history
+		// table: search_history
 		
 		////////////////////////////////
-		public static String tname_Filter_History = "filter_history";
+		public static String tname_Search_History = "search_history";
+//		public static String tname_Search_History = "filter_history";
 		
-		public static String[] col_names_Filter_History = {
+		public static String[] col_names_Search_History = {
 			
 			"keywords",							// 0
-			"op_label",							// 1
+			"all_table",						// 1
+			"by_file_name",						// 2
+			"type",								// 3	=> AND, OR, NOT
 //			"operator",							// 1
 			
 		};
 		
-		public static String[] col_names_FilterHistory_full = {
+		public static String[] col_names_Search_History_full = {
 			
-			android.provider.BaseColumns._ID,		// 0
-			"created_at", "modified_at",			// 1,2
-			"keywords",									// 3
-			"op_label",									// 4
+			android.provider.BaseColumns._ID,	// 0
+			"created_at", "modified_at",		// 1,2
+			"keywords",							// 3
+			"all_table",						// 4
+			"by_file_name",						// 5
+			"type",								// 6	=> AND, OR, NOT
+			
 //			"operator",									// 4
 //			"op_label",									// 5
 			
 		};
 		
-		public static String[] col_types_Filter_History = {
-			
+		public static String[] col_types_Search_History = {
+			//			"keywords",							// 0
+			//			"all_table",						// 1
+			//			"by_file_name",						// 2
+			//			"type",								// 3	=> AND, OR, NOT
+
 			"TEXT", 			// 0
-			"TEXT", 			// 1
+			"INTEGER", 			// 1	=> yes: 1, no: 0
+			"INTEGER", 			// 2	=> yes: 1, no: 0
+			"INTEGER", 			// 3	=> AND: 1, OR: 2, NOT: 0
 //			"INTEGER", 			// 1
 			
 		};
 		
-		public static String[] col_types_FilterHistory_full = {
+		public static String[] col_types_Search_History_full = {
+			//			android.provider.BaseColumns._ID,		// 0
+			//			"created_at", "modified_at",			// 1,2
+			//			"keywords",							// 3
+			//			"all_table",						// 4
+			//			"by_file_name",						// 5
+			//			"type",								// 6	=> AND, OR, NOT
 			
 			"INTEGER", "TEXT", "TEXT",	// 0,1,2
-			"TEXT", 					// 3
-			"TEXT", 					// 4
+			
+			"TEXT", 			// 3
+			"INTEGER", 			// 4	=> yes: 1, no: 0
+			"INTEGER", 			// 5	=> yes: 1, no: 0
+			"INTEGER", 			// 6	=> AND: 1, OR: 2, NOT: 0
+
 //			"INTEGER", 					// 4
 			
 		};

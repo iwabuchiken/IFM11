@@ -308,6 +308,8 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 			
 			len = 0;
 			
+			
+			
 		} else {
 
 			len = CONS.TNActv.searchedItems.size();
@@ -497,7 +499,12 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 		
 		String target = null;
 		
-		for (i = 0; i < c.getCount(); i++) {
+		int len_Cursor = c.getCount();
+		
+		int len_Keywords = keywords.length;
+		
+		for (i = 0; i < len_Cursor; i++) {
+//			for (i = 0; i < c.getCount(); i++) {
 //			for (int i = 0; i < c.getCount(); i++) {
 			
 //			String memo = c.getString(6);
@@ -519,7 +526,20 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 				
 			}//if (memo == null)
 			
-			for(j = 0; j < keywords.length; j ++) {
+			for(j = 0; j < len_Keywords; j ++) {
+//				for(j = 0; j < keywords.length; j ++) {
+				
+				// Log
+				String msg_Log;
+				
+				msg_Log = String.format(
+						Locale.JAPAN,
+						"target = %s || keyword = %s", target, keywords[j]
+						);
+				
+				Log.i("Task_Search_2.java" + "["
+						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+						+ "]", msg_Log);
 				
 				if (target.matches(".*" + keywords[j] + ".*")) {
 //					if (memo.matches(".*" + string + ".*")) {

@@ -429,6 +429,18 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     		
 			this.fname_Image = new File(CONS.DB.dPath_TNs, ti.getFile_name());
 			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"this.fname_Image => created"
+					);
+			
+			Log.i("Adp_TIList.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			
@@ -479,14 +491,14 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     		// Log
 			String msg_Log;
 			
-//			msg_Log = String.format(
-//					Locale.JAPAN,
-//					"this.fname_Image == null || !this.fname_Image.exists()"
-//					);
-//			
-//			Log.i("Adp_TIList.java" + "["
-//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//					+ "]", msg_Log);
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"this.fname_Image == null || !this.fname_Image.exists() ==> true"
+					);
+			
+			Log.i("Adp_TIList.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
     		
         	// Bitmap
         	bmp = 
@@ -533,6 +545,18 @@ public class Adp_TIList extends ArrayAdapter<TI> {
         	
 		} else {
 
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"this.fname_Image == null || !this.fname_Image.exists() ==> false"
+					);
+			
+			Log.i("Adp_TIList.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
 			try {
 				
 				//REF http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail answered May 9 '11 at 9:31
@@ -555,7 +579,10 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				// Log
-				String msg_Log = "Exception => " + e.toString();
+//				String msg_Log = null;
+				
+				msg_Log = "Exception => " + e.toString();
+				
 				Log.e("Adp_TIList.java"
 		
 						+ "["

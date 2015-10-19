@@ -6,7 +6,6 @@ import ifm11.items.HistUpload;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.main.R;
-import ifm11.utils.STD;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -24,17 +22,9 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 import android.util.Log;
-//import android.view
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
+//import android.view
 
 /****************************************
  * Copy & pasted from => C:\WORKS\WORKSPACES_ANDROID\ShoppingList\src\shoppinglist\main\DBUtils.java
@@ -1899,12 +1889,12 @@ public class DBUtils extends SQLiteOpenHelper{
 	public boolean
 	updateData_generic
 	(Activity actv, String tableName, 
-		long dbId, String colName, String colValue) {
-
+			long dbId, String colName, String colValue) {
+		
 		////////////////////////////////
-
+		
 		// validate: table exists
-
+		
 		////////////////////////////////
 		if (!DBUtils.tableExists(actv, CONS.DB.dbName, tableName)) {
 			// Log
@@ -1926,9 +1916,9 @@ public class DBUtils extends SQLiteOpenHelper{
 		 ***************************************/
 		String sql = "UPDATE " + tableName + " SET "
 //				+ colName + "='" + colValue + "', "
-				+ colName + "='" + colValue + "'"
-				+ " WHERE " + android.provider.BaseColumns._ID + " = '" + dbId + "'";
-				
++ colName + "='" + colValue + "'"
++ " WHERE " + android.provider.BaseColumns._ID + " = '" + dbId + "'";
+		
 		/***************************************
 		 * Exec: Query
 		 ***************************************/
@@ -1941,8 +1931,8 @@ public class DBUtils extends SQLiteOpenHelper{
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", "sql => Done: " + sql);
 			
-		//	Methods.toastAndLog(actv, "Data updated", 2000);
-
+			//	Methods.toastAndLog(actv, "Data updated", 2000);
+			
 			wdb.close();
 			
 			return true;
@@ -1958,9 +1948,9 @@ public class DBUtils extends SQLiteOpenHelper{
 			
 			return false;
 		}
-
+		
 	}//updateData_generic()
-
+	
 	/******************************
 		@return
 			false<br>
