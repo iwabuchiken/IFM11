@@ -113,6 +113,8 @@ public class DB_OTL implements OnTouchListener {
 					
 				case DROP_CREATE_DROP_TABLE_UPLOADHISTORY_OK:
 					
+				case DROP_CREATE_DROP_TABLE_FILTER_HISTORY_OK:
+					
 					v.setBackgroundColor(Color.GRAY);
 					
 					break;
@@ -174,6 +176,8 @@ public class DB_OTL implements OnTouchListener {
 			case DROP_CREATE_DROP_TABLE_UPLOADHISTORY_OK:
 				
 			case DROP_CREATE_DROP_TABLE_ADMIN_OK:
+				
+			case DROP_CREATE_DROP_TABLE_FILTER_HISTORY_OK:
 				
 					v.setBackgroundColor(Color.WHITE);
 					

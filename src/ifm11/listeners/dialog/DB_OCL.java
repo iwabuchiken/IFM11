@@ -209,6 +209,12 @@ public class DB_OCL implements OnClickListener {
 		//
 		switch (tag_name) {
 
+		case DROP_CREATE_DROP_TABLE_FILTER_HISTORY_OK://------------------------------------------------
+			
+			case_DROP_CREATE_DROP_TABLE_FILTER_HISTORY_OK();
+			
+			break;
+			
 		case DROP_CREATE_DROP_TABLE_UPLOADHISTORY_OK://------------------------------------------------
 			
 			case_DROP_CREATE_DROP_TABLE_UPLOADHISTORY_OK();
@@ -384,6 +390,151 @@ public class DB_OCL implements OnClickListener {
 		}//switch (tag_name)
 	}//public void onClick(View v)
 
+	private void 
+	case_DROP_CREATE_DROP_TABLE_FILTER_HISTORY_OK() {
+		// TODO Auto-generated method stub
+
+		int res;
+		boolean res_b;
+		
+		////////////////////////////////
+		
+		// drop table
+		
+		////////////////////////////////
+		String tname = CONS.DB.tname_Filter_History;
+//		String tname = CONS.DB.tname_UploadHistory;
+		
+		res = DBUtils.dropTable_2(actv, tname);
+		
+//		-1 Table doesn't exist
+//		-2 SQLException
+//		1 Table dropped
+		
+		if (res == -2) {
+			
+			String msg = "Table can't be dropped (SQLException): " + tname;
+			Methods_dlg.dlg_ShowMessage(actv, msg, R.color.red);
+			
+			return;
+			
+		}
+		
+		////////////////////////////////
+		
+		// create table
+		
+		////////////////////////////////
+		res = DBUtils.createTable_static(
+				actv, 
+				tname, 
+				CONS.DB.col_names_Filter_History, 
+				CONS.DB.col_types_Filter_History);
+//		CONS.DB.col_names_Admin, 
+//		CONS.DB.col_types_Admin);
+		
+		////////////////////////////////
+		
+		// report
+		
+		////////////////////////////////
+		String msg = null;
+		int colorID = 0;
+		
+		////////////////////////////////
+		
+		// dispatch
+		
+		////////////////////////////////
+		switch(res) {
+		
+//		-1 Table exists
+//		-2 SQLException
+//		1 Table created
+		
+		case 1:
+			
+			msg = "Table created: " + tname
+			;
+			colorID = R.color.green4;
+			
+			////////////////////////////////
+			
+			// dismiss
+			
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			if(d2 != null) d2.dismiss();
+			if(d1 != null) d1.dismiss();
+			
+			break;
+			
+		case -1:
+			
+			msg = "Table exists: " + tname;
+			colorID = R.color.gold2;
+			
+//			if(d2 != null) d2.dismiss();
+			////////////////////////////////
+			
+			// dismiss
+			
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			
+			////////////////////////////////
+
+			// message
+
+			////////////////////////////////
+			Methods_dlg.dlg_ShowMessage(
+					actv, 
+					msg,
+					colorID);
+			
+			return;
+//			break;
+			
+		case -2:
+			
+			msg = "SQLException: " + tname;
+			colorID = R.color.red;
+			
+//			if(d2 != null) d2.dismiss();
+			////////////////////////////////
+			
+			// dismiss
+			
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			
+			break;
+			
+		default:
+			
+			msg = "Unknown result in creating a table => " + res;
+			colorID = R.color.gold2;
+			
+			////////////////////////////////
+			
+			// dismiss
+			
+			////////////////////////////////
+			if(d3 != null) d3.dismiss();
+			
+			break;
+			
+		}
+		
+		Methods_dlg.dlg_ShowMessage_ThirdDialog(
+				actv, 
+				msg,
+				d1, d2,
+				colorID);
+
+	}//case_DROP_CREATE_DROP_TABLE_FILTER_HISTORY_OK
+
+	
 	private void 
 	case_DROP_CREATE_DROP_TABLE_UPLOADHISTORY_OK() {
 		// TODO Auto-generated method stub
