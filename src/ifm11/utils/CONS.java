@@ -1,5 +1,6 @@
 package ifm11.utils;
 
+import ifm11.adapters.Adp_HistSearch;
 import ifm11.adapters.Adp_HistUpload;
 import ifm11.adapters.Adp_LogFileList;
 import ifm11.adapters.Adp_MainList;
@@ -25,6 +26,7 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -452,7 +454,8 @@ public class CONS {
 			"TEXT", 			// 0
 			"INTEGER", 			// 1	=> yes: 1, no: 0
 			"INTEGER", 			// 2	=> yes: 1, no: 0
-			"INTEGER", 			// 3	=> AND: 1, OR: 2, NOT: 0
+			"INTEGER", 			// 3	=> AND: 1, OR: 2, NOT: -1
+//			"INTEGER", 			// 3	=> AND: 1, OR: 2, NOT: 0
 //			"INTEGER", 			// 1
 			
 		};
@@ -817,6 +820,10 @@ public class CONS {
 
 		////////////////////////////////
 		public static Vibrator vib;
+
+		public static String lbl_Direc_DESC	= "DESC";
+		
+		public static String lbl_Direc_ASC	= "ASC";
 		
 		public static final int vibLength_click = 35;
 		
@@ -1021,7 +1028,21 @@ public class CONS {
 
 	public static class SearchHistory {
 
-		public static String dflt_SizeOf_Histories = "50";
+		public static String dflt_SizeOf_Histories	= "50";
+		public static String dflt_DateTime_String	= "0000/00/00 00:00:00.000";
+		
+		public static String lbl_Type_AND	= "AND";
+		public static String lbl_Type_OR	= "OR";
+		public static String lbl_Type_NOT	= "NOT";
+		public static String lbl_Type_UNKNOWN	= "UNKNOWN";
+		
+		public static int val_Type_AND	= 1;
+		public static int val_Type_OR	= 2;
+		public static int val_Type_NOT	= -1;
+		
+		public static Adp_HistSearch adp_SearchHistory;
+		
+		public static ListView lv_SearchHistory;
 		
 	}
 }//public class CONS

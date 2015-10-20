@@ -1,72 +1,39 @@
 package ifm11.main;
 
-import ifm11.adapters.Adp_MainList;
+import ifm11.adapters.Adp_HistSearch;
 import ifm11.items.SearchHistory;
-import ifm11.items.TI;
-import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.button.BO_CL;
 import ifm11.listeners.button.BO_TL;
 import ifm11.utils.CONS;
 import ifm11.utils.DBUtils;
 import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
-import ifm11.utils.STD;
 import ifm11.utils.Tags;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-
-
-
-
-
-
-
-
-
-
-
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.Vibrator;
-import android.provider.MediaStore;
 import android.app.Activity;
-import android.app.ListActivity;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class SearchActv extends Activity {
-	
+
+	///////////////////////////////////
+	//
+	// fields
+	//
+	///////////////////////////////////
+	List<SearchHistory> list_SearchHistories = null;
 	
     /** Called when the activity is first created. */
     @Override
@@ -239,6 +206,14 @@ public class SearchActv extends Activity {
 		///////////////////////////////////
 		this._Setup_Search_History();
 		
+		///////////////////////////////////
+		//
+		// adapters:
+		//		depend: this._Setup_Search_History()
+		//
+		///////////////////////////////////
+		this._Setup_Adapters();
+		
 	}//protected void onStart()
 
 	private void _Setup_Search_History() {
@@ -251,8 +226,14 @@ public class SearchActv extends Activity {
 		///////////////////////////////////
 		int limit = 20;
 		
-		List<SearchHistory> list_SearchHistories = 
-								DBUtils.find_All_SearchHistories(this, limit);
+		String col = CONS.DB.col_names_Search_History_full[0];	// _id
+		
+		String direction = CONS.Admin.lbl_Direc_DESC;
+		
+//		List<SearchHistory> list_SearchHistories = 
+		list_SearchHistories = 
+						DBUtils.find_All_SearchHistories(this, col, direction, limit);
+//		DBUtils.find_All_SearchHistories(this, limit);
 		
 		///////////////////////////////////
 		//
@@ -295,56 +276,113 @@ public class SearchActv extends Activity {
 		// list: sort
 		//
 		///////////////////////////////////
-		for (int i = 0; i < 3; i++) {
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"created at => %s", list_SearchHistories.get(i).getCreated_at()
-					);
-			
-			Log.i("SearchActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-		}//for (int i = 0; i < 3; i++)
+//		for (int i = 0; i < 3; i++) {
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"created at (%d) => %s", 
+//					i, list_SearchHistories.get(i).getCreated_at()
+//					);
+//			
+//			Log.i("SearchActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}//for (int i = 0; i < 3; i++)
 		
 
-		List<SearchHistory> list_SearchHistories__Sorted
-				= Methods.sort_List__SearchHistories(
-//				list_SearchHistories = Methods.sort_List__SearchHistories(
+//		List<SearchHistory> list_SearchHistories__Sorted
+//				= Methods.sort_List__SearchHistories(
+//		list_SearchHistories = Methods.sort_List__SearchHistories(
+		Methods.sort_List__SearchHistories(
 									list_SearchHistories, 
 									CONS.Enums.SortType.CREATED_AT, 
 									CONS.Enums.SortOrder.DESC);
 		
-		// Log
-//		String msg_Log;
+//		// Log
+////		String msg_Log;
+//
+//		for (int i = 0; i < 3; i++) {
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"created at (%d) => %s", 
+//					i, list_SearchHistories.get(i).getCreated_at()
+//					);
+//			
+//			Log.i("SearchActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}//for (int i = 0; i < 3; i++)
 
-		for (int i = 0; i < 3; i++) {
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"created at => %s", list_SearchHistories.get(i).getCreated_at()
-					);
-			
-			Log.i("SearchActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-		}//for (int i = 0; i < 3; i++)
-
-//		msg_Log = String.format(
-//				Locale.JAPAN,
-//				"[sorted] created at => %s", 
-//				list_SearchHistories__Sorted.get(0).getCreated_at()
-////				"[sorted] created at => %s", list_SearchHistories.get(0).getCreated_at()
-//				);
-//		
-//		Log.i("SearchActv.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", msg_Log);
 		
 	}//_Setup_Search_History
 
+	private void _Setup_Adapters() {
+		
+		////////////////////////////////
+
+		// get adapter
+
+		////////////////////////////////
+		CONS.SearchHistory.adp_SearchHistory = new Adp_HistSearch(
+				
+						this,
+						R.layout.list_row_search_history,
+						this.list_SearchHistories
+		);
+
+		/******************************
+			validate
+		 ******************************/
+		if (CONS.SearchHistory.adp_SearchHistory == null) {
+			
+			// Log
+			String msg_Log = "CONS.SearchHistory.adp_SearchHistory => null";
+			Log.e("ShowListActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			String msg = "adapter => null";
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+			
+			return;
+			
+		}
+
+		////////////////////////////////
+
+		// set
+
+		////////////////////////////////
+		CONS.SearchHistory.lv_SearchHistory = 
+						(ListView) this.findViewById(R.id.dlg_search_2_LV);
+		
+		// valid: null
+		if (CONS.SearchHistory.lv_SearchHistory == null) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"CONS.SearchHistory.lv_SearchHistory => null"
+					);
+			
+			Log.e("SearchActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			return;
+			
+		}//if (CONS.SearchHistory.lv_SearchHistory == null)
+
+		CONS.SearchHistory.lv_SearchHistory
+					.setAdapter(CONS.SearchHistory.adp_SearchHistory);
+
+	}//private void _Setup_Adapters()
+	
 	private void 
 	_Setup_SetListeners() {
 		
@@ -373,6 +411,12 @@ public class SearchActv extends Activity {
 		
 		bt_OK.setOnClickListener(new BO_CL(this));
 		bt_OK.setOnTouchListener(new BO_TL(this));
+
+		///////////////////////////////////
+		//
+		// listview: history
+		//
+		///////////////////////////////////
 		
 	}//_Setup_SetListeners
 

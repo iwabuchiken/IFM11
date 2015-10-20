@@ -10011,6 +10011,202 @@ public class DBUtils extends SQLiteOpenHelper{
 		
 	}//find_All_SearchHistories
 	
+	public static List<SearchHistory> 
+	find_All_SearchHistories
+	(Activity actv, String column, String direction, int limit) {
+		// TODO Auto-generated method stub
+		
+		///////////////////////////////////
+		//
+		// valid: table exists
+		//
+		///////////////////////////////////
+		String tname = CONS.DB.tname_Search_History;
+		
+		boolean res_B = DBUtils.tableExists(actv, CONS.DB.dbName, tname);
+		
+		if (res_B == false) {
+			
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"table => doesn't exist: %s", tname
+					);
+			
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+			Methods.write_Log(actv, msg_Log,
+					Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+			return null;
+			
+		}//if (res_B == false)
+		
+		///////////////////////////////////
+		//
+		// setup: db
+		//
+		///////////////////////////////////
+		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
+		
+		//
+		SQLiteDatabase rdb = dbu.getReadableDatabase();
+		
+		///////////////////////////////////
+		//
+		// query
+		//
+		///////////////////////////////////
+		Cursor c = null;
+		
+		String sizeOf_Histories = String.valueOf(limit);
+//		String sizeOf_Histories = CONS.SearchHistory.dflt_SizeOf_Histories;
+//		String sizeOf_Histories = "50";
+		
+		try {
+			
+			c = rdb.query(
+					
+					CONS.DB.tname_Search_History,			// 1
+					CONS.DB.col_names_Search_History_full,	// 2
+//					CONS.DB.tname_IFM11,			// 1
+//					CONS.DB.col_names_IFM11_full,	// 2
+					null, null,		// 3,4
+//					where, args,		// 3,4
+					null, null,		// 5,6
+					column + " " + direction,			// 7
+//					null,			// 7
+					sizeOf_Histories);
+//			null);
+			
+		} catch (Exception e) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", e.toString());
+			
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"build search histories: exception => %s", e.getMessage()
+					);
+			
+			Methods.write_Log(actv, msg_Log,
+					Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+			rdb.close();
+			
+			return null;
+			
+		}//try
+		
+		/***************************************
+		 * Validate
+		 * 	Cursor => Null?
+		 * 	Entry => 0?
+		 ***************************************/
+		if (c == null) {
+			
+			// Log
+			Log.e("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "Query failed");
+			
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"Query failed"
+					);
+			
+			Methods.write_Log(actv, msg_Log,
+					Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+			rdb.close();
+			
+			return null;
+			
+		} else if (c.getCount() < 1) {//if (c == null)
+			
+			// Log
+			Log.d("DBUtils.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ ":"
+					+ Thread.currentThread().getStackTrace()[2].getMethodName()
+					+ "]", "No entry in the table");
+			
+			Methods.write_Log(actv, "No entry in the table",
+					Thread.currentThread().getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+			rdb.close();
+			
+			return null;
+			
+		}//if (c == null)
+		
+		/***************************************
+		 * Build list
+		 ***************************************/
+		
+		List<SearchHistory> list_SearchHistories = new ArrayList<SearchHistory>();
+		
+		while(c.moveToNext()) {
+			
+			//			android.provider.BaseColumns._ID,	// 0
+			//			"created_at", "modified_at",		// 1,2
+			//			"keywords",							// 3
+			//			"all_table",						// 4
+			//			"by_file_name",						// 5
+			//			"type",								// 6	=> AND, OR, NOT
+			
+			SearchHistory ti = new SearchHistory.Builder()
+			
+			.setDb_Id(c.getLong(0))
+			.setCreated_at(c.getString(1))
+			.setModified_at(c.getString(2))
+			
+			.setKeywords(c.getString(3))
+			
+			.setAll_table(c.getInt(4))
+			.setBy_file_name(c.getInt(5))
+			.setType(c.getInt(6))
+			
+			.build();
+			
+			list_SearchHistories.add(ti);
+			
+		}
+		
+		///////////////////////////////////
+		//
+		// close
+		//
+		///////////////////////////////////
+		rdb.close();
+		
+		///////////////////////////////////
+		//
+		// return
+		//
+		///////////////////////////////////
+		return list_SearchHistories;
+		
+	}//find_All_SearchHistories
+	
 	
 }//public class DBUtils
 

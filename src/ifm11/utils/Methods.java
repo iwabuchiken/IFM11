@@ -2286,33 +2286,33 @@ public class Methods {
 			final CONS.Enums.SortType sortType, 
 			final CONS.Enums.SortOrder sortOrder) {
 		
-		// Log
-		String msg_Log = "list_SearchHistories.get(0) => " 
-							+ list_SearchHistories.get(0).getCreated_at();
-		
-		Log.d("Methods.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
+//		// Log
+//		String msg_Log = "list_SearchHistories.get(0) => " 
+//							+ list_SearchHistories.get(0).getCreated_at();
+//		
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 		
 		Comp_SearchHistory aiComp = new Comp_SearchHistory(list_SearchHistories, sortType, sortOrder);
 		
 		Collections.sort(list_SearchHistories, aiComp);
 		
-		// Log
-//		String msg_Log;
-		
-		msg_Log = "sort => done";
-		Log.d("Methods.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
-
-		//debug
-		msg_Log = "list_SearchHistories.get(0) => " 
-				+ list_SearchHistories.get(0).getCreated_at();
-
-		Log.d("Methods.java" + "["
-			+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-			+ "]", msg_Log);
+//		// Log
+////		String msg_Log;
+//		
+//		msg_Log = "sort => done";
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+//
+//		//debug
+//		msg_Log = "list_SearchHistories.get(0) => " 
+//				+ list_SearchHistories.get(0).getCreated_at();
+//
+//		Log.d("Methods.java" + "["
+//			+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//			+ "]", msg_Log);
 
 //		// Log
 //		msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();

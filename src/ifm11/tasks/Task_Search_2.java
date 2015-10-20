@@ -532,14 +532,14 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 				// Log
 				String msg_Log;
 				
-				msg_Log = String.format(
-						Locale.JAPAN,
-						"target = %s || keyword = %s", target, keywords[j]
-						);
-				
-				Log.i("Task_Search_2.java" + "["
-						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-						+ "]", msg_Log);
+//				msg_Log = String.format(
+//						Locale.JAPAN,
+//						"target = %s || keyword = %s", target, keywords[j]
+//						);
+//				
+//				Log.i("Task_Search_2.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", msg_Log);
 				
 				if (target.matches(".*" + keywords[j] + ".*")) {
 //					if (memo.matches(".*" + string + ".*")) {

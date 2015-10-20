@@ -429,17 +429,17 @@ public class Adp_TIList extends ArrayAdapter<TI> {
     		
 			this.fname_Image = new File(CONS.DB.dPath_TNs, ti.getFile_name());
 			
-			// Log
-			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"this.fname_Image => created"
-					);
-			
-			Log.i("Adp_TIList.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
+//			// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"this.fname_Image => created"
+//					);
+//			
+//			Log.i("Adp_TIList.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -488,17 +488,17 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 			
     		
     		
-    		// Log
-			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"this.fname_Image == null || !this.fname_Image.exists() ==> true"
-					);
-			
-			Log.i("Adp_TIList.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
+//    		// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"this.fname_Image == null || !this.fname_Image.exists() ==> true"
+//					);
+//			
+//			Log.i("Adp_TIList.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
     		
         	// Bitmap
         	bmp = 
@@ -517,7 +517,7 @@ public class Adp_TIList extends ArrayAdapter<TI> {
 								// 	nor in the media store
 
 				// Log
-//				String msg_Log;
+				String msg_Log;
 				
 				msg_Log = String.format(
 						Locale.JAPAN,
