@@ -1,6 +1,7 @@
 package ifm11.main;
 
 import ifm11.adapters.Adp_MainList;
+import ifm11.items.SearchHistory;
 import ifm11.items.TI;
 import ifm11.listeners.LOI_LCL;
 import ifm11.listeners.button.BO_CL;
@@ -28,6 +29,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+
 
 
 
@@ -230,7 +232,118 @@ public class SearchActv extends Activity {
 		///////////////////////////////////
 		this._Setup_SetListeners();
 		
+		///////////////////////////////////
+		//
+		// search history
+		//
+		///////////////////////////////////
+		this._Setup_Search_History();
+		
 	}//protected void onStart()
+
+	private void _Setup_Search_History() {
+		// TODO Auto-generated method stub
+		
+		///////////////////////////////////
+		//
+		// build: list
+		//
+		///////////////////////////////////
+		int limit = 20;
+		
+		List<SearchHistory> list_SearchHistories = 
+								DBUtils.find_All_SearchHistories(this, limit);
+		
+		///////////////////////////////////
+		//
+		// valid: null
+		//
+		///////////////////////////////////
+		if (list_SearchHistories == null) {
+
+			// Log
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"list_SearchHistories => null"
+					);
+			
+			Log.e("SearchActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+			return;
+			
+		}//if (list_SearchHistories == null)
+		
+		//debug
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"size of list_SearchHistories => %d", list_SearchHistories.size()
+				);
+		
+		Log.i("SearchActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		///////////////////////////////////
+		//
+		// list: sort
+		//
+		///////////////////////////////////
+		for (int i = 0; i < 3; i++) {
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"created at => %s", list_SearchHistories.get(i).getCreated_at()
+					);
+			
+			Log.i("SearchActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//for (int i = 0; i < 3; i++)
+		
+
+		List<SearchHistory> list_SearchHistories__Sorted
+				= Methods.sort_List__SearchHistories(
+//				list_SearchHistories = Methods.sort_List__SearchHistories(
+									list_SearchHistories, 
+									CONS.Enums.SortType.CREATED_AT, 
+									CONS.Enums.SortOrder.DESC);
+		
+		// Log
+//		String msg_Log;
+
+		for (int i = 0; i < 3; i++) {
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"created at => %s", list_SearchHistories.get(i).getCreated_at()
+					);
+			
+			Log.i("SearchActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}//for (int i = 0; i < 3; i++)
+
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"[sorted] created at => %s", 
+//				list_SearchHistories__Sorted.get(0).getCreated_at()
+////				"[sorted] created at => %s", list_SearchHistories.get(0).getCreated_at()
+//				);
+//		
+//		Log.i("SearchActv.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+	}//_Setup_Search_History
 
 	private void 
 	_Setup_SetListeners() {

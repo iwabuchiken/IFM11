@@ -1019,4 +1019,9 @@ public class CONS {
 		
 	}
 
+	public static class SearchHistory {
+
+		public static String dflt_SizeOf_Histories = "50";
+		
+	}
 }//public class CONS

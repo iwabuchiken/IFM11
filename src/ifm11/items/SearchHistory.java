@@ -13,8 +13,10 @@ public class SearchHistory {
 	
 	int all_table;
 	
-	String op_label;
-
+	int by_file_name;
+	
+	int type;
+	
 	public SearchHistory(Builder builder) {
 		// TODO Auto-generated constructor stub
 		
@@ -27,59 +29,99 @@ public class SearchHistory {
 		this.keywords	= builder.keywords;
 		
 		this.all_table	= builder.all_table;
+
+		this.by_file_name	= builder.by_file_name;
 		
-		this.op_label	= builder.op_label;
+		this.type	= builder.type;
 
 	}
 
-	public String getOp_label() {
-		return op_label;
-	}
-
-	public void setOp_label(String op_label) {
-		this.op_label = op_label;
-	}
-
+	
+	
 	public long getDb_Id() {
 		return db_Id;
 	}
+
+
 
 	public String getCreated_at() {
 		return created_at;
 	}
 
+
+
 	public String getModified_at() {
 		return modified_at;
 	}
+
+
 
 	public String getKeywords() {
 		return keywords;
 	}
 
-	public int getOperator() {
+
+
+	public int getAll_table() {
 		return all_table;
 	}
+
+
+
+	public int getBy_file_name() {
+		return by_file_name;
+	}
+
+
+
+	public int getType() {
+		return type;
+	}
+
+
 
 	public void setDb_Id(long db_Id) {
 		this.db_Id = db_Id;
 	}
 
+
+
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
 	}
+
+
 
 	public void setModified_at(String modified_at) {
 		this.modified_at = modified_at;
 	}
 
+
+
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
 	}
 
-	public void setOperator(int operator) {
-		this.all_table = operator;
+
+
+	public void setAll_table(int all_table) {
+		this.all_table = all_table;
 	}
-	
+
+
+
+	public void setBy_file_name(int by_file_name) {
+		this.by_file_name = by_file_name;
+	}
+
+
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+
+
 	public static class Builder {
 		
 		// id in database
@@ -93,15 +135,13 @@ public class SearchHistory {
 		
 		int all_table;
 
-		String op_label;
+		int by_file_name;
+		
+		int type;
 		
 		public SearchHistory build() {
 			
 			return new SearchHistory(this);
-		}
-		
-		public Builder setOp_label(String op_label) {
-			this.op_label = op_label; return this;
 		}
 
 		public Builder setDb_Id(long db_Id) {
@@ -120,10 +160,19 @@ public class SearchHistory {
 			this.keywords = keywords; return this;
 		}
 
-		public Builder setOperator(int all_table) {
+		public Builder setAll_table(int all_table) {
 			this.all_table = all_table; return this;
 		}
 
+		public Builder setBy_file_name(int by_file_name) {
+			this.by_file_name = by_file_name; return this;
+		}
+
+		public Builder setType(int type) {
+			this.type = type; return this;
+		}
+
+		
 	}//public static class Builder
 	
 }//public class FilterHistory

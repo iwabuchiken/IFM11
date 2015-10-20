@@ -4,10 +4,12 @@ package ifm11.utils;
 import ifm11.adapters.Adp_TIList;
 import ifm11.adapters.Adp_TIList_Move;
 import ifm11.comps.Comp_HistUpload;
+import ifm11.comps.Comp_SearchHistory;
 import ifm11.comps.Comp_TI;
 import ifm11.comps.Comp_WP;
 import ifm11.items.HistUpload;
 import ifm11.items.LogItem;
+import ifm11.items.SearchHistory;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 import ifm11.listeners.dialog.DL;
@@ -85,6 +87,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 
 
@@ -2275,6 +2279,50 @@ public class Methods {
 		return ti_List;
 		
 	}//sort_List_ai_List
+	
+	public static List<SearchHistory>
+	sort_List__SearchHistories
+	(List<SearchHistory> list_SearchHistories, 
+			final CONS.Enums.SortType sortType, 
+			final CONS.Enums.SortOrder sortOrder) {
+		
+		// Log
+		String msg_Log = "list_SearchHistories.get(0) => " 
+							+ list_SearchHistories.get(0).getCreated_at();
+		
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		Comp_SearchHistory aiComp = new Comp_SearchHistory(list_SearchHistories, sortType, sortOrder);
+		
+		Collections.sort(list_SearchHistories, aiComp);
+		
+		// Log
+//		String msg_Log;
+		
+		msg_Log = "sort => done";
+		Log.d("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+
+		//debug
+		msg_Log = "list_SearchHistories.get(0) => " 
+				+ list_SearchHistories.get(0).getCreated_at();
+
+		Log.d("Methods.java" + "["
+			+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+			+ "]", msg_Log);
+
+//		// Log
+//		msg_Log = "ti_List.get(0) => " + ti_List.get(0).getFile_name();
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
+		
+		return list_SearchHistories;
+		
+	}//sort_List__SearchHistories
 	
 	public static void 
 	start_Activity_PrefActv
