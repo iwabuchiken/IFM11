@@ -560,6 +560,22 @@ public class CONS {
 		public static String pkey_CurrentPosition_MainActv = "pkey_CurrentPosition";
 		
 		////////////////////////////////
+		
+		// SearchActv.java
+		
+		////////////////////////////////
+		
+//		public static SharedPreferences prefs_SearchActv;
+		
+		public static String pname_SearchActv = "pname_SearchActv";
+//		public static String pname_CurrentPath = "current_path";
+		
+		public static String pkey_CurrentPath_SearchActv = 
+											"pkey_CurrentPath_SearchActv";
+		
+		public static String pkey_CurrentPosition_SearchActv = "pkey_CurrentPosition";
+		
+		////////////////////////////////
 
 		// HistUploadActv
 
@@ -1026,7 +1042,8 @@ public class CONS {
 		
 	}
 
-	public static class SearchHistory {
+	public static class 
+	SearchHistory {
 
 		public static String dflt_SizeOf_Histories	= "50";
 		public static String dflt_DateTime_String	= "0000/00/00 00:00:00.000";
@@ -1044,5 +1061,12 @@ public class CONS {
 		
 		public static ListView lv_SearchHistory;
 		
-	}
+		public static int val_All_Table_TRUE	= 1;
+		public static int val_All_Table_FALSE	= 0;
+		
+		public static int val_By_FileName_TRUE	= 1;
+		public static int val_By_FileName_FALSE	= 0;
+		
+	}//SearchHistory
+	
 }//public class CONS

@@ -62,7 +62,14 @@
         </provider>
         <activity android:name=".CanvasActv" android:screenOrientation="portrait"></activity>
         <activity android:name=".SearchActv" android:screenOrientation="portrait"></activity>
-        <activity android:name=".SearchResultActv" android:screenOrientation="portrait"></activity>
+        
+        <activity 
+            android:name=".SearchResultActv" 
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme"
+            >
+            
+        </activity>
         
     </application>
 

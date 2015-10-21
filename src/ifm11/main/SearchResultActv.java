@@ -68,7 +68,7 @@ public class SearchResultActv extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		// Log
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onCreate()");
 		
@@ -108,7 +108,7 @@ public class SearchResultActv extends ListActivity {
 				"onResume() => done"
 				);
 		
-		Log.i("TNActv.java" + "["
+		Log.i("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -123,7 +123,7 @@ public class SearchResultActv extends ListActivity {
 		super.onStart();
 		
 		// Log
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onStart()");
 		
@@ -139,46 +139,46 @@ public class SearchResultActv extends ListActivity {
 			
 		}
 		
-		////////////////////////////////
-		
-		// is running => true
-		
-		////////////////////////////////
-		//REF http://stackoverflow.com/questions/5446565/android-how-do-i-check-if-activity-is-running answered Mar 27 '11 at 1:48
-		if (CONS.Admin.isRunning_TNActv == false) {
-			
-			CONS.Admin.isRunning_TNActv = true;
-			
-			// Log
-			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"CONS.Admin.isRunning_TNActv => change to true"
-					);
-			
-			Log.i("TNActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-		}
-		
-		//debug
-		else {
-			
-			// Log
-			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"CONS.Admin.isRunning_TNActv => true"
-					);
-			
-			Log.i("TNActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-			
-		}
+//		////////////////////////////////
+//		
+//		// is running => true
+//		
+//		////////////////////////////////
+//		//REF http://stackoverflow.com/questions/5446565/android-how-do-i-check-if-activity-is-running answered Mar 27 '11 at 1:48
+//		if (CONS.Admin.isRunning_TNActv == false) {
+//			
+//			CONS.Admin.isRunning_TNActv = true;
+//			
+//			// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"CONS.Admin.isRunning_TNActv => change to true"
+//					);
+//			
+//			Log.i("SearchResultActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}
+//		
+//		//debug
+//		else {
+//			
+//			// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"CONS.Admin.isRunning_TNActv => true"
+//					);
+//			
+//			Log.i("SearchResultActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//			
+//		}
 
 //		////////////////////////////////
 //
@@ -348,7 +348,7 @@ public class SearchResultActv extends ListActivity {
 		////////////////////////////////
 		// Log
 		String msg_Log = "CONS.TNActv.moveMode => " + CONS.TNActv.moveMode;
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -356,7 +356,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			msg_Log = "setting icon...";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			////////////////////////////////
@@ -384,7 +384,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			msg_Log = "icon => stays as is";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -409,7 +409,7 @@ public class SearchResultActv extends ListActivity {
 						"CONS.TNActv.menu != null"
 						);
 				
-				Log.i("TNActv.java" + "["
+				Log.i("SearchResultActv.java" + "["
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", msg_Log);
 				
@@ -426,7 +426,7 @@ public class SearchResultActv extends ListActivity {
 						"CONS.TNActv.menu => null"
 						);
 				
-				Log.e("TNActv.java" + "["
+				Log.e("SearchResultActv.java" + "["
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", msg_Log);
 				
@@ -480,7 +480,7 @@ public class SearchResultActv extends ListActivity {
 						+ "target_Position = "
 						+ target_Position
 						;
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -518,7 +518,7 @@ public class SearchResultActv extends ListActivity {
 				
 				// Log
 				msg_Log = "dPath_TNs => created: " + CONS.DB.dPath_TNs;
-				Log.d("TNActv.java"
+				Log.d("SearchResultActv.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", msg_Log);
@@ -527,7 +527,7 @@ public class SearchResultActv extends ListActivity {
 
 				msg_Log = "dPath_TNs => can't create: " + CONS.DB.dPath_TNs;
 				
-				Log.d("TNActv.java"
+				Log.d("SearchResultActv.java"
 						+ "["
 						+ Thread.currentThread().getStackTrace()[2]
 								.getLineNumber() + "]", msg_Log);
@@ -540,7 +540,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			msg_Log = "dPath_TNs => exists: " + CONS.DB.dPath_TNs;;
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -557,7 +557,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			msg_Log = "names => null";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -567,7 +567,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			msg_Log = "names => 0";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -577,7 +577,7 @@ public class SearchResultActv extends ListActivity {
 
 			// Log
 			msg_Log = "names.length => " + names.length;
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -611,7 +611,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		String msg_Log = "fontSize => " + fontSize;
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 
@@ -650,7 +650,7 @@ public class SearchResultActv extends ListActivity {
 					"Adp_TIList => set"
 					);
 			
-			Log.i("TNActv.java" + "["
+			Log.i("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -678,7 +678,7 @@ public class SearchResultActv extends ListActivity {
 					"Adp_TIList_Move => set"
 					);
 			
-			Log.i("TNActv.java" + "["
+			Log.i("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 
@@ -720,7 +720,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		String msg_Log = "listType => " + listType;
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -741,7 +741,7 @@ public class SearchResultActv extends ListActivity {
 
 			// Log
 			msg_Log = "not equal to => " + CONS.Enums.ListType.SEARCH.toString();
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -772,7 +772,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		msg_Log = "currentPath => " + currentPath;
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 		
 				+ "]", msg_Log);
@@ -786,7 +786,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		msg_Log = "tname => " + tname;
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -811,7 +811,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		msg_Log = "list.size => " + CONS.TNActv.list_TNActv_Main.size();
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -837,12 +837,20 @@ public class SearchResultActv extends ListActivity {
 		
 		msg_Log = String.format(
 				Locale.JAPAN,
-				"%s (%d)", 
+				"Search result (%d)", 
+//				"%s (%d)", 
 //				this.getClass().getName(),
 //				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
-				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
-				CONS.TNActv.list_TNActv_Main.size()
+//				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+				CONS.SearchHistory.adp_SearchHistory.getCount()
 				);
+		
+		// valid: null
+		if (CONS.SearchHistory.adp_SearchHistory == null) {
+
+			msg_Log = "SearchResultActv (?)";
+
+		}//if (CONS.SearchHistory.adp_SearchHistory == null)
 		
 		this.setTitle(msg_Log);
 //		this.setTitle(this.getClass().getName());
@@ -859,7 +867,7 @@ public class SearchResultActv extends ListActivity {
 //					CONS.TNActv.list_TNActv_Main.get(i).getFile_name()
 //					);
 //			
-//			Log.i("TNActv.java" + "["
+//			Log.i("SearchResultActv.java" + "["
 //					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //					+ "]", msg_Log);
 //			
@@ -887,7 +895,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			String msg_Log = "CONS.TNActv.list_TNActv_Main => null";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -896,7 +904,7 @@ public class SearchResultActv extends ListActivity {
 			// Log
 			String msg_Log = "CONS.TNActv.list_TNActv_Main.size => "
 							+ CONS.TNActv.list_TNActv_Main.size();
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 		
@@ -920,14 +928,31 @@ public class SearchResultActv extends ListActivity {
 		// Log
 		String msg_Log;
 		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"%s (%d)", 
+////				this.getClass().getName(),
+////				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
+//				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+//				CONS.TNActv.list_TNActv_Main.size()
+//				);
+		
 		msg_Log = String.format(
 				Locale.JAPAN,
-				"%s (%d)", 
+				"Search result (%d)", 
+//				"%s (%d)", 
 //				this.getClass().getName(),
 //				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
-				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
-				CONS.TNActv.list_TNActv_Main.size()
+//				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+				CONS.SearchHistory.adp_SearchHistory.getCount()
 				);
+		
+		// valid: null
+		if (CONS.SearchHistory.adp_SearchHistory == null) {
+
+			msg_Log = "SearchResultActv (?)";
+
+		}//if (CONS.SearchHistory.adp_SearchHistory == null)
 		
 		this.setTitle(msg_Log);
 
@@ -940,7 +965,7 @@ public class SearchResultActv extends ListActivity {
 		super.onStop();
 		
 		// Log
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onStop()");
 
@@ -965,7 +990,7 @@ public class SearchResultActv extends ListActivity {
 		super.onDestroy();
 		
 		// Log
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onDestroy()");
 		
@@ -991,7 +1016,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			String msg_Log = "pref: list type => set to null";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -999,7 +1024,7 @@ public class SearchResultActv extends ListActivity {
 
 			// Log
 			String msg_Log = "pref: list type => NOT set to null";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -1023,7 +1048,7 @@ public class SearchResultActv extends ListActivity {
 //			
 //			// Log
 //			String msg_Log = "mi => " + mi.getTitle().toString();
-//			Log.d("TNActv.java" + "["
+//			Log.d("SearchResultActv.java" + "["
 //					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //					+ "]", msg_Log);
 //			
@@ -1080,7 +1105,7 @@ public class SearchResultActv extends ListActivity {
 //		
 //			// Log
 //			String msg_Log = "move mode => true";
-//			Log.d("TNActv.java" + "["
+//			Log.d("SearchResultActv.java" + "["
 //					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //					+ "]", msg_Log);
 //			onListItemClick__Move(lv, position);
@@ -1091,7 +1116,7 @@ public class SearchResultActv extends ListActivity {
 //			
 //			// Log
 //			String msg_Log = "move mode => false";
-//			Log.d("TNActv.java" + "["
+//			Log.d("SearchResultActv.java" + "["
 //					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 //					+ "]", msg_Log);
 //			onListItemClick__Move(lv, position);
@@ -1118,7 +1143,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		String msg_Log = "set pref: current position => " + res;
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -1166,7 +1191,7 @@ public class SearchResultActv extends ListActivity {
 						"file exists in => %s", fpath
 						);
 				
-				Log.i("TNActv.java" + "["
+				Log.i("SearchResultActv.java" + "["
 						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 						+ "]", msg_Log);
 
@@ -1198,7 +1223,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		msg_Log = "ti.getDb_Id() => " + ti.getDb_Id();
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -1250,7 +1275,7 @@ public class SearchResultActv extends ListActivity {
 		}//if (bAdapter != null)
 		
 		// Log
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "New position => " + position +
 				" / " + "(length=" + CONS.TNActv.checkedPositions.size() + ")");
@@ -1284,7 +1309,7 @@ public class SearchResultActv extends ListActivity {
 			
 			// Log
 			String msg_Log = "thumb_actv_menu_move_mode";
-			Log.d("TNActv.java" + "["
+			Log.d("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
 			
@@ -1374,7 +1399,7 @@ public class SearchResultActv extends ListActivity {
 		
 		// Log
 		String msg_Log = "onPrepareOptionsMenu";
-		Log.d("TNActv.java" + "["
+		Log.d("SearchResultActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		

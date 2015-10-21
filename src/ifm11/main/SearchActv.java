@@ -10,6 +10,7 @@ import ifm11.utils.Methods;
 import ifm11.utils.Methods_dlg;
 import ifm11.utils.Tags;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,15 +19,19 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class SearchActv extends Activity {
+public class SearchActv extends ListActivity {
+//	public class SearchActv extends Activity {
 
 	///////////////////////////////////
 	//
@@ -80,7 +85,7 @@ public class SearchActv extends Activity {
 				"calling => super.onDestroy()"
 				);
 		
-		Log.i("MainActv.java" + "["
+		Log.i("SearchActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -94,7 +99,7 @@ public class SearchActv extends Activity {
 				"onDestroy() => done"
 				);
 		
-		Log.i("MainActv.java" + "["
+		Log.i("SearchActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
@@ -174,7 +179,7 @@ public class SearchActv extends Activity {
 		
 		super.onPause();
 
-		Log.d("MainActv.java" + "["
+		Log.d("SearchActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "onPause()");
 		
@@ -204,7 +209,7 @@ public class SearchActv extends Activity {
 		// search history
 		//
 		///////////////////////////////////
-		this._Setup_Search_History();
+		this._Setup_List_Search_History();
 		
 		///////////////////////////////////
 		//
@@ -216,7 +221,7 @@ public class SearchActv extends Activity {
 		
 	}//protected void onStart()
 
-	private void _Setup_Search_History() {
+	private void _Setup_List_Search_History() {
 		// TODO Auto-generated method stub
 		
 		///////////////////////////////////
@@ -323,7 +328,7 @@ public class SearchActv extends Activity {
 		
 		////////////////////////////////
 
-		// get adapter
+		// build adapter
 
 		////////////////////////////////
 		CONS.SearchHistory.adp_SearchHistory = new Adp_HistSearch(
@@ -356,31 +361,33 @@ public class SearchActv extends Activity {
 		// set
 
 		////////////////////////////////
-		CONS.SearchHistory.lv_SearchHistory = 
-						(ListView) this.findViewById(R.id.dlg_search_2_LV);
+//		CONS.SearchHistory.lv_SearchHistory = 
+//						(ListView) this.findViewById(R.id.dlg_search_2_LV);
+//		
+//		// valid: null
+//		if (CONS.SearchHistory.lv_SearchHistory == null) {
+//
+//			// Log
+//			String msg_Log;
+//			
+//			msg_Log = String.format(
+//					Locale.JAPAN,
+//					"CONS.SearchHistory.lv_SearchHistory => null"
+//					);
+//			
+//			Log.e("SearchActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", msg_Log);
+//
+//			return;
+//			
+//		}//if (CONS.SearchHistory.lv_SearchHistory == null)
+//
+//		CONS.SearchHistory.lv_SearchHistory
+//					.setAdapter(CONS.SearchHistory.adp_SearchHistory);
+
+		this.setListAdapter(CONS.SearchHistory.adp_SearchHistory);
 		
-		// valid: null
-		if (CONS.SearchHistory.lv_SearchHistory == null) {
-
-			// Log
-			String msg_Log;
-			
-			msg_Log = String.format(
-					Locale.JAPAN,
-					"CONS.SearchHistory.lv_SearchHistory => null"
-					);
-			
-			Log.e("SearchActv.java" + "["
-					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-					+ "]", msg_Log);
-
-			return;
-			
-		}//if (CONS.SearchHistory.lv_SearchHistory == null)
-
-		CONS.SearchHistory.lv_SearchHistory
-					.setAdapter(CONS.SearchHistory.adp_SearchHistory);
-
 	}//private void _Setup_Adapters()
 	
 	private void 
@@ -417,6 +424,8 @@ public class SearchActv extends Activity {
 		// listview: history
 		//
 		///////////////////////////////////
+//		CONS.SearchHistory.lv_SearchHistory.set
+		
 		
 	}//_Setup_SetListeners
 
@@ -433,10 +442,122 @@ public class SearchActv extends Activity {
 				"onStop()"
 				);
 		
-		Log.i("MainActv.java" + "["
+		Log.i("SearchActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
 	}
+
+	@Override
+	protected void 
+	onListItemClick
+	(ListView lv, View v, int position, long id) {
+		/*----------------------------
+		 * Steps
+		 * 0. Vibrate
+		 * 
+		 * 1. Get item name
+		 * 2. Get file object
+		 * 3. Is a directory?
+		 * 		=> If yes, update the current path
+			----------------------------*/
+
+		///////////////////////////////////
+		//
+		// setup
+		//
+		///////////////////////////////////
+		super.onListItemClick(lv, v, position, id);
+		
+		// Log
+		Log.d("SearchActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", "onListItemClick()");
+		//
+		CONS.Admin.vib.vibrate(CONS.Admin.vibLength_click);
+		
+		SearchHistory sh = (SearchHistory) lv.getItemAtPosition(position);
+//		String itemName = (String) lv.getItemAtPosition(position);
+		
+		/******************************
+			validate: null
+		 ******************************/
+		if (sh != null) {
+			
+//			// Log
+//			Log.d("SearchActv.java" + "["
+//					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//					+ "]", "sh = " + sh.getKeywords());
+			
+			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"sh = %s (by file name => %s)", 
+					sh.getKeywords(), 
+					((sh.getBy_file_name() == 1) ? "yes" : "no")
+					);
+			
+			Log.i("SearchActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+
+		} else {//if (item_)
+
+			///////////////////////////////////
+			//
+			// message
+			//
+			///////////////////////////////////
+			String msg = "List item => null";
+//			String msg = "sh => null";
+//			Methods_dlg.dlg_ShowMessage(this, msg);
+			Methods_dlg.dlg_ShowMessage(this, msg, R.color.red);
+			
+			return;
+			
+		}//if (item_)
+		
+		////////////////////////////////
+
+		// Set pref: Current position
+
+		////////////////////////////////
+		_ItemClick_SetPref_CurrentPosition(position);
+
+
+		///////////////////////////////////
+		//
+		// search
+		//
+		///////////////////////////////////
+		Methods.searchItem_SearchActv(this, sh);
+
+	}//protected void onListItemClick(ListView l, View v, int position, long id)
+
+	private void
+	_ItemClick_SetPref_CurrentPosition(int position) {
+		// TODO Auto-generated method stub
+		Methods.set_Pref_Int(
+				this,
+				CONS.Pref.pname_MainActv,
+				CONS.Pref.pkey_CurrentPosition_SearchActv,
+//				CONS.Pref.pkey_CurrentPosition_MainActv,
+				position);
+		
+		// Log
+//		String msg_log = "Pref: " + CONS.Pref.pkey_CurrentPosition
+		String msg_log = "Pref: " + CONS.Pref.pkey_CurrentPath_SearchActv
+						+ " => "
+						+ "Set to: " + position;
+		
+		Log.d("MainActv.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_log);
+		
+		CONS.SearchHistory.adp_SearchHistory.notifyDataSetChanged();
+
+	}
+
 
 }//public class MainActv extends Activity
