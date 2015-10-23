@@ -5302,12 +5302,52 @@ public class Methods {
 		// search type
 		int search_type = 1;
 		
-		Methods.save_Search_History(
-						actv, 
-						words, 
-						search_mode_All_Table, 
-						search_mode_By_FileName,
-						search_type);
+		int val_Omit_Save_SearchHistory = 2;
+		
+		SearchHistory sh = new SearchHistory.Builder()
+						
+				// Judge by => keywords, all_table, by_file_name, type
+							.setKeywords(words)
+							.setAll_table(search_mode_All_Table)
+							.setBy_file_name(search_mode_By_FileName)
+							.setType(search_type)
+		
+							.build();
+		
+		boolean res_B = Methods.isIn_SearchHistory(actv, sh, val_Omit_Save_SearchHistory);
+
+		// if not in the previous history => save keywords
+		if (res_B == false) {
+
+			Methods.save_Search_History(
+					actv, 
+					words, 
+					search_mode_All_Table, 
+					search_mode_By_FileName,
+					search_type);
+
+		} else {//if (res_B == false)
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"same keywords => not saving history... (%s)", words
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
+
+//		Methods.save_Search_History(
+//						actv, 
+//						words, 
+//						search_mode_All_Table, 
+//						search_mode_By_FileName,
+//						search_type);
 		
 //		////////////////////////////////
 //		
@@ -5488,14 +5528,34 @@ public class Methods {
 		// valid: is in the history?
 		int val_Omit_Save_SearchHistory = 2;
 		
-//		boolean res_B = Methods.isIn_SearchHistory(actv, sh, val_Omit_Save_SearchHistory);
+//		boolean res_B = false;
+		boolean res_B = Methods.isIn_SearchHistory(actv, sh, val_Omit_Save_SearchHistory);
 		
-		Methods.save_Search_History(
-				actv, 
-				words, 
-				search_mode_All_Table, 
-				search_mode_By_FileName,
-				search_type);
+		// if not in the previous history => save keywords
+		if (res_B == false) {
+
+			Methods.save_Search_History(
+					actv, 
+					words, 
+					search_mode_All_Table, 
+					search_mode_By_FileName,
+					search_type);
+
+		} else {//if (res_B == false)
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"same keywords => not saving history... (%s)", words
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+			
+		}
 		
 //		////////////////////////////////
 //		
@@ -5506,6 +5566,67 @@ public class Methods {
 		
 	}//searchItem_SearchActv
 	
+	/*******************************
+	 * check if the keywords are in the recent histories<br>
+	 * Judge by => keywords, all_table, by_file_name, type
+	 * @param val_Omit_Save_SearchHistory => x number of recent histories
+	 * @return
+	 * false	=> 1. Table doesn't exist<br>
+	 * 				2. query returned null<br>
+	 * 				3. no entry<br>
+	 *******************************/
+	private static boolean 
+	isIn_SearchHistory
+	(Activity actv, SearchHistory sh, int val_Omit_Save_SearchHistory) {
+		// TODO Auto-generated method stub
+
+		///////////////////////////////////
+		//
+		// get: list
+		//
+		///////////////////////////////////
+		int limit = val_Omit_Save_SearchHistory;
+		
+		List<SearchHistory> list_SHs = DBUtils.find_All_SearchHistories(
+								actv, 
+								CONS.DB.col_names_Search_History_full[0], 
+								CONS.Admin.lbl_Direc_DESC, 
+								limit);
+
+		///////////////////////////////////
+		//
+		// is in?
+		//
+		///////////////////////////////////
+		String target_KW = sh.getKeywords();
+		
+		int target_All_Table = sh.getAll_table();
+		int target_By_FileName = sh.getBy_file_name();
+		int target_Type = sh.getType();	// AND,OR,NOT
+		
+		for (SearchHistory tmp_sh : list_SHs) {
+			
+			if (tmp_sh.getKeywords().equals(target_KW)
+					&& tmp_sh.getAll_table() == target_All_Table
+					&& tmp_sh.getBy_file_name() == target_By_FileName
+					&& tmp_sh.getType() == target_Type
+					) {
+
+				return true;
+
+			}//if (tmp_sh.getKeywords().equals(target_Kw))
+			
+		}
+		
+		///////////////////////////////////
+		//
+		// not in => return false
+		//
+		///////////////////////////////////
+		return false;
+		
+	}//isIn_SearchHistory
+
 	private static void 
 	save_Search_History
 	(Activity actv, String words, 
