@@ -185,7 +185,8 @@
    		
     <!-- dlg_search.xml -->
 	    <string name="dlg_search_title">サーチ</string>
-	    <string name="dlg_search_tv_message">Enter search words \n(e.g. \"ABC def\")</string>
+	    <string name="dlg_search_tv_message">Current = </string>
+	    <!-- <string name="dlg_search_tv_message">Enter search words \n(e.g. \"ABC def\")</string> -->
 	    <!-- <string name="dlg_search_tv_message">サーチする語句を入れてください（複数の場合、スペースで区切ります）</string> -->
 	    <string name="dlg_search_message_all_table">All tables</string>
 	    <!-- <string name="dlg_search_message_all_table">全テーブル検索</string> -->

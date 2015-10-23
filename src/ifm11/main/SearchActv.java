@@ -27,7 +27,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SearchActv extends ListActivity {
@@ -96,12 +98,34 @@ public class SearchActv extends ListActivity {
 		
 		msg_Log = String.format(
 				Locale.JAPAN,
-				"onDestroy() => done"
+				"super.onDestroy() => done"
 				);
 		
 		Log.i("SearchActv.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
+		
+		///////////////////////////////////
+		//
+		// null: CONS.SearchHistory.current_SH
+		//
+		///////////////////////////////////
+		if (CONS.SearchHistory.current_SH != null) {
+
+			CONS.SearchHistory.current_SH = null;
+
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"CONS.SearchHistory.current_SH => nullified"
+					);
+			
+			Log.i("SearchActv.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);
+		}//if (CONS.SearchHistory.current_SH != null)
 		
 	}//protected void onDestroy()
 
@@ -219,7 +243,75 @@ public class SearchActv extends ListActivity {
 		///////////////////////////////////
 		this._Setup_Adapters();
 		
+		///////////////////////////////////
+		//
+		// current keywords
+		//
+		///////////////////////////////////
+		this._Setup_Current_KWs();
+		
 	}//protected void onStart()
+
+	private void 
+	_Setup_Current_KWs() {
+		// TODO Auto-generated method stub
+	
+		///////////////////////////////////
+		//
+		// get: view: message
+		//
+		///////////////////////////////////
+//		TextView tv_Current_KWs = (TextView) findViewById(R.id.dlg_search_2_cancel);
+		TextView tv_Current_KWs = (TextView) findViewById(R.id.dlg_search_2_tv_message);
+		
+//		String current_Text = (String) tv_Current_KWs.getText();
+		
+		///////////////////////////////////
+		//
+		// get: view: EditText
+		//
+		///////////////////////////////////
+//		TextView tv_Current_KWs = (TextView) findViewById(R.id.dlg_search_2_cancel);
+		EditText et_Current_KWs = (EditText) findViewById(R.id.dlg_search_2_et);
+		
+//		String current_Text = (String) tv_Current_KWs.getText();
+		
+		///////////////////////////////////
+		//
+		// get: keywords
+		//
+		///////////////////////////////////
+		String kw = null;
+		
+		String kw_ET = null;
+		
+		if (CONS.SearchHistory.current_SH != null) {
+
+			kw = CONS.SearchHistory.current_SH.getKeywords();
+
+			kw_ET = kw;
+			
+		} else {//if (CONS.SearchHistory.current_SH != null)
+			
+			kw = "NULL";
+			
+			kw_ET = "";
+			
+		}//if (CONS.SearchHistory.current_SH != null)
+		
+		///////////////////////////////////
+		//
+		// set: kw
+		//
+		///////////////////////////////////
+		tv_Current_KWs.setText(
+						this.getString(R.string.dlg_search_tv_message)
+//						current_Text
+						+ kw);
+		
+		et_Current_KWs.setText(kw_ET);
+		
+	}//_Setup_Current_KWs
 
 	private void _Setup_List_Search_History() {
 		// TODO Auto-generated method stub
@@ -501,6 +593,41 @@ public class SearchActv extends ListActivity {
 			Log.i("SearchActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
+			
+			///////////////////////////////////
+			//
+			// update: current sh
+			//
+			///////////////////////////////////
+			if (CONS.SearchHistory.current_SH == null) {
+				
+				CONS.SearchHistory.current_SH = new SearchHistory.Builder()
+						
+					// Judge by => keywords, all_table, by_file_name, type
+							.setKeywords(sh.getKeywords())
+							.setAll_table(sh.getAll_table())
+							.setBy_file_name(sh.getBy_file_name())
+							.setType(sh.getType())
+		
+							.build();
+				
+			} else {//if (CONS.SearchHistory.current_SH == null)
+				
+				CONS.SearchHistory.current_SH
+						.setKeywords(sh.getKeywords());
+				CONS.SearchHistory.current_SH
+						.setAll_table(sh.getAll_table());
+				CONS.SearchHistory.current_SH
+						.setType(sh.getType());
+				
+//					.setKeywords(sh.getKeywords())
+//					.setAll_table(sh.getAll_table())
+//					.setBy_file_name(sh.getBy_file_name())
+//					.setType(sh.getType());
+				
+			}//if (CONS.SearchHistory.current_SH == null)
+			
+//			CONS.SearchHistory.current_SH = sh;
 
 		} else {//if (item_)
 

@@ -5304,7 +5304,8 @@ public class Methods {
 		
 		int val_Omit_Save_SearchHistory = 2;
 		
-		SearchHistory sh = new SearchHistory.Builder()
+		CONS.SearchHistory.current_SH = new SearchHistory.Builder()
+//		SearchHistory sh = new SearchHistory.Builder()
 						
 				// Judge by => keywords, all_table, by_file_name, type
 							.setKeywords(words)
@@ -5314,7 +5315,18 @@ public class Methods {
 		
 							.build();
 		
-		boolean res_B = Methods.isIn_SearchHistory(actv, sh, val_Omit_Save_SearchHistory);
+		boolean res_B = false;
+		
+		if (CONS.SearchHistory.current_SH != null) {
+
+			res_B = Methods.isIn_SearchHistory(
+					actv, 
+					CONS.SearchHistory.current_SH, 
+					val_Omit_Save_SearchHistory);
+//		boolean res_B = Methods.isIn_SearchHistory(actv, sh, val_Omit_Save_SearchHistory);
+
+		}//if (CONS.SearchHistory.current_SH != null)
+		
 
 		// if not in the previous history => save keywords
 		if (res_B == false) {

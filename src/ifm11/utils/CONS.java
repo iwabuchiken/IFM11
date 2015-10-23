@@ -11,6 +11,7 @@ import ifm11.adapters.Adp_WordPatterns;
 import ifm11.items.HistUpload;
 import ifm11.items.LogItem;
 import ifm11.items.MyView;
+import ifm11.items.SearchHistory;
 import ifm11.items.TI;
 import ifm11.items.WordPattern;
 
@@ -1066,6 +1067,8 @@ public class CONS {
 		
 		public static int val_By_FileName_TRUE	= 1;
 		public static int val_By_FileName_FALSE	= 0;
+		
+		public static ifm11.items.SearchHistory current_SH = null;
 		
 	}//SearchHistory
 	
