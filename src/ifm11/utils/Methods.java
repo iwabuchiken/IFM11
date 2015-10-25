@@ -5472,11 +5472,11 @@ public class Methods {
 			
 		}//if (condition)
 		
-		// Log
-		String msg_Log = "search mode => " + search_mode_All_Table;
-		Log.d("Methods.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
+//		// Log
+//		String msg_Log = "search mode => " + search_mode_All_Table;
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 		
 		///////////////////////////////////
 		//
@@ -5487,6 +5487,21 @@ public class Methods {
 		
 		int search_mode_By_FileName = 0;	// 0 => Specific table (default)
 		
+		//debug
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+						Locale.JAPAN,
+						"sh.file_name = %d / CONS...FileName_TRUE = %d", 
+						sh.getBy_file_name(), 
+						CONS.SearchHistory.val_By_FileName_TRUE
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
 		if (sh.getBy_file_name() == CONS.SearchHistory.val_By_FileName_TRUE) {
 //			if (cb_FileName.isChecked()) {
 			
@@ -5494,11 +5509,11 @@ public class Methods {
 			
 		}//if (condition)
 		
-		// Log
-		msg_Log = "search_Type => " + search_mode_By_FileName;
-		Log.d("Methods.java" + "["
-				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-				+ "]", msg_Log);
+//		// Log
+//		msg_Log = "search_Type => " + search_mode_By_FileName;
+//		Log.d("Methods.java" + "["
+//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//				+ "]", msg_Log);
 		
 		///////////////////////////////////
 		//

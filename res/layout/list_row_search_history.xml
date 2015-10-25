@@ -52,7 +52,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/list_row_Search_History__TV__operator"
+            android:id="@+id/list_row_Search_History__TV__By_FileName"
             style="@style/tv_basic_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

@@ -1065,8 +1065,14 @@ public class CONS {
 		public static int val_All_Table_TRUE	= 1;
 		public static int val_All_Table_FALSE	= 0;
 		
+		public static String lbl_All_Table_TRUE		= "All table";
+		public static String lbl_All_Table_FALSE	= "Each table";
+		
 		public static int val_By_FileName_TRUE	= 1;
 		public static int val_By_FileName_FALSE	= 0;
+		
+		public static String lbl_By_FileName_TRUE	= "File name";
+		public static String lbl_By_FileName_FALSE	= "Memo";
 		
 		public static ifm11.items.SearchHistory current_SH = null;
 		

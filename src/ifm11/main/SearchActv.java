@@ -666,8 +666,13 @@ public class SearchActv extends ListActivity {
 				
 				CONS.SearchHistory.current_SH
 						.setKeywords(sh.getKeywords());
+				
 				CONS.SearchHistory.current_SH
 						.setAll_table(sh.getAll_table());
+				
+				CONS.SearchHistory.current_SH
+						.setBy_file_name(sh.getBy_file_name());
+				
 				CONS.SearchHistory.current_SH
 						.setType(sh.getType());
 				

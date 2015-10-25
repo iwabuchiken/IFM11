@@ -164,6 +164,10 @@ public class Adp_HistSearch extends ArrayAdapter<SearchHistory> {
 		
 		this._Setup_Views__TV_Type(v, sh);
 		
+		this._Setup_Views__TV_All_Table(v, sh);
+		
+		this._Setup_Views__TV_File_Name(v, sh);
+		
     	////////////////////////////////
 
 		// Set background
@@ -467,9 +471,118 @@ public class Adp_HistSearch extends ArrayAdapter<SearchHistory> {
 			
 		}
 		
-		tv_KW_Type.setText(sh.getKeywords());
+		tv_KW_Type.setText(label);
+//		tv_KW_Type.setText(sh.getKeywords());
 		
 	}//_Setup_Views__TV_ModifiedAt_Time
+	
+	private void
+	_Setup_Views__TV_All_Table
+	(View v, SearchHistory sh) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// created at
+		
+		////////////////////////////////
+		TextView tv_Table_Type = 
+				(TextView) v.findViewById(R.id.list_row_Search_History__TV__Table_Type);
+		
+		///////////////////////////////////
+		//
+		// label
+		//
+		///////////////////////////////////
+		String label = null;
+		
+		int type = sh.getAll_table();
+
+//		public static int val_All_Table_TRUE	= 1;
+//		public static int val_All_Table_FALSE	= 0;
+		
+		switch (type) {
+//		"INTEGER", 			// 3	=> AND: 1, OR: 2, NOT: -1
+		
+		case 1:
+			
+			label = CONS.SearchHistory.lbl_All_Table_TRUE;
+			
+			break;
+			
+		case 0:
+			
+			label = CONS.SearchHistory.lbl_All_Table_FALSE;
+			
+			break;
+			
+		default:
+			
+			label = CONS.SearchHistory.lbl_Type_UNKNOWN;
+			
+			break;
+			
+		}
+		
+		tv_Table_Type.setText(label);
+//		tv_KW_Type.setText(sh.getKeywords());
+		
+	}//_Setup_Views__TV_All_Table
+	
+	private void
+	_Setup_Views__TV_File_Name
+	(View v, SearchHistory sh) {
+		// TODO Auto-generated method stub
+		
+		////////////////////////////////
+		
+		// created at
+		
+		////////////////////////////////
+		TextView tv_By_FileName = 
+				(TextView) v.findViewById(R.id.list_row_Search_History__TV__By_FileName);
+//		(TextView) v.findViewById(R.id.list_row_Search_History__TV__Table_Type);
+		
+		///////////////////////////////////
+		//
+		// label
+		//
+		///////////////////////////////////
+		String label = null;
+		
+		int type = sh.getBy_file_name();
+//		int type = sh.getAll_table();
+		
+//		public static String lbl_By_FileName_TRUE	= "File name";
+//		public static String lbl_By_FileName_FALSE	= "Memo";		
+		
+		switch (type) {
+//		"INTEGER", 			// 3	=> AND: 1, OR: 2, NOT: -1
+		
+		case 1:
+			
+			label = CONS.SearchHistory.lbl_By_FileName_TRUE;
+			
+			break;
+			
+		case 0:
+			
+			label = CONS.SearchHistory.lbl_By_FileName_FALSE;
+			
+			break;
+			
+		default:
+			
+			label = CONS.SearchHistory.lbl_Type_UNKNOWN;
+			
+			break;
+			
+		}
+		
+		tv_By_FileName.setText(label);
+//		tv_KW_Type.setText(sh.getKeywords());
+		
+	}//_Setup_Views__TV_File_Name
 	
 
 

@@ -212,12 +212,12 @@ public final class R {
         public static final int image_actv_menu_add_memo=0x7f0900a2;
         public static final int image_actv_menu_add_patterns=0x7f0900a3;
         public static final int iv_thumbnail=0x7f090083;
+        public static final int list_row_Search_History__TV__By_FileName=0x7f090094;
         public static final int list_row_Search_History__TV__KW_Type=0x7f090096;
         public static final int list_row_Search_History__TV__Table_Type=0x7f090095;
         public static final int list_row_Search_History__TV__created_at=0x7f090091;
         public static final int list_row_Search_History__TV__keywords=0x7f090093;
         public static final int list_row_Search_History__TV__modified_at=0x7f090092;
-        public static final int list_row_Search_History__TV__operator=0x7f090094;
         public static final int list_row_checked_box_checkBox1=0x7f090089;
         public static final int list_row_checked_box_iv_thumbnail=0x7f090086;
         public static final int list_row_checked_box_textView1=0x7f090087;
