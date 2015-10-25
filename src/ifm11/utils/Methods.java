@@ -114,6 +114,8 @@ import android.widget.Toast;
 
 
 
+
+
 // Apache
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -13394,6 +13396,17 @@ public class Methods {
 		}
 		
 	}//validate_DBFile_Exists
+
+	public static List<Long> 
+	filter_NOT_Directive
+	(Activity actv, List<Long> searchedItems, String[] keywords) {
+		// TODO Auto-generated method stub
+		
+//		List<String> list_Dir = new ArrayList<String>();
+		
+		return searchedItems;
+		
+	}//filter_NOT_Directive
 
 
 }//public class Methods

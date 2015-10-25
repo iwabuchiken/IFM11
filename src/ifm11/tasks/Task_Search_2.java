@@ -321,45 +321,12 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 		Log.d("Task_Search_2.java" + "["
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
-
 		
-////		long[] long_searchedItems = new long[len];
-//		long_searchedItems = new long[len];
-//		
-//		for (int i = 0; i < len; i++) {
-//			
-//			long_searchedItems[i] = searchedItems.get(i);
-//			
-//		}//for (int i = 0; i < len; i++)
-		
-//		/*----------------------------
-//		 * 3. Close db
-//			----------------------------*/
-//		rdb.close();
-		
-//		/*----------------------------
-//		 * 4. Set up intent
-//			----------------------------*/
-//		// Log
-//		Log.d("Task_Search_2.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "long_searchedItems.length => " + long_searchedItems.length);
-//		
-//		Log.d("Task_Search_2.java" + "["
-//				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//				+ "]", "long_searchedItems[0] => " + long_searchedItems[0]);
-//		
-//		Intent i = new Intent();
-//		
-//		i.setClass(actv, ThumbnailActivity.class);
-//		
-//		i.putExtra("long_searchedItems", long_searchedItems);
-//		
-//		actv.startActivity(i);
-		
-		/*----------------------------
-		 * 5. Return
-			----------------------------*/
+		///////////////////////////////////
+		//
+		// Return
+		//
+		///////////////////////////////////
 		return len;
 		
 	}//private String doInBackground_specific_table(String[][] sw)
@@ -502,6 +469,8 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 		int len_Cursor = c.getCount();
 		
 		int len_Keywords = keywords.length;
+	
+//		boolean flag_StartsWith_NOT_Directive = false;
 		
 		for (i = 0; i < len_Cursor; i++) {
 //			for (i = 0; i < c.getCount(); i++) {
@@ -531,15 +500,36 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 				
 				// Log
 				String msg_Log;
-				
-//				msg_Log = String.format(
-//						Locale.JAPAN,
-//						"target = %s || keyword = %s", target, keywords[j]
-//						);
-//				
-//				Log.i("Task_Search_2.java" + "["
-//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-//						+ "]", msg_Log);
+
+				///////////////////////////////////
+				//
+				// valid: "-" directive
+				//
+				///////////////////////////////////
+				if (keywords[j].startsWith("-")) {
+//					if (flag_StartsWith_NOT_Directive == false
+//							&& keywords[j].startsWith("-")) {
+					
+//					flag_StartsWith_NOT_Directive = true;
+					
+					// Log
+//					String msg_Log;
+					
+					msg_Log = String.format(
+									Locale.JAPAN,
+									"'-' directive => found: '%s' (keyword = %s)", 
+									target, keywords[j]
+							);
+					
+					Log.i("Task_Search_2.java" + "["
+							+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+							+ "]", msg_Log);
+			
+//					c.moveToNext();
+					
+					continue;
+					
+				}//if (keywords[j].startsWith("-"))
 				
 				if (target.matches(".*" + keywords[j] + ".*")) {
 //					if (memo.matches(".*" + string + ".*")) {
@@ -584,6 +574,13 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 
 		////////////////////////////////
 		rdb.close();
+		
+		///////////////////////////////////
+		//
+		// "-" directive
+		//
+		///////////////////////////////////
+		searchedItems = Methods.filter_NOT_Directive(actv, searchedItems, keywords);
 		
 		////////////////////////////////
 

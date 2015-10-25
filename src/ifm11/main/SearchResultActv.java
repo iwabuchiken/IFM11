@@ -653,7 +653,35 @@ public class SearchResultActv extends ListActivity {
 			Log.i("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
+		
+			///////////////////////////////////
+			//
+			// show numOf TIs in the title bar
+			//
+			///////////////////////////////////
+			// Log
+//			String msg_Log;
 			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"Search result (%d)", 
+//					"%s (%d)", 
+//					this.getClass().getName(),
+//					Methods.conv_CurrentPath_to_DisplayPath(currentPath),
+//					CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+					CONS.TNActv.adp_TNActv_Main.getCount()
+//					CONS.SearchHistory.adp_SearchHistory.getCount()
+					);
+			
+			// valid: null
+			if (CONS.SearchHistory.adp_SearchHistory == null) {
+
+				msg_Log = "SearchResultActv (?)";
+
+			}//if (CONS.SearchHistory.adp_SearchHistory == null)
+			
+			this.setTitle(msg_Log);
+
 		} else {
 			
 			CONS.TNActv.adp_TNActv_Main_Move = new Adp_TIList_Move(
@@ -681,6 +709,25 @@ public class SearchResultActv extends ListActivity {
 			Log.i("SearchResultActv.java" + "["
 					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 					+ "]", msg_Log);
+
+			///////////////////////////////////
+			//
+			// show numOf TIs in the title bar
+			//
+			///////////////////////////////////
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"Search result (%d)", 
+//					"%s (%d)", 
+//					this.getClass().getName(),
+//					Methods.conv_CurrentPath_to_DisplayPath(currentPath),
+//					CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+					CONS.TNActv.adp_TNActv_Main.getCount()
+//					CONS.SearchHistory.adp_SearchHistory.getCount()
+					);
 
 		}
 		
@@ -827,33 +874,33 @@ public class SearchResultActv extends ListActivity {
 //		CONS.Enums.SortType.CREATED_AT, 
 //		CONS.Enums.SortOrder.ASC);
 
-		///////////////////////////////////
-		//
-		// show numOf TIs in the title bar
-		//
-		///////////////////////////////////
-		// Log
-//		String msg_Log;
-		
-		msg_Log = String.format(
-				Locale.JAPAN,
-				"Search result (%d)", 
-//				"%s (%d)", 
-//				this.getClass().getName(),
-//				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
-//				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
-				CONS.SearchHistory.adp_SearchHistory.getCount()
-				);
-		
-		// valid: null
-		if (CONS.SearchHistory.adp_SearchHistory == null) {
-
-			msg_Log = "SearchResultActv (?)";
-
-		}//if (CONS.SearchHistory.adp_SearchHistory == null)
-		
-		this.setTitle(msg_Log);
-//		this.setTitle(this.getClass().getName());
+//		///////////////////////////////////
+//		//
+//		// show numOf TIs in the title bar
+//		//
+//		///////////////////////////////////
+//		// Log
+////		String msg_Log;
+//		
+//		msg_Log = String.format(
+//				Locale.JAPAN,
+//				"Search result (%d)", 
+////				"%s (%d)", 
+////				this.getClass().getName(),
+////				Methods.conv_CurrentPath_to_DisplayPath(currentPath),
+////				CONS.TNActv.list_TNActv_Main.get(0).getTable_name(),
+//				CONS.SearchHistory.adp_SearchHistory.getCount()
+//				);
+//		
+//		// valid: null
+//		if (CONS.SearchHistory.adp_SearchHistory == null) {
+//
+//			msg_Log = "SearchResultActv (?)";
+//
+//		}//if (CONS.SearchHistory.adp_SearchHistory == null)
+//		
+//		this.setTitle(msg_Log);
+////		this.setTitle(this.getClass().getName());
 		
 		
 //		for (int i = 0; i < 20; i++) {
