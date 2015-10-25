@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -310,7 +311,57 @@ public class SearchActv extends ListActivity {
 						+ kw);
 		
 		et_Current_KWs.setText(kw_ET);
-		
+
+		///////////////////////////////////
+		//
+		// get: search options: all_table
+		//
+		///////////////////////////////////
+		CheckBox cb_All_Table = (CheckBox) findViewById(R.id.dlg_search_2_cb_all_table);
+
+		if (CONS.SearchHistory.current_SH != null) {
+
+			if (CONS.SearchHistory.current_SH.getAll_table() == 1) {
+				
+				cb_All_Table.setChecked(true);
+				
+			} else {//if (CONS.SearchHistory.current_SH.getAll_table() == 1)
+				
+				cb_All_Table.setChecked(false);
+				
+			}//if (CONS.SearchHistory.current_SH.getAll_table() == 1)
+			
+		} else {//if (CONS.SearchHistory.current_SH != null)
+			
+			cb_All_Table.setChecked(false);
+			
+		}//if (CONS.SearchHistory.current_SH != null)
+
+		///////////////////////////////////
+		//
+		// get: search options: type
+		//
+		///////////////////////////////////
+		CheckBox cb_By_FileName = (CheckBox) findViewById(R.id.dlg_search_2_cb_file_name);
+
+		if (CONS.SearchHistory.current_SH != null) {
+
+			if (CONS.SearchHistory.current_SH.getBy_file_name() == 1) {
+				
+				cb_By_FileName.setChecked(true);
+				
+			} else {//if (CONS.SearchHistory.current_SH.getAll_table() == 1)
+				
+				cb_By_FileName.setChecked(false);
+				
+			}//if (CONS.SearchHistory.current_SH.getAll_table() == 1)
+			
+		} else {//if (CONS.SearchHistory.current_SH != null)
+			
+			cb_All_Table.setChecked(false);
+			
+		}//if (CONS.SearchHistory.current_SH != null)
+
 	}//_Setup_Current_KWs
 
 	private void _Setup_List_Search_History() {

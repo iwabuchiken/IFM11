@@ -408,7 +408,8 @@ public final class R {
         public static final int dlg_register_patterns_tv_prompot_input=0x7f060068;
         public static final int dlg_register_patterns_tv_table_name=0x7f060067;
         public static final int dlg_register_patterns_tv_word=0x7f060066;
-        /**  <string name="dlg_search_tv_message">サーチする語句を入れてください（複数の場合、スペースで区切ります）</string> 
+        /**  <string name="dlg_search_tv_message">Enter search words \n(e.g. \"ABC def\")</string> 
+ <string name="dlg_search_tv_message">サーチする語句を入れてください（複数の場合、スペースで区切ります）</string> 
          */
         public static final int dlg_search_message_all_table=0x7f06005a;
         /**  <string name="dlg_search_message_all_table">全テーブル検索</string> 
