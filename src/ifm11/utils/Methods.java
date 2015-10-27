@@ -13404,7 +13404,105 @@ public class Methods {
 		
 //		List<String> list_Dir = new ArrayList<String>();
 		
-		return searchedItems;
+		///////////////////////////////////
+		//
+		// prep: NOT directives
+		//
+		///////////////////////////////////
+		List<String> list_NOTs = new ArrayList<String>();
+		
+		int len = keywords.length;
+		
+		for (int i = 0; i < len; i++) {
+			
+			if (keywords[i].startsWith("-")) {
+
+				//ref http://www.tutorialspoint.com/java/java_string_substring.htm
+				list_NOTs.add(keywords[i].substring(1));
+//				list_NOTs.add(keywords[i]);
+
+			}//if (keywords[i]);
+			
+		}//for (int i = 0; i < len; i++)
+		
+		// Log
+		String msg_Log;
+		
+		msg_Log = String.format(
+				Locale.JAPAN,
+				"NOT directives => %d", list_NOTs.size()
+				);
+		
+		Log.i("Methods.java" + "["
+				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+				+ "]", msg_Log);
+		
+		len = list_NOTs.size();
+		
+		for (int i = 0; i < len; i++) {
+			
+			// Log
+//			String msg_Log;
+			
+			msg_Log = String.format(
+					Locale.JAPAN,
+					"list_NOTs => %s", list_NOTs.get(i)
+					);
+			
+			Log.i("Methods.java" + "["
+					+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+					+ "]", msg_Log);;
+			
+		}//for (int i = 0; i < msg_Log; i++)
+		
+		///////////////////////////////////
+		//
+		// exclide: NOT words
+		//
+		///////////////////////////////////
+		int len_SearchedItems = searchedItems.size();
+		
+		int len_List_NOTs = list_NOTs.size();
+		
+		List<Long> searchedItems__Filtered = new ArrayList<Long>();
+
+		TI ti = null;
+		
+		String memo = null;
+		
+		boolean isIn;
+		
+		for (int i = 0; i < len_SearchedItems; i++) {
+			
+			isIn = false;
+			
+			ti = DBUtils.find_TI_From_DbId(actv, searchedItems.get(i));
+			
+			memo = ti.getMemo();
+
+			for (int j = 0; j < len_List_NOTs; j++) {
+				
+				if (memo.contains(list_NOTs.get(j))) {
+
+					isIn = true;
+					
+					break;
+
+				}//if (memo.contains(len_List_NOTs.get(j)));
+				
+			}//for (int j = 0; j < len_List_NOTs; j++)
+			
+			if (isIn == false) {
+
+				searchedItems__Filtered.add(searchedItems.get(i));
+
+			}//if (isIn == false)
+			
+		}//for (int i = 0; i < len; i++)
+		
+		
+		return searchedItems__Filtered;
+//		return searchedItems;
 		
 	}//filter_NOT_Directive
 
