@@ -275,14 +275,11 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 		 * 4. Set up intent
 		 * 5. Return
 			----------------------------*/
-		/*----------------------------
-		 * 1. Get table names list
-			----------------------------*/
-//		DBUtils dbu = new DBUtils(actv, CONS.DB.dbName);
-//		
-//		SQLiteDatabase rdb = dbu.getReadableDatabase();
-
-		
+		///////////////////////////////////
+		//
+		// Get table names list
+		//
+		///////////////////////////////////
 		String targetTable = sw[1][0];
 		
 		// Log
@@ -358,10 +355,6 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 		List<Long> searchedItems = new ArrayList<Long>();
 		
 		long tmp_Long;	// put the value of c.getLong(3)
-		
-//		Set<Long> searched_ITems_Set = new TreeSet<Long>();
-//		
-//		searched_ITems_Set.to
 		
 		////////////////////////////////
 
@@ -654,7 +647,7 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 					null, null,		// 5,6
 					null,			// 7
 					null);
-			
+
 		} catch (Exception e) {
 			
 			// Log
@@ -765,22 +758,22 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 				
 			}//if (memo == null)
 
-			//debug
-			if (i < 20) {
-				
-				// Log
-				String msg_Log;
-				
-				msg_Log = String.format(
-						Locale.JAPAN,
-						"memo=%s", memo
-						);
-				
-				Log.d("Task_Search_2.java" + "["
-						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
-						+ "]", msg_Log);
-				
-			}
+//			//debug
+//			if (i < 20) {
+//				
+//				// Log
+//				String msg_Log;
+//				
+//				msg_Log = String.format(
+//						Locale.JAPAN,
+//						"memo=%s", memo
+//						);
+//				
+//				Log.d("Task_Search_2.java" + "["
+//						+ Thread.currentThread().getStackTrace()[2].getLineNumber()
+//						+ "]", msg_Log);
+//				
+//			}
 			
 			for(j = 0; j < keywords.length; j ++) {
 				
@@ -824,6 +817,13 @@ public class Task_Search_2 extends AsyncTask<String[], Integer, Integer>{
 		
 		////////////////////////////////
 		rdb.close();
+
+		///////////////////////////////////
+		//
+		// "-" directive
+		//
+		///////////////////////////////////
+		searchedItems = Methods.filter_NOT_Directive(actv, searchedItems, keywords);
 		
 		////////////////////////////////
 		
