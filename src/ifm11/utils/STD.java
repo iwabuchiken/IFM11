@@ -130,6 +130,30 @@ public class STD {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", "res=" + res);
 		
+		///////////////////////////////////
+		//
+		// log
+		//
+		///////////////////////////////////
+		if (res == true) {
+			
+			String log_msg = "Restore db / done => " + f_src_latest.getName();
+			
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+		} else {//if (res == true)
+			
+			String log_msg = "Restore db / NOT done => " + f_src_latest.getName();
+			
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+		}//if (res == true)
+		
+		
 		////////////////////////////////
 
 		// return

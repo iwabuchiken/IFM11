@@ -348,18 +348,31 @@ public class Methods {
 		// log
 		//
 		///////////////////////////////////
-		String log_msg = "db backup done => " + fname_Dst;
+		if (res == true) {
+			
+			String log_msg = "db backup / done => " + fname_Dst;
+			
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+		} else {//if (res == true)
+			
+			String log_msg = "db backup / NOT done => " + fname_Dst;
+			
+			Methods.write_Log(actv, log_msg, Thread.currentThread()
+					.getStackTrace()[2].getFileName(), Thread
+					.currentThread().getStackTrace()[2].getLineNumber());
+			
+		}//if (res == true)
 		
-		Methods.write_Log(actv, log_msg, Thread.currentThread()
-				.getStackTrace()[2].getFileName(), Thread
-				.currentThread().getStackTrace()[2].getLineNumber());
-
 		////////////////////////////////
 
 		// return
 
 		////////////////////////////////
-		return true;
+		return res;
+//		return true;
 		
 	}//backup_DB
 
