@@ -199,6 +199,11 @@ public class Methods {
 //							CONS.fname_db_backup_trunk},
 					File.separator);
 		
+		String fname_Dst = CONS.DB.fname_DB_Backup_Trunk
+						+ "_"
+						+ time_label
+						+ CONS.DB.fname_DB_Backup_ext;
+		
 		String fpath_Dst = dpath_Dst + "_"
 				+ time_label
 //				+ MainActv.fileName_db_backup_ext;
@@ -338,6 +343,17 @@ public class Methods {
 				+ Thread.currentThread().getStackTrace()[2].getLineNumber()
 				+ "]", msg_Log);
 		
+		///////////////////////////////////
+		//
+		// log
+		//
+		///////////////////////////////////
+		String log_msg = "db backup done => " + fname_Dst;
+		
+		Methods.write_Log(actv, log_msg, Thread.currentThread()
+				.getStackTrace()[2].getFileName(), Thread
+				.currentThread().getStackTrace()[2].getLineNumber());
+
 		////////////////////////////////
 
 		// return
